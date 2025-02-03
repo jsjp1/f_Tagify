@@ -5,9 +5,15 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+   keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.ellipsoid.tagi"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -21,8 +27,8 @@ android {
 
     defaultConfig {
         applicationId = "com.ellipsoid.tagi"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -35,10 +41,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("key.properties")
-            storePassword project.property("storePassword")
-            keyAlias project.property("keyAlias")
-            keyPassword project.property("keyPassword")
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
         }
     }
 }

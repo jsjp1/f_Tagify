@@ -48,4 +48,4 @@ app.*.map.json
 # EDIT
 .env
 key.properties
-tagi.keystore
+tagi.jks
