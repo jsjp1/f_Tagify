@@ -1,1 +1,6 @@
-{}
+{
+  "easy_login": "간편 로그인",
+  "google_login_button": "구글로 간편 로그인하기",
+  "apple_login_button": "애플 간편 로그인하기",
+  "kakao_login_button": "카카오 간편 로그인하기"
+}

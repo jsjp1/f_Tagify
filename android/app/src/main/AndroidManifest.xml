@@ -21,6 +21,17 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- EDIT for Google Oauth -->
+            <meta-data
+                android:name="com.google.android.gms.auth.api.signin"
+                android:value="@string/default_web_client_id"/>
+            <meta-data
+                android:name="com.google.android.gms.client_id"
+                android:value="765904510555-q8h6paedmbi7k99a0cgvhc3okfeji5fl.apps.googleusercontent.com" />
+            <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version" />
+            <!-- EDIT for Google Oauth end -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

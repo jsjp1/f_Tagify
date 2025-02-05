@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final dynamic loginResponse;
+
+  // TODO: 세션 관련 처리
+  const HomeScreen({super.key, required this.loginResponse});
 
   @override
   Widget build(BuildContext context) {

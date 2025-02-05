@@ -1,1 +1,6 @@
-{}
+{
+  "easy_login": "easy login",
+  "google_login_button": "Sign in with Google",
+  "apple_login_button": "Sign in with Apple",
+  "kakao_login_button": "Sign in with kakao"
+}

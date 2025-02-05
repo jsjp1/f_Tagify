@@ -2,6 +2,20 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!--EDIT for Google Oauth-->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.765904510555-84osbh0n5th1p7ts947b17h3jmj8sdb6</string>
+			</array>
+		</dict>
+	</array>
+
+	<key>GIDClientID</key>
+	<string>765904510555-84osbh0n5th1p7ts947b17h3jmj8sdb6.apps.googleusercontent.com</string>
+	<!--EDIT for Google Oauth end-->
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
