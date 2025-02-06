@@ -1,7 +1,9 @@
-import 'package:Tagify/global.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Tagify/components/google_login_widget.dart';
+import 'package:tagify/components/google_login_widget.dart';
+import 'package:tagify/components/apple_login_widget.dart';
+import 'package:tagify/global.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -45,8 +47,26 @@ class AuthScreenTopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.green,
+    return Column(
+      children: [
+        SizedBox(height: MediaQuery.of(context).size.height * (0.2)),
+        Image.asset(
+          height: MediaQuery.of(context).size.height * (0.2),
+          "assets/app_main_icons_1024_1024.png",
+        ),
+        GlobalText(
+          localizeText: "Tagify",
+          textSize: 40.0,
+          isBold: true,
+          textColor: Colors.black,
+        ),
+        GlobalText(
+          localizeText: "test text",
+          textSize: 20.0,
+          isBold: true,
+          textColor: Colors.black54,
+        ),
+      ],
     );
   }
 }
@@ -59,7 +79,16 @@ class AuthScreenBottomSection extends StatelessWidget {
     return Column(
       children: [
         GoogleLoginWidget(),
-        GoogleLoginWidget(),
+        AppleLoginWidget(),
+        Padding(
+          padding: EdgeInsets.only(top: 10.0),
+          child: GlobalText(
+            isBold: false,
+            localizeText: "test text",
+            textColor: Colors.black54,
+            textSize: 15.0,
+          ),
+        ),
       ],
     );
   }

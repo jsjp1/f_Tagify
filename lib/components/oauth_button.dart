@@ -1,16 +1,23 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'package:tagify/global.dart';
+
 class AuthButton extends StatelessWidget {
   final String logoImage;
   final String loginDescription;
   final Future<void> Function() loginFunction;
+  final Color buttonbackgroundColor;
+  final Color fontColor;
 
-  const AuthButton(
-      {super.key,
-      required this.logoImage,
-      required this.loginDescription,
-      required this.loginFunction});
+  const AuthButton({
+    super.key,
+    required this.logoImage,
+    required this.loginDescription,
+    required this.loginFunction,
+    required this.buttonbackgroundColor,
+    required this.fontColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +32,8 @@ class AuthButton extends StatelessWidget {
           width: buttonWidth,
           height: buttonHeight,
           decoration: BoxDecoration(
-            color: Colors.white10,
-            border: Border.all(color: Colors.black, width: 0.03),
+            color: buttonbackgroundColor,
+            border: Border.all(color: Colors.black, width: 0.15),
             borderRadius: BorderRadius.all(Radius.circular(50.0)),
           ),
           child: Row(
@@ -40,14 +47,13 @@ class AuthButton extends StatelessWidget {
                   height: 40.0,
                 ),
               ),
-              Text(
-                loginDescription,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w100,
-                  color: Colors.black87,
-                ),
-              ).tr(),
+              GlobalText(
+                localizeText: loginDescription,
+                textSize: 25.0,
+                textColor: fontColor,
+                isBold: false,
+              ),
+              SizedBox(width: 10.0),
             ],
           ),
         ),

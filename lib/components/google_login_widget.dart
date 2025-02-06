@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import 'package:Tagify/components/oauth_button.dart';
-import 'package:Tagify/screens/home_screen.dart';
-import 'package:Tagify/api/auth.dart';
+import 'package:tagify/components/oauth_button.dart';
+import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/api/auth.dart';
 
 class GoogleLoginWidget extends StatefulWidget {
   const GoogleLoginWidget({super.key});
@@ -14,6 +17,7 @@ class GoogleLoginWidget extends StatefulWidget {
 
 class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
   final GoogleSignIn _googleSignIn = GoogleSignIn(
+    clientId: Platform.isIOS ? dotenv.get("GID_CLIENT_ID") : null,
     scopes: [
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
@@ -82,6 +86,8 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
           logoImage: "assets/img/google_logo.png",
           loginDescription: "google_login_button",
           loginFunction: _handleSignIn,
+          buttonbackgroundColor: Colors.white,
+          fontColor: Colors.black,
         ),
       ],
     );
