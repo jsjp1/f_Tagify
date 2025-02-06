@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const Color mainColor = Color.fromARGB(255, 205, 20, 31);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black54;
-const Color noticeWidgetColor = Color.fromARGB(255, 237, 242, 243);
+const Color noticeWidgetColor = Color.fromARGB(255, 240, 243, 243);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

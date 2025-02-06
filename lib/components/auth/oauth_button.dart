@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,7 +35,11 @@ class AuthButton extends StatelessWidget {
           if (loginResponse != null) {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
-            prefs.setBool("isLoggedIn", true);
+            String loginResponseJson = jsonEncode(loginResponse);
+
+            await prefs.setString("loginResponse", loginResponseJson);
+            await prefs.setBool("isLoggedIn", true);
+
             debugPrint("Save Login status success");
 
             Navigator.pushNamedAndRemoveUntil(

@@ -17,7 +17,7 @@ class TagifyNavigationBar extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 80.0,
+          height: 90.0,
           color: whiteBackgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -37,7 +37,7 @@ class TagifyNavigationBar extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 40,
+          bottom: 35,
           left: MediaQuery.of(context).size.width / 2 - 35,
           child: Container(
             width: 70,
@@ -48,7 +48,8 @@ class TagifyNavigationBar extends StatelessWidget {
               },
               shape: StadiumBorder(),
               backgroundColor: mainColor,
-              child: Text("🏷️", style: TextStyle(fontSize: 40)),
+              // child: Text("🏷️", style: TextStyle(fontSize: 40)),
+              child: Image.asset("assets/img/app_logo_white.png"),
             ),
           ),
         ),
