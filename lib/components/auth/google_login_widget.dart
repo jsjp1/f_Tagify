@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:tagify/components/auth/oauth_button.dart';
-import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/api/auth.dart';
 
 class GoogleLoginWidget extends StatefulWidget {

@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import 'package:tagify/components/oauth_button.dart';
+import 'package:tagify/components/auth/oauth_button.dart';
 import 'package:tagify/api/auth.dart';
-import 'package:tagify/screens/home_screen.dart';
 
 class AppleLoginWidget extends StatelessWidget {
   AppleLoginWidget({super.key});

@@ -1,8 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'package:tagify/components/google_login_widget.dart';
-import 'package:tagify/components/apple_login_widget.dart';
+import 'package:tagify/components/auth/google_login_widget.dart';
+import 'package:tagify/components/auth/apple_login_widget.dart';
 import 'package:tagify/global.dart';
 
 class AuthScreen extends StatefulWidget {
