@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/global.dart';
 
@@ -30,6 +31,11 @@ class AuthButton extends StatelessWidget {
           dynamic loginResponse = await loginFunction();
 
           if (loginResponse != null) {
+            final SharedPreferences prefs =
+                await SharedPreferences.getInstance();
+            prefs.setBool("isLoggedIn", true);
+            debugPrint("Save Login status success");
+
             Navigator.pushNamedAndRemoveUntil(
               context,
               '/home',

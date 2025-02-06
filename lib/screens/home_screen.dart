@@ -14,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
+    debugPrint("current page: $currentRoute");
 
     return Scaffold(
       backgroundColor: noticeWidgetColor,
