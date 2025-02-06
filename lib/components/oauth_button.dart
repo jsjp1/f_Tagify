@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tagify/global.dart';
@@ -6,7 +5,7 @@ import 'package:tagify/global.dart';
 class AuthButton extends StatelessWidget {
   final String logoImage;
   final String loginDescription;
-  final Future<void> Function() loginFunction;
+  final Future<dynamic> Function() loginFunction;
   final Color buttonbackgroundColor;
   final Color fontColor;
 
@@ -27,7 +26,18 @@ class AuthButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: GestureDetector(
-        onTap: () => loginFunction(),
+        onTap: () async {
+          dynamic loginResponse = await loginFunction();
+
+          if (loginResponse != null) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home',
+              (route) => false,
+              arguments: loginResponse,
+            );
+          }
+        },
         child: Container(
           width: buttonWidth,
           height: buttonHeight,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tagify/components/search_bar.dart';
 
+import 'package:tagify/components/search_bar.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/notice_widget.dart';
+import 'package:tagify/components/navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final dynamic loginResponse;
@@ -12,6 +13,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? currentRoute = ModalRoute.of(context)?.settings.name;
+
     return Scaffold(
       backgroundColor: noticeWidgetColor,
       appBar: AppBar(
@@ -41,17 +44,8 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.1,
-        decoration: BoxDecoration(
-          color: whiteBackgroundColor,
-          border: Border(
-            top: BorderSide(
-              color: Colors.grey,
-              width: 0.2,
-            ), // 윗부분에 회색 선 추가
-          ),
-        ),
+      bottomNavigationBar: TagifyNavigationBar(
+        loginResponse: loginResponse,
       ),
     );
   }

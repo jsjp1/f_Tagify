@@ -32,7 +32,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
     _googleSignIn.signInSilently();
   }
 
-  Future<void> _handleSignIn() async {
+  Future<dynamic> _handleSignIn() async {
     try {
       const String oauthProvider = "Google";
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
@@ -62,15 +62,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
           debugPrint("${loginResponse["code"]}");
           return;
         }
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(
-              loginResponse: loginResponse,
-            ),
-          ),
-        );
+        return loginResponse;
       }
     } catch (e) {
       debugPrint("Error signing in: $e");

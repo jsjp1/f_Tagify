@@ -31,7 +31,7 @@ class NoticeWidgetState extends State<NoticeWidget> {
           child: Container(
             decoration: BoxDecoration(
               color: noticeWidgetColor,
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(15.0),
             ),
             width: widgetWidth,
             height: widgetHeight,

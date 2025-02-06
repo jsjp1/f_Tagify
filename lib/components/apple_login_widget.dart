@@ -10,7 +10,7 @@ import 'package:tagify/screens/home_screen.dart';
 class AppleLoginWidget extends StatelessWidget {
   AppleLoginWidget({super.key});
 
-  Future<void> _handleSignIn(BuildContext context) async {
+  Future<dynamic> _handleSignIn(BuildContext context) async {
     const String oauthProvider = "Apple";
     try {
       final AuthorizationCredentialAppleID user =
@@ -70,14 +70,7 @@ class AppleLoginWidget extends StatelessWidget {
         return;
       }
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(
-            loginResponse: loginResponse,
-          ),
-        ),
-      );
+      return loginResponse;
     } catch (e, _) {
       debugPrint("Apple Login Error: $e");
       if (e is PlatformException) return;
