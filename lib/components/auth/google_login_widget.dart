@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:tagify/components/auth/oauth_button.dart';
 import 'package:tagify/api/auth.dart';
+import 'package:tagify/api/common.dart';
 
 class GoogleLoginWidget extends StatefulWidget {
   const GoogleLoginWidget({super.key});
@@ -37,12 +38,14 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
 
       if (user != null) {
-        dynamic loginResponse = await login(user.id, user.email);
-        debugPrint("$loginResponse");
+        ApiResponse<Map<String, dynamic>> loginResponse =
+            await login(user.id, user.email);
+        debugPrint("${loginResponse.data}");
 
-        if (loginResponse["status"] == "failure") {
+        if (loginResponse.errorMessage == "failure") {
           // 회원이 존재하지 않는 경우
-          final signupResponse = await signup({
+          final ApiResponse<Map<String, dynamic>> signupResponse =
+              await signup({
             "username": user.displayName,
             "oauth_provider": oauthProvider,
             "oauth_id": user.id,
@@ -50,15 +53,15 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
             "profile_image": user.photoUrl,
           });
           debugPrint("$signupResponse");
-          if (signupResponse["status"] == "error") {
-            debugPrint("failure status_code: ${signupResponse["code"]}");
+          if (signupResponse.errorMessage == "error") {
+            debugPrint("failure status_code: ${signupResponse.statusCode}");
             return;
           }
 
           loginResponse = await login(user.id, user.email);
           debugPrint("$loginResponse");
-        } else if (loginResponse["status"] == "error") {
-          debugPrint("${loginResponse["code"]}");
+        } else if (loginResponse.errorMessage == "error") {
+          debugPrint("${loginResponse.statusCode}");
           return;
         }
         return loginResponse;

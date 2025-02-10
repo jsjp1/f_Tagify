@@ -35,7 +35,7 @@ class AuthButton extends StatelessWidget {
           if (loginResponse != null) {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
-            String loginResponseJson = jsonEncode(loginResponse);
+            String loginResponseJson = jsonEncode(loginResponse.toJson());
 
             await prefs.setString("loginResponse", loginResponseJson);
             await prefs.setBool("isLoggedIn", true);

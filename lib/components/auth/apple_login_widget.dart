@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:tagify/components/auth/oauth_button.dart';
+import 'package:tagify/api/common.dart';
 import 'package:tagify/api/auth.dart';
 
 class AppleLoginWidget extends StatelessWidget {
@@ -43,12 +44,14 @@ class AppleLoginWidget extends StatelessWidget {
         debugPrint("Apple Login Data Saved clear");
       }
 
-      dynamic loginResponse = await login(oauthId!, email ?? "");
-      debugPrint("Login Response: $loginResponse");
+      ApiResponse<Map<String, dynamic>> loginResponse =
+          await login(oauthId!, email ?? "");
+      debugPrint("Login Response: ${loginResponse.data}");
 
-      if (loginResponse["status"] == "failure") {
+      if (loginResponse.errorMessage == "failure") {
+        // TODO: string 비교보다 나은 방법?
         // 회원이 존재하지 않는 경우, 회원가입 후 다시 로그인 시도
-        final signupResponse = await signup({
+        final ApiResponse<Map<String, dynamic>> signupResponse = await signup({
           "username": fullName,
           "oauth_provider": oauthProvider,
           "oauth_id": oauthId,
@@ -57,15 +60,15 @@ class AppleLoginWidget extends StatelessWidget {
         });
         debugPrint("Signup Response: $signupResponse");
 
-        if (signupResponse["status"] == "error") {
-          debugPrint("Signup Error: status_code ${signupResponse["code"]}");
+        if (signupResponse.errorMessage == "error") {
+          debugPrint("Signup Error: status_code ${signupResponse.statusCode}");
           return;
         }
 
         loginResponse = await login(oauthId, email ?? "");
         debugPrint("Re-login Response: $loginResponse");
-      } else if (loginResponse["status"] == "error") {
-        debugPrint("Login Error: status_code ${loginResponse["code"]}");
+      } else if (loginResponse.errorMessage == "error") {
+        debugPrint("Login Error: status_code ${loginResponse.statusCode}");
         return;
       }
 

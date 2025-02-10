@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tagify/components/home/search_bar.dart';
+import 'package:tagify/components/video/video_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
@@ -21,10 +22,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: EdgeInsets.only(right: 23.0),
             child: GestureDetector(
               onTap: () {
-                print("Profile Icon Clicked!");
+                debugPrint("Profile Icon Clicked!");
               },
               child: Container(
                 width: 40,
@@ -33,14 +34,9 @@ class HomeScreen extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: (loginResponse != null &&
-                            loginResponse["existed_user_profile"]
-                                    ["profile_image"] !=
-                                null &&
-                            loginResponse["existed_user_profile"]
-                                    ["profile_image"]
-                                .isNotEmpty)
-                        ? NetworkImage(loginResponse["existed_user_profile"]
-                            ["profile_image"])
+                            loginResponse["data"]["profile_image"] != null &&
+                            loginResponse["data"]["profile_image"].isNotEmpty)
+                        ? NetworkImage(loginResponse["data"]["profile_image"])
                         : AssetImage("assets/img/default_profile.png"),
                     fit: BoxFit.cover,
                   ),
@@ -66,17 +62,28 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        child: Stack(
           children: [
-            NoticeWidget(),
-            SearchBarWidget(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                NoticeWidget(),
+                SearchBarWidget(),
+                VideoWidget(
+                  oauthId: loginResponse["data"]["oauth_id"],
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: TagifyNavigationBar(
+                loginResponse: loginResponse,
+              ),
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: TagifyNavigationBar(
-        loginResponse: loginResponse,
       ),
     );
   }

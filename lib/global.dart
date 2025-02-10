@@ -5,6 +5,8 @@ const Color mainColor = Color.fromARGB(255, 205, 20, 31);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black54;
 const Color noticeWidgetColor = Color.fromARGB(255, 240, 243, 243);
+const Color videoTextBarColor = Color.fromARGB(255, 228, 228, 228);
+const Color timeContainerColor = Color.fromARGB(200, 225, 225, 225);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;
