@@ -2,5 +2,9 @@
   "easy_login": "easy login",
   "google_login_button": "Sign in with Google",
   "apple_login_button": "Sign in with Apple",
-  "kakao_login_button": "Sign in with kakao"
+  "kakao_login_button": "Sign in with kakao",
+
+  "video_widget_empty": "No videos to display",
+  "video_widget_failure": "Failed to load videos",
+  "video_widget_end": "No more videos to load"
 }
