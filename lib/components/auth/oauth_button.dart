@@ -74,6 +74,7 @@ class AuthButton extends StatelessWidget {
                 textSize: 25.0,
                 textColor: fontColor,
                 isBold: false,
+                overflow: TextOverflow.clip,
               ),
               SizedBox(width: 10.0),
             ],

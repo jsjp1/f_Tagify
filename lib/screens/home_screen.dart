@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/search_bar.dart';
+import 'package:tagify/components/home/tag_bar.dart';
 import 'package:tagify/components/video/video_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
@@ -18,73 +20,79 @@ class HomeScreen extends StatelessWidget {
     debugPrint("loginResponse: $loginResponse");
 
     return Scaffold(
-      backgroundColor: noticeWidgetColor,
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 23.0),
-            child: GestureDetector(
-              onTap: () {
-                debugPrint("Profile Icon Clicked!");
-              },
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: (loginResponse != null &&
-                            loginResponse["data"]["profile_image"] != null &&
-                            loginResponse["data"]["profile_image"].isNotEmpty)
-                        ? NetworkImage(loginResponse["data"]["profile_image"])
-                        : AssetImage("assets/img/default_profile.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-        backgroundColor: whiteBackgroundColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset("assets/app_main_icons_1024_1024.png", height: 50.0),
-            GlobalText(
-              localizeText: "Tagify",
-              textSize: 25.0,
-              isBold: true,
-              textColor: Colors.black,
-            ),
-          ],
-        ),
-      ),
+      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: false,
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                NoticeWidget(),
-                SearchBarWidget(),
-                VideoWidget(
-                  oauthId: loginResponse["data"]["oauth_id"],
-                ),
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: TagifyNavigationBar(
-                loginResponse: loginResponse,
+        child: Container(
+          color: noticeWidgetColor,
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TagifyAppBar(
+                      profileImage:
+                          loginResponse["data"]["profile_image"] ?? ""),
+                  Expanded(
+                    child: NestedScrollView(
+                      headerSliverBuilder:
+                          (BuildContext context, bool innerBoxIsScrolled) {
+                        return <Widget>[
+                          SliverToBoxAdapter(
+                            child: Column(
+                              children: [
+                                NoticeWidget(),
+                                SearchBarWidget(),
+                              ],
+                            ),
+                          ),
+                          SliverPersistentHeader(
+                            pinned: true,
+                            floating: false,
+                            delegate: _TagBarDelegate(),
+                          ),
+                        ];
+                      },
+                      body: SizedBox(
+                        child: VideoWidget(
+                          oauthId: loginResponse["data"]["oauth_id"],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: TagifyNavigationBar(
+                  loginResponse: loginResponse,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+class _TagBarDelegate extends SliverPersistentHeaderDelegate {
+  final double tagBarHeight = 50.0;
+
+  @override
+  double get minExtent => tagBarHeight;
+  @override
+  double get maxExtent => tagBarHeight;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return TagBar(tagBarHeight: tagBarHeight);
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
 }

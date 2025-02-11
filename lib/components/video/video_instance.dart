@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:tagify/global.dart';
+import 'package:tagify/utils/time.dart';
 
 class Video {
   final String url;
@@ -52,13 +54,27 @@ class VideoInstance extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
+              child: Container(
+                width: instanceWidth,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withAlpha(200),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: Stack(
                   children: [
                     Image.network(
                       video.thumbnail,
-                      width: double.infinity,
+                      width: instanceWidth,
+                      height: instanceHeight,
                       fit: BoxFit.cover,
                     ),
                     Positioned(
@@ -74,7 +90,7 @@ class VideoInstance extends StatelessWidget {
                           child: Padding(
                             padding: EdgeInsets.all(2.0),
                             child: Text(
-                              video.length.toString(),
+                              secTimeConvert(video.length),
                             ),
                           ),
                         ),
@@ -84,19 +100,38 @@ class VideoInstance extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GlobalText(
-                    isBold: true,
-                    localizeText: video.title,
-                    textColor: Colors.black,
-                    textSize: 15.0,
-                  ),
-                ],
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GlobalText(
+                isBold: true,
+                localizeText: video.title,
+                textColor: Colors.black,
+                textSize: 17.0,
+                overflow: TextOverflow.ellipsis,
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                GlobalText(
+                    localizeText: "#${video.tags[0]} ",
+                    textSize: 10.0,
+                    isBold: false,
+                    textColor: tagColor,
+                    overflow: TextOverflow.clip),
+                GlobalText(
+                    localizeText: "#${video.tags[1]} ",
+                    textSize: 10.0,
+                    isBold: false,
+                    textColor: tagColor,
+                    overflow: TextOverflow.clip),
+                GlobalText(
+                    localizeText: "#${video.tags[2]} ",
+                    textSize: 10.0,
+                    isBold: false,
+                    textColor: tagColor,
+                    overflow: TextOverflow.clip),
+              ],
             ),
           ],
         ),

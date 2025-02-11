@@ -50,3 +50,4 @@ app.*.map.json
 key.properties
 tagi.jks
 google-services.json
+.vscocde/

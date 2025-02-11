@@ -58,12 +58,14 @@ class AuthScreenTopSection extends StatelessWidget {
           textSize: 40.0,
           isBold: true,
           textColor: Colors.black,
+          overflow: TextOverflow.clip,
         ),
         GlobalText(
           localizeText: "test text",
           textSize: 20.0,
           isBold: true,
           textColor: Colors.black54,
+          overflow: TextOverflow.clip,
         ),
       ],
     );
@@ -86,6 +88,7 @@ class AuthScreenBottomSection extends StatelessWidget {
             localizeText: "test text",
             textColor: Colors.black54,
             textSize: 15.0,
+            overflow: TextOverflow.clip,
           ),
         ),
       ],
