@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:tagify/components/video/video_instance.dart';
+import 'package:tagify/components/contents/video_instance.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/video.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/components/contents/common.dart';
 
 class VideoWidget extends StatefulWidget {
   final String oauthId;

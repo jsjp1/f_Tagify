@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 
 import 'package:tagify/api/common.dart';
-import 'package:tagify/components/video/video_instance.dart';
+import 'package:tagify/components/contents/common.dart';
 
 Future<ApiResponse<List<Video>>> fetchUserVideos(String oauthId) async {
   final String serverHost =
@@ -54,7 +53,6 @@ Future<ApiResponse<void>> analyzeVideo(
     }),
   );
 
-  debugPrint("DATA: ${response.body}");
   if (response.statusCode == 200) {
     dynamic json = jsonDecode(response.body);
 

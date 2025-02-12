@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/search_bar.dart';
 import 'package:tagify/components/home/tag_bar.dart';
-import 'package:tagify/components/video/video_widget.dart';
+import 'package:tagify/components/contents/video_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
@@ -16,8 +16,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
-    debugPrint("current page: $currentRoute");
-    debugPrint("loginResponse: $loginResponse");
+    debugPrint("home_screen.dart: current page: $currentRoute");
+    debugPrint("home_screen.dart: loginResponse: $loginResponse");
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
@@ -32,8 +32,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TagifyAppBar(
-                      profileImage:
-                          loginResponse["data"]["profile_image"] ?? ""),
+                      profileImage: loginResponse["profile_image"] ?? ""),
                   Expanded(
                     child: NestedScrollView(
                       headerSliverBuilder:
@@ -54,10 +53,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ];
                       },
-                      body: SizedBox(
-                        child: VideoWidget(
-                          oauthId: loginResponse["data"]["oauth_id"],
-                        ),
+                      body: VideoWidget(
+                        oauthId: loginResponse["oauth_id"],
                       ),
                     ),
                   ),

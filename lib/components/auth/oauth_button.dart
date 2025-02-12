@@ -39,14 +39,13 @@ class AuthButton extends StatelessWidget {
 
             await prefs.setString("loginResponse", loginResponseJson);
             await prefs.setBool("isLoggedIn", true);
-
             debugPrint("Save Login status success");
 
             Navigator.pushNamedAndRemoveUntil(
               context,
               '/home',
               (route) => false,
-              arguments: loginResponse,
+              arguments: loginResponse.data,
             );
           }
         },

@@ -14,7 +14,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
-  debugPrint("loginResponse: $loginResponse");
+  debugPrint("main.dart: Saved loginResponse: $loginResponse");
 
   runApp(
     EasyLocalization(
@@ -23,7 +23,8 @@ void main() async {
       fallbackLocale: Locale("en", ''),
       child: App(
         initialRoute: loginResponse == null ? '/auth' : '/home',
-        initialLoginResponse: loginResponse,
+        initialLoginResponse:
+            loginResponse == null ? {} : loginResponse["data"],
       ),
     ),
   );

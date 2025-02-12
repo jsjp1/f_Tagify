@@ -40,7 +40,6 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
       if (user != null) {
         ApiResponse<Map<String, dynamic>> loginResponse =
             await login(user.id, user.email);
-        debugPrint("${loginResponse.data}");
 
         if (loginResponse.errorMessage == "failure") {
           // 회원이 존재하지 않는 경우
@@ -52,16 +51,14 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
             "email": user.email,
             "profile_image": user.photoUrl,
           });
-          debugPrint("$signupResponse");
           if (signupResponse.errorMessage == "error") {
             debugPrint("failure status_code: ${signupResponse.statusCode}");
             return;
           }
 
           loginResponse = await login(user.id, user.email);
-          debugPrint("$loginResponse");
         } else if (loginResponse.errorMessage == "error") {
-          debugPrint("${loginResponse.statusCode}");
+          debugPrint("Login Error: status_code ${loginResponse.statusCode}");
           return;
         }
         return loginResponse;

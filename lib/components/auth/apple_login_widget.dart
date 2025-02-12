@@ -26,7 +26,6 @@ class AppleLoginWidget extends StatelessWidget {
 
       if (user.email == null) {
         // 이전에 로그인 한 적 존재 -> null값 제공
-        debugPrint("Apple User Identifier is null");
         oauthId = prefs.getString("apple_user_id");
         email = prefs.getString("apple_email");
         fullName = prefs.getString("apple_full_name");
@@ -40,13 +39,11 @@ class AppleLoginWidget extends StatelessWidget {
         oauthId = user.userIdentifier;
         email = user.email;
         fullName = "${user.givenName ?? ""} ${user.familyName ?? ""}".trim();
-
         debugPrint("Apple Login Data Saved clear");
       }
 
       ApiResponse<Map<String, dynamic>> loginResponse =
           await login(oauthId!, email ?? "");
-      debugPrint("Login Response: ${loginResponse.data}");
 
       if (loginResponse.errorMessage == "failure") {
         // TODO: string 비교보다 나은 방법?
@@ -58,7 +55,6 @@ class AppleLoginWidget extends StatelessWidget {
           "email": email,
           "profile_image": "",
         });
-        debugPrint("Signup Response: $signupResponse");
 
         if (signupResponse.errorMessage == "error") {
           debugPrint("Signup Error: status_code ${signupResponse.statusCode}");
@@ -66,7 +62,6 @@ class AppleLoginWidget extends StatelessWidget {
         }
 
         loginResponse = await login(oauthId, email ?? "");
-        debugPrint("Re-login Response: $loginResponse");
       } else if (loginResponse.errorMessage == "error") {
         debugPrint("Login Error: status_code ${loginResponse.statusCode}");
         return;
@@ -74,7 +69,6 @@ class AppleLoginWidget extends StatelessWidget {
 
       return loginResponse;
     } catch (e, _) {
-      debugPrint("Apple Login Error: $e");
       if (e is PlatformException) return;
     }
   }

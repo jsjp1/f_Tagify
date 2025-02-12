@@ -13,10 +13,10 @@ class TagifyNavigationBar extends StatelessWidget {
   void _showSearchDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible: true, // ✅ 바깥 영역 터치하면 닫힘
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Colors.transparent, // ✅ 배경 투명
+          backgroundColor: Colors.transparent,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             padding: EdgeInsets.all(20),
@@ -29,7 +29,7 @@ class TagifyNavigationBar extends StatelessWidget {
               children: [
                 TextField(
                   controller: _searchController,
-                  autofocus: true, // ✅ 다이얼로그 열리면 자동으로 포커스됨
+                  autofocus: true,
                   decoration: InputDecoration(
                     hintText: "검색어 입력...",
                     border: OutlineInputBorder(
@@ -37,23 +37,16 @@ class TagifyNavigationBar extends StatelessWidget {
                     ),
                   ),
                   onSubmitted: (String value) async {
-                    debugPrint("검색어!!: $value");
-                    dynamic a = await analyzeVideo(
-                        loginResponse["oauth_id"], value, "ko");
-                    debugPrint("$a");
                     Navigator.of(context).pop();
                   },
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () async {
-                    debugPrint("검색어!!: ${_searchController.text}");
-                    dynamic a = await analyzeVideo(
-                        loginResponse["data"]["oauth_id"],
-                        _searchController.text,
-                        "ko");
-                    debugPrint("$a");
-                    Navigator.of(context).pop(); // ✅ 버튼 클릭 후 닫기
+                    // TODO: analyze logic 추가
+                    dynamic _ = await analyzeVideo(loginResponse["oauth_id"],
+                        _searchController.text, "ko");
+                    Navigator.of(context).pop();
                   },
                   child: Text("검색"),
                 ),
@@ -67,9 +60,6 @@ class TagifyNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? currentRoute = ModalRoute.of(context)?.settings.name;
-    debugPrint("$currentRoute");
-
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -108,7 +98,6 @@ class TagifyNavigationBar extends StatelessWidget {
             height: 70,
             child: FloatingActionButton(
               onPressed: () {
-                debugPrint("Floating Button Clicked!");
                 _showSearchDialog(context);
               },
               shape: StadiumBorder(),
@@ -133,10 +122,10 @@ class _FloatingSearchState extends State<FloatingSearch> {
   void _showSearchDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierDismissible: true, // ✅ 바깥 영역 터치하면 닫힘
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Colors.transparent, // ✅ 배경 투명
+          backgroundColor: Colors.transparent,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             padding: EdgeInsets.all(20),
@@ -149,7 +138,7 @@ class _FloatingSearchState extends State<FloatingSearch> {
               children: [
                 TextField(
                   controller: _searchController,
-                  autofocus: true, // ✅ 다이얼로그 열리면 자동으로 포커스됨
+                  autofocus: true,
                   decoration: InputDecoration(
                     hintText: "검색어 입력...",
                     border: OutlineInputBorder(
@@ -157,15 +146,13 @@ class _FloatingSearchState extends State<FloatingSearch> {
                     ),
                   ),
                   onSubmitted: (String value) {
-                    debugPrint("검색어: $value");
-                    Navigator.of(context).pop(); // ✅ 입력 후 창 닫기
+                    Navigator.of(context).pop();
                   },
                 ),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    debugPrint("검색어: ${_searchController.text}");
-                    Navigator.of(context).pop(); // ✅ 버튼 클릭 후 닫기
+                    Navigator.of(context).pop();
                   },
                   child: Text("검색"),
                 ),

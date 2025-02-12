@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:tagify/global.dart';
 
 class SearchBarWidget extends StatefulWidget {
