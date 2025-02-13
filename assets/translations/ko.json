@@ -6,5 +6,10 @@
 
   "content_widget_empty": "표시할 콘텐츠가 없습니다",
   "content_widget_failure": "콘텐츠오를 불러오는데 실패했습니다",
-  "content_widget_end": "더 이상 불러올 콘텐츠가 없습니다"
+  "content_widget_end": "더 이상 불러올 콘텐츠가 없습니다",
+
+  "profile_button_settings": "설정",
+  "profile_button_logout": "로그아웃",
+
+  "settings_screen_title": "설정"
 }

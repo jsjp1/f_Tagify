@@ -6,5 +6,10 @@
 
   "content_widget_empty": "No contents to display",
   "content_widget_failure": "Failed to load contents",
-  "content_widget_end": "No more contents to load"
+  "content_widget_end": "No more contents to load",
+
+  "profile_button_settings": "Settings",
+  "profile_button_logout": "Logout",
+
+  "settings_screen_title": "Settings"
 }
