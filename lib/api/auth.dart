@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/api/common.dart';
 
@@ -69,4 +71,15 @@ Future<ApiResponse<Map<String, dynamic>>> signup(
     return ApiResponse(
         errorMessage: "error", statusCode: response.statusCode, success: false);
   }
+}
+
+Future<void> logout(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+
+  Navigator.pushNamedAndRemoveUntil(
+    context,
+    '/auth',
+    (route) => false,
+  );
 }
