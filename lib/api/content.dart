@@ -8,7 +8,7 @@ import 'package:tagify/components/contents/common.dart';
 
 Future<ApiResponse<List<Video>>> fetchUserVideos(String oauthId) async {
   final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/videos/user?oauth_id=$oauthId";
+      "${dotenv.get("SERVER_HOST")}/api/contents/user?content_type=video&oauth_id=$oauthId";
   late final Response response;
 
   response = await get(
@@ -38,7 +38,8 @@ Future<ApiResponse<List<Video>>> fetchUserVideos(String oauthId) async {
 
 Future<ApiResponse<void>> analyzeVideo(
     String oauthId, String videoUrl, String lang) async {
-  final String serverHost = "${dotenv.get("SERVER_HOST")}/api/videos/analyze";
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/contents/analyze?content_type=video";
   late final Response response;
 
   response = await post(

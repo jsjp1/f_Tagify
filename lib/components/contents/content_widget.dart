@@ -45,7 +45,7 @@ class ContentWidgetState extends State<ContentWidget> {
         future: _futureVideos,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Container();
           } else if (snapshot.hasError ||
               snapshot.data == null ||
               !snapshot.data!.success) {
