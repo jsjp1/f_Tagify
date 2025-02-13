@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:tagify/api/video.dart';
+import 'package:tagify/api/content.dart';
 import 'package:tagify/global.dart';
 
 class TagifyNavigationBar extends StatelessWidget {

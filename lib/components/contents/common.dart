@@ -31,3 +31,24 @@ class Video extends Content {
     );
   }
 }
+
+class Post extends Content {
+  final String body;
+
+  Post(
+      {required this.body,
+      required super.url,
+      required super.title,
+      required super.thumbnail,
+      required super.tags});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      url: json["url"] ?? "",
+      title: json["title"],
+      body: json["video_length"],
+      thumbnail: json["thumbnail"],
+      tags: List<String>.from(json["tags"] ?? []),
+    );
+  }
+}

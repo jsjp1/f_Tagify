@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:tagify/api/auth.dart';
 import 'package:tagify/global.dart';
 
 class TagifyAppBar extends StatelessWidget {
@@ -36,6 +38,7 @@ class TagifyAppBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               // TODO: 프로필 클릭 이벤트 추가
+              showProfileMenu(context);
             },
             child: Container(
               width: 40,
@@ -54,6 +57,56 @@ class TagifyAppBar extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showProfileMenu(BuildContext context) {
+    showMenu(
+      color: whiteBackgroundColor,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: profileButtonContainerColor),
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      context: context,
+      position: RelativeRect.fromLTRB(100, 115, 20, 0),
+      items: [
+        PopupMenuItem(
+          height: 50,
+          child: SizedBox(
+            width: 100,
+            child: ListTile(
+              hoverColor: Colors.transparent,
+              leading: const Icon(CupertinoIcons.settings_solid),
+              title: GlobalText(
+                localizeText: "profile_button_settings",
+                textSize: 15.0,
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, "/settings");
+              },
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          height: 50,
+          child: SizedBox(
+            width: 100,
+            child: ListTile(
+              hoverColor: Colors.transparent,
+              leading: const Icon(CupertinoIcons.arrow_right),
+              title: GlobalText(
+                localizeText: "profile_button_logout",
+                textSize: 15.0,
+              ),
+              onTap: () async {
+                Navigator.pop(context);
+                await logout(context);
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/search_bar.dart';
 import 'package:tagify/components/home/tag_bar.dart';
-import 'package:tagify/components/contents/video_widget.dart';
+import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ];
                       },
-                      body: VideoWidget(
+                      body: ContentWidget(
                         oauthId: loginResponse["oauth_id"],
                       ),
                     ),
@@ -77,12 +77,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _TagBarDelegate extends SliverPersistentHeaderDelegate {
-  final double tagBarHeight = 50.0;
+  final double tagBarHeight = 55.0;
 
   @override
-  double get minExtent => tagBarHeight;
+  double get minExtent => tagBarHeight + 1.0; // DIVIDER 두께
   @override
-  double get maxExtent => tagBarHeight;
+  double get maxExtent => tagBarHeight + 1.0; // DIVIDER 두께
 
   @override
   Widget build(
