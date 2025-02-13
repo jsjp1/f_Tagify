@@ -20,8 +20,10 @@ class TagifyAppBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset("assets/app_main_icons_1024_1024.png", height: 40.0),
-              SizedBox(width: 8),
+              Image.asset(
+                "assets/app_main_icons_1024_1024.png",
+                height: 40.0,
+              ),
               GlobalText(
                 localizeText: "Tagify",
                 textSize: 25.0,
