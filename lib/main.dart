@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/screens/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +60,11 @@ class App extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       initialRoute: initialRoute,
+      routes: {
+        '/home': (context) => HomeScreen(loginResponse: initialLoginResponse),
+        '/auth': (context) => const AuthScreen(),
+        '/settings': (context) => const SettingsScreen(),
+      },
       onGenerateRoute: (settings) {
         if (settings.name == '/home') {
           final loginResponse = settings.arguments ?? initialLoginResponse;
