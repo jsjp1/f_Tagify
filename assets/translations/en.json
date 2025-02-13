@@ -4,7 +4,7 @@
   "apple_login_button": "Sign in with Apple",
   "kakao_login_button": "Sign in with kakao",
 
-  "video_widget_empty": "No videos to display",
-  "video_widget_failure": "Failed to load videos",
-  "video_widget_end": "No more videos to load"
+  "content_widget_empty": "No contents to display",
+  "content_widget_failure": "Failed to load contents",
+  "content_widget_end": "No more contents to load"
 }
