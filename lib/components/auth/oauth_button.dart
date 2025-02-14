@@ -45,7 +45,7 @@ class AuthButton extends StatelessWidget {
               context,
               '/home',
               (route) => false,
-              arguments: loginResponse.data,
+              arguments: jsonEncode(loginResponse.data),
             );
           }
         },

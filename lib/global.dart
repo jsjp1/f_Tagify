@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 const Color mainColor = Color.fromARGB(255, 205, 20, 31);
 const Color whiteBackgroundColor = Colors.white;
-const Color blackBackgroundColor = Colors.black54;
-const Color noticeWidgetColor = Color.fromARGB(255, 240, 243, 243);
-const Color videoTextBarColor = Color.fromARGB(255, 228, 228, 228);
+const Color blackBackgroundColor = Colors.black;
+const Color noticeWidgetColor = Color.fromARGB(255, 244, 244, 244);
 const Color timeContainerColor = Color.fromARGB(200, 225, 225, 225);
 const Color tagColor = Color.fromARGB(255, 50, 50, 50);
 const Color containerTitleColor = Color.fromARGB(255, 78, 78, 78);
 const Color profileButtonContainerColor = Color.fromARGB(255, 200, 200, 200);
+const Color navigationSearchBarColor = Colors.white70;
+const Color contentInstanceTagTextColor = Colors.indigo;
+const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

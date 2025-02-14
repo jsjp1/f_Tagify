@@ -7,26 +7,49 @@ import 'package:tagify/global.dart';
 import 'package:tagify/components/contents/common.dart';
 
 class ContentWidget extends StatefulWidget {
-  final String oauthId;
+  final int userId;
+  final GlobalKey<ContentWidgetState>? key;
+  String tagName;
 
-  const ContentWidget({super.key, required this.oauthId});
+  ContentWidget({this.key, required this.userId, required this.tagName})
+      : super(key: key);
 
   @override
   ContentWidgetState createState() => ContentWidgetState();
 }
 
 class ContentWidgetState extends State<ContentWidget> {
-  late Future<ApiResponse<List<Video>>> _futureVideos;
+  late Future<ApiResponse<List<Content>>> _futureContents;
 
   @override
   void initState() {
     super.initState();
-    _futureVideos = fetchUserVideos(widget.oauthId);
+    _futureContents = fetchUserContents(widget.userId);
   }
 
-  Future<void> _refreshContent() async {
+  void setTagName(String newTagName) {
     setState(() {
-      _futureVideos = fetchUserVideos(widget.oauthId); // TODO: 최적화 -> 새로운 것들만
+      widget.tagName = newTagName;
+    });
+  }
+
+  Future<void> refreshContents() async {
+    setState(() {
+      _futureContents =
+          fetchUserContents(widget.userId); // TODO: 최적화 -> 새로운 것들만
+    });
+  }
+
+  Future<void> refreshBookmarkContents() async {
+    setState(() {
+      _futureContents = fetchBookmarkContents(widget.userId);
+    });
+  }
+
+  Future<void> refreshTagContents(String tagName) async {
+    setState(() {
+      // TODO: 특정 태그 입력 -> 해당 태그의 콘텐츠 불러오기
+      // _futureContents = fetchTagContents(widget.userId);
     });
   }
 
@@ -40,9 +63,13 @@ class ContentWidgetState extends State<ContentWidget> {
       edgeOffset: -10.0,
       backgroundColor: Colors.transparent,
       color: Colors.black,
-      onRefresh: _refreshContent,
-      child: FutureBuilder<ApiResponse<List<Video>>>(
-        future: _futureVideos,
+      onRefresh: widget.tagName == "all"
+          ? refreshContents
+          : (widget.tagName == "bookmark"
+              ? refreshBookmarkContents
+              : () => refreshTagContents(widget.tagName)),
+      child: FutureBuilder<ApiResponse<List<Content>>>(
+        future: _futureContents,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container();
@@ -59,9 +86,9 @@ class ContentWidgetState extends State<ContentWidget> {
               ),
             );
           } else {
-            List<Video> videos = snapshot.data!.data ?? [];
+            List<Content> contents = snapshot.data!.data ?? [];
 
-            if (videos.isEmpty) {
+            if (contents.isEmpty) {
               return Center(
                 child: GlobalText(
                   localizeText: "content_widget_empty",
@@ -72,11 +99,11 @@ class ContentWidgetState extends State<ContentWidget> {
                 ),
               );
             }
-
+            // 콘텐츠 인스턴스 띄우는 부분
             return ListView.builder(
-              itemCount: videos.length + 1,
+              itemCount: contents.length + 1,
               itemBuilder: (BuildContext ctx, int idx) {
-                if (idx == videos.length) {
+                if (idx == contents.length) {
                   return Align(
                     alignment: Alignment.topCenter,
                     child: Container(
@@ -93,11 +120,10 @@ class ContentWidgetState extends State<ContentWidget> {
                     ),
                   );
                 }
-
                 return ContentInstance(
                   instanceWidth: widgetWidth,
-                  instanceHeight: 200.0,
-                  content: videos[idx],
+                  instanceHeight: 150.0,
+                  content: contents[idx],
                 );
               },
             );

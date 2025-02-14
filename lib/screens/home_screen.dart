@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
@@ -10,12 +12,17 @@ import 'package:tagify/components/home/navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final dynamic loginResponse;
+  final GlobalKey<ContentWidgetState> contentWidgetKey = GlobalKey<
+      ContentWidgetState>(); // contentWidget의 refreshContents 다른 곳에서 사용하기 위해
 
-  const HomeScreen({super.key, required this.loginResponse});
+  HomeScreen({super.key, required this.loginResponse});
 
   @override
   Widget build(BuildContext context) {
+    final String? args = ModalRoute.of(context)?.settings.arguments as String?;
     String? currentRoute = ModalRoute.of(context)?.settings.name;
+    final Map<String, dynamic> loginData = args != null ? jsonDecode(args) : {};
+
     debugPrint("home_screen.dart: current page: $currentRoute");
     debugPrint("home_screen.dart: loginResponse: $loginResponse");
 
@@ -31,8 +38,7 @@ class HomeScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TagifyAppBar(
-                      profileImage: loginResponse["profile_image"] ?? ""),
+                  TagifyAppBar(profileImage: loginData["profile_image"] ?? ""),
                   Expanded(
                     child: NestedScrollView(
                       headerSliverBuilder:
@@ -49,12 +55,17 @@ class HomeScreen extends StatelessWidget {
                           SliverPersistentHeader(
                             pinned: true,
                             floating: false,
-                            delegate: _TagBarDelegate(),
+                            delegate: _TagBarDelegate(
+                              userId: loginData["id"],
+                              contentWidgetKey: contentWidgetKey,
+                            ),
                           ),
                         ];
                       },
                       body: ContentWidget(
-                        oauthId: loginResponse["oauth_id"],
+                        key: contentWidgetKey,
+                        userId: loginData["id"],
+                        tagName: "all",
                       ),
                     ),
                   ),
@@ -65,7 +76,8 @@ class HomeScreen extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: TagifyNavigationBar(
-                  loginResponse: loginResponse,
+                  loginResponse: loginData,
+                  contentWidgetKey: contentWidgetKey,
                 ),
               ),
             ],
@@ -78,6 +90,10 @@ class HomeScreen extends StatelessWidget {
 
 class _TagBarDelegate extends SliverPersistentHeaderDelegate {
   final double tagBarHeight = 55.0;
+  final int userId;
+  final GlobalKey<ContentWidgetState> contentWidgetKey;
+
+  _TagBarDelegate({required this.userId, required this.contentWidgetKey});
 
   @override
   double get minExtent => tagBarHeight + 1.0; // DIVIDER 두께
@@ -87,7 +103,10 @@ class _TagBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return TagBar(tagBarHeight: tagBarHeight);
+    return TagBar(
+        userId: userId,
+        contentWidgetKey: contentWidgetKey,
+        tagBarHeight: tagBarHeight);
   }
 
   @override

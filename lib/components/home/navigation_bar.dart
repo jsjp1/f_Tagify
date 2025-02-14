@@ -1,62 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tagify/api/content.dart';
+import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
   final dynamic loginResponse;
   final TextEditingController _searchController = TextEditingController();
+  final GlobalKey<ContentWidgetState> contentWidgetKey;
 
-  TagifyNavigationBar({super.key, required this.loginResponse});
-
-  void _showSearchDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(
-                  controller: _searchController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: "검색어 입력...",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onSubmitted: (String value) async {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    // TODO: analyze logic 추가
-                    dynamic _ = await analyzeVideo(loginResponse["oauth_id"],
-                        _searchController.text, "ko");
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("검색"),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  TagifyNavigationBar(
+      {super.key, required this.loginResponse, required this.contentWidgetKey});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +31,9 @@ class TagifyNavigationBar extends StatelessWidget {
                 child: IconButton(
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.house_alt_fill),
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO
+                  },
                 ),
               ),
               SizedBox(width: 60),
@@ -84,7 +42,9 @@ class TagifyNavigationBar extends StatelessWidget {
                 child: IconButton(
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.folder_fill),
-                  onPressed: () {},
+                  onPressed: () {
+                    // TODO
+                  },
                 ),
               ),
             ],
@@ -109,15 +69,6 @@ class TagifyNavigationBar extends StatelessWidget {
       ],
     );
   }
-}
-
-class FloatingSearch extends StatefulWidget {
-  @override
-  _FloatingSearchState createState() => _FloatingSearchState();
-}
-
-class _FloatingSearchState extends State<FloatingSearch> {
-  final TextEditingController _searchController = TextEditingController();
 
   void _showSearchDialog(BuildContext context) {
     showDialog(
@@ -127,58 +78,60 @@ class _FloatingSearchState extends State<FloatingSearch> {
         return Dialog(
           backgroundColor: Colors.transparent,
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.95,
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextField(
-                  controller: _searchController,
-                  autofocus: true,
-                  decoration: InputDecoration(
-                    hintText: "검색어 입력...",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                Expanded(
+                  child: TextField(
+                    cursorColor: Colors.red,
+                    controller: _searchController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(CupertinoIcons.doc_text_search),
+                        style: ButtonStyle(
+                          iconColor: WidgetStateProperty.all(mainColor),
+                        ),
+                        onPressed: () async {
+                          dynamic _ = await analyzeVideo(
+                              loginResponse["oauth_id"],
+                              _searchController.text,
+                              "ko");
+                          contentWidgetKey.currentState
+                              ?.refreshContents(); // video analyze시 contents 다시 불러오기
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      hintText: tr("navigation_bar_input_link_hint"),
+                      filled: true,
+                      fillColor: navigationSearchBarColor,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide:
+                            const BorderSide(color: mainColor, width: 4.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide:
+                            const BorderSide(color: mainColor, width: 4.0),
+                      ),
                     ),
+                    onSubmitted: (String value) async {
+                      Navigator.of(context).pop();
+                    },
                   ),
-                  onSubmitted: (String value) {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("검색"),
                 ),
               ],
             ),
           ),
         );
       },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 35,
-      left: MediaQuery.of(context).size.width / 2 - 35,
-      child: Container(
-        width: 70,
-        height: 70,
-        child: FloatingActionButton(
-          onPressed: () => _showSearchDialog(context), // ✅ 클릭 시 다이얼로그 실행
-          shape: StadiumBorder(),
-          backgroundColor: Colors.blueAccent,
-          child: Image.asset("assets/img/app_logo_white.png"),
-        ),
-      ),
     );
   }
 }
