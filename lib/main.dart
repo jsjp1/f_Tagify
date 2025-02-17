@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tagify/api/content.dart';
 
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
@@ -15,7 +16,11 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
-  debugPrint("main.dart: Saved loginResponse: $loginResponse");
+  debugPrint("main.dart: Get loginResponse: $loginResponse");
+
+  if (loginResponse != null) {
+    await loadAuthToken(loginResponse["access_token"]);
+  }
 
   runApp(
     EasyLocalization(
@@ -24,8 +29,7 @@ void main() async {
       fallbackLocale: Locale("en", ''),
       child: App(
         initialRoute: loginResponse == null ? '/auth' : '/home',
-        initialLoginResponse:
-            loginResponse == null ? {} : loginResponse["data"],
+        initialLoginResponse: loginResponse ?? {},
       ),
     ),
   );
@@ -37,15 +41,15 @@ Future<Map<String, dynamic>?> checkLoginStatus() async {
   bool isLoggedIn = prefs.getBool("isLoggedIn") ?? false;
 
   if (isLoggedIn) {
-    String? loginResponseJson = prefs.getString("loginResponse");
-    return loginResponseJson == null ? null : jsonDecode(loginResponseJson);
+    String? loginResponseString = prefs.getString("loginResponse");
+    return loginResponseString == null ? null : jsonDecode(loginResponseString);
   }
   return null;
 }
 
 class App extends StatelessWidget {
   final String initialRoute;
-  final Map<String, dynamic>? initialLoginResponse;
+  final Map<String, dynamic> initialLoginResponse;
 
   const App(
       {super.key,
@@ -67,15 +71,19 @@ class App extends StatelessWidget {
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/home') {
-          final loginResponse = settings.arguments ?? initialLoginResponse;
+          final loginResponse = settings.arguments is Map<String, dynamic>
+              ? settings.arguments as Map<String, dynamic>
+              : initialLoginResponse;
+
           return MaterialPageRoute(
-            settings: RouteSettings(name: '/home'),
+            settings: const RouteSettings(name: '/home'),
             builder: (context) => HomeScreen(loginResponse: loginResponse),
           );
         } else if (settings.name == '/auth') {
           return MaterialPageRoute(
-              settings: RouteSettings(name: '/auth'),
-              builder: (context) => AuthScreen());
+            settings: const RouteSettings(name: '/auth'),
+            builder: (context) => const AuthScreen(),
+          );
         } else {
           return null;
         }

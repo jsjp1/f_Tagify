@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tagify/api/content.dart';
 
 import 'package:tagify/global.dart';
 
 class AuthButton extends StatelessWidget {
   final String logoImage;
   final String loginDescription;
-  final Future<dynamic> Function() loginFunction;
+  final Future<Map<String, dynamic>> Function() loginFunction;
   final Color buttonbackgroundColor;
   final Color fontColor;
 
@@ -30,14 +31,19 @@ class AuthButton extends StatelessWidget {
       padding: EdgeInsets.only(top: 10.0),
       child: GestureDetector(
         onTap: () async {
-          dynamic loginResponse = await loginFunction();
+          Map<String, dynamic> loginResponse = await loginFunction();
 
-          if (loginResponse != null) {
+          if (loginResponse != {}) {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
-            String loginResponseJson = jsonEncode(loginResponse.toJson());
+            String loginResponseString = jsonEncode(loginResponse);
 
-            await prefs.setString("loginResponse", loginResponseJson);
+            debugPrint("HERE: $loginResponse");
+
+            await loadAuthToken(
+                loginResponse["access_token"]); // oauth_token 전역 변수 세팅
+
+            await prefs.setString("loginResponse", loginResponseString);
             await prefs.setBool("isLoggedIn", true);
             debugPrint("Save Login status success");
 
@@ -45,7 +51,7 @@ class AuthButton extends StatelessWidget {
               context,
               '/home',
               (route) => false,
-              arguments: jsonEncode(loginResponse.data),
+              arguments: loginResponse,
             );
           }
         },

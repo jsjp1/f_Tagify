@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
@@ -11,7 +9,7 @@ import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  final dynamic loginResponse;
+  Map<String, dynamic> loginResponse;
   final GlobalKey<ContentWidgetState> contentWidgetKey = GlobalKey<
       ContentWidgetState>(); // contentWidget의 refreshContents 다른 곳에서 사용하기 위해
 
@@ -19,9 +17,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String? args = ModalRoute.of(context)?.settings.arguments as String?;
     String? currentRoute = ModalRoute.of(context)?.settings.name;
-    final Map<String, dynamic> loginData = args != null ? jsonDecode(args) : {};
+
+    final Object? args = ModalRoute.of(context)?.settings.arguments;
+    if (args is Map<String, dynamic>) {
+      // login으로 넘어오는 경우
+      loginResponse = args;
+    }
 
     debugPrint("home_screen.dart: current page: $currentRoute");
     debugPrint("home_screen.dart: loginResponse: $loginResponse");
@@ -38,7 +40,8 @@ class HomeScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TagifyAppBar(profileImage: loginData["profile_image"] ?? ""),
+                  TagifyAppBar(
+                      profileImage: loginResponse["profile_image"] ?? ""),
                   Expanded(
                     child: NestedScrollView(
                       headerSliverBuilder:
@@ -56,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                             pinned: true,
                             floating: false,
                             delegate: _TagBarDelegate(
-                              userId: loginData["id"],
+                              userId: loginResponse["id"],
                               contentWidgetKey: contentWidgetKey,
                             ),
                           ),
@@ -64,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                       },
                       body: ContentWidget(
                         key: contentWidgetKey,
-                        userId: loginData["id"],
+                        userId: loginResponse["id"],
                         tagName: "all",
                       ),
                     ),
@@ -76,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: TagifyNavigationBar(
-                  loginResponse: loginData,
+                  loginResponse: loginResponse,
                   contentWidgetKey: contentWidgetKey,
                 ),
               ),

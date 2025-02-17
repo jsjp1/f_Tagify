@@ -7,7 +7,7 @@ import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
-  final dynamic loginResponse;
+  final Map<String, dynamic> loginResponse;
   final TextEditingController _searchController = TextEditingController();
   final GlobalKey<ContentWidgetState> contentWidgetKey;
 

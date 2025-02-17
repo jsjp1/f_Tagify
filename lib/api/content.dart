@@ -1,10 +1,18 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/common.dart';
+
+String? authToken;
+
+Future<void> loadAuthToken(String token) async {
+  debugPrint("$token");
+  authToken = token;
+}
 
 Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
   final String serverHost =
@@ -15,6 +23,7 @@ Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
   );
 
@@ -48,6 +57,7 @@ Future<ApiResponse<void>> analyzeVideo(
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
     body: jsonEncode({
       "oauth_id": oauthId,
@@ -81,6 +91,7 @@ Future<ApiResponse<List<Content>>> fetchUserVideos(int userId) async {
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
   );
 
@@ -111,6 +122,7 @@ Future<ApiResponse<List<Content>>> fetchUserPosts(int userId) async {
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
   );
 
@@ -141,6 +153,7 @@ Future<ApiResponse<int>> toggleBookmark(int contentId) async {
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
   );
 
@@ -171,6 +184,7 @@ Future<ApiResponse<List<Content>>> fetchBookmarkContents(int userId) async {
     Uri.parse(serverHost),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": "Bearer ${authToken!}",
     },
   );
 
