@@ -45,7 +45,8 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
       ApiResponse<Map<String, dynamic>> loginResponse =
           await login(user.id, user.email);
 
-      if (loginResponse.errorMessage == "failure") {
+      if (loginResponse.errorMessage == "failure" ||
+          loginResponse.errorMessage == "network_error") {
         // 회원이 존재하지 않는 경우, 회원가입 후 다시 로그인
         final ApiResponse<Map<String, dynamic>> signupResponse = await signup({
           "username": user.displayName ?? "Unknown",

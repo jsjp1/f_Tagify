@@ -38,14 +38,15 @@ class AuthButton extends StatelessWidget {
                 await SharedPreferences.getInstance();
             String loginResponseString = jsonEncode(loginResponse);
 
-            debugPrint("HERE: $loginResponse");
-
             await loadAuthToken(
                 loginResponse["access_token"]); // oauth_token 전역 변수 세팅
 
             await prefs.setString("loginResponse", loginResponseString);
             await prefs.setBool("isLoggedIn", true);
-            debugPrint("Save Login status success");
+            await prefs.setString(
+                "access_token", loginResponse["access_token"]);
+            await prefs.setString(
+                "access_token", loginResponse["refresh_token"]);
 
             Navigator.pushNamedAndRemoveUntil(
               context,

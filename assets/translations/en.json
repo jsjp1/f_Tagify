@@ -7,6 +7,9 @@
   "navigation_bar_input_link_hint": "Please enter the link",
   "navigation_bar_input_link_search_button": "search",
 
+  "content_instance_edit": "edit",
+  "content_instance_delete": "delete",
+
   "content_widget_empty": "No contents to display",
   "content_widget_failure": "Failed to load contents",
   "content_widget_end": "No more contents to load",

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/components/contents/content_widget.dart';
+import 'package:tagify/provider.dart';
 
 class TagBar extends StatefulWidget {
   final int userId;
   final double tagBarHeight;
   final GlobalKey<ContentWidgetState> contentWidgetKey;
 
-  const TagBar(
-      {super.key,
-      required this.userId,
-      required this.contentWidgetKey,
-      required this.tagBarHeight});
+  const TagBar({
+    super.key,
+    required this.userId,
+    required this.contentWidgetKey,
+    required this.tagBarHeight,
+  });
 
   @override
   TagBarState createState() => TagBarState();
@@ -21,24 +24,10 @@ class TagBar extends StatefulWidget {
 class TagBarState extends State<TagBar> {
   String currentSelectedTag = "all";
 
-  void refreshContentsWithTagName(String tagName) {
-    setState(() {
-      currentSelectedTag = tagName;
-    });
-
-    if (tagName == "all") {
-      widget.contentWidgetKey.currentState?.refreshContents();
-    } else if (tagName == "bookmark") {
-      widget.contentWidgetKey.currentState?.refreshBookmarkContents();
-    } else {
-      widget.contentWidgetKey.currentState?.refreshTagContents(tagName);
-    }
-
-    widget.contentWidgetKey.currentState?.setTagName(tagName);
-  }
-
   @override
   Widget build(BuildContext context) {
+    TagifyProvider provider = context.watch<TagifyProvider>();
+
     return Column(
       children: [
         Container(
@@ -48,23 +37,27 @@ class TagBarState extends State<TagBar> {
             children: [
               SizedBox(width: 10.0),
               GestureDetector(
-                onTap: () {
-                  refreshContentsWithTagName("all");
+                onTap: () async {
+                  provider.changeTag("all");
+                  await widget.contentWidgetKey.currentState
+                      ?.refreshContents(provider.currentTag);
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: currentSelectedTag == "all",
+                  currentSelectedTag: provider.currentTag == "all",
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  refreshContentsWithTagName("bookmark");
+                onTap: () async {
+                  provider.changeTag("bookmark");
+                  await widget.contentWidgetKey.currentState
+                      ?.refreshContents(provider.currentTag);
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: currentSelectedTag == "bookmark",
+                  currentSelectedTag: provider.currentTag == "bookmark",
                 ),
               ),
             ],

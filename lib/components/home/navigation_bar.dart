@@ -1,21 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/api/content.dart';
 import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
   final Map<String, dynamic> loginResponse;
   final TextEditingController _searchController = TextEditingController();
   final GlobalKey<ContentWidgetState> contentWidgetKey;
 
-  TagifyNavigationBar(
-      {super.key, required this.loginResponse, required this.contentWidgetKey});
+  TagifyNavigationBar({
+    super.key,
+    required this.loginResponse,
+    required this.contentWidgetKey,
+  });
 
   @override
   Widget build(BuildContext context) {
+    TagifyProvider provider = context.watch<TagifyProvider>();
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -58,7 +65,7 @@ class TagifyNavigationBar extends StatelessWidget {
             height: 70,
             child: FloatingActionButton(
               onPressed: () {
-                _showSearchDialog(context);
+                _showSearchDialog(context, provider);
               },
               shape: StadiumBorder(),
               backgroundColor: mainColor,
@@ -70,7 +77,7 @@ class TagifyNavigationBar extends StatelessWidget {
     );
   }
 
-  void _showSearchDialog(BuildContext context) {
+  void _showSearchDialog(BuildContext context, TagifyProvider provider) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -99,12 +106,17 @@ class TagifyNavigationBar extends StatelessWidget {
                           iconColor: WidgetStateProperty.all(mainColor),
                         ),
                         onPressed: () async {
-                          dynamic _ = await analyzeVideo(
-                              loginResponse["oauth_id"],
-                              _searchController.text,
-                              "ko");
-                          contentWidgetKey.currentState
-                              ?.refreshContents(); // video analyze시 contents 다시 불러오기
+                          await analyzeVideo(
+                            loginResponse["oauth_id"],
+                            _searchController.text,
+                            "ko",
+                          );
+
+                          final state = contentWidgetKey.currentState;
+                          if (state == null) return;
+
+                          await state.refreshContents(provider.currentTag);
+
                           Navigator.of(context).pop();
                         },
                       ),

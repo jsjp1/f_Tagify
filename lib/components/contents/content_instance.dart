@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tagify/api/common.dart';
 
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
@@ -9,12 +10,14 @@ class ContentInstance extends StatefulWidget {
   final double instanceWidth;
   final double instanceHeight;
   final Content content;
+  final Future<void> Function() onDelete;
 
   const ContentInstance({
     super.key,
     required this.instanceWidth,
     required this.instanceHeight,
     required this.content,
+    required this.onDelete,
   });
 
   @override
@@ -96,7 +99,7 @@ class ContentInstanceState extends State<ContentInstance> {
                               isBookMarked = !isBookMarked;
                             });
                             // TODO: 즐겨찾기 로직 추가
-                            dynamic _ = await toggleBookmark(widget.content.id);
+                            await toggleBookmark(widget.content.id);
                           },
                         ),
                       ),
@@ -109,6 +112,55 @@ class ContentInstanceState extends State<ContentInstance> {
                           padding: EdgeInsets.zero,
                           onPressed: () {
                             // TODO
+                            showModalBottomSheet(
+                              backgroundColor: whiteBackgroundColor,
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(16)),
+                              ),
+                              builder: (BuildContext context) {
+                                return Wrap(
+                                  children: [
+                                    ListTile(
+                                      leading: Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Icon(CupertinoIcons.pencil),
+                                      ),
+                                      title: GlobalText(
+                                        localizeText: 'content_instance_edit',
+                                        textSize: 15.0,
+                                      ),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // TODO: 수정 로직 추가
+                                      },
+                                    ),
+                                    ListTile(
+                                      leading: Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Icon(CupertinoIcons.delete,
+                                            color: Colors.red),
+                                      ),
+                                      title: GlobalText(
+                                        localizeText: 'content_instance_delete',
+                                        textSize: 15.0,
+                                        textColor: Colors.red,
+                                      ),
+                                      onTap: () async {
+                                        // TODO: 삭제 전 모달 띄우기
+                                        ApiResponse<void> _ =
+                                            await deleteContent(
+                                                widget.content.id);
+                                        await widget.onDelete();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    SizedBox(height: 100.0),
+                                  ],
+                                );
+                              },
+                            );
                           },
                         ),
                       ),

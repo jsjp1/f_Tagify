@@ -3,17 +3,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tagify/api/content.dart';
 
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/settings_screen.dart';
+import 'package:tagify/api/content.dart';
+import 'package:tagify/provider.dart';
+import 'package:tagify/api/dio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await EasyLocalization.ensureInitialized();
+
+  ApiClient();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
   debugPrint("main.dart: Get loginResponse: $loginResponse");
@@ -58,36 +63,39 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      initialRoute: initialRoute,
-      routes: {
-        '/home': (context) => HomeScreen(loginResponse: initialLoginResponse),
-        '/auth': (context) => const AuthScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
-      onGenerateRoute: (settings) {
-        if (settings.name == '/home') {
-          final loginResponse = settings.arguments is Map<String, dynamic>
-              ? settings.arguments as Map<String, dynamic>
-              : initialLoginResponse;
+    return ChangeNotifierProvider(
+      create: (context) => TagifyProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        initialRoute: initialRoute,
+        routes: {
+          '/home': (context) => HomeScreen(loginResponse: initialLoginResponse),
+          '/auth': (context) => const AuthScreen(),
+          '/settings': (context) => const SettingsScreen(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == '/home') {
+            final loginResponse = settings.arguments is Map<String, dynamic>
+                ? settings.arguments as Map<String, dynamic>
+                : initialLoginResponse;
 
-          return MaterialPageRoute(
-            settings: const RouteSettings(name: '/home'),
-            builder: (context) => HomeScreen(loginResponse: loginResponse),
-          );
-        } else if (settings.name == '/auth') {
-          return MaterialPageRoute(
-            settings: const RouteSettings(name: '/auth'),
-            builder: (context) => const AuthScreen(),
-          );
-        } else {
-          return null;
-        }
-      },
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: '/home'),
+              builder: (context) => HomeScreen(loginResponse: loginResponse),
+            );
+          } else if (settings.name == '/auth') {
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: '/auth'),
+              builder: (context) => const AuthScreen(),
+            );
+          } else {
+            return null;
+          }
+        },
+      ),
     );
   }
 }

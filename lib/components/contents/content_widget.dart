@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/components/contents/content_instance.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/contents/common.dart';
+import 'package:tagify/provider.dart';
 
 class ContentWidget extends StatefulWidget {
   final int userId;
   final GlobalKey<ContentWidgetState>? key;
-  String tagName;
 
-  ContentWidget({this.key, required this.userId, required this.tagName})
-      : super(key: key);
+  ContentWidget({this.key, required this.userId}) : super(key: key);
 
   @override
   ContentWidgetState createState() => ContentWidgetState();
@@ -27,35 +27,30 @@ class ContentWidgetState extends State<ContentWidget> {
     _futureContents = fetchUserContents(widget.userId);
   }
 
-  void setTagName(String newTagName) {
-    setState(() {
-      widget.tagName = newTagName;
-    });
-  }
-
-  Future<void> refreshContents() async {
-    setState(() {
-      _futureContents =
-          fetchUserContents(widget.userId); // TODO: 최적화 -> 새로운 것들만
-    });
-  }
-
-  Future<void> refreshBookmarkContents() async {
-    setState(() {
-      _futureContents = fetchBookmarkContents(widget.userId);
-    });
-  }
-
-  Future<void> refreshTagContents(String tagName) async {
-    setState(() {
-      // TODO: 특정 태그 입력 -> 해당 태그의 콘텐츠 불러오기
-      // _futureContents = fetchTagContents(widget.userId);
-    });
+  Future<void> refreshContents(String currentTag) async {
+    switch (currentTag) {
+      case "all":
+        setState(() {
+          _futureContents = fetchUserContents(widget.userId);
+        });
+        break;
+      case "bookmark":
+        setState(() {
+          _futureContents = fetchBookmarkContents(widget.userId);
+        });
+        break;
+      default:
+        setState(() {
+          // TODO: 특정 태그 입력 -> 해당 태그의 콘텐츠 불러오기
+        });
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final double widgetWidth = MediaQuery.of(context).size.width * (0.9);
+    TagifyProvider provider = context.watch<TagifyProvider>();
 
     return RefreshIndicator.adaptive(
       elevation: 30.0,
@@ -63,11 +58,7 @@ class ContentWidgetState extends State<ContentWidget> {
       edgeOffset: -10.0,
       backgroundColor: Colors.transparent,
       color: Colors.black,
-      onRefresh: widget.tagName == "all"
-          ? refreshContents
-          : (widget.tagName == "bookmark"
-              ? refreshBookmarkContents
-              : () => refreshTagContents(widget.tagName)),
+      onRefresh: () => refreshContents(provider.currentTag),
       child: FutureBuilder<ApiResponse<List<Content>>>(
         future: _futureContents,
         builder: (context, snapshot) {
@@ -124,6 +115,7 @@ class ContentWidgetState extends State<ContentWidget> {
                   instanceWidth: widgetWidth,
                   instanceHeight: 150.0,
                   content: contents[idx],
+                  onDelete: () => refreshContents(provider.currentTag),
                 );
               },
             );
