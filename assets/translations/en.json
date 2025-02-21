@@ -20,5 +20,7 @@
   "settings_screen_title": "Settings",
 
   "tag_bar_tagname_all": "all",
-  "tag_bar_tagname_bookmark": "bookmark"
+  "tag_bar_tagname_bookmark": "bookmark",
+
+  "analyze_screen_enter_link": "Please enter the link"
 }

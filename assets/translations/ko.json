@@ -20,5 +20,7 @@
   "settings_screen_title": "설정",
 
   "tag_bar_tagname_all": "전체",
-  "tag_bar_tagname_bookmark": "북마크"
+  "tag_bar_tagname_bookmark": "북마크",
+
+  "analyze_screen_enter_link": "링크를 입력하세요"
 }
