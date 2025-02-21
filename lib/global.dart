@@ -16,29 +16,45 @@ const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 class GlobalText extends StatelessWidget {
   final String localizeText;
   final double textSize;
+  bool localization;
   bool? isBold;
   Color? textColor;
   TextOverflow? overflow;
 
-  GlobalText(
-      {super.key,
-      required this.localizeText,
-      required this.textSize,
-      this.isBold,
-      this.textColor,
-      this.overflow});
+  GlobalText({
+    super.key,
+    required this.localizeText,
+    required this.textSize,
+    this.isBold,
+    this.textColor,
+    this.overflow,
+    this.localization = true,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      localizeText,
-      style: TextStyle(
-        color: textColor,
-        fontSize: textSize,
-        fontFamily: "YoutubeFont",
-        fontWeight: (isBold ?? false) ? FontWeight.bold : FontWeight.normal,
-        overflow: overflow,
-      ),
-    ).tr();
+    return localization
+        ? Text(
+            localizeText,
+            style: TextStyle(
+              color: textColor,
+              fontSize: textSize,
+              fontFamily: "YoutubeFont",
+              fontWeight:
+                  (isBold ?? false) ? FontWeight.bold : FontWeight.normal,
+              overflow: overflow,
+            ),
+          ).tr()
+        : Text(
+            localizeText,
+            style: TextStyle(
+              color: textColor,
+              fontSize: textSize,
+              fontFamily: "YoutubeFont",
+              fontWeight:
+                  (isBold ?? false) ? FontWeight.bold : FontWeight.normal,
+              overflow: overflow,
+            ),
+          );
   }
 }
