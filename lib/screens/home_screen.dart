@@ -86,7 +86,6 @@ class HomeScreenState extends State<HomeScreen> {
                 right: 0,
                 child: TagifyNavigationBar(
                   loginResponse: widget.loginResponse,
-                  contentWidgetKey: contentWidgetKey,
                 ),
               ),
             ],

@@ -6,12 +6,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/dio.dart';
+import 'package:tagify/screens/tag_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,27 +74,33 @@ class App extends StatelessWidget {
         locale: context.locale,
         initialRoute: initialRoute,
         routes: {
-          '/home': (context) => HomeScreen(loginResponse: initialLoginResponse),
-          '/auth': (context) => const AuthScreen(),
-          '/settings': (context) => const SettingsScreen(),
+          "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
+          "/analyze": (context) => AnalyzeScreen(),
+          "/tag": (context) => TagScreen(loginResponse: initialLoginResponse),
+          "/auth": (context) => const AuthScreen(),
+          "/settings": (context) => const SettingsScreen(),
         },
         onGenerateRoute: (settings) {
-          if (settings.name == '/home') {
-            final loginResponse = settings.arguments is Map<String, dynamic>
-                ? settings.arguments as Map<String, dynamic>
-                : initialLoginResponse;
-
-            return MaterialPageRoute(
-              settings: const RouteSettings(name: '/home'),
-              builder: (context) => HomeScreen(loginResponse: loginResponse),
-            );
-          } else if (settings.name == '/auth') {
-            return MaterialPageRoute(
-              settings: const RouteSettings(name: '/auth'),
-              builder: (context) => const AuthScreen(),
-            );
-          } else {
-            return null;
+          switch (settings.name) {
+            case "/home":
+              final loginResponse = settings.arguments is Map<String, dynamic>
+                  ? settings.arguments as Map<String, dynamic>
+                  : initialLoginResponse;
+              return PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    HomeScreen(
+                  loginResponse: loginResponse,
+                ),
+                transitionDuration: Duration(seconds: 0),
+              );
+            case "/auth":
+              return PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    AuthScreen(),
+                transitionDuration: Duration(seconds: 0),
+              );
+            default:
+              return MaterialPageRoute(builder: (context) => AuthScreen());
           }
         },
       ),
