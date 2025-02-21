@@ -27,8 +27,50 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
       body: SafeArea(
         top: true,
         bottom: false,
-        child: Container(
-          color: Colors.grey,
+        child: Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * (0.9),
+            child: Column(
+              children: [
+                SizedBox(height: 10.0),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: GlobalText(
+                      localizeText: "analyze_screen_enter_link",
+                      textSize: 30.0,
+                      localization: true,
+                      isBold: true,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * (0.08),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          CupertinoIcons.search,
+                          size: 30.0,
+                        ),
+                        onPressed: () {},
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

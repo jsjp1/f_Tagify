@@ -9,7 +9,7 @@ import 'package:tagify/screens/tag_screen.dart';
 class TagifyNavigationBar extends StatelessWidget {
   final Map<String, dynamic> loginResponse;
 
-  TagifyNavigationBar({
+  const TagifyNavigationBar({
     super.key,
     required this.loginResponse,
   });
