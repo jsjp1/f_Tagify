@@ -32,28 +32,28 @@ Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
 
-Future<ApiResponse<void>> analyzeVideo(
-    String oauthId, String videoUrl, String lang) async {
+Future<ApiResponse<void>> analyzeContent(
+    int userId, String url, String lang, String contentType) async {
   final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/contents/analyze?content_type=video";
+      "${dotenv.get("SERVER_HOST")}/api/contents/analyze?content_type=$contentType";
 
   try {
     final response = await ApiClient.dio.post(
       serverHost,
       data: {
-        "oauth_id": oauthId,
-        "url": videoUrl,
+        "user_id": userId,
+        "url": url,
         "lang": lang,
       },
     );
 
     if (response.statusCode == 200) {
       return ApiResponse(
-          data: response.data["video_id"],
+          data: response.data["content_id"],
           statusCode: response.statusCode!,
           success: true);
     }
@@ -63,11 +63,11 @@ Future<ApiResponse<void>> analyzeVideo(
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
 
-Future<ApiResponse<List<Content>>> fetchUserVideos(int userId) async {
+Future<ApiResponse<List<Video>>> fetchUserVideos(int userId) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/contents/user/sub&content_type=video&user_id=$userId";
 
@@ -76,11 +76,11 @@ Future<ApiResponse<List<Content>>> fetchUserVideos(int userId) async {
 
     if (response.statusCode == 200) {
       List<dynamic> jsonList = response.data;
-      List<Content> contents =
-          jsonList.map((item) => Content.fromJson(item)).toList();
+      List<Video> videos =
+          jsonList.map((item) => Video.fromJson(item)).toList();
 
       return ApiResponse(
-          data: contents, statusCode: response.statusCode!, success: true);
+          data: videos, statusCode: response.statusCode!, success: true);
     }
     return ApiResponse(
         errorMessage: "failure",
@@ -88,9 +88,13 @@ Future<ApiResponse<List<Content>>> fetchUserVideos(int userId) async {
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
+
+// Future<ApiResponse<List<Post>>> fetchUserPosts(int userId) async {
+// TODO
+// }
 
 Future<ApiResponse<int>> toggleBookmark(int contentId) async {
   final String serverHost =
@@ -111,7 +115,7 @@ Future<ApiResponse<int>> toggleBookmark(int contentId) async {
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
 
@@ -136,7 +140,7 @@ Future<ApiResponse<List<Content>>> fetchBookmarkContents(int userId) async {
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
 
@@ -159,6 +163,6 @@ Future<ApiResponse<void>> deleteContent(int contentId) async {
         success: false);
   } catch (e) {
     return ApiResponse(
-        errorMessage: "network_error", statusCode: 500, success: false);
+        errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }

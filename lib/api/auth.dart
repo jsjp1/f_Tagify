@@ -48,7 +48,7 @@ Future<ApiResponse<Map<String, dynamic>>> login(String id, String email) async {
     }
   } catch (e) {
     return ApiResponse(
-      errorMessage: "network_error",
+      errorMessage: e.toString(),
       statusCode: 500,
       success: false,
     );
@@ -93,7 +93,7 @@ Future<ApiResponse<Map<String, dynamic>>> signup(
     }
   } catch (e) {
     return ApiResponse(
-      errorMessage: "network_error",
+      errorMessage: e.toString(),
       statusCode: 500,
       success: false,
     );
@@ -107,7 +107,7 @@ Future<void> logout(BuildContext context) async {
 
   Navigator.pushNamedAndRemoveUntil(
     context,
-    '/auth',
+    "/auth",
     (route) => false,
   );
 }
