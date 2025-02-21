@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tagify/api/common.dart';
 
+import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/api/content.dart';
@@ -65,19 +65,20 @@ class ContentInstanceState extends State<ContentInstance> {
                   // 왼쪽 아이콘 그룹
                   Row(
                     children: [
-                      // Icon(widget.content is Video
-                      //     ? CupertinoIcons.play
-                      //     : Icons.text_snippet_outlined),
                       SizedBox(width: 5.0),
-                      Text("🔥", style: TextStyle(fontSize: 15.0)),
+                      widget.content is Video
+                          ? Text("🔥", style: TextStyle(fontSize: 15.0))
+                          : Text("📋", style: TextStyle(fontSize: 15.0)),
                       SizedBox(
                         width: widget.instanceWidth * (0.7),
                         child: GlobalText(
-                            localizeText: widget.content.title,
-                            textSize: 15.0,
-                            isBold: true,
-                            textColor: containerTitleColor,
-                            overflow: TextOverflow.ellipsis),
+                          localizeText: widget.content.title,
+                          textSize: 15.0,
+                          isBold: true,
+                          textColor: containerTitleColor,
+                          overflow: TextOverflow.ellipsis,
+                          localization: false,
+                        ),
                       ),
                     ],
                   ),
@@ -193,10 +194,12 @@ class ContentInstanceState extends State<ContentInstance> {
                             ),
                           ],
                         ),
-                        child: Image.network(
-                          widget.content.thumbnail,
-                          fit: BoxFit.cover,
-                        ),
+                        child: widget.content.thumbnail != ""
+                            ? Image.network(
+                                widget.content.thumbnail,
+                                fit: BoxFit.cover,
+                              )
+                            : SizedBox.expand(),
                       ),
                     ),
                   ),
@@ -210,6 +213,7 @@ class ContentInstanceState extends State<ContentInstance> {
                         localizeText: widget.content.description,
                         textSize: 10.0,
                         overflow: TextOverflow.ellipsis,
+                        localization: false,
                       ),
                     ),
                   ),
@@ -265,6 +269,7 @@ class TagContainer extends StatelessWidget {
               localizeText: tagName,
               textSize: 10.0,
               textColor: contentInstanceTagTextColor,
+              localization: false,
             ),
           ),
         ),

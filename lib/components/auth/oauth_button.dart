@@ -50,7 +50,7 @@ class AuthButton extends StatelessWidget {
 
             Navigator.pushNamedAndRemoveUntil(
               context,
-              '/home',
+              "/home",
               (route) => false,
               arguments: loginResponse,
             );

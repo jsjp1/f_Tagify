@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Content {
   final int id;
   final String url;
@@ -6,6 +8,7 @@ class Content {
   final String description;
   final bool bookmark;
   final List<String> tags;
+  final String type;
 
   const Content(
       {required this.id,
@@ -14,13 +17,15 @@ class Content {
       required this.thumbnail,
       required this.description,
       required this.bookmark,
-      required this.tags});
+      required this.tags,
+      required this.type});
 
   factory Content.fromJson(Map<String, dynamic> json) {
-    switch (json['content_type']) {
-      case 'video':
+    String contentType = json["type"].toString();
+    switch (json["type"]) {
+      case "video":
         return Video.fromJson(json);
-      case 'post':
+      case "post":
         return Post.fromJson(json);
       default:
         return Content(
@@ -31,6 +36,7 @@ class Content {
           description: json["description"],
           bookmark: json["bookmark"],
           tags: List<String>.from(json["tags"] ?? []),
+          type: contentType,
         );
     }
   }
@@ -47,9 +53,11 @@ class Video extends Content {
       required super.thumbnail,
       required super.description,
       required super.bookmark,
-      required super.tags});
+      required super.tags,
+      required super.type});
 
   factory Video.fromJson(Map<String, dynamic> json) {
+    String contentType = json["type"].toString();
     return Video(
       id: json["id"],
       url: json["url"] ?? "",
@@ -59,6 +67,7 @@ class Video extends Content {
       description: json["description"],
       bookmark: json["bookmark"],
       tags: List<String>.from(json["tags"] ?? []),
+      type: contentType,
     );
   }
 }
@@ -74,18 +83,21 @@ class Post extends Content {
       required super.thumbnail,
       required super.description,
       required super.bookmark,
-      required super.tags});
+      required super.tags,
+      required super.type});
 
   factory Post.fromJson(Map<String, dynamic> json) {
+    String contentType = json["type"].toString();
     return Post(
       id: json["id"],
       url: json["url"],
       title: json["title"],
-      body: json["video_length"] ?? "",
+      body: json["body"] ?? "",
       thumbnail: json["thumbnail"] ?? "",
       description: json["description"] ?? "",
       bookmark: json["bookmark"],
       tags: List<String>.from(json["tags"] ?? []),
+      type: contentType,
     );
   }
 }

@@ -1,28 +1,21 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'package:tagify/api/content.dart';
-import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/provider.dart';
+import 'package:tagify/screens/analyze_screen.dart';
+import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/screens/tag_screen.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
   final Map<String, dynamic> loginResponse;
-  final TextEditingController _searchController = TextEditingController();
-  final GlobalKey<ContentWidgetState> contentWidgetKey;
 
   TagifyNavigationBar({
     super.key,
     required this.loginResponse,
-    required this.contentWidgetKey,
   });
 
   @override
   Widget build(BuildContext context) {
-    TagifyProvider provider = context.watch<TagifyProvider>();
-
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -39,7 +32,17 @@ class TagifyNavigationBar extends StatelessWidget {
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.house_alt_fill),
                   onPressed: () {
-                    // TODO
+                    if (ModalRoute.of(context)?.settings.name != "/home") {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              HomeScreen(loginResponse: loginResponse),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -50,7 +53,17 @@ class TagifyNavigationBar extends StatelessWidget {
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.folder_fill),
                   onPressed: () {
-                    // TODO
+                    if (ModalRoute.of(context)?.settings.name != "/tag") {
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              TagScreen(loginResponse: loginResponse),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
@@ -65,7 +78,28 @@ class TagifyNavigationBar extends StatelessWidget {
             height: 70,
             child: FloatingActionButton(
               onPressed: () {
-                _showSearchDialog(context, provider);
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        AnalyzeScreen(),
+                    transitionDuration: Duration(milliseconds: 300),
+                    reverseTransitionDuration: Duration(milliseconds: 300),
+                    transitionsBuilder:
+                        (context, animation1, animation2, child) {
+                      var begin = Offset(0.0, 1.0);
+                      var end = Offset.zero;
+                      var curve = Curves.easeInOut;
+
+                      var tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation1.drive(tween);
+
+                      return SlideTransition(
+                          position: offsetAnimation, child: child);
+                    },
+                  ),
+                );
               },
               shape: StadiumBorder(),
               backgroundColor: mainColor,
@@ -77,73 +111,7 @@ class TagifyNavigationBar extends StatelessWidget {
     );
   }
 
-  void _showSearchDialog(BuildContext context, TagifyProvider provider) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.95,
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: TextField(
-                    cursorColor: Colors.red,
-                    controller: _searchController,
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        icon: Icon(CupertinoIcons.doc_text_search),
-                        style: ButtonStyle(
-                          iconColor: WidgetStateProperty.all(mainColor),
-                        ),
-                        onPressed: () async {
-                          await analyzeVideo(
-                            loginResponse["oauth_id"],
-                            _searchController.text,
-                            "ko",
-                          );
-
-                          final state = contentWidgetKey.currentState;
-                          if (state == null) return;
-
-                          await state.refreshContents(provider.currentTag);
-
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      hintText: tr("navigation_bar_input_link_hint"),
-                      filled: true,
-                      fillColor: navigationSearchBarColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide:
-                            const BorderSide(color: mainColor, width: 4.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                        borderSide:
-                            const BorderSide(color: mainColor, width: 4.0),
-                      ),
-                    ),
-                    onSubmitted: (String value) async {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+  bool isVideo(String url) {
+    return url.contains("youtu");
   }
 }
