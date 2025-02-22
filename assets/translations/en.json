@@ -22,5 +22,9 @@
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
 
-  "analyze_screen_enter_link": "Please enter the link"
+  "analyze_screen_enter_link": "Please Enter the link",
+  "analyze_screen_invalid_url": "Invalid link format",
+  "analyze_screen_already_exists": "Content already exists",
+  "analyze_screen_title": "Title",
+  "analyze_screen_description": "Description"
 }

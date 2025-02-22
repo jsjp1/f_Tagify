@@ -22,5 +22,9 @@
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
 
-  "analyze_screen_enter_link": "링크를 입력하세요"
+  "analyze_screen_enter_link": "링크를 입력하세요",
+  "analyze_screen_invalid_url": "잘못된 링크 형식입니다",
+  "analyze_screen_already_exists": "이미 존재하는 콘텐츠입니다",
+  "analyze_screen_title": "제목",
+  "analyze_screen_description": "설명"
 }
