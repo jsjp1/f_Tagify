@@ -12,6 +12,7 @@ const Color profileButtonContainerColor = Color.fromARGB(255, 200, 200, 200);
 const Color navigationSearchBarColor = Colors.white70;
 const Color contentInstanceTagTextColor = Colors.indigo;
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
+const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

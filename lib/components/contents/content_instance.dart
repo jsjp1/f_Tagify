@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -195,8 +196,8 @@ class ContentInstanceState extends State<ContentInstance> {
                           ],
                         ),
                         child: widget.content.thumbnail != ""
-                            ? Image.network(
-                                widget.content.thumbnail,
+                            ? CachedNetworkImage(
+                                imageUrl: widget.content.thumbnail,
                                 fit: BoxFit.cover,
                               )
                             : SizedBox.expand(),

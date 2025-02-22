@@ -11,3 +11,7 @@ String secTimeConvert(int time) {
     return sec.toString();
   }
 }
+
+bool isVideo(String url) {
+  return url.contains("youtu");
+}

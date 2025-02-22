@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,7 @@ class TagifyAppBar extends StatelessWidget {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: (profileImage != "")
-                      ? NetworkImage(profileImage)
+                      ? CachedNetworkImageProvider(profileImage)
                       : AssetImage("assets/img/default_profile.png")
                           as ImageProvider,
                   fit: BoxFit.cover,

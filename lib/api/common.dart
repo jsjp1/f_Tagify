@@ -18,4 +18,8 @@ class ApiResponse<T> {
       'statusCode': statusCode,
     };
   }
+
+  factory ApiResponse.empty() {
+    return ApiResponse(success: false, statusCode: 200);
+  }
 }

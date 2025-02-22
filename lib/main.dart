@@ -19,7 +19,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await EasyLocalization.ensureInitialized();
-
   ApiClient();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
@@ -75,7 +74,8 @@ class App extends StatelessWidget {
         initialRoute: initialRoute,
         routes: {
           "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
-          "/analyze": (context) => AnalyzeScreen(),
+          "/analyze": (context) =>
+              AnalyzeScreen(loginResponse: initialLoginResponse),
           "/tag": (context) => TagScreen(loginResponse: initialLoginResponse),
           "/auth": (context) => const AuthScreen(),
           "/settings": (context) => const SettingsScreen(),

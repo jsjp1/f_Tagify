@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:tagify/api/common.dart';
@@ -36,7 +35,7 @@ Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
   }
 }
 
-Future<ApiResponse<void>> analyzeContent(
+Future<ApiResponse<Map<String, dynamic>>> analyzeContent(
     int userId, String url, String lang, String contentType) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/contents/analyze?content_type=$contentType";
@@ -53,7 +52,59 @@ Future<ApiResponse<void>> analyzeContent(
 
     if (response.statusCode == 200) {
       return ApiResponse(
-          data: response.data["content_id"],
+          data: response.data, statusCode: response.statusCode!, success: true);
+    } else if (response.statusCode == 400) {
+      return ApiResponse(
+          errorMessage: "Content already exists",
+          statusCode: response.statusCode!,
+          success: false);
+    } else {
+      return ApiResponse(
+          errorMessage: "failure",
+          statusCode: response.statusCode!,
+          success: false);
+    }
+  } catch (e) {
+    return ApiResponse(
+        errorMessage: e.toString(), statusCode: 500, success: false);
+  }
+}
+
+// TODO : 정리
+Future<ApiResponse<int>> saveContent(
+  int userId,
+  String url,
+  String title,
+  String thumbnail,
+  String description,
+  bool bookmark,
+  int length,
+  String body,
+  List<dynamic> tags,
+  String contentType,
+) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/contents/save?content_type=$contentType";
+
+  try {
+    final response = await ApiClient.dio.post(
+      serverHost,
+      data: {
+        "user_id": userId,
+        "url": url,
+        "title": title,
+        "thumbnail": thumbnail,
+        "description": description,
+        "bookmark": bookmark,
+        "video_length": length,
+        "body": body,
+        "tags": tags,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return ApiResponse(
+          data: response.data["id"],
           statusCode: response.statusCode!,
           success: true);
     }
@@ -144,7 +195,7 @@ Future<ApiResponse<List<Content>>> fetchBookmarkContents(int userId) async {
   }
 }
 
-Future<ApiResponse<void>> deleteContent(int contentId) async {
+Future<ApiResponse<int>> deleteContent(int contentId) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/contents/$contentId";
 

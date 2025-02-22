@@ -82,7 +82,7 @@ class TagifyNavigationBar extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        AnalyzeScreen(),
+                        AnalyzeScreen(loginResponse: loginResponse),
                     transitionDuration: Duration(milliseconds: 300),
                     reverseTransitionDuration: Duration(milliseconds: 300),
                     transitionsBuilder:
@@ -109,9 +109,5 @@ class TagifyNavigationBar extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  bool isVideo(String url) {
-    return url.contains("youtu");
   }
 }

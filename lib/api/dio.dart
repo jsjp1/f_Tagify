@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -61,6 +60,7 @@ class ApiClient {
       if (response.statusCode == 200) {
         String newAccessToken = response.data["access_token"];
         await prefs.setString("access_token", newAccessToken);
+        debugPrint("New Access token: $newAccessToken");
         return newAccessToken;
       }
     } catch (e) {
