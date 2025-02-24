@@ -15,7 +15,7 @@ class ContentInstance extends StatefulWidget {
   final Content content;
   final Future<void> Function() onDelete;
 
-  ContentInstance({
+  const ContentInstance({
     super.key,
     required this.instanceWidth,
     required this.instanceHeight,
@@ -28,19 +28,15 @@ class ContentInstance extends StatefulWidget {
 }
 
 class ContentInstanceState extends State<ContentInstance> {
-  bool isBookmarked = false;
-
   @override
   void initState() {
     super.initState();
-
-    isBookmarked = widget.content.bookmark;
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TagifyProvider>(builder: (context, provider, child) {
-      final updatedContent = provider.contents.firstWhere(
+      Content updatedContent = provider.contents.firstWhere(
         (c) => c.id == widget.content.id,
         orElse: () => widget.content,
       );
@@ -109,15 +105,15 @@ class ContentInstanceState extends State<ContentInstance> {
                           height: 24.0,
                           child: IconButton(
                             highlightColor: Colors.transparent,
-                            icon: Icon(updatedContent.bookmark || isBookmarked
+                            icon: Icon(updatedContent.bookmark
                                 ? Icons.bookmark_sharp
                                 : Icons.bookmark_outline_sharp),
                             padding: EdgeInsets.zero,
                             onPressed: () async {
-                              setState(() {
-                                isBookmarked = !isBookmarked;
-                              });
                               await toggleBookmark(widget.content.id);
+                              Provider.of<TagifyProvider>(context,
+                                      listen: false)
+                                  .fetchContents();
                             },
                           ),
                         ),
