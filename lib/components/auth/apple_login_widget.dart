@@ -7,7 +7,7 @@ import 'package:tagify/api/common.dart';
 import 'package:tagify/api/auth.dart';
 
 class AppleLoginWidget extends StatelessWidget {
-  AppleLoginWidget({super.key});
+  const AppleLoginWidget({super.key});
 
   Future<Map<String, dynamic>> _handleSignIn(BuildContext context) async {
     const String oauthProvider = "Apple";

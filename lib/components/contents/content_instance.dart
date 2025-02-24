@@ -46,7 +46,7 @@ class ContentInstanceState extends State<ContentInstance> {
           borderRadius: BorderRadius.circular(20.0),
           boxShadow: [
             BoxShadow(
-                color: const Color.fromARGB(255, 225, 225, 225),
+                color: contentInstanceBoxShadowColor,
                 blurRadius: 5.0,
                 spreadRadius: 0.01,
                 offset: Offset(0, 5)),
@@ -67,11 +67,19 @@ class ContentInstanceState extends State<ContentInstance> {
                   Row(
                     children: [
                       SizedBox(width: 5.0),
-                      widget.content is Video
-                          ? Text("🔥", style: TextStyle(fontSize: 15.0))
-                          : Text("📋", style: TextStyle(fontSize: 15.0)),
+                      widget.content.favicon != ""
+                          ? CachedNetworkImage(
+                              imageUrl: widget.content.favicon,
+                              height: 17.0,
+                              fadeInDuration: Duration.zero,
+                              fadeOutDuration: Duration.zero,
+                            )
+                          : Text("🤔", style: TextStyle(fontSize: 17.0)),
+                      widget.content.favicon != ""
+                          ? SizedBox(width: 7.0)
+                          : SizedBox.shrink(),
                       SizedBox(
-                        width: widget.instanceWidth * (0.7),
+                        width: widget.instanceWidth * (0.68),
                         child: GlobalText(
                           localizeText: widget.content.title,
                           textSize: 15.0,
@@ -100,7 +108,6 @@ class ContentInstanceState extends State<ContentInstance> {
                             setState(() {
                               isBookMarked = !isBookMarked;
                             });
-                            // TODO: 즐겨찾기 로직 추가
                             await toggleBookmark(widget.content.id);
                           },
                         ),
@@ -113,7 +120,6 @@ class ContentInstanceState extends State<ContentInstance> {
                           icon: Icon(Icons.more_vert_sharp),
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            // TODO
                             showModalBottomSheet(
                               backgroundColor: whiteBackgroundColor,
                               context: context,
@@ -142,12 +148,12 @@ class ContentInstanceState extends State<ContentInstance> {
                                       leading: Padding(
                                         padding: EdgeInsets.only(left: 10.0),
                                         child: Icon(CupertinoIcons.delete,
-                                            color: Colors.red),
+                                            color: mainColor),
                                       ),
                                       title: GlobalText(
                                         localizeText: 'content_instance_delete',
                                         textSize: 15.0,
-                                        textColor: Colors.red,
+                                        textColor: mainColor,
                                       ),
                                       onTap: () async {
                                         // TODO: 삭제 전 모달 띄우기
@@ -199,8 +205,17 @@ class ContentInstanceState extends State<ContentInstance> {
                             ? CachedNetworkImage(
                                 imageUrl: widget.content.thumbnail,
                                 fit: BoxFit.cover,
+                                fadeInDuration: Duration.zero,
+                                fadeOutDuration: Duration.zero,
                               )
-                            : SizedBox.expand(),
+                            : Expanded(
+                                child: Container(
+                                  color: contentInstanceNoThumbnailColor,
+                                  child: Center(
+                                      child: Text("🙂‍↔️",
+                                          style: TextStyle(fontSize: 30.0))),
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -252,6 +267,10 @@ class TagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (tagName == "None") {
+      return SizedBox.shrink();
+    }
+
     return Padding(
       padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
       child: Container(
@@ -270,6 +289,7 @@ class TagContainer extends StatelessWidget {
               localizeText: tagName,
               textSize: 10.0,
               textColor: contentInstanceTagTextColor,
+              isBold: true,
               localization: false,
             ),
           ),

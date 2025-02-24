@@ -5,6 +5,7 @@ class Content {
   final String url;
   final String title;
   final String thumbnail;
+  final String favicon;
   final String description;
   final bool bookmark;
   final List<String> tags;
@@ -15,6 +16,7 @@ class Content {
       required this.url,
       required this.title,
       required this.thumbnail,
+      required this.favicon,
       required this.description,
       required this.bookmark,
       required this.tags,
@@ -32,10 +34,11 @@ class Content {
           id: json["id"],
           url: json["url"],
           title: json["title"],
-          thumbnail: json["thumbnail"] ?? '',
+          thumbnail: json["thumbnail"],
+          favicon: json["favicon"],
           description: json["description"],
           bookmark: json["bookmark"],
-          tags: List<String>.from(json["tags"] ?? []),
+          tags: List<String>.from(json["tags"]),
           type: contentType,
         );
     }
@@ -51,6 +54,7 @@ class Video extends Content {
       required super.url,
       required super.title,
       required super.thumbnail,
+      required super.favicon,
       required super.description,
       required super.bookmark,
       required super.tags,
@@ -60,13 +64,14 @@ class Video extends Content {
     String contentType = json["type"].toString();
     return Video(
       id: json["id"],
-      url: json["url"] ?? "",
+      url: json["url"],
       title: json["title"],
-      length: json["video_length"] ?? 0,
-      thumbnail: json["thumbnail"] ?? "",
+      length: json["video_length"],
+      thumbnail: json["thumbnail"],
+      favicon: json["favicon"],
       description: json["description"],
       bookmark: json["bookmark"],
-      tags: List<String>.from(json["tags"] ?? []),
+      tags: List<String>.from(json["tags"]),
       type: contentType,
     );
   }
@@ -81,6 +86,7 @@ class Post extends Content {
       required super.url,
       required super.title,
       required super.thumbnail,
+      required super.favicon,
       required super.description,
       required super.bookmark,
       required super.tags,
@@ -92,11 +98,14 @@ class Post extends Content {
       id: json["id"],
       url: json["url"],
       title: json["title"],
-      body: json["body"] ?? "",
-      thumbnail: json["thumbnail"] ?? "",
-      description: json["description"] ?? "",
+      body: json["body"],
+      thumbnail: json["thumbnail"],
+      favicon: json["favicon"],
+      description: json["description"],
       bookmark: json["bookmark"],
-      tags: List<String>.from(json["tags"] ?? []),
+      tags: List<String>.from(
+        json["tags"],
+      ),
       type: contentType,
     );
   }

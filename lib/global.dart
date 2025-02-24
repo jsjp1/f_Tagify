@@ -13,6 +13,10 @@ const Color navigationSearchBarColor = Colors.white70;
 const Color contentInstanceTagTextColor = Colors.indigo;
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
+const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
+const Color contentInstanceNoThumbnailColor =
+    Color.fromARGB(200, 255, 255, 255);
+const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

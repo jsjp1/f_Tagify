@@ -26,5 +26,10 @@
   "analyze_screen_invalid_url": "잘못된 링크 형식입니다",
   "analyze_screen_already_exists": "이미 존재하는 콘텐츠입니다",
   "analyze_screen_title": "제목",
-  "analyze_screen_description": "설명"
+  "analyze_screen_description": "설명",
+  "analyze_screen_tags": "태그",
+
+  "content_edit_widget_no_more_tags_error": "태그는 3개까지 허용됩니다",
+  "content_edit_widget_save_tag_name": "태그를 지정해주세요",
+  "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다"
 }

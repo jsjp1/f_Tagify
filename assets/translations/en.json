@@ -26,5 +26,10 @@
   "analyze_screen_invalid_url": "Invalid link format",
   "analyze_screen_already_exists": "Content already exists",
   "analyze_screen_title": "Title",
-  "analyze_screen_description": "Description"
+  "analyze_screen_description": "Description",
+  "analyze_screen_tags": "Tags",
+
+  "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
+  "content_edit_widget_save_tag_name": "New Tag",
+  "content_edit_widget_no_tags_error": "At least one tag must be specified"
 }

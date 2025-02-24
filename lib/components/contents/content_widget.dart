@@ -2,49 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/contents/content_instance.dart';
-import 'package:tagify/api/common.dart';
-import 'package:tagify/api/content.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/provider.dart';
 
 class ContentWidget extends StatefulWidget {
   final int userId;
   final GlobalKey<ContentWidgetState>? key;
 
-  ContentWidget({this.key, required this.userId}) : super(key: key);
+  const ContentWidget({this.key, required this.userId}) : super(key: key);
 
   @override
   ContentWidgetState createState() => ContentWidgetState();
 }
 
 class ContentWidgetState extends State<ContentWidget> {
-  late Future<ApiResponse<List<Content>>> _futureContents;
-
   @override
   void initState() {
     super.initState();
-    _futureContents = fetchUserContents(widget.userId);
-  }
-
-  Future<void> refreshContents(String currentTag) async {
-    switch (currentTag) {
-      case "all":
-        setState(() {
-          _futureContents = fetchUserContents(widget.userId);
-        });
-        break;
-      case "bookmark":
-        setState(() {
-          _futureContents = fetchBookmarkContents(widget.userId);
-        });
-        break;
-      default:
-        setState(() {
-          // TODO: 특정 태그 입력 -> 해당 태그의 콘텐츠 불러오기
-        });
-        break;
-    }
+    final TagifyProvider _provider =
+        Provider.of<TagifyProvider>(context, listen: false);
+    _provider.setUserId(widget.userId);
   }
 
   @override
@@ -53,48 +30,21 @@ class ContentWidgetState extends State<ContentWidget> {
     TagifyProvider provider = context.watch<TagifyProvider>();
 
     return RefreshIndicator.adaptive(
-      elevation: 30.0,
-      displacement: 10.0,
-      edgeOffset: -10.0,
-      backgroundColor: Colors.transparent,
-      color: Colors.black,
-      onRefresh: () => refreshContents(provider.currentTag),
-      child: FutureBuilder<ApiResponse<List<Content>>>(
-        future: _futureContents,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container();
-          } else if (snapshot.hasError ||
-              snapshot.data == null ||
-              !snapshot.data!.success) {
-            return Center(
+      onRefresh: provider.fetchContents,
+      child: provider.contents.isEmpty
+          ? Center(
               child: GlobalText(
-                localizeText: "content_widget_failure",
+                localizeText: "content_widget_empty",
                 textSize: 15.0,
                 isBold: true,
                 textColor: Colors.black,
                 overflow: TextOverflow.clip,
               ),
-            );
-          } else {
-            List<Content> contents = snapshot.data!.data ?? [];
-
-            if (contents.isEmpty) {
-              return Center(
-                child: GlobalText(
-                  localizeText: "content_widget_empty",
-                  textSize: 15.0,
-                  isBold: true,
-                  textColor: Colors.black,
-                  overflow: TextOverflow.clip,
-                ),
-              );
-            }
-            // 콘텐츠 인스턴스 띄우는 부분
-            return ListView.builder(
-              itemCount: contents.length + 1,
+            )
+          : ListView.builder(
+              itemCount: provider.contents.length + 1,
               itemBuilder: (BuildContext ctx, int idx) {
-                if (idx == contents.length) {
+                if (idx == provider.contents.length) {
                   return Align(
                     alignment: Alignment.topCenter,
                     child: Container(
@@ -102,9 +52,7 @@ class ContentWidgetState extends State<ContentWidget> {
                       alignment: Alignment.center,
                       height: 75.0,
                       child: GlobalText(
-                        isBold: false,
                         localizeText: "content_widget_end",
-                        overflow: TextOverflow.clip,
                         textColor: Colors.grey,
                         textSize: 15.0,
                       ),
@@ -114,14 +62,11 @@ class ContentWidgetState extends State<ContentWidget> {
                 return ContentInstance(
                   instanceWidth: widgetWidth,
                   instanceHeight: 150.0,
-                  content: contents[idx],
-                  onDelete: () => refreshContents(provider.currentTag),
+                  content: provider.contents[idx],
+                  onDelete: provider.fetchContents,
                 );
               },
-            );
-          }
-        },
-      ),
+            ),
     );
   }
 }

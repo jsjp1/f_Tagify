@@ -38,9 +38,7 @@ class TagBarState extends State<TagBar> {
               SizedBox(width: 10.0),
               GestureDetector(
                 onTap: () async {
-                  provider.changeTag("all");
-                  await widget.contentWidgetKey.currentState
-                      ?.refreshContents(provider.currentTag);
+                  provider.setTag("all");
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
@@ -50,9 +48,7 @@ class TagBarState extends State<TagBar> {
               ),
               GestureDetector(
                 onTap: () async {
-                  provider.changeTag("bookmark");
-                  await widget.contentWidgetKey.currentState
-                      ?.refreshContents(provider.currentTag);
+                  provider.setTag("bookmark");
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",

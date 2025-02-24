@@ -45,8 +45,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
       ApiResponse<Map<String, dynamic>> loginResponse =
           await login(user.id, user.email);
 
-      if (loginResponse.errorMessage == "failure" ||
-          loginResponse.errorMessage == "network_error") {
+      if (loginResponse.statusCode == 500) {
         // 회원이 존재하지 않는 경우, 회원가입 후 다시 로그인
         final ApiResponse<Map<String, dynamic>> signupResponse = await signup({
           "username": user.displayName ?? "Unknown",
@@ -56,7 +55,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
           "profile_image": user.photoUrl ?? "",
         });
 
-        if (signupResponse.errorMessage == "error") {
+        if (signupResponse.statusCode == 500) {
           debugPrint("Signup failed: status_code ${signupResponse.statusCode}");
           return {};
         }

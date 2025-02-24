@@ -73,38 +73,38 @@ class TagifyAppBar extends StatelessWidget {
       items: [
         PopupMenuItem(
           height: 50,
-          child: SizedBox(
-            width: 100,
-            child: ListTile(
-              hoverColor: Colors.transparent,
-              leading: const Icon(CupertinoIcons.settings_solid),
-              title: GlobalText(
+          child: ListTile(
+            hoverColor: Colors.transparent,
+            leading: const Icon(CupertinoIcons.settings_solid),
+            title: SizedBox(
+              width: 100.0,
+              child: GlobalText(
                 localizeText: "profile_button_settings",
                 textSize: 15.0,
               ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, "/settings");
-              },
             ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, "/settings");
+            },
           ),
         ),
         PopupMenuItem(
           height: 50,
-          child: SizedBox(
-            width: 100,
-            child: ListTile(
-              hoverColor: Colors.transparent,
-              leading: const Icon(CupertinoIcons.arrow_right),
-              title: GlobalText(
+          child: ListTile(
+            hoverColor: Colors.transparent,
+            leading: const Icon(CupertinoIcons.arrow_right),
+            title: SizedBox(
+              width: 100.0,
+              child: GlobalText(
                 localizeText: "profile_button_logout",
                 textSize: 15.0,
               ),
-              onTap: () async {
-                Navigator.pop(context);
-                await logout(context);
-              },
             ),
+            onTap: () async {
+              Navigator.pop(context);
+              await logout(context);
+            },
           ),
         ),
       ],

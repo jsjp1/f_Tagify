@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/search_bar.dart';
@@ -8,7 +7,6 @@ import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
-import 'package:tagify/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   Map<String, dynamic> loginResponse;

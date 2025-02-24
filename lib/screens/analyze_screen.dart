@@ -39,6 +39,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
     final double pageWidth = MediaQuery.of(context).size.width * (0.9);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,

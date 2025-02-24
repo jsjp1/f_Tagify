@@ -73,7 +73,7 @@ class TagifyNavigationBar extends StatelessWidget {
         Positioned(
           bottom: 35,
           left: MediaQuery.of(context).size.width / 2 - 35,
-          child: Container(
+          child: SizedBox(
             width: 70,
             height: 70,
             child: FloatingActionButton(

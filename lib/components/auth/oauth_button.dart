@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/global.dart';
-import 'package:tagify/provider.dart';
 import 'package:tagify/api/content.dart';
 
 class AuthButton extends StatelessWidget {
@@ -28,15 +26,15 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final double buttonWidth = MediaQuery.of(context).size.width * (0.8);
     final double buttonHeight = 70;
-    TagifyProvider provider = context.watch<TagifyProvider>();
 
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: GestureDetector(
         onTap: () async {
           Map<String, dynamic> loginResponse = await loginFunction();
+          debugPrint("oauth_button.dart: $loginResponse");
 
-          if (loginResponse != {}) {
+          if (loginResponse.isNotEmpty) {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
             String loginResponseString = jsonEncode(loginResponse);
