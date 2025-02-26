@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/search_bar.dart';
@@ -7,6 +8,7 @@ import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
+import 'package:tagify/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   Map<String, dynamic> loginResponse;
@@ -22,13 +24,23 @@ class HomeScreenState extends State<HomeScreen> {
       ContentWidgetState>(); // contentWidget의 refreshContents 다른 곳에서 사용하기 위해
 
   @override
+  void initState() {
+    super.initState();
+    final TagifyProvider _provider =
+        Provider.of<TagifyProvider>(context, listen: false);
+    _provider.setUserInfo(widget.loginResponse);
+  }
+
+  @override
   Widget build(BuildContext context) {
     String? currentRoute = ModalRoute.of(context)?.settings.name;
+    TagifyProvider provider = context.watch<TagifyProvider>();
 
     final Object? args = ModalRoute.of(context)?.settings.arguments;
     if (args is Map<String, dynamic>) {
       // login으로 넘어오는 경우
       widget.loginResponse = args;
+      provider.setUserInfo(args);
     }
 
     debugPrint("home_screen.dart: current page: $currentRoute");
@@ -48,7 +60,7 @@ class HomeScreenState extends State<HomeScreen> {
                 children: [
                   TagifyAppBar(
                       profileImage:
-                          widget.loginResponse["profile_image"] ?? ""),
+                          provider.loginResponse!["profile_image"] ?? ""),
                   Expanded(
                     child: NestedScrollView(
                       headerSliverBuilder:
@@ -66,7 +78,7 @@ class HomeScreenState extends State<HomeScreen> {
                             pinned: true,
                             floating: false,
                             delegate: _TagBarDelegate(
-                              userId: widget.loginResponse["id"],
+                              userId: provider.loginResponse!["id"],
                               contentWidgetKey: contentWidgetKey,
                             ),
                           ),
@@ -74,7 +86,7 @@ class HomeScreenState extends State<HomeScreen> {
                       },
                       body: ContentWidget(
                         key: contentWidgetKey,
-                        userId: widget.loginResponse["id"],
+                        userId: provider.loginResponse!["id"],
                       ),
                     ),
                   ),
@@ -84,9 +96,7 @@ class HomeScreenState extends State<HomeScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: TagifyNavigationBar(
-                  loginResponse: widget.loginResponse,
-                ),
+                child: TagifyNavigationBar(),
               ),
             ],
           ),

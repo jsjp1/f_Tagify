@@ -2,19 +2,31 @@ import 'package:flutter/material.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/content.dart';
+import 'package:tagify/api/tag.dart';
 import 'package:tagify/components/contents/common.dart';
 
 class TagifyProvider extends ChangeNotifier {
   int? _userId;
   String _currentTag = "all";
   List<Content> _contents = [];
+  List<Tag> _tags = [];
+  Map<String, dynamic>? _loginResponse;
 
   String get currentTag => _currentTag;
   List<Content> get contents => _contents;
+  List<Tag> get tags => _tags;
+  Map<String, dynamic>? get loginResponse => _loginResponse;
 
   void setUserId(int userId) {
     _userId = userId;
     fetchContents();
+    fetchTags();
+  }
+
+  void setUserInfo(Map<String, dynamic> loginResponse) {
+    _loginResponse = loginResponse;
+    fetchContents();
+    fetchTags();
   }
 
   void setTag(String newTag) {
@@ -26,22 +38,34 @@ class TagifyProvider extends ChangeNotifier {
   Future<void> fetchContents() async {
     if (_userId == null) return;
 
-    ApiResponse<List<Content>> response;
+    ApiResponse<List<Content>> contentsResponse;
     switch (_currentTag) {
       case "all":
-        response = await fetchUserContents(_userId!);
+        contentsResponse = await fetchUserContents(_userId!);
         break;
       case "bookmark":
-        response = await fetchBookmarkContents(_userId!);
+        contentsResponse = await fetchBookmarkContents(_userId!);
         break;
       default:
         // TODO: 특정 태그 콘텐츠만 불러오기
-        response = await fetchUserContents(_userId!);
+        contentsResponse = await fetchUserContents(_userId!);
         break;
     }
 
-    if (response.success) {
-      _contents = response.data ?? [];
+    if (contentsResponse.success) {
+      _contents = contentsResponse.data ?? [];
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchTags() async {
+    if (_userId == null) return;
+
+    ApiResponse<List<Tag>> tagsResponse;
+    tagsResponse = await fetchUserTags(_userId!);
+
+    if (tagsResponse.success) {
+      _tags = tagsResponse.data ?? [];
       notifyListeners();
     }
   }

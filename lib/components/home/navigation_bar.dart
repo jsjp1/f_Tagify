@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
-  final Map<String, dynamic> loginResponse;
-
   const TagifyNavigationBar({
     super.key,
-    required this.loginResponse,
   });
 
   @override
   Widget build(BuildContext context) {
+    final TagifyProvider provider = context.watch<TagifyProvider>();
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -37,7 +38,8 @@ class TagifyNavigationBar extends StatelessWidget {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              HomeScreen(loginResponse: loginResponse),
+                              HomeScreen(
+                                  loginResponse: provider.loginResponse!),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),
@@ -58,7 +60,7 @@ class TagifyNavigationBar extends StatelessWidget {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              TagScreen(loginResponse: loginResponse),
+                              TagScreen(),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),
@@ -82,7 +84,7 @@ class TagifyNavigationBar extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                        AnalyzeScreen(loginResponse: loginResponse),
+                        AnalyzeScreen(loginResponse: provider.loginResponse!),
                     transitionDuration: Duration(milliseconds: 300),
                     reverseTransitionDuration: Duration(milliseconds: 300),
                     transitionsBuilder:

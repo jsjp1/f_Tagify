@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/components/tag/tag_box_instance.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class TagScreen extends StatefulWidget {
-  final Map<String, dynamic> loginResponse;
-  const TagScreen({super.key, required this.loginResponse});
+  const TagScreen({super.key});
 
   @override
   TagScreenState createState() => TagScreenState();
@@ -16,13 +17,7 @@ class TagScreen extends StatefulWidget {
 class TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
-    List<String> tags = [
-      "Tag1",
-      "Tag2",
-      "Tag3",
-      "Tag4",
-      "Tag5",
-    ]; // 예제 태그 리스트
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
@@ -37,7 +32,7 @@ class TagScreenState extends State<TagScreen> {
                 children: [
                   TagifyAppBar(
                       profileImage:
-                          widget.loginResponse["profile_image"] ?? ""),
+                          provider.loginResponse!["profile_image"] ?? ""),
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.all(30.0),
@@ -48,9 +43,26 @@ class TagScreenState extends State<TagScreen> {
                               crossAxisSpacing: 15.0,
                               mainAxisSpacing: 15.0,
                               childAspectRatio: 1.5),
-                      itemCount: tags.length,
+                      itemCount: provider.tags.length + 1,
                       itemBuilder: (context, index) {
-                        return TagBoxInstance(tagName: tags[index]);
+                        if (index == 0) {
+                          return TagBoxInstance(
+                            tagName: "+",
+                            isTagAddFolder: true,
+                            onTap: () {
+                              // TODO: Tag Screen
+                            },
+                          );
+                        }
+
+                        return TagBoxInstance(
+                          tagName: provider.tags[index - 1].tagName,
+                          isTagAddFolder: false,
+                          onTap: () {
+                            // TODO: Tag Screen
+                            debugPrint("TagName: ${provider.tags[index]}");
+                          },
+                        );
                       },
                     ),
                   )),
@@ -60,9 +72,7 @@ class TagScreenState extends State<TagScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: TagifyNavigationBar(
-                  loginResponse: widget.loginResponse,
-                ),
+                child: TagifyNavigationBar(),
               ),
             ],
           ),

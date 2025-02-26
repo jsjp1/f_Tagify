@@ -23,3 +23,20 @@ class ApiResponse<T> {
     return ApiResponse(success: false, statusCode: 200);
   }
 }
+
+class Tag {
+  final String tagName;
+  final int id;
+
+  const Tag({
+    required this.tagName,
+    required this.id,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      id: json["tag_id"],
+      tagName: json["tag"],
+    );
+  }
+}

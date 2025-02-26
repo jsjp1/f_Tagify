@@ -76,7 +76,7 @@ class App extends StatelessWidget {
           "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
           "/analyze": (context) =>
               AnalyzeScreen(loginResponse: initialLoginResponse),
-          "/tag": (context) => TagScreen(loginResponse: initialLoginResponse),
+          "/tag": (context) => TagScreen(),
           "/auth": (context) => const AuthScreen(),
           "/settings": (context) => const SettingsScreen(),
         },

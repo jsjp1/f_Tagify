@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Content {
   final int id;
   final String url;

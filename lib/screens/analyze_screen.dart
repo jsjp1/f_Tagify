@@ -29,7 +29,6 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
     final result = await analyzeContent(
         widget.loginResponse["id"], url, lang, contentType);
     setState(() {
-      // _futureContent =
       futureContent = result;
     });
   }

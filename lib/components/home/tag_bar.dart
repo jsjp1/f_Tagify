@@ -26,7 +26,7 @@ class TagBarState extends State<TagBar> {
 
   @override
   Widget build(BuildContext context) {
-    TagifyProvider provider = context.watch<TagifyProvider>();
+    final TagifyProvider provider = context.watch<TagifyProvider>();
 
     return Column(
       children: [

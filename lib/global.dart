@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 const Color mainColor = Color.fromARGB(255, 205, 20, 31);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black;
-const Color noticeWidgetColor = Color.fromARGB(255, 244, 244, 244);
+const Color noticeWidgetColor = Color.fromARGB(255, 239, 239, 239);
 const Color timeContainerColor = Color.fromARGB(200, 225, 225, 225);
 const Color tagColor = Color.fromARGB(255, 50, 50, 50);
 const Color containerTitleColor = Color.fromARGB(255, 78, 78, 78);
@@ -17,6 +17,7 @@ const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
 const Color contentInstanceNoThumbnailColor =
     Color.fromARGB(200, 255, 255, 255);
 const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);
+const Color tagFolderColor = Color.fromARGB(155, 191, 191, 191);
 
 class GlobalText extends StatelessWidget {
   final String localizeText;
