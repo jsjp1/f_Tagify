@@ -12,7 +12,7 @@ Future<void> loadAuthToken(String token) async {
 
 Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
   final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/contents/user/all?user_id=$userId";
+      "${dotenv.get("SERVER_HOST")}/api/contents/user/$userId/all";
 
   try {
     final response = await ApiClient.dio.get(serverHost);
@@ -122,7 +122,7 @@ Future<ApiResponse<int>> saveContent(
 
 Future<ApiResponse<List<Video>>> fetchUserVideos(int userId) async {
   final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/contents/user/sub&content_type=video&user_id=$userId";
+      "${dotenv.get("SERVER_HOST")}/api/contents/user/$userId/sub?content_type=video";
 
   try {
     final response = await ApiClient.dio.get(serverHost);

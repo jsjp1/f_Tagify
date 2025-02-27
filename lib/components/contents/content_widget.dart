@@ -5,6 +5,7 @@ import 'package:tagify/components/contents/content_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
+// TODO: content, tagged content, ... 구분해서 나열 가능하게..
 class ContentWidget extends StatefulWidget {
   final int userId;
   final GlobalKey<ContentWidgetState>? key;

@@ -11,6 +11,7 @@ class TagifyProvider extends ChangeNotifier {
   List<Content> _contents = [];
   List<Tag> _tags = [];
   Map<String, dynamic>? _loginResponse;
+  final Map<String, int> _tagNameIdMap = {};
 
   String get currentTag => _currentTag;
   List<Content> get contents => _contents;
@@ -48,7 +49,8 @@ class TagifyProvider extends ChangeNotifier {
         break;
       default:
         // TODO: 특정 태그 콘텐츠만 불러오기
-        contentsResponse = await fetchUserContents(_userId!);
+        contentsResponse =
+            await fetchUserTagAllContents(_tagNameIdMap[_currentTag]!);
         break;
     }
 
@@ -66,6 +68,10 @@ class TagifyProvider extends ChangeNotifier {
 
     if (tagsResponse.success) {
       _tags = tagsResponse.data ?? [];
+
+      for (var tag in tags) {
+        _tagNameIdMap[tag.tagName] = tag.id;
+      }
       notifyListeners();
     }
   }

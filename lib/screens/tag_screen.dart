@@ -65,6 +65,9 @@ class TagScreenState extends State<TagScreen> {
                               return TagBoxInstance(
                                 tag: provider.tags[index - 1],
                                 onTap: () {
+                                  provider
+                                      .setTag(provider.tags[index - 1].tagName);
+
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
