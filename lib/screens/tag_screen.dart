@@ -8,6 +8,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/tag.dart';
 import 'package:tagify/components/analyze/new_tag_modal.dart';
+import 'package:tagify/screens/tag_detail_screen.dart';
 
 class TagScreen extends StatefulWidget {
   const TagScreen({super.key});
@@ -19,8 +20,6 @@ class TagScreen extends StatefulWidget {
 class TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
-
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
       body: SafeArea(
@@ -32,9 +31,7 @@ class TagScreenState extends State<TagScreen> {
             children: [
               Column(
                 children: [
-                  TagifyAppBar(
-                      profileImage:
-                          provider.loginResponse!["profile_image"] ?? ""),
+                  TagifyAppBar(),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(30.0),
@@ -51,12 +48,11 @@ class TagScreenState extends State<TagScreen> {
                             itemBuilder: (context, index) {
                               if (index == 0) {
                                 return TagBoxInstance(
-                                  tagName: "+",
-                                  isTagAddFolder: true,
+                                  tag: null,
                                   onTap: () async {
                                     setTagBottomModal(context,
                                         (String newTag) async {
-                                      final newTagId = await postTag(
+                                      final response = await postTag(
                                           provider.loginResponse!["id"],
                                           newTag);
 
@@ -67,12 +63,13 @@ class TagScreenState extends State<TagScreen> {
                               }
 
                               return TagBoxInstance(
-                                tagName: provider.tags[index - 1].tagName,
-                                isTagAddFolder: false,
+                                tag: provider.tags[index - 1],
                                 onTap: () {
-                                  // TODO: Tag Screen
-                                  debugPrint(
-                                      "TagName: ${provider.tags[index - 1].tagName}");
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => TagDetailScreen(
+                                              tag: provider.tags[index - 1])));
                                 },
                               );
                             },

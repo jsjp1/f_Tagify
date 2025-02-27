@@ -122,8 +122,8 @@ class ContentInstanceState extends State<ContentInstance> {
                             highlightColor: Colors.transparent,
                             icon: Icon(Icons.more_vert_sharp),
                             padding: EdgeInsets.zero,
-                            onPressed: () {
-                              showModalBottomSheet(
+                            onPressed: () async {
+                              await showModalBottomSheet(
                                 backgroundColor: whiteBackgroundColor,
                                 context: context,
                                 shape: RoundedRectangleBorder(
@@ -133,43 +133,56 @@ class ContentInstanceState extends State<ContentInstance> {
                                 builder: (BuildContext context) {
                                   return Wrap(
                                     children: [
-                                      ListTile(
-                                        leading: Padding(
-                                          padding: EdgeInsets.only(left: 10.0),
-                                          child: Icon(CupertinoIcons.pencil),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            5.0, 10.0, 10.0, 0.0),
+                                        child: ListTile(
+                                          leading: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
+                                            child: Icon(Icons.edit),
+                                          ),
+                                          title: GlobalText(
+                                            localizeText:
+                                                "content_instance_edit",
+                                            textSize: 17.0,
+                                            isBold: true,
+                                          ),
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                            // TODO: 수정 로직 추가
+                                          },
                                         ),
-                                        title: GlobalText(
-                                          localizeText: 'content_instance_edit',
-                                          textSize: 15.0,
-                                        ),
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                          // TODO: 수정 로직 추가
-                                        },
                                       ),
-                                      ListTile(
-                                        leading: Padding(
-                                          padding: EdgeInsets.only(left: 10.0),
-                                          child: Icon(CupertinoIcons.delete,
-                                              color: mainColor),
-                                        ),
-                                        title: GlobalText(
-                                          localizeText:
-                                              'content_instance_delete',
-                                          textSize: 15.0,
-                                          textColor: mainColor,
-                                        ),
-                                        onTap: () async {
-                                          // TODO: 삭제 전 모달 띄우기
-                                          ApiResponse<void> _ =
-                                              await deleteContent(
-                                                  widget.content.id);
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            5.0, 10.0, 10.0, 0.0),
+                                        child: ListTile(
+                                          leading: Padding(
+                                            padding:
+                                                EdgeInsets.only(left: 10.0),
+                                            child: Icon(CupertinoIcons.delete,
+                                                color: mainColor),
+                                          ),
+                                          title: GlobalText(
+                                            localizeText:
+                                                "content_instance_delete",
+                                            textSize: 17.0,
+                                            textColor: mainColor,
+                                            isBold: true,
+                                          ),
+                                          onTap: () async {
+                                            // TODO: 삭제 전 모달 띄우기
+                                            ApiResponse<void> _ =
+                                                await deleteContent(
+                                                    widget.content.id);
 
-                                          await provider.fetchContents();
-                                          await provider.fetchTags();
+                                            await provider.fetchContents();
+                                            await provider.fetchTags();
 
-                                          Navigator.pop(context);
-                                        },
+                                            Navigator.pop(context);
+                                          },
+                                        ),
                                       ),
                                       SizedBox(height: 100.0),
                                     ],

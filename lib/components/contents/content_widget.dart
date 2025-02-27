@@ -32,13 +32,16 @@ class ContentWidgetState extends State<ContentWidget> {
     return RefreshIndicator.adaptive(
       onRefresh: provider.fetchContents,
       child: provider.contents.isEmpty
-          ? Center(
-              child: GlobalText(
-                localizeText: "content_widget_empty",
-                textSize: 15.0,
-                isBold: true,
-                textColor: Colors.black,
-                overflow: TextOverflow.clip,
+          ? Padding(
+              padding: EdgeInsets.only(bottom: navigationBarHeight),
+              child: Center(
+                child: GlobalText(
+                  localizeText: "content_widget_empty",
+                  textSize: 15.0,
+                  isBold: false,
+                  textColor: Colors.grey,
+                  overflow: TextOverflow.clip,
+                ),
               ),
             )
           : ListView.builder(

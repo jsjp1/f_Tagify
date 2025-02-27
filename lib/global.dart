@@ -18,7 +18,13 @@ const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
 const Color contentInstanceNoThumbnailColor =
     Color.fromARGB(200, 255, 255, 255);
 const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);
-const Color tagFolderColor = Color.fromARGB(155, 191, 191, 191);
+const Color defaultTagFolderColor = Color.fromARGB(155, 191, 191, 191);
+const Color snackBarColor = Color.fromARGB(255, 111, 111, 111);
+
+// widget height
+const double appBarHeight = 60.0;
+const double navigationBarHeight = 90.0;
+const double logoImageHeight = 40.0;
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

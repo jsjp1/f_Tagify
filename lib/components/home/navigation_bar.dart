@@ -22,7 +22,7 @@ class TagifyNavigationBar extends StatelessWidget {
       children: [
         Container(
           width: double.infinity,
-          height: 90.0,
+          height: navigationBarHeight,
           color: whiteBackgroundColor,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

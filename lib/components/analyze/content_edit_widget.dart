@@ -206,6 +206,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
+                                          backgroundColor: snackBarColor,
                                           content: GlobalText(
                                               localizeText:
                                                   "content_edit_widget_no_more_tags_error",
@@ -256,6 +257,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   if (tags.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
+                        backgroundColor: snackBarColor,
                         content: GlobalText(
                             localizeText: "content_edit_widget_no_tags_error",
                             textSize: 15.0),

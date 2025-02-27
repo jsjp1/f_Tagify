@@ -58,9 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TagifyAppBar(
-                      profileImage:
-                          provider.loginResponse!["profile_image"] ?? ""),
+                  TagifyAppBar(),
                   Expanded(
                     child: NestedScrollView(
                       headerSliverBuilder:

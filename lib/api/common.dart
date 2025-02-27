@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class ApiResponse<T> {
   final T? data;
   final String? errorMessage;
@@ -27,16 +29,19 @@ class ApiResponse<T> {
 class Tag {
   final String tagName;
   final int id;
+  final Color color;
 
   const Tag({
     required this.tagName,
     required this.id,
+    required this.color,
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       id: json["tag_id"],
       tagName: json["tag"],
+      color: Color(json["color"]),
     );
   }
 }

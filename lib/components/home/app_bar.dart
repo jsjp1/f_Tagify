@@ -1,20 +1,22 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/api/auth.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class TagifyAppBar extends StatelessWidget {
-  final String profileImage;
-
-  const TagifyAppBar({super.key, required this.profileImage});
+  const TagifyAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
     return Container(
       width: double.infinity,
-      height: 60,
+      height: appBarHeight,
       color: whiteBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       alignment: Alignment.centerLeft,
@@ -24,8 +26,10 @@ class TagifyAppBar extends StatelessWidget {
           Row(
             children: [
               Image.asset(
-                "assets/app_main_icons_1024_1024.png",
-                height: 40.0,
+                "assets/img/app_logo_white.png",
+                height: logoImageHeight,
+                color: mainColor,
+                colorBlendMode: BlendMode.srcIn,
               ),
               GlobalText(
                 localizeText: "Tagify",
@@ -47,8 +51,9 @@ class TagifyAppBar extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: (profileImage != "")
-                      ? CachedNetworkImageProvider(profileImage)
+                  image: provider.loginResponse!["profile_image"] != ""
+                      ? CachedNetworkImageProvider(
+                          provider.loginResponse!["profile_image"])
                       : AssetImage("assets/img/default_profile.png")
                           as ImageProvider,
                   fit: BoxFit.cover,
