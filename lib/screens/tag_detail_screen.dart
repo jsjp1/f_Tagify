@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +25,17 @@ class TagDetailScreenState extends State<TagDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 18.0, sigmaY: 18.0),
+            child: Container(
+              color: Colors.white.withAlpha(160),
+            ),
+          ),
+        ),
+        elevation: 0.0,
         toolbarHeight: appBarHeight,
-        backgroundColor: whiteBackgroundColor,
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(CupertinoIcons.back),
           onPressed: () {

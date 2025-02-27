@@ -171,7 +171,7 @@ class TagBoxInstance extends StatelessWidget {
                                                     localizeText:
                                                         "tag_box_instance_cant_delete",
                                                     textSize: 15.0),
-                                                duration: Duration(seconds: 2),
+                                                duration: Duration(seconds: 1),
                                               ),
                                             );
                                             return;
