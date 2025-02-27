@@ -5,7 +5,6 @@ import 'package:tagify/components/contents/content_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
-// TODO: content, tagged content, ... 구분해서 나열 가능하게..
 class ContentWidget extends StatefulWidget {
   final int userId;
   final GlobalKey<ContentWidgetState>? key;
@@ -17,14 +16,6 @@ class ContentWidget extends StatefulWidget {
 }
 
 class ContentWidgetState extends State<ContentWidget> {
-  @override
-  void initState() {
-    super.initState();
-    final TagifyProvider _provider =
-        Provider.of<TagifyProvider>(context, listen: false);
-    _provider.setUserId(widget.userId);
-  }
-
   @override
   Widget build(BuildContext context) {
     final double widgetWidth = MediaQuery.of(context).size.width * (0.9);

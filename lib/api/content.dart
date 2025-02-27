@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:tagify/api/common.dart';
@@ -7,6 +8,7 @@ import 'package:tagify/components/contents/common.dart';
 String? authToken;
 
 Future<void> loadAuthToken(String token) async {
+  debugPrint("Load Auth Token Success: $token");
   authToken = token;
 }
 

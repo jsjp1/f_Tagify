@@ -37,6 +37,7 @@ class TagifyAppBar extends StatelessWidget {
                 isBold: true,
                 textColor: Colors.black,
                 overflow: TextOverflow.clip,
+                localization: false,
               ),
             ],
           ),

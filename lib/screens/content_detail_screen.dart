@@ -81,91 +81,104 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                             fit: BoxFit.cover,
                           ), // TODO: 썸네일 없을 경우 기본 이미지 처리
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
-                    child: IconButton(
-                      highlightColor: Colors.transparent,
-                      icon: Icon(isBookmarked
-                          ? Icons.bookmark_sharp
-                          : Icons.bookmark_outline_sharp),
-                      padding: EdgeInsets.zero,
-                      onPressed: () async {
-                        setState(() {
-                          isBookmarked = !isBookmarked;
-                        });
-
-                        await toggleBookmark(content!.id);
-                        Provider.of<TagifyProvider>(context, listen: false)
-                            .fetchContents();
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * (0.85),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Column(
+              // thumbnail 아래 콘텐츠 설명 나열 부분
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: GlobalText(
-                              localizeText: content?.title ?? "",
-                              textSize: 20.0,
-                              isBold: true,
-                              overflow: TextOverflow.ellipsis,
+                            padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
+                            child: IconButton(
+                              highlightColor: Colors.transparent,
+                              icon: Icon(isBookmarked
+                                  ? Icons.bookmark_sharp
+                                  : Icons.bookmark_outline_sharp),
+                              padding: EdgeInsets.zero,
+                              onPressed: () async {
+                                setState(() {
+                                  isBookmarked = !isBookmarked;
+                                });
+
+                                await toggleBookmark(content!.id);
+                                Provider.of<TagifyProvider>(context,
+                                        listen: false)
+                                    .fetchContents();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * (0.85),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: GlobalText(
+                                      localizeText: content?.title ?? "",
+                                      textSize: 20.0,
+                                      isBold: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      localization: false,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              Center(
-                child: SizedBox(
-                  width: widgetWidget,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 30.0),
-                      GlobalText(
-                        localizeText: "content_detail_screen_description",
-                        textSize: 17.0,
-                        textColor: Colors.grey,
-                        localization: true,
-                      ),
-                      const SizedBox(height: 17.0),
-                      GlobalText(
-                        localizeText: content!.description,
-                        textSize: 13.0,
-                        localization: false,
-                      ),
-                      const SizedBox(height: 30.0),
-                      GlobalText(
-                        localizeText: "content_detail_screen_tags",
-                        textSize: 17.0,
-                        textColor: Colors.grey,
-                        localization: true,
-                      ),
-                      const SizedBox(height: 17.0),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: List.generate(
-                            content!.tags.length,
-                            (index) {
-                              return TagContainer(
-                                tagName: content!.tags[index],
-                                onPressed: () {},
-                                isLastButton: true,
-                              );
-                            },
+                      Center(
+                        child: SizedBox(
+                          width: widgetWidget,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 30.0),
+                              GlobalText(
+                                localizeText:
+                                    "content_detail_screen_description",
+                                textSize: 17.0,
+                                textColor: Colors.grey,
+                                localization: true,
+                              ),
+                              const SizedBox(height: 17.0),
+                              GlobalText(
+                                localizeText: content!.description,
+                                textSize: 13.0,
+                                localization: false,
+                              ),
+                              const SizedBox(height: 30.0),
+                              GlobalText(
+                                localizeText: "content_detail_screen_tags",
+                                textSize: 17.0,
+                                textColor: Colors.grey,
+                                localization: true,
+                              ),
+                              const SizedBox(height: 17.0),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: List.generate(
+                                    content!.tags.length,
+                                    (index) {
+                                      return TagContainer(
+                                        tagName: content!.tags[index],
+                                        onPressed: () {},
+                                        isLastButton: true,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
+                      SizedBox(height: 200.0),
                     ],
                   ),
                 ),

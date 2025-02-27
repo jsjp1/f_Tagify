@@ -28,22 +28,21 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     final TagifyProvider _provider =
         Provider.of<TagifyProvider>(context, listen: false);
+    _provider.setUserId(widget.loginResponse["id"]);
     _provider.setUserInfo(widget.loginResponse);
   }
 
   @override
   Widget build(BuildContext context) {
-    String? currentRoute = ModalRoute.of(context)?.settings.name;
-    TagifyProvider provider = context.watch<TagifyProvider>();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     final Object? args = ModalRoute.of(context)?.settings.arguments;
     if (args is Map<String, dynamic>) {
       // login으로 넘어오는 경우
       widget.loginResponse = args;
+      provider.setUserId(args["id"]);
       provider.setUserInfo(args);
     }
-
-    debugPrint("home_screen.dart: current page: $currentRoute");
     debugPrint("home_screen.dart: loginResponse: $widget.loginResponse");
 
     return Scaffold(

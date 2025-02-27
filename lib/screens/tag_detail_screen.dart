@@ -39,6 +39,7 @@ class TagDetailScreenState extends State<TagDetailScreen> {
         leading: IconButton(
           icon: Icon(CupertinoIcons.back),
           onPressed: () {
+            provider.setTag("all");
             Navigator.pop(context);
           },
         ),
@@ -56,7 +57,7 @@ class TagDetailScreenState extends State<TagDetailScreen> {
                 ),
                 GlobalText(
                   localizeText: widget.tag.tagName,
-                  textSize: 30.0,
+                  textSize: 24.0,
                   isBold: true,
                   localization: false,
                 ),
@@ -70,7 +71,6 @@ class TagDetailScreenState extends State<TagDetailScreen> {
         top: true,
         bottom: false,
         child: ContentWidget(
-          // TODO: 태그 아래 속해있는 콘텐츠만 가져올 수 있도록 ContentWidget 변경
           userId: provider.loginResponse!["id"],
         ),
       ),
