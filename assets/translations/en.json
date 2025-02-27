@@ -37,5 +37,10 @@
 
   "content_detail_screen_move_to_content_button_text": "View Original",
   "content_detail_screen_tags": "Tags",
-  "content_detail_screen_description": "Description"
+  "content_detail_screen_description": "Description",
+
+  "tag_box_instance_change_color": "change theme color",
+  "tag_box_instance_edit": "edit",
+  "tag_box_instance_delete": "delete",
+  "tag_box_instance_cant_delete": "This tag cannot be deleted because content exists"
 }

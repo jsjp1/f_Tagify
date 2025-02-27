@@ -37,5 +37,10 @@
 
   "content_detail_screen_move_to_content_button_text": "원본 보기",
   "content_detail_screen_tags": "태그",
-  "content_detail_screen_description": "설명"
+  "content_detail_screen_description": "설명",
+
+  "tag_box_instance_change_color": "색 변경하기",
+  "tag_box_instance_edit": "수정",
+  "tag_box_instance_delete": "삭제",
+  "tag_box_instance_cant_delete": "콘텐츠가 존재해 삭제할 수 없는 태그입니다"
 }
