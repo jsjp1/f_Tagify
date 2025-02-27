@@ -13,14 +13,12 @@ class ContentInstance extends StatefulWidget {
   final double instanceWidth;
   final double instanceHeight;
   final Content content;
-  final Future<void> Function() onDelete;
 
   const ContentInstance({
     super.key,
     required this.instanceWidth,
     required this.instanceHeight,
     required this.content,
-    required this.onDelete,
   });
 
   @override
@@ -166,7 +164,10 @@ class ContentInstanceState extends State<ContentInstance> {
                                           ApiResponse<void> _ =
                                               await deleteContent(
                                                   widget.content.id);
-                                          await widget.onDelete();
+
+                                          await provider.fetchContents();
+                                          await provider.fetchTags();
+
                                           Navigator.pop(context);
                                         },
                                       ),
@@ -214,12 +215,13 @@ class ContentInstanceState extends State<ContentInstance> {
                                   fadeInDuration: Duration.zero,
                                   fadeOutDuration: Duration.zero,
                                 )
-                              : Expanded(
-                                  child: Container(
-                                    color: contentInstanceNoThumbnailColor,
-                                    child: Center(
-                                        child: Text("🙂‍↔️",
-                                            style: TextStyle(fontSize: 30.0))),
+                              : Container(
+                                  color: contentInstanceNoThumbnailColor,
+                                  child: Center(
+                                    child: Text(
+                                      "🙂‍↔️",
+                                      style: TextStyle(fontSize: 30.0),
+                                    ),
                                   ),
                                 ),
                         ),
@@ -274,10 +276,6 @@ class TagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (tagName == "None") {
-      return SizedBox.shrink();
-    }
-
     return Padding(
       padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
       child: Container(

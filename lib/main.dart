@@ -5,9 +5,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/auth_screen.dart';
+import 'package:tagify/screens/content_detail_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/api/content.dart';
@@ -19,6 +21,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await EasyLocalization.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]); // 세로 모드 고정
   ApiClient();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
@@ -76,6 +82,7 @@ class App extends StatelessWidget {
           "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
           "/analyze": (context) =>
               AnalyzeScreen(loginResponse: initialLoginResponse),
+          "/content": (context) => ContentDetailScreen(),
           "/tag": (context) => TagScreen(),
           "/auth": (context) => const AuthScreen(),
           "/settings": (context) => const SettingsScreen(),

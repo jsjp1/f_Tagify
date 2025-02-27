@@ -281,6 +281,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   );
 
                   await provider.fetchContents();
+                  await provider.fetchTags();
 
                   Navigator.pop(context);
                 },
@@ -307,7 +308,7 @@ class TagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
+      padding: EdgeInsets.only(right: 5.0),
       child: GestureDetector(
         onTap: isLastButton ? onPressed : () {},
         child: Container(

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 String secTimeConvert(int time) {
   int hour = time ~/ 3600;
   int min = (time % 3600) ~/ 60;
@@ -14,4 +17,28 @@ String secTimeConvert(int time) {
 
 bool isVideo(String url) {
   return url.contains("youtu");
+}
+
+String extractVideoId(String url) {
+  Uri uri = Uri.parse(url);
+  if (uri.queryParameters.containsKey('v')) {
+    return uri.queryParameters['v']!;
+  } else if (uri.pathSegments.isNotEmpty) {
+    return uri.pathSegments.last;
+  }
+  return "";
+}
+
+Future<void> launchContentUrl(String url) async {
+  final Uri uri = Uri.parse(url);
+
+  try {
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $uri'; // TODO
+    }
+  } catch (e) {
+    debugPrint("$e");
+  }
 }

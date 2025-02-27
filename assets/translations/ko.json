@@ -4,6 +4,8 @@
   "apple_login_button": "Apple로 로그인",
   "kakao_login_button": "Kakao로 로그인",
 
+  "search_bar_hint_text": "저장된 콘텐츠를 검색해보세요!",
+
   "navigation_bar_input_link_hint": "링크를 입력해주세요",
   "navigation_bar_input_link_search_button": "검색",
 
@@ -31,5 +33,9 @@
 
   "content_edit_widget_no_more_tags_error": "태그는 3개까지 허용됩니다",
   "content_edit_widget_save_tag_name": "태그를 지정해주세요",
-  "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다"
+  "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",
+
+  "content_detail_screen_move_to_content_button_text": "원본 보기",
+  "content_detail_screen_tags": "태그",
+  "content_detail_screen_description": "설명"
 }

@@ -26,3 +26,28 @@ Future<ApiResponse<List<Tag>>> fetchUserTags(int userId) async {
         errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
+
+Future<ApiResponse<int>> postTag(int userId, String tagName) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/tags/user/$userId/create";
+
+  try {
+    final response = await ApiClient.dio.post(serverHost, data: {
+      "tagname": tagName,
+    });
+
+    if (response.statusCode == 200) {
+      return ApiResponse(
+          data: response.data["id"],
+          statusCode: response.statusCode!,
+          success: true);
+    }
+    return ApiResponse(
+        errorMessage: "failure",
+        statusCode: response.statusCode!,
+        success: false);
+  } catch (e) {
+    return ApiResponse(
+        errorMessage: e.toString(), statusCode: 500, success: false);
+  }
+}

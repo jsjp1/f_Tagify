@@ -6,6 +6,8 @@ import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/components/tag/tag_box_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/api/tag.dart';
+import 'package:tagify/components/analyze/new_tag_modal.dart';
 
 class TagScreen extends StatefulWidget {
   const TagScreen({super.key});
@@ -34,38 +36,51 @@ class TagScreenState extends State<TagScreen> {
                       profileImage:
                           provider.loginResponse!["profile_image"] ?? ""),
                   Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 15.0,
-                              mainAxisSpacing: 15.0,
-                              childAspectRatio: 1.5),
-                      itemCount: provider.tags.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == 0) {
-                          return TagBoxInstance(
-                            tagName: "+",
-                            isTagAddFolder: true,
-                            onTap: () {
-                              // TODO: Tag Screen
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Consumer<TagifyProvider>(
+                        builder: (context, provider, child) {
+                          return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 15.0,
+                                    mainAxisSpacing: 15.0,
+                                    childAspectRatio: 1.5),
+                            itemCount: provider.tags.length + 1,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return TagBoxInstance(
+                                  tagName: "+",
+                                  isTagAddFolder: true,
+                                  onTap: () async {
+                                    setTagBottomModal(context,
+                                        (String newTag) async {
+                                      final newTagId = await postTag(
+                                          provider.loginResponse!["id"],
+                                          newTag);
+
+                                      await provider.fetchTags();
+                                    });
+                                  },
+                                );
+                              }
+
+                              return TagBoxInstance(
+                                tagName: provider.tags[index - 1].tagName,
+                                isTagAddFolder: false,
+                                onTap: () {
+                                  // TODO: Tag Screen
+                                  debugPrint(
+                                      "TagName: ${provider.tags[index - 1].tagName}");
+                                },
+                              );
                             },
                           );
-                        }
-
-                        return TagBoxInstance(
-                          tagName: provider.tags[index - 1].tagName,
-                          isTagAddFolder: false,
-                          onTap: () {
-                            // TODO: Tag Screen
-                            debugPrint("TagName: ${provider.tags[index]}");
-                          },
-                        );
-                      },
+                        },
+                      ),
                     ),
-                  )),
+                  ),
                 ],
               ),
               Positioned(

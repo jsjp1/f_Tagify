@@ -9,7 +9,7 @@ Future<dynamic> setTagBottomModal(
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
     builder: (BuildContext context) {
       TextEditingController tagNameController = TextEditingController();
@@ -22,10 +22,10 @@ Future<dynamic> setTagBottomModal(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 20.0, 0.0, 10.0),
+                padding: const EdgeInsets.only(top: 20.0),
                 child: GlobalText(
                   localizeText: "content_edit_widget_save_tag_name",
-                  textSize: 19.0,
+                  textSize: 22.0,
                   isBold: true,
                   localization: true,
                 ),
@@ -38,6 +38,8 @@ Future<dynamic> setTagBottomModal(
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: TextField(
+                        autocorrect: false,
+                        autofocus: true,
                         cursorColor: mainColor,
                         controller: tagNameController,
                         decoration: InputDecoration(
@@ -63,6 +65,7 @@ Future<dynamic> setTagBottomModal(
                         },
                       ),
                     ),
+                    const SizedBox(height: 150.0),
                   ],
                 ),
               ),

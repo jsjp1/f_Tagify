@@ -59,11 +59,16 @@ class ContentWidgetState extends State<ContentWidget> {
                     ),
                   );
                 }
-                return ContentInstance(
-                  instanceWidth: widgetWidth,
-                  instanceHeight: 150.0,
-                  content: provider.contents[idx],
-                  onDelete: provider.fetchContents,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/content",
+                        arguments: provider.contents[idx]);
+                  },
+                  child: ContentInstance(
+                    instanceWidth: widgetWidth,
+                    instanceHeight: 150.0,
+                    content: provider.contents[idx],
+                  ),
                 );
               },
             ),

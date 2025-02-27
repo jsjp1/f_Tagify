@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tagify/global.dart';
@@ -10,6 +12,14 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class SearchBarWidgetState extends State<SearchBarWidget> {
+  final TextEditingController searchTextController = TextEditingController();
+
+  @override
+  void dispose() {
+    searchTextController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double widgetWidth = MediaQuery.of(context).size.width * (0.85);
@@ -31,6 +41,32 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                 ),
                 width: widgetWidth,
                 height: widgetHeight,
+                child: Center(
+                  child: TextField(
+                    autocorrect: false,
+                    cursorHeight: 15.0,
+                    cursorColor: Colors.grey,
+                    controller: searchTextController,
+                    decoration: InputDecoration(
+                      hintText: tr("search_bar_hint_text"),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          CupertinoIcons.delete_left_fill,
+                          size: 17.0,
+                        ),
+                        onPressed: () {
+                          searchTextController.text = "";
+                        },
+                      ),
+                    ),
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

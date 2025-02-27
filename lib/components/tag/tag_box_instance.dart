@@ -46,15 +46,24 @@ class TagBoxInstance extends StatelessWidget {
               : SizedBox.shrink(),
           Padding(
             padding: EdgeInsets.only(top: 20.0),
-            child: Container(
-              width: boxWidth * (0.85),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: whiteBackgroundColor,
-              ),
-              child: Center(
-                child: Text(tagName),
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: boxWidth * (0.85),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: whiteBackgroundColor,
+                  ),
+                  child: Center(
+                    child: GlobalText(
+                        localizeText: tagName,
+                        textSize: 17.0,
+                        isBold: true,
+                        localization: false,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

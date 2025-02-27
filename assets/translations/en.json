@@ -4,6 +4,8 @@
   "apple_login_button": "Sign in with Apple",
   "kakao_login_button": "Sign in with kakao",
 
+  "search_bar_hint_text": "Search for the saved content!",
+
   "navigation_bar_input_link_hint": "Please enter the link",
   "navigation_bar_input_link_search_button": "search",
 
@@ -31,5 +33,9 @@
 
   "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
   "content_edit_widget_save_tag_name": "New Tag",
-  "content_edit_widget_no_tags_error": "At least one tag must be specified"
+  "content_edit_widget_no_tags_error": "At least one tag must be specified",
+
+  "content_detail_screen_move_to_content_button_text": "View Original",
+  "content_detail_screen_tags": "Tags",
+  "content_detail_screen_description": "Description"
 }
