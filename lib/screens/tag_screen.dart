@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
-// import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/components/home/navigation_bar_ab.dart';
 import 'package:tagify/components/tag/tag_box_instance.dart';
 import 'package:tagify/global.dart';
@@ -12,15 +11,8 @@ import 'package:tagify/api/tag.dart';
 import 'package:tagify/components/analyze/new_tag_modal.dart';
 import 'package:tagify/screens/tag_detail_screen.dart';
 
-class TagScreen extends StatefulWidget {
+class TagScreen extends StatelessWidget {
   const TagScreen({super.key});
-
-  @override
-  TagScreenState createState() => TagScreenState();
-}
-
-class TagScreenState extends State<TagScreen> {
-  int selectedGrid = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +32,25 @@ class TagScreenState extends State<TagScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        icon: Icon(selectedGrid == 2
-                            ? CupertinoIcons.square_grid_2x2_fill
-                            : CupertinoIcons.square_grid_2x2),
+                        icon: Icon(
+                          context.watch<TagifyProvider>().selectedGrid == 2
+                              ? CupertinoIcons.square_grid_2x2_fill
+                              : CupertinoIcons.square_grid_2x2,
+                        ),
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          setState(() {
-                            selectedGrid = 2;
-                          });
+                          context.read<TagifyProvider>().setSelectedGrid(2);
                         },
                       ),
                       IconButton(
-                        // icon: Icon(Icons.apps_outlined, size: 27.0),
-                        icon: Icon(selectedGrid == 3
-                            ? CupertinoIcons.square_grid_3x2_fill
-                            : CupertinoIcons.square_grid_3x2),
+                        icon: Icon(
+                          context.watch<TagifyProvider>().selectedGrid == 3
+                              ? CupertinoIcons.square_grid_3x2_fill
+                              : CupertinoIcons.square_grid_3x2,
+                        ),
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          setState(() {
-                            selectedGrid = 3;
-                          });
+                          context.read<TagifyProvider>().setSelectedGrid(3);
                         },
                       ),
                       const SizedBox(width: 20.0),
@@ -73,7 +64,7 @@ class TagScreenState extends State<TagScreen> {
                           return GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: selectedGrid,
+                                    crossAxisCount: provider.selectedGrid,
                                     crossAxisSpacing: 15.0,
                                     mainAxisSpacing: 15.0,
                                     childAspectRatio: 1.5),

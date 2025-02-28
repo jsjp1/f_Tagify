@@ -13,16 +13,23 @@ class TagifyProvider extends ChangeNotifier {
   List<Tag> _tags = [];
   Map<String, dynamic>? _loginResponse;
   Map<String, int> _tagNameIdMap = {};
+  int _tagScreenSelectedGrid = 2;
 
   String get currentTag => _currentTag;
   String get currentPage => _currentPage;
   List<Content> get contents => _contents;
   List<Tag> get tags => _tags;
   Map<String, dynamic>? get loginResponse => _loginResponse;
+  int get selectedGrid => _tagScreenSelectedGrid;
 
   void setCurrentPage(String newPage) {
     _currentPage = newPage;
     // notifyListeners();
+  }
+
+  void setSelectedGrid(int newGrid) {
+    _tagScreenSelectedGrid = newGrid;
+    notifyListeners();
   }
 
   Future<void> setUserId(int userId) async {
