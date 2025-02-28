@@ -71,6 +71,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   const SizedBox(height: 10.0),
                   Stack(
                     children: [
+                      // 썸네일 부분
                       SizedBox(
                         height: 175.0,
                         child: AspectRatio(
@@ -99,6 +100,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       ),
                     ],
                   ),
+                  // 제목 부분
                   const SizedBox(height: 50.0),
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -107,8 +109,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       textSize: 15.0,
                       textColor: analyzeScreenTextColor,
                       isBold: true,
+                      localization: true,
                     ),
                   ),
+                  // 제목 지우기 버튼
                   TextField(
                     controller: widget.titleController,
                     style: const TextStyle(fontSize: 17.5),
@@ -126,6 +130,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     ),
                   ),
                   const SizedBox(height: 30.0),
+                  // 설명 부분
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: GlobalText(
@@ -133,6 +138,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       textSize: 15.0,
                       textColor: analyzeScreenTextColor,
                       isBold: true,
+                      localization: true,
                     ),
                   ),
                   const SizedBox(height: 10.0),

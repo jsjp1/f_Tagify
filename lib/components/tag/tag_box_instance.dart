@@ -55,9 +55,9 @@ class TagBoxInstance extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withAlpha(50),
-                        spreadRadius: 1.5,
+                        spreadRadius: 0.5,
                         blurRadius: 5,
-                        offset: Offset(3, 5),
+                        offset: Offset(1, 3),
                       ),
                     ],
                   ),

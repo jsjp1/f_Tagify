@@ -62,6 +62,7 @@ class TagScreen extends StatelessWidget {
                       child: Consumer<TagifyProvider>(
                         builder: (context, provider, child) {
                           return GridView.builder(
+                            clipBehavior: Clip.none,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: provider.selectedGrid,

@@ -25,6 +25,7 @@ const Color snackBarColor = Color.fromARGB(255, 111, 111, 111);
 const double appBarHeight = 60.0;
 const double navigationBarHeight = 83.0;
 const double logoImageHeight = 40.0;
+const double safeAreaHeight = 60.0;
 
 class GlobalText extends StatelessWidget {
   final String localizeText;

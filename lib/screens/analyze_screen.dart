@@ -38,7 +38,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
     final double pageWidth = MediaQuery.of(context).size.width * (0.9);
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
@@ -52,7 +52,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                   children: [
                     // appBar 부분
                     SizedBox(
-                      height: 60.0,
+                      height: safeAreaHeight,
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: IconButton(
