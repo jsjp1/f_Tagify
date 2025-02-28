@@ -23,7 +23,7 @@ const Color snackBarColor = Color.fromARGB(255, 111, 111, 111);
 
 // widget height
 const double appBarHeight = 60.0;
-const double navigationBarHeight = 90.0;
+const double navigationBarHeight = 83.0;
 const double logoImageHeight = 40.0;
 
 class GlobalText extends StatelessWidget {

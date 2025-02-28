@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
-import 'package:tagify/components/home/navigation_bar.dart';
+// import 'package:tagify/components/home/navigation_bar.dart';
+import 'package:tagify/components/home/navigation_bar_ab.dart';
 import 'package:tagify/components/tag/tag_box_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -92,7 +93,7 @@ class TagScreenState extends State<TagScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: TagifyNavigationBar(),
+                child: TagifyNavigationBarAB(),
               ),
             ],
           ),

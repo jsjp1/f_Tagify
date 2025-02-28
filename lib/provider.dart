@@ -8,15 +8,22 @@ import 'package:tagify/components/contents/common.dart';
 class TagifyProvider extends ChangeNotifier {
   int? _userId;
   String _currentTag = "all";
+  String _currentPage = "home";
   List<Content> _contents = [];
   List<Tag> _tags = [];
   Map<String, dynamic>? _loginResponse;
   Map<String, int> _tagNameIdMap = {};
 
   String get currentTag => _currentTag;
+  String get currentPage => _currentPage;
   List<Content> get contents => _contents;
   List<Tag> get tags => _tags;
   Map<String, dynamic>? get loginResponse => _loginResponse;
+
+  void setCurrentPage(String newPage) {
+    _currentPage = newPage;
+    // notifyListeners();
+  }
 
   Future<void> setUserId(int userId) async {
     _userId = userId;
