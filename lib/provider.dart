@@ -18,21 +18,22 @@ class TagifyProvider extends ChangeNotifier {
   List<Tag> get tags => _tags;
   Map<String, dynamic>? get loginResponse => _loginResponse;
 
-  void setUserId(int userId) {
+  Future<void> setUserId(int userId) async {
     _userId = userId;
-    fetchContents();
-    fetchTags();
+    await fetchContents();
+    await fetchTags();
   }
 
-  void setUserInfo(Map<String, dynamic> loginResponse) {
+  Future<void> setUserInfo(Map<String, dynamic> loginResponse) async {
     _loginResponse = loginResponse;
-    fetchContents();
-    fetchTags();
+    await fetchContents();
+    await fetchTags();
   }
 
-  void setTag(String newTag) {
+  // TODO: 이거 async 처리해야 다 완료된다음에 화면 넘어가나?
+  Future<void> setTag(String newTag) async {
     _currentTag = newTag;
-    fetchContents();
+    await fetchContents();
   }
 
   Future<void> fetchContents() async {

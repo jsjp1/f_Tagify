@@ -32,8 +32,10 @@ class TagifyNavigationBarAB extends StatelessWidget {
                 child: IconButton(
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.house_alt_fill),
-                  onPressed: () {
+                  onPressed: () async {
                     if (ModalRoute.of(context)?.settings.name != "/home") {
+                      await provider.setTag("all");
+
                       Navigator.push(
                         context,
                         PageRouteBuilder(

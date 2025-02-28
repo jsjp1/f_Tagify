@@ -38,9 +38,11 @@ class TagDetailScreenState extends State<TagDetailScreen> {
         backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(CupertinoIcons.back),
-          onPressed: () {
-            provider.setTag("all");
+          onPressed: () async {
             Navigator.pop(context);
+            await Future.delayed(
+                const Duration(milliseconds: 300)); // 화면 전환 애니메이션 시간
+            await provider.setTag("all");
           },
         ),
         title: Stack(

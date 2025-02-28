@@ -15,7 +15,7 @@ class TagifyNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TagifyProvider provider = context.watch<TagifyProvider>();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Stack(
       clipBehavior: Clip.none,
@@ -32,8 +32,10 @@ class TagifyNavigationBar extends StatelessWidget {
                 child: IconButton(
                   iconSize: 30.0,
                   icon: Icon(CupertinoIcons.house_alt_fill),
-                  onPressed: () {
+                  onPressed: () async {
                     if (ModalRoute.of(context)?.settings.name != "/home") {
+                      await provider.setTag("all");
+
                       Navigator.push(
                         context,
                         PageRouteBuilder(
@@ -74,6 +76,7 @@ class TagifyNavigationBar extends StatelessWidget {
         ),
         Positioned(
           bottom: 35,
+          // TODO
           left: MediaQuery.of(context).size.width / 2 - 35,
           child: SizedBox(
             width: 70,
@@ -91,10 +94,9 @@ class TagifyNavigationBar extends StatelessWidget {
                         (context, animation1, animation2, child) {
                       var begin = Offset(0.0, 1.0);
                       var end = Offset.zero;
-                      var curve = Curves.easeInOut;
 
                       var tween = Tween(begin: begin, end: end)
-                          .chain(CurveTween(curve: curve));
+                          .chain(CurveTween(curve: Curves.easeInOut));
                       var offsetAnimation = animation1.drive(tween);
 
                       return SlideTransition(

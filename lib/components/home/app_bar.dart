@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tagify/api/auth.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/screens/settings_screen.dart';
 
 class TagifyAppBar extends StatelessWidget {
   const TagifyAppBar({super.key});
@@ -90,8 +91,10 @@ class TagifyAppBar extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, "/settings");
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => SettingsScreen()),
+              );
             },
           ),
         ),

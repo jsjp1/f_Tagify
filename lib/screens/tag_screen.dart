@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,15 +65,19 @@ class TagScreenState extends State<TagScreen> {
 
                               return TagBoxInstance(
                                 tag: provider.tags[index - 1],
-                                onTap: () {
-                                  provider
+                                onTap: () async {
+                                  await provider
                                       .setTag(provider.tags[index - 1].tagName);
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => TagDetailScreen(
-                                              tag: provider.tags[index - 1])));
+                                  await Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      maintainState: true,
+                                      fullscreenDialog: false,
+                                      builder: (context) => TagDetailScreen(
+                                          tag: provider.tags[index - 1]),
+                                    ),
+                                  );
                                 },
                               );
                             },

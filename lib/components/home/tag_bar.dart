@@ -37,8 +37,8 @@ class TagBarState extends State<TagBar> {
             children: [
               SizedBox(width: 10.0),
               GestureDetector(
-                onTap: () {
-                  provider.setTag("all");
+                onTap: () async {
+                  await provider.setTag("all");
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
@@ -47,8 +47,8 @@ class TagBarState extends State<TagBar> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  provider.setTag("bookmark");
+                onTap: () async {
+                  await provider.setTag("bookmark");
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",
