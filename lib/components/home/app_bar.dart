@@ -9,7 +9,9 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
 
 class TagifyAppBar extends StatelessWidget {
-  const TagifyAppBar({super.key});
+  String addText;
+  Color appIconColor;
+  TagifyAppBar({super.key, this.addText = "", this.appIconColor = mainColor});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +31,11 @@ class TagifyAppBar extends StatelessWidget {
               Image.asset(
                 "assets/img/app_logo_white.png",
                 height: logoImageHeight,
-                color: mainColor,
+                color: appIconColor,
                 colorBlendMode: BlendMode.srcIn,
               ),
               GlobalText(
-                localizeText: "Tagify",
+                localizeText: "Tagify$addText",
                 textSize: 25.0,
                 isBold: true,
                 textColor: Colors.black,

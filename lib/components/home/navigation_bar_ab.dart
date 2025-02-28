@@ -33,7 +33,7 @@ class TagifyNavigationBarAB extends StatelessWidget {
                         color: mainColor, size: 30.0)
                     : Icon(CupertinoIcons.house_alt,
                         color: Colors.grey, size: 30.0),
-                buttonName: "home",
+                buttonName: "navigation_bar_button_home",
                 onPressed: () async {
                   if (provider.currentPage != "home") {
                     provider.setCurrentPage("home");
@@ -52,8 +52,9 @@ class TagifyNavigationBarAB extends StatelessWidget {
                 },
               ),
               NavigationBarButton(
-                icon: Icon(CupertinoIcons.search, size: 30.0),
-                buttonName: "search",
+                icon:
+                    Icon(CupertinoIcons.search, color: Colors.grey, size: 30.0),
+                buttonName: "navigation_bar_button_search",
                 onPressed: () async {
                   await Navigator.push(
                     context,
@@ -84,7 +85,7 @@ class TagifyNavigationBarAB extends StatelessWidget {
                         ? mainColor
                         : Colors.grey,
                     size: 30.0),
-                buttonName: "explore",
+                buttonName: "navigation_bar_button_explore",
                 onPressed: () {
                   if (provider.currentPage != "explore") {
                     provider.setCurrentPage("explore");
@@ -99,7 +100,7 @@ class TagifyNavigationBarAB extends StatelessWidget {
                         size: 30.0)
                     : Icon(CupertinoIcons.rectangle_on_rectangle_angled,
                         color: Colors.grey, size: 30.0),
-                buttonName: "tag",
+                buttonName: "navigation_bar_button_tag",
                 onPressed: () async {
                   if (provider.currentPage != "tag") {
                     provider.setCurrentPage("tag");
@@ -148,7 +149,13 @@ class NavigationBarButton extends StatelessWidget {
             child: icon,
           ),
           SizedBox(height: 2),
-          Text(buttonName),
+          GlobalText(
+            localizeText: buttonName,
+            textSize: 13.0,
+            localization: true,
+            isBold: false,
+            textColor: Colors.grey,
+          ),
         ],
       ),
     );

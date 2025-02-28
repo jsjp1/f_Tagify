@@ -20,6 +20,8 @@ class TagScreen extends StatefulWidget {
 }
 
 class TagScreenState extends State<TagScreen> {
+  int selectedGrid = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +36,44 @@ class TagScreenState extends State<TagScreen> {
               Column(
                 children: [
                   TagifyAppBar(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        icon: Icon(selectedGrid == 2
+                            ? CupertinoIcons.square_grid_2x2_fill
+                            : CupertinoIcons.square_grid_2x2),
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          setState(() {
+                            selectedGrid = 2;
+                          });
+                        },
+                      ),
+                      IconButton(
+                        // icon: Icon(Icons.apps_outlined, size: 27.0),
+                        icon: Icon(selectedGrid == 3
+                            ? CupertinoIcons.square_grid_3x2_fill
+                            : CupertinoIcons.square_grid_3x2),
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          setState(() {
+                            selectedGrid = 3;
+                          });
+                        },
+                      ),
+                      const SizedBox(width: 20.0),
+                    ],
+                  ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.all(30.0),
+                      padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
                       child: Consumer<TagifyProvider>(
                         builder: (context, provider, child) {
                           return GridView.builder(
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: selectedGrid,
                                     crossAxisSpacing: 15.0,
                                     mainAxisSpacing: 15.0,
                                     childAspectRatio: 1.5),

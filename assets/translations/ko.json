@@ -42,5 +42,10 @@
   "tag_box_instance_change_color": "색 변경하기",
   "tag_box_instance_edit": "수정",
   "tag_box_instance_delete": "삭제",
-  "tag_box_instance_cant_delete": "콘텐츠가 존재해 삭제할 수 없는 태그입니다"
+  "tag_box_instance_cant_delete": "콘텐츠가 존재해 삭제할 수 없는 태그입니다",
+
+  "navigation_bar_button_home": "home",
+  "navigation_bar_button_search": "search",
+  "navigation_bar_button_explore": "explore",
+  "navigation_bar_button_tag": "tag"
 }

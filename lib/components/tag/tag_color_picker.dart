@@ -60,8 +60,8 @@ class TagColorPickerModalState extends State<TagColorPickerModal> {
   }
 }
 
-void themeColorChange(BuildContext context, TagifyProvider provider, int tagId,
-    String tagName) async {
+Future<void> themeColorChange(BuildContext context, TagifyProvider provider,
+    int tagId, String tagName) async {
   Navigator.pop(context);
   await showModalBottomSheet(
     backgroundColor: Colors.white,

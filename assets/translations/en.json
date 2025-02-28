@@ -42,5 +42,10 @@
   "tag_box_instance_change_color": "change theme color",
   "tag_box_instance_edit": "edit",
   "tag_box_instance_delete": "delete",
-  "tag_box_instance_cant_delete": "This tag cannot be deleted because content exists"
+  "tag_box_instance_cant_delete": "This tag cannot be deleted because content exists",
+
+  "navigation_bar_button_home": "home",
+  "navigation_bar_button_search": "search",
+  "navigation_bar_button_explore": "explore",
+  "navigation_bar_button_tag": "tag"
 }

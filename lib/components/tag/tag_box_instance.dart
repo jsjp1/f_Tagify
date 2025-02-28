@@ -8,7 +8,6 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 
-// TODO: tagFolderColor 변경할 수 있도록 -> db 이용해야 될 듯
 class TagBoxInstance extends StatelessWidget {
   final Tag? tag;
   final GestureTapCallback onTap;
@@ -24,6 +23,7 @@ class TagBoxInstance extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
+          // 우측 상단 튀어나온 부분
           tag != null
               ? Positioned(
                   right: 5.0,
@@ -31,38 +31,44 @@ class TagBoxInstance extends StatelessWidget {
                   child: Container(
                     width: 50.0,
                     height: 50.0,
-                    color: tag!.color,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [tag!.color, whiteBackgroundColor],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                   ),
                 )
               : SizedBox.shrink(),
-          tag != null
-              ? Positioned(
-                  top: 20.0,
-                  right: 3.0,
-                  child: Container(
-                    width: 50.0,
-                    height: 25.0,
-                    color: whiteBackgroundColor,
-                  ),
-                )
-              : SizedBox.shrink(),
+          // circular border 상자
           Padding(
             padding: EdgeInsets.only(top: 20.0),
             child: Stack(
+              clipBehavior: Clip.none,
               children: [
                 Container(
                   width: boxWidth * (0.85),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     color: whiteBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(50),
+                        spreadRadius: 1.5,
+                        blurRadius: 5,
+                        offset: Offset(3, 5),
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: GlobalText(
-                        localizeText: tag?.tagName ?? "+",
-                        textSize: 17.0,
-                        isBold: true,
-                        localization: false,
-                        overflow: TextOverflow.ellipsis),
+                      localizeText: tag?.tagName ?? "+",
+                      textSize: 17.0,
+                      isBold: true,
+                      localization: false,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 // 태그 폴더 수정 버튼
@@ -102,7 +108,7 @@ class TagBoxInstance extends StatelessWidget {
                                           isBold: true,
                                         ),
                                         onTap: () async {
-                                          themeColorChange(
+                                          await themeColorChange(
                                             context,
                                             provider,
                                             tag!.id,
