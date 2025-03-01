@@ -116,6 +116,7 @@ class TagifyNavigationBarAB extends StatelessWidget {
                         color: Colors.grey, size: 30.0),
                 buttonName: "navigation_bar_button_tag",
                 onPressed: () async {
+                  debugPrint("touch");
                   if (provider.currentPage != "tag") {
                     provider.setCurrentPage("tag");
 
@@ -153,6 +154,7 @@ class NavigationBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
         width: 60.0,
