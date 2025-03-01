@@ -11,6 +11,10 @@
 
   "content_instance_edit": "수정",
   "content_instance_delete": "삭제",
+  "content_instance_really_delete_alert": "알림",
+  "content_instance_really_delete_text": "정말로 삭제하시겠습니까?",
+  "content_instance_really_delete_cancel": "취소",
+  "content_instance_really_delete_ok": "확인",
 
   "content_widget_empty": "표시할 콘텐츠가 없습니다",
   "content_widget_failure": "콘텐츠를 불러오는데 실패했습니다",
@@ -42,6 +46,8 @@
   "tag_box_instance_change_color": "색 변경하기",
   "tag_box_instance_edit": "수정",
   "tag_box_instance_delete": "삭제",
+  "tag_box_instance_encoding": "공유",
+  "tag_box_instance_clipboard_save_success": "클립보드에 저장되었습니다!",
   "tag_box_instance_cant_delete": "콘텐츠가 존재해 삭제할 수 없는 태그입니다",
 
   "navigation_bar_button_home": "home",

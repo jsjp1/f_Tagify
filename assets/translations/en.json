@@ -9,8 +9,12 @@
   "navigation_bar_input_link_hint": "Please enter the link",
   "navigation_bar_input_link_search_button": "search",
 
-  "content_instance_edit": "edit",
-  "content_instance_delete": "delete",
+  "content_instance_edit": "Edit",
+  "content_instance_delete": "Delete",
+  "content_instance_really_delete_alert": "Alert",
+  "content_instance_really_delete_text": "Are you sure you want to delete?",
+  "content_instance_really_delete_cancel": "Cancel",
+  "content_instance_really_delete_ok": "OK",
 
   "content_widget_empty": "No contents to display",
   "content_widget_failure": "Failed to load contents",
@@ -39,9 +43,11 @@
   "content_detail_screen_tags": "Tags",
   "content_detail_screen_description": "Description",
 
-  "tag_box_instance_change_color": "change theme color",
-  "tag_box_instance_edit": "edit",
-  "tag_box_instance_delete": "delete",
+  "tag_box_instance_change_color": "Change theme color",
+  "tag_box_instance_edit": "Edit",
+  "tag_box_instance_delete": "Delete",
+  "tag_box_instance_encoding": "Share",
+  "tag_box_instance_clipboard_save_success": "Contents information has been saved to the clipboard!",
   "tag_box_instance_cant_delete": "This tag cannot be deleted because content exists",
 
   "navigation_bar_button_home": "home",
