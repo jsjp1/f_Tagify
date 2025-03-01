@@ -44,7 +44,6 @@ class TagifyProvider extends ChangeNotifier {
     await fetchTags();
   }
 
-  // TODO: 이거 async 처리해야 다 완료된다음에 화면 넘어가나?
   Future<void> setTag(String newTag) async {
     _currentTag = newTag;
     await fetchContents();

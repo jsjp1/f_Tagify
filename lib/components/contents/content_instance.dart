@@ -172,15 +172,72 @@ class ContentInstanceState extends State<ContentInstance> {
                                             isBold: true,
                                           ),
                                           onTap: () async {
-                                            // TODO: 삭제 전 모달 띄우기
+                                            bool reallyDelete = false;
+                                            Navigator.pop(context);
+
+                                            // TODO: alert 창 분리?
+                                            await showCupertinoDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return CupertinoAlertDialog(
+                                                  title: GlobalText(
+                                                    localizeText:
+                                                        'content_instance_really_delete_alert',
+                                                    textSize: 20.0,
+                                                    isBold: true,
+                                                  ),
+                                                  content: GlobalText(
+                                                    localizeText:
+                                                        'content_instance_really_delete_text',
+                                                    textSize: 15.0,
+                                                  ),
+                                                  actions: <Widget>[
+                                                    CupertinoDialogAction(
+                                                      child: GlobalText(
+                                                        localizeText:
+                                                            'content_instance_really_delete_cancel',
+                                                        textSize: 15.0,
+                                                        textColor:
+                                                            blackBackgroundColor,
+                                                        localization: true,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        reallyDelete = false;
+                                                        return;
+                                                      },
+                                                    ),
+                                                    CupertinoDialogAction(
+                                                      child: GlobalText(
+                                                        localizeText:
+                                                            'content_instance_really_delete_ok',
+                                                        textSize: 15.0,
+                                                        textColor: mainColor,
+                                                        localization: true,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        reallyDelete = true;
+                                                        return;
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+
+                                            if (reallyDelete == false) {
+                                              return;
+                                            }
+
                                             ApiResponse<void> _ =
                                                 await deleteContent(
                                                     widget.content.id);
 
                                             await provider.fetchContents();
                                             await provider.fetchTags();
-
-                                            Navigator.pop(context);
                                           },
                                         ),
                                       ),

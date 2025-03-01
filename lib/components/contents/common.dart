@@ -41,6 +41,20 @@ class Content {
         );
     }
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "url": url,
+      "title": title,
+      "thumbnail": thumbnail,
+      "favicon": favicon,
+      "description": description,
+      "bookmark": bookmark,
+      "tags": tags,
+      "type": type,
+    };
+  }
 }
 
 class Video extends Content {
