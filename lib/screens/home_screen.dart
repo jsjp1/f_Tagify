@@ -8,7 +8,6 @@ import 'package:tagify/components/home/tag_bar.dart';
 import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/home/notice_widget.dart';
-// import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,8 +28,11 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     final TagifyProvider _provider =
         Provider.of<TagifyProvider>(context, listen: false);
+
+    // 초기 세팅
     _provider.setUserId(widget.loginResponse["id"]);
     _provider.setUserInfo(widget.loginResponse);
+    _provider.setCurrentPage("home");
   }
 
   @override
@@ -40,9 +42,11 @@ class HomeScreenState extends State<HomeScreen> {
     final Object? args = ModalRoute.of(context)?.settings.arguments;
     if (args is Map<String, dynamic>) {
       // login으로 넘어오는 경우
+      // 초기 세팅
       widget.loginResponse = args;
       provider.setUserId(args["id"]);
       provider.setUserInfo(args);
+      provider.setCurrentPage("home");
     }
     debugPrint("home_screen.dart: loginResponse: $widget.loginResponse");
 

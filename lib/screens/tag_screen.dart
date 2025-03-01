@@ -62,47 +62,52 @@ class TagScreen extends StatelessWidget {
                       child: Consumer<TagifyProvider>(
                         builder: (context, provider, child) {
                           return GridView.builder(
-                            clipBehavior: Clip.none,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: provider.selectedGrid,
-                                    crossAxisSpacing: 15.0,
-                                    mainAxisSpacing: 15.0,
+                                    crossAxisSpacing: 7.0,
+                                    mainAxisSpacing: 7.0,
                                     childAspectRatio: 1.5),
                             itemCount: provider.tags.length + 1,
                             itemBuilder: (context, index) {
                               if (index == 0) {
-                                return TagBoxInstance(
-                                  tag: null,
-                                  onTap: () async {
-                                    setTagBottomModal(context,
-                                        (String newTag) async {
-                                      final response = await postTag(
-                                          provider.loginResponse!["id"],
-                                          newTag);
+                                return Padding(
+                                  padding: EdgeInsets.all(6.0),
+                                  child: TagBoxInstance(
+                                    tag: null,
+                                    onTap: () async {
+                                      setTagBottomModal(context,
+                                          (String newTag) async {
+                                        final response = await postTag(
+                                            provider.loginResponse!["id"],
+                                            newTag);
 
-                                      await provider.fetchTags();
-                                    });
-                                  },
+                                        await provider.fetchTags();
+                                      });
+                                    },
+                                  ),
                                 );
                               }
 
-                              return TagBoxInstance(
-                                tag: provider.tags[index - 1],
-                                onTap: () async {
-                                  await provider
-                                      .setTag(provider.tags[index - 1].tagName);
+                              return Padding(
+                                padding: EdgeInsets.all(6.0),
+                                child: TagBoxInstance(
+                                  tag: provider.tags[index - 1],
+                                  onTap: () async {
+                                    await provider.setTag(
+                                        provider.tags[index - 1].tagName);
 
-                                  await Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      maintainState: true,
-                                      fullscreenDialog: false,
-                                      builder: (context) => TagDetailScreen(
-                                          tag: provider.tags[index - 1]),
-                                    ),
-                                  );
-                                },
+                                    await Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        maintainState: true,
+                                        fullscreenDialog: false,
+                                        builder: (context) => TagDetailScreen(
+                                            tag: provider.tags[index - 1]),
+                                      ),
+                                    );
+                                  },
+                                ),
                               );
                             },
                           );

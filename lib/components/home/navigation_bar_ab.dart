@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
+import 'package:tagify/screens/explore_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
 
@@ -80,15 +81,28 @@ class TagifyNavigationBarAB extends StatelessWidget {
                 },
               ),
               NavigationBarButton(
-                icon: Icon(CupertinoIcons.globe,
-                    color: provider.currentPage == "explore"
-                        ? mainColor
-                        : Colors.grey,
-                    size: 30.0),
+                icon: provider.currentPage == "explore"
+                    ? Icon(
+                        CupertinoIcons.arrow_up_arrow_down_circle_fill,
+                        color: mainColor,
+                        size: 30.0,
+                      )
+                    : Icon(CupertinoIcons.arrow_up_arrow_down_circle,
+                        color: Colors.grey, size: 30.0),
                 buttonName: "navigation_bar_button_explore",
-                onPressed: () {
+                onPressed: () async {
                   if (provider.currentPage != "explore") {
                     provider.setCurrentPage("explore");
+
+                    await Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation1, animation2) =>
+                            ExploreScreen(),
+                        transitionDuration: Duration.zero,
+                        reverseTransitionDuration: Duration.zero,
+                      ),
+                    );
                   }
                 },
               ),
@@ -138,25 +152,25 @@ class NavigationBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 60.0,
-      height: 60.0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          GestureDetector(
-            onTap: onPressed,
-            child: icon,
-          ),
-          SizedBox(height: 1.0),
-          GlobalText(
-            localizeText: buttonName,
-            textSize: 13.0,
-            localization: true,
-            isBold: false,
-            textColor: icon.color,
-          ),
-        ],
+    return GestureDetector(
+      onTap: onPressed,
+      child: SizedBox(
+        width: 60.0,
+        height: 60.0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            icon,
+            SizedBox(height: 1.0),
+            GlobalText(
+              localizeText: buttonName,
+              textSize: 13.0,
+              localization: true,
+              isBold: false,
+              textColor: icon.color,
+            ),
+          ],
+        ),
       ),
     );
   }

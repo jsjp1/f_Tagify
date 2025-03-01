@@ -53,8 +53,8 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                       contentPadding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          CupertinoIcons.delete_left_fill,
-                          size: 17.0,
+                          CupertinoIcons.clear_circled_solid,
+                          size: 20.0,
                         ),
                         onPressed: () {
                           searchTextController.text = "";

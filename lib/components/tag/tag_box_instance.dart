@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/api/tag.dart';
@@ -7,6 +8,7 @@ import 'package:tagify/components/tag/tag_color_picker.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
+import 'package:tagify/utils/util.dart';
 
 class TagBoxInstance extends StatelessWidget {
   final Tag? tag;
@@ -116,6 +118,67 @@ class TagBoxInstance extends StatelessWidget {
                                           );
 
                                           await provider.fetchTags();
+                                        },
+                                      ),
+                                    ),
+
+                                    // 태그 내용 공유하기 위한 base64 인코딩
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          5.0, 10.0, 10.0, 0.0),
+                                      child: ListTile(
+                                        leading: Padding(
+                                          padding: EdgeInsets.only(left: 10.0),
+                                          child: Icon(CupertinoIcons.share),
+                                        ),
+                                        title: GlobalText(
+                                          localizeText:
+                                              "tag_box_instance_encoding",
+                                          textSize: 17.0,
+                                          isBold: true,
+                                        ),
+                                        onTap: () async {
+                                          // TODO: 자동으로 클립보드에 저장되도록
+                                          await provider.setTag(tag!.tagName);
+                                          await provider.fetchContents();
+
+                                          Map<String, dynamic> contentListMap =
+                                              contentListToMap(
+                                                  provider.contents);
+                                          String encodedContentList =
+                                              encodeTaggedContentsToBase64(
+                                                  contentListMap);
+
+                                          Clipboard.setData(ClipboardData(
+                                                  text: encodedContentList))
+                                              .then(
+                                            (_) {
+                                              Navigator.pop(context);
+
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  backgroundColor:
+                                                      snackBarColor,
+                                                  content: GlobalText(
+                                                      localizeText:
+                                                          "tag_box_instance_clipboard_save_success",
+                                                      textSize: 15.0),
+                                                  duration: Duration(
+                                                      milliseconds: 1000),
+                                                ),
+                                              );
+                                            },
+                                          );
+
+                                          debugPrint(
+                                              "ENCODED CONTENTS: $encodedContentList");
+
+                                          Map<String, dynamic> ret =
+                                              decodeBase64AndDecompress(
+                                                  encodedContentList);
+
+                                          debugPrint("DECODED CONTENTS: $ret");
                                         },
                                       ),
                                     ),

@@ -89,6 +89,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(width: 2.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide:
