@@ -318,7 +318,7 @@ class TagContainer extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 5.0),
       child: GestureDetector(
-        onTap: isLastButton ? onPressed : () {},
+        onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
             color: whiteBackgroundColor,
@@ -343,11 +343,8 @@ class TagContainer extends StatelessWidget {
                   isLastButton ? SizedBox.shrink() : SizedBox(width: 5.0),
                   isLastButton
                       ? SizedBox.shrink()
-                      : GestureDetector(
-                          onTap: onPressed,
-                          child: Text("✕",
-                              style: TextStyle(
-                                  fontSize: 10.0, color: Colors.grey)))
+                      : Text("✕",
+                          style: TextStyle(fontSize: 10.0, color: Colors.grey))
                 ],
               ),
             ),
