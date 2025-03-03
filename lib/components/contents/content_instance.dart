@@ -86,7 +86,7 @@ class ContentInstanceState extends State<ContentInstance> {
                           width: widget.instanceWidth * (0.68),
                           child: GlobalText(
                             localizeText: widget.content.title,
-                            textSize: 15.0,
+                            textSize: contentInstanceTitleFontSize,
                             isBold: true,
                             textColor: containerTitleColor,
                             overflow: TextOverflow.ellipsis,
@@ -307,7 +307,7 @@ class ContentInstanceState extends State<ContentInstance> {
                         child: SingleChildScrollView(
                           child: GlobalText(
                             localizeText: widget.content.description,
-                            textSize: 10.0,
+                            textSize: contentInstanceDescriptionFontSize,
                             localization: false,
                             textColor: contentInstanceDescriptionColor,
                           ),

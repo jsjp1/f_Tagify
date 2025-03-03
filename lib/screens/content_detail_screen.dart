@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/api/common.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/components/contents/common.dart';
@@ -22,6 +23,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
   Content? content;
   late YoutubePlayerController _youtubeController;
   bool isBookmarked = false;
+  bool isDeleted = false;
 
   @override
   void dispose() {
@@ -55,6 +57,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
     final double widgetWidget = MediaQuery.of(context).size.width * (0.9);
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
@@ -193,6 +196,129 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               icon: Icon(CupertinoIcons.back),
               onPressed: () {
                 Navigator.pop(context);
+              },
+            ),
+          ),
+          // 콘텐츠 수정 / 삭제 / ... 버튼
+          Positioned(
+            right: 0.0,
+            top: appBarHeight + 5.0,
+            child: IconButton(
+              icon: Icon(Icons.more_vert_sharp),
+              padding: EdgeInsets.zero,
+              onPressed: () async {
+                await showModalBottomSheet(
+                  backgroundColor: whiteBackgroundColor,
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)),
+                  ),
+                  builder: (BuildContext context) {
+                    return Wrap(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                          child: ListTile(
+                            leading: Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child: Icon(Icons.edit),
+                            ),
+                            title: GlobalText(
+                              localizeText: "content_instance_edit",
+                              textSize: 17.0,
+                              isBold: true,
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              // TODO: 수정 로직 추가
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                          child: ListTile(
+                            leading: Padding(
+                              padding: EdgeInsets.only(left: 10.0),
+                              child:
+                                  Icon(CupertinoIcons.delete, color: mainColor),
+                            ),
+                            title: GlobalText(
+                              localizeText: "content_instance_delete",
+                              textSize: 17.0,
+                              textColor: mainColor,
+                              isBold: true,
+                            ),
+                            onTap: () async {
+                              // 삭제 모달 pop
+                              Navigator.pop(context);
+
+                              await showCupertinoDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CupertinoAlertDialog(
+                                    title: GlobalText(
+                                      localizeText:
+                                          'content_instance_really_delete_alert',
+                                      textSize: 20.0,
+                                      isBold: true,
+                                    ),
+                                    content: GlobalText(
+                                      localizeText:
+                                          'content_instance_really_delete_text',
+                                      textSize: 15.0,
+                                    ),
+                                    actions: <Widget>[
+                                      CupertinoDialogAction(
+                                        child: GlobalText(
+                                          localizeText:
+                                              'content_instance_really_delete_cancel',
+                                          textSize: 15.0,
+                                          textColor: blackBackgroundColor,
+                                          localization: true,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          isDeleted = false;
+                                        },
+                                      ),
+                                      CupertinoDialogAction(
+                                        child: GlobalText(
+                                          localizeText:
+                                              'content_instance_really_delete_ok',
+                                          textSize: 15.0,
+                                          textColor: mainColor,
+                                          localization: true,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          isDeleted = true;
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+
+                              if (isDeleted == false) {
+                                return;
+                              }
+
+                              ApiResponse<void> _ =
+                                  await deleteContent(content!.id);
+
+                              await provider.fetchContents();
+                              await provider.fetchTags();
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 100.0),
+                      ],
+                    );
+                  },
+                );
+                // 삭제 후 content widget 페이지로 이동
+                if (isDeleted) Navigator.pop(context);
               },
             ),
           ),

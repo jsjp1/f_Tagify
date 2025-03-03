@@ -31,6 +31,10 @@ const double safeAreaHeight = 60.0;
 // global variable
 const int articlesLimit = 30;
 
+// global font size
+const double contentInstanceTitleFontSize = 15.0;
+const double contentInstanceDescriptionFontSize = 10.0;
+
 class GlobalText extends StatelessWidget {
   final String localizeText;
   final double textSize;
