@@ -364,7 +364,7 @@ class TagContainer extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
+            padding: EdgeInsets.fromLTRB(5.5, 0.0, 5.5, 0.0),
             child: GlobalText(
               localizeText: tagName,
               textSize: 10.0,

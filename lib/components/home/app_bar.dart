@@ -16,6 +16,7 @@ class TagifyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
+    final appBarTextWidth = MediaQuery.of(context).size.width * (0.7);
 
     return Container(
       width: double.infinity,
@@ -34,13 +35,16 @@ class TagifyAppBar extends StatelessWidget {
                 color: appIconColor,
                 colorBlendMode: BlendMode.srcIn,
               ),
-              GlobalText(
-                localizeText: "Tagify$addText",
-                textSize: 25.0,
-                isBold: true,
-                textColor: Colors.black,
-                overflow: TextOverflow.clip,
-                localization: false,
+              SizedBox(
+                width: appBarTextWidth,
+                child: GlobalText(
+                  localizeText: "Tagify$addText",
+                  textSize: 25.0,
+                  isBold: true,
+                  textColor: Colors.black,
+                  overflow: TextOverflow.ellipsis,
+                  localization: false,
+                ),
               ),
             ],
           ),
