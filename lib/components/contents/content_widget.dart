@@ -19,9 +19,10 @@ class ContentWidgetState extends State<ContentWidget> {
   @override
   Widget build(BuildContext context) {
     final double widgetWidth = MediaQuery.of(context).size.width * (0.9);
-    TagifyProvider provider = context.watch<TagifyProvider>();
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return RefreshIndicator.adaptive(
+      displacement: 10.0,
       onRefresh: provider.fetchContents,
       child: provider.contents.isEmpty
           ? Padding(
@@ -61,7 +62,7 @@ class ContentWidgetState extends State<ContentWidget> {
                   },
                   child: ContentInstance(
                     instanceWidth: widgetWidth,
-                    instanceHeight: 150.0,
+                    instanceHeight: 135.0,
                     content: provider.contents[idx],
                   ),
                 );

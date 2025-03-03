@@ -96,8 +96,9 @@ class TagScreen extends StatelessWidget {
                                   onTap: () async {
                                     await provider.setTag(
                                         provider.tags[index - 1].tagName);
+                                    await provider.fetchContents();
 
-                                    await Navigator.push(
+                                    Navigator.push(
                                       context,
                                       CupertinoPageRoute(
                                         maintainState: true,

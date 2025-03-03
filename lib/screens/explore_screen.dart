@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar_ab.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/components/explore/article_widget.dart';
+import 'package:tagify/components/explore/upload_dialog.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -26,6 +28,10 @@ class ExploreScreenState extends State<ExploreScreen> {
               Column(
                 children: [
                   TagifyAppBar(),
+                  Row(
+                    children: [SizedBox(height: 50.0)],
+                  ),
+                  Expanded(child: ArticleWidget()),
                 ],
               ),
               Positioned(
@@ -39,6 +45,7 @@ class ExploreScreenState extends State<ExploreScreen> {
                   ),
                   onPressed: () {
                     // TODO
+                    exploreScreenUploadDialog(context);
                   },
                   child: Icon(
                     Icons.create,

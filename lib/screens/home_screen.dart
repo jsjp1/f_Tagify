@@ -30,9 +30,9 @@ class HomeScreenState extends State<HomeScreen> {
         Provider.of<TagifyProvider>(context, listen: false);
 
     // 초기 세팅
-    _provider.setUserId(widget.loginResponse["id"]);
-    _provider.setUserInfo(widget.loginResponse);
-    _provider.setCurrentPage("home");
+    _provider.setUserInfo(widget.loginResponse).then((_) {
+      _provider.setCurrentPage("home");
+    });
   }
 
   @override
@@ -44,9 +44,9 @@ class HomeScreenState extends State<HomeScreen> {
       // login으로 넘어오는 경우
       // 초기 세팅
       widget.loginResponse = args;
-      provider.setUserId(args["id"]);
-      provider.setUserInfo(args);
-      provider.setCurrentPage("home");
+      provider.setUserInfo(args).then((_) {
+        provider.setCurrentPage("home");
+      });
     }
     debugPrint("home_screen.dart: loginResponse: $widget.loginResponse");
 

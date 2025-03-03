@@ -53,5 +53,7 @@
   "navigation_bar_button_home": "home",
   "navigation_bar_button_search": "search",
   "navigation_bar_button_explore": "explore",
-  "navigation_bar_button_tag": "tag"
+  "navigation_bar_button_tag": "tag",
+
+  "article_widget_empty": "No articles to display"
 }

@@ -140,7 +140,7 @@ class TagBoxInstance extends StatelessWidget {
                                         onTap: () async {
                                           // TODO: 자동으로 클립보드에 저장되도록
                                           await provider.setTag(tag!.tagName);
-                                          await provider.fetchContents();
+                                          provider.fetchCachedContents();
 
                                           Map<String, dynamic> contentListMap =
                                               contentListToMap(
@@ -170,15 +170,6 @@ class TagBoxInstance extends StatelessWidget {
                                               );
                                             },
                                           );
-
-                                          debugPrint(
-                                              "ENCODED CONTENTS: $encodedContentList");
-
-                                          Map<String, dynamic> ret =
-                                              decodeBase64AndDecompress(
-                                                  encodedContentList);
-
-                                          debugPrint("DECODED CONTENTS: $ret");
                                         },
                                       ),
                                     ),

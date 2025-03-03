@@ -70,14 +70,15 @@ class ContentInstanceState extends State<ContentInstance> {
                     Row(
                       children: [
                         SizedBox(width: 5.0),
-                        updatedContent.favicon != ""
-                            ? CachedNetworkImage(
-                                imageUrl: updatedContent.favicon,
-                                height: 17.0,
-                                fadeInDuration: Duration.zero,
-                                fadeOutDuration: Duration.zero,
-                              )
-                            : Text("🤔", style: TextStyle(fontSize: 17.0)),
+                        CachedNetworkImage(
+                          imageUrl: updatedContent.favicon,
+                          height: 17.0,
+                          fadeInDuration: Duration.zero,
+                          fadeOutDuration: Duration.zero,
+                          errorWidget: (context, url, error) {
+                            return SizedBox.shrink();
+                          },
+                        ),
                         updatedContent.favicon != ""
                             ? SizedBox(width: 7.0)
                             : SizedBox.shrink(),
@@ -273,8 +274,8 @@ class ContentInstanceState extends State<ContentInstance> {
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey,
-                                blurRadius: 3.0,
-                                spreadRadius: 3.0,
+                                blurRadius: 5.0,
+                                spreadRadius: 1.0,
                               ),
                             ],
                           ),
@@ -303,34 +304,38 @@ class ContentInstanceState extends State<ContentInstance> {
                       child: SizedBox(
                         width: widget.instanceWidth * (0.5),
                         height: widget.instanceHeight * (0.35),
-                        child: GlobalText(
-                          localizeText: widget.content.description,
-                          textSize: 10.0,
-                          overflow: TextOverflow.ellipsis,
-                          localization: false,
+                        child: SingleChildScrollView(
+                          child: GlobalText(
+                            localizeText: widget.content.description,
+                            textSize: 10.0,
+                            localization: false,
+                            textColor: contentInstanceDescriptionColor,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: widget.instanceHeight * (0.03)),
-              SizedBox(
-                height: widget.instanceHeight * (0.15),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.content.tags.length,
-                    itemBuilder: (context, index) {
-                      return TagContainer(
-                        tagName: widget.content.tags[index],
-                      );
-                    },
+              SizedBox(height: widget.instanceHeight * (0.05)),
+              Center(
+                child: SizedBox(
+                  height: widget.instanceHeight * (0.11),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: widget.content.tags.length,
+                      itemBuilder: (context, index) {
+                        return TagContainer(
+                          tagName: widget.content.tags[index],
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
-              SizedBox(height: widget.instanceHeight * (0.025)),
+              // SizedBox(height: widget.instanceHeight * (0.4)),
             ],
           ),
         ),

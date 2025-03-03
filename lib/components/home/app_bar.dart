@@ -93,6 +93,7 @@ class TagifyAppBar extends StatelessWidget {
               ),
             ),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 CupertinoPageRoute(builder: (context) => SettingsScreen()),

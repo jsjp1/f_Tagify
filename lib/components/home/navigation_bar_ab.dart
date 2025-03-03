@@ -39,8 +39,9 @@ class TagifyNavigationBarAB extends StatelessWidget {
                   if (provider.currentPage != "home") {
                     provider.setCurrentPage("home");
                     await provider.setTag("all");
+                    provider.fetchCachedContents();
 
-                    await Navigator.push(
+                    Navigator.push(
                       context,
                       PageRouteBuilder(
                         pageBuilder: (context, animation1, animation2) =>
