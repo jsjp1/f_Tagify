@@ -18,9 +18,6 @@ class AnalyzeScreen extends StatefulWidget {
 class AnalyzeScreenState extends State<AnalyzeScreen> {
   ApiResponse<Map<String, dynamic>> futureContent = ApiResponse.empty();
   final TextEditingController _controller = TextEditingController();
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-
   bool invalidUrl = false;
   bool alreadyExistsError = false;
 
@@ -194,11 +191,8 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                 right: 0,
                 bottom: 0,
                 child: ContentEditWidget(
-                  userId: widget.loginResponse["id"],
                   content: futureContent.data!,
                   widgetWidth: pageWidth,
-                  titleController: titleController,
-                  descriptionController: descriptionController,
                 ),
               ),
           ],

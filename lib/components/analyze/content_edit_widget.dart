@@ -10,19 +10,13 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
 
 class ContentEditWidget extends StatefulWidget {
-  final int userId;
   final double widgetWidth;
   final Map<String, dynamic> content;
-  final TextEditingController titleController;
-  final TextEditingController descriptionController;
 
   const ContentEditWidget({
     super.key,
-    required this.userId,
     required this.widgetWidth,
     required this.content,
-    required this.titleController,
-    required this.descriptionController,
   });
 
   @override
@@ -30,6 +24,9 @@ class ContentEditWidget extends StatefulWidget {
 }
 
 class ContentEditWidgetState extends State<ContentEditWidget> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
   late String url;
   late String thumbnail;
   late String favicon;
@@ -52,8 +49,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     if (tags.length > 3) {
       tags = tags.sublist(0, 3);
     }
-    widget.titleController.text = widget.content["title"];
-    widget.descriptionController.text = widget.content["description"];
+    titleController.text = widget.content["title"];
+    descriptionController.text = widget.content["description"];
   }
 
   @override
@@ -114,7 +111,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   ),
                   // 제목 지우기 버튼
                   TextField(
-                    controller: widget.titleController,
+                    controller: titleController,
                     style: const TextStyle(fontSize: 17.5),
                     cursorColor: mainColor,
                     decoration: InputDecoration(
@@ -124,7 +121,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       suffixIcon: IconButton(
                         icon: const Icon(CupertinoIcons.delete_left_fill),
                         onPressed: () {
-                          widget.titleController.clear();
+                          titleController.clear();
                         },
                       ),
                     ),
@@ -143,7 +140,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   ),
                   const SizedBox(height: 10.0),
                   TextField(
-                    controller: widget.descriptionController,
+                    controller: descriptionController,
                     style: const TextStyle(fontSize: 13.0),
                     cursorColor: mainColor,
                     decoration: InputDecoration(
@@ -162,7 +159,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         child: IconButton(
                           icon: const Icon(CupertinoIcons.delete_left_fill),
                           onPressed: () {
-                            widget.descriptionController.clear();
+                            descriptionController.clear();
                           },
                         ),
                       ),
@@ -275,12 +272,12 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   }
 
                   await saveContent(
-                    widget.userId,
+                    provider.loginResponse!["id"],
                     url,
-                    widget.titleController.text,
+                    titleController.text,
                     thumbnail,
                     favicon,
-                    widget.descriptionController.text,
+                    descriptionController.text,
                     isBookmarked,
                     length,
                     body,

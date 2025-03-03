@@ -250,9 +250,6 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                               isBold: true,
                             ),
                             onTap: () async {
-                              // 삭제 모달 pop
-                              Navigator.pop(context);
-
                               await showCupertinoDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -309,6 +306,9 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
 
                               await provider.fetchContents();
                               await provider.fetchTags();
+
+                              // 삭제 모달 pop
+                              Navigator.pop(context);
                             },
                           ),
                         ),
@@ -318,7 +318,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                   },
                 );
                 // 삭제 후 content widget 페이지로 이동
-                if (isDeleted) Navigator.pop(context);
+                if (isDeleted == true) Navigator.pop(context);
               },
             ),
           ),
