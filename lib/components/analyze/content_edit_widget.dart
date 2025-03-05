@@ -77,6 +77,9 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                               ? CachedNetworkImage(
                                   imageUrl: thumbnail,
                                   fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) {
+                                    return SizedBox.expand();
+                                  },
                                 )
                               : const SizedBox.expand(),
                         ),

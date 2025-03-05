@@ -286,6 +286,17 @@ class ContentInstanceState extends State<ContentInstance> {
                                   fit: BoxFit.cover,
                                   fadeInDuration: Duration.zero,
                                   fadeOutDuration: Duration.zero,
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                      color: contentInstanceNoThumbnailColor,
+                                      child: Center(
+                                        child: Text(
+                                          "🙂‍↔️",
+                                          style: TextStyle(fontSize: 30.0),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 )
                               : Container(
                                   color: contentInstanceNoThumbnailColor,
