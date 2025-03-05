@@ -64,5 +64,9 @@
   "upload_dialog_no_tag_selected": "You must select a tag to upload",
   "upload_dialog_title_controller_text": "Title",
   "upload_dialog_body_controller_text": "Body",
-  "upload_dialog_tags_text": "Please select a tag to share"
+  "upload_dialog_tags_text": "Please select a tag to share",
+
+  "article_edit_modal_edit": "Edit",
+  "article_edit_modal_delete": "Delete",
+  "article_edit_modal_download": "Download"
 }

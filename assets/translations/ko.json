@@ -64,5 +64,9 @@
   "upload_dialog_no_tag_selected": "등록을 원하는 태그를 선택해야 합니다",
   "upload_dialog_title_controller_text": "제목",
   "upload_dialog_body_controller_text": "설명",
-  "upload_dialog_tags_text": "공유할 태그를 선택해주세요"
+  "upload_dialog_tags_text": "공유할 태그를 선택해주세요",
+
+  "article_edit_modal_edit": "수정",
+  "article_edit_modal_delete": "삭제",
+  "article_edit_modal_download": "다운로드"
 }

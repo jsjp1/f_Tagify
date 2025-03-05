@@ -3,12 +3,11 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/common.dart';
+import 'package:tagify/components/explore/article_edit_modal.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
 
 class ArticleInstance extends StatelessWidget {
@@ -30,8 +29,6 @@ class ArticleInstance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
-
     return Padding(
       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
       child: Container(
@@ -105,9 +102,12 @@ class ArticleInstance extends StatelessWidget {
                     ),
                   ),
                 ),
-                article.userId == provider.loginResponse!["id"]
-                    ? IconButton(icon: Icon(Icons.close), onPressed: () {})
-                    : SizedBox.shrink()
+                IconButton(
+                  icon: Icon(Icons.more_vert_sharp),
+                  onPressed: () {
+                    articleInstanceEditBottomModal(context, article);
+                  },
+                ),
               ],
             ),
             // 콘텐츠 미리보기 이미지

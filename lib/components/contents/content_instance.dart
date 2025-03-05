@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
+import 'package:tagify/components/common/delete_alert.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/api/content.dart';
@@ -177,58 +178,8 @@ class ContentInstanceState extends State<ContentInstance> {
                                             bool reallyDelete = false;
                                             Navigator.pop(context);
 
-                                            // TODO: alert 창 분리?
-                                            await showCupertinoDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return CupertinoAlertDialog(
-                                                  title: GlobalText(
-                                                    localizeText:
-                                                        'content_instance_really_delete_alert',
-                                                    textSize: 20.0,
-                                                    isBold: true,
-                                                  ),
-                                                  content: GlobalText(
-                                                    localizeText:
-                                                        'content_instance_really_delete_text',
-                                                    textSize: 15.0,
-                                                  ),
-                                                  actions: <Widget>[
-                                                    CupertinoDialogAction(
-                                                      child: GlobalText(
-                                                        localizeText:
-                                                            'content_instance_really_delete_cancel',
-                                                        textSize: 15.0,
-                                                        textColor:
-                                                            blackBackgroundColor,
-                                                        localization: true,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        reallyDelete = false;
-                                                        return;
-                                                      },
-                                                    ),
-                                                    CupertinoDialogAction(
-                                                      child: GlobalText(
-                                                        localizeText:
-                                                            'content_instance_really_delete_ok',
-                                                        textSize: 15.0,
-                                                        textColor: mainColor,
-                                                        localization: true,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        reallyDelete = true;
-                                                        return;
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
+                                            reallyDelete =
+                                                await showDeleteAlert(context);
 
                                             if (reallyDelete == false) {
                                               return;

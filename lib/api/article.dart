@@ -54,3 +54,26 @@ Future<ApiResponse<int>> postArticle(
         errorMessage: e.toString(), statusCode: 500, success: false);
   }
 }
+
+Future<ApiResponse<int>> deleteArticle(int userId, int articleId) async {
+  final String serverHost = "${dotenv.get("SERVER_HOST")}/api/articles/";
+
+  try {
+    final response = await ApiClient.dio.delete(serverHost, data: {
+      "user_id": userId,
+      "article_id": articleId,
+    });
+
+    if (response.statusCode == 200) {
+      return ApiResponse(
+          data: response.data, statusCode: response.statusCode!, success: true);
+    }
+    return ApiResponse(
+        errorMessage: "failure",
+        statusCode: response.statusCode!,
+        success: false);
+  } catch (e) {
+    return ApiResponse(
+        errorMessage: e.toString(), statusCode: 500, success: false);
+  }
+}
