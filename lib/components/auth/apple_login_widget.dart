@@ -20,9 +20,16 @@ class AppleLoginWidget extends StatelessWidget {
         ],
       );
 
+      // TODO: email이 ""으로 돼, login이 불가한 문제
       String? oauthId = user.userIdentifier;
+      String? idToken = user.identityToken;
+
       if (oauthId == null) {
         debugPrint("Error: Apple userIdentifier is null");
+        return {};
+      }
+      if (idToken == null) {
+        debugPrint("Error: Apple Id Token is null");
         return {};
       }
 
@@ -33,8 +40,9 @@ class AppleLoginWidget extends StatelessWidget {
           "${user.givenName ?? ""} ${user.familyName ?? ""}".trim();
 
       if (email == null) {
-        email = prefs.getString("apple_email") ?? "";
-        fullName = prefs.getString("apple_full_name") ?? fullName;
+        email = prefs.getString("apple_email") ?? "noemail@apple.com";
+        fullName = prefs.getString("apple_full_name") ??
+            "${oauthProvider}_${idToken.substring(0, 5)}";
       } else {
         await prefs.setString("apple_user_id", oauthId);
         await prefs.setString("apple_email", email);
@@ -42,26 +50,11 @@ class AppleLoginWidget extends StatelessWidget {
       }
 
       ApiResponse<Map<String, dynamic>> loginResponse =
-          await login(oauthId, email);
+          await login(oauthProvider, idToken, fullName, oauthId, email, "");
 
-      if (loginResponse.errorMessage == "failure") {
-        final ApiResponse<Map<String, dynamic>> signupResponse = await signup({
-          "username": fullName,
-          "oauth_provider": oauthProvider,
-          "oauth_id": oauthId,
-          "email": email,
-          "profile_image": "",
-        });
-
-        if (signupResponse.errorMessage == "error") {
-          debugPrint("Signup Error: status_code ${signupResponse.statusCode}");
-          return {};
-        }
-
-        loginResponse = await login(oauthId, email);
-      } else if (loginResponse.errorMessage == "error") {
-        debugPrint("Login Error: status_code ${loginResponse.statusCode}");
-        return {};
+      // TODO: 에러 처리
+      if (loginResponse.errorMessage != null) {
+        debugPrint("Login Error: ${loginResponse.errorMessage}");
       }
 
       return loginResponse.data ?? {};

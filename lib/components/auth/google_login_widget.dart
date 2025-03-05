@@ -42,27 +42,21 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
         return {};
       }
 
-      ApiResponse<Map<String, dynamic>> loginResponse =
-          await login(user.id, user.email);
+      // Google OAuth로부터 액세스 토큰 가져오기
+      final GoogleSignInAuthentication auth = await user.authentication;
+      final String? accessToken = auth.accessToken;
 
-      if (loginResponse.statusCode == 500) {
-        // 회원이 존재하지 않는 경우, 회원가입 후 다시 로그인
-        final ApiResponse<Map<String, dynamic>> signupResponse = await signup({
-          "username": user.displayName ?? "Unknown",
-          "oauth_provider": oauthProvider,
-          "oauth_id": user.id,
-          "email": user.email,
-          "profile_image": user.photoUrl ?? "",
-        });
+      ApiResponse<Map<String, dynamic>> loginResponse = await login(
+          oauthProvider,
+          auth.idToken!,
+          user.displayName ?? "Unknown",
+          user.id,
+          user.email,
+          user.photoUrl ?? "");
 
-        if (signupResponse.statusCode == 500) {
-          debugPrint("Signup failed: status_code ${signupResponse.statusCode}");
-          return {};
-        }
-
-        loginResponse = await login(user.id, user.email);
-      } else if (loginResponse.errorMessage == "error") {
-        debugPrint("Login Error: status_code ${loginResponse.statusCode}");
+      // TODO: 에러 처리
+      if (loginResponse.errorMessage != null) {
+        debugPrint("Login Error: ${loginResponse.errorMessage}");
         return {};
       }
 
