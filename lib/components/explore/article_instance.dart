@@ -68,7 +68,8 @@ class ArticleInstance extends StatelessWidget {
                           ? ClipOval(
                               child: Image(
                                 image: CachedNetworkImageProvider(
-                                    article.userProfileImage),
+                                  article.userProfileImage,
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             )
@@ -131,33 +132,23 @@ class ArticleInstance extends StatelessWidget {
                               sigmaX: i * 1.0,
                               sigmaY: i * 1.0,
                             ),
-                            child: thumbnails[i] != ""
-                                ? CachedNetworkImage(
-                                    imageUrl: thumbnails[i],
-                                    fit: BoxFit.cover,
-                                    fadeInDuration: Duration.zero,
-                                    fadeOutDuration: Duration.zero,
-                                    errorWidget: (context, url, error) {
-                                      return Container(
-                                        color: contentInstanceNoThumbnailColor,
-                                        child: Center(
-                                          child: Text(
-                                            "🙂‍↔️",
-                                            style: TextStyle(fontSize: 30.0),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  )
-                                : Container(
-                                    color: contentInstanceNoThumbnailColor,
-                                    child: Center(
-                                      child: Text(
-                                        "🙂‍↔️",
-                                        style: TextStyle(fontSize: 30.0),
-                                      ),
+                            child: CachedNetworkImage(
+                              imageUrl: thumbnails[i],
+                              fit: BoxFit.cover,
+                              fadeInDuration: Duration.zero,
+                              fadeOutDuration: Duration.zero,
+                              errorWidget: (context, url, error) {
+                                return Container(
+                                  color: contentInstanceNoThumbnailColor,
+                                  child: Center(
+                                    child: Text(
+                                      "🙂‍↔️",
+                                      style: TextStyle(fontSize: 30.0),
                                     ),
                                   ),
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),

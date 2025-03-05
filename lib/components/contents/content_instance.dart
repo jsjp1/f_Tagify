@@ -280,33 +280,23 @@ class ContentInstanceState extends State<ContentInstance> {
                               ),
                             ],
                           ),
-                          child: widget.content.thumbnail != ""
-                              ? CachedNetworkImage(
-                                  imageUrl: widget.content.thumbnail,
-                                  fit: BoxFit.cover,
-                                  fadeInDuration: Duration.zero,
-                                  fadeOutDuration: Duration.zero,
-                                  errorWidget: (context, url, error) {
-                                    return Container(
-                                      color: contentInstanceNoThumbnailColor,
-                                      child: Center(
-                                        child: Text(
-                                          "🙂‍↔️",
-                                          style: TextStyle(fontSize: 30.0),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              : Container(
-                                  color: contentInstanceNoThumbnailColor,
-                                  child: Center(
-                                    child: Text(
-                                      "🙂‍↔️",
-                                      style: TextStyle(fontSize: 30.0),
-                                    ),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.content.thumbnail,
+                            fit: BoxFit.cover,
+                            fadeInDuration: Duration.zero,
+                            fadeOutDuration: Duration.zero,
+                            errorWidget: (context, url, error) {
+                              return Container(
+                                color: contentInstanceNoThumbnailColor,
+                                child: Center(
+                                  child: Text(
+                                    "🙂‍↔️",
+                                    style: TextStyle(fontSize: 30.0),
                                   ),
                                 ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

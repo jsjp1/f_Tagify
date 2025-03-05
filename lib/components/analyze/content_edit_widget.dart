@@ -72,17 +72,14 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       SizedBox(
                         height: 175.0,
                         child: AspectRatio(
-                          aspectRatio: 16 / 9,
-                          child: thumbnail.isNotEmpty
-                              ? CachedNetworkImage(
-                                  imageUrl: thumbnail,
-                                  fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) {
-                                    return SizedBox.expand();
-                                  },
-                                )
-                              : const SizedBox.expand(),
-                        ),
+                            aspectRatio: 16 / 9,
+                            child: CachedNetworkImage(
+                              imageUrl: thumbnail,
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) {
+                                return SizedBox.expand();
+                              },
+                            )),
                       ),
                       Positioned(
                         top: 0.0,
