@@ -331,25 +331,31 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
           ),
           // 콘텐츠 원문보기 버튼
           Positioned(
-            bottom: 30.0,
-            left: 20.0,
-            right: 20.0,
+            bottom: 15.0,
             child: GestureDetector(
               onTap: () => launchContentUrl(content?.url ?? ""),
               child: Container(
-                height: 60.0,
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
+                height: 70.0,
+                width: MediaQuery.of(context).size.width,
+                color: whiteBackgroundColor,
                 child: Center(
-                  child: GlobalText(
-                    localizeText:
-                        "content_detail_screen_move_to_content_button_text",
-                    textSize: 20.0,
-                    textColor: whiteBackgroundColor,
-                    localization: true,
-                    isBold: true,
+                  child: Container(
+                    height: 60.0,
+                    width: MediaQuery.of(context).size.width * (0.85),
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: Center(
+                      child: GlobalText(
+                        localizeText:
+                            "content_detail_screen_move_to_content_button_text",
+                        textSize: 20.0,
+                        textColor: whiteBackgroundColor,
+                        localization: true,
+                        isBold: true,
+                      ),
+                    ),
                   ),
                 ),
               ),
