@@ -62,6 +62,7 @@ class TagScreen extends StatelessWidget {
                       child: Consumer<TagifyProvider>(
                         builder: (context, provider, child) {
                           return GridView.builder(
+                            padding: EdgeInsets.only(bottom: 150.0),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: provider.selectedGrid,
@@ -94,7 +95,7 @@ class TagScreen extends StatelessWidget {
                                 child: TagBoxInstance(
                                   tag: provider.tags[index - 1],
                                   onTap: () async {
-                                    await provider.setTag(
+                                    provider.setTag(
                                         provider.tags[index - 1].tagName);
                                     await provider.fetchContents();
 

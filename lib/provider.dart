@@ -9,6 +9,7 @@ import 'package:tagify/global.dart';
 
 // TODO: 일단 화면 전환 후 await / 현재는 await then 전환
 class TagifyProvider extends ChangeNotifier {
+  bool hasMoreArticles = true;
   String _currentTag = "all";
   String _currentPage = "home";
   List<Content> _contents = [];
@@ -33,7 +34,10 @@ class TagifyProvider extends ChangeNotifier {
 
   void setCurrentPage(String newPage) {
     _currentPage = newPage;
-    notifyListeners();
+  }
+
+  void setTag(String newTag) {
+    _currentTag = newTag;
   }
 
   void setSelectedGrid(int newGrid) {
@@ -45,21 +49,25 @@ class TagifyProvider extends ChangeNotifier {
     _articlesOffset += articlesLimit;
   }
 
-  Future<void> setUserInfo(Map<String, dynamic> loginResponse) async {
+  Future<void> setInitialSetting(Map<String, dynamic> loginResponse) async {
     _loginResponse = loginResponse;
 
+    setTag("all");
+    setCurrentPage("home");
+
     await fetchContents();
-    await fetchTags();
     await fetchArticles();
+    await fetchTags();
 
     notifyListeners();
   }
 
-  Future<void> setTag(String newTag) async {
-    _currentTag = newTag;
-  }
+  Future<void> fetchCachedContents() async {
+    if (_tagCachedContents[_currentTag] == null) {
+      setTag(_currentTag);
+      await fetchContents();
+    }
 
-  void fetchCachedContents() async {
     _contents = _tagCachedContents[_currentTag]!;
   }
 
@@ -98,8 +106,8 @@ class TagifyProvider extends ChangeNotifier {
       for (var tag in _tags) {
         _tagNameIdMap[tag.tagName] = tag.id;
       }
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   Future<void> fetchArticles() async {
@@ -108,7 +116,35 @@ class TagifyProvider extends ChangeNotifier {
     final articlesResponse = await fetchArticlesLimited(articlesLimit, 0);
 
     if (articlesResponse.success) {
+      // 초기화
+      hasMoreArticles = true;
+      _articlesOffset = 0;
+
       _articles = articlesResponse.data ?? [];
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchOldArticles() async {
+    if (loginResponse!['id'] == null) return;
+    if (!hasMoreArticles) return;
+
+    final articlesResponse =
+        await fetchArticlesLimited(articlesLimit, _articlesOffset);
+
+    if (articlesResponse.success) {
+      if (articlesResponse.data!.isEmpty) {
+        hasMoreArticles = false;
+        return;
+      }
+
+      if (_articlesOffset == 0) {
+        _articles = articlesResponse.data ?? [];
+      } else {
+        _articles.addAll(articlesResponse.data ?? []);
+      }
+
+      updateArticlesOffset();
       notifyListeners();
     }
   }

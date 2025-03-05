@@ -28,29 +28,35 @@ class TagifyNavigationBarAB extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              NavigationBarButton(
-                icon: provider.currentPage == "home"
-                    ? Icon(CupertinoIcons.house_alt_fill,
-                        color: mainColor, size: 30.0)
-                    : Icon(CupertinoIcons.house_alt,
-                        color: Colors.grey, size: 30.0),
-                buttonName: "navigation_bar_button_home",
-                onPressed: () async {
-                  if (provider.currentPage != "home") {
-                    provider.setCurrentPage("home");
-                    await provider.setTag("all");
-                    provider.fetchCachedContents();
+              Consumer<TagifyProvider>(
+                builder: (context, provider, child) {
+                  return NavigationBarButton(
+                    icon: provider.currentPage == "home"
+                        ? Icon(CupertinoIcons.house_alt_fill,
+                            color: mainColor, size: 30.0)
+                        : Icon(CupertinoIcons.house_alt,
+                            color: Colors.grey, size: 30.0),
+                    buttonName: "navigation_bar_button_home",
+                    onPressed: () async {
+                      if (provider.currentPage != "home") {
+                        provider.setTag("all");
 
-                    Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            HomeScreen(loginResponse: provider.loginResponse!),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  }
+                        provider.setCurrentPage("home");
+                        await provider.fetchCachedContents();
+
+                        await Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                HomeScreen(
+                                    loginResponse: provider.loginResponse!),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
               ),
               NavigationBarButton(
@@ -81,56 +87,64 @@ class TagifyNavigationBarAB extends StatelessWidget {
                   );
                 },
               ),
-              NavigationBarButton(
-                icon: provider.currentPage == "explore"
-                    ? Icon(
-                        CupertinoIcons.arrow_up_arrow_down_circle_fill,
-                        color: mainColor,
-                        size: 30.0,
-                      )
-                    : Icon(CupertinoIcons.arrow_up_arrow_down_circle,
-                        color: Colors.grey, size: 30.0),
-                buttonName: "navigation_bar_button_explore",
-                onPressed: () async {
-                  if (provider.currentPage != "explore") {
-                    provider.setCurrentPage("explore");
+              Consumer<TagifyProvider>(
+                builder: (context, provider, child) {
+                  return NavigationBarButton(
+                    icon: provider.currentPage == "explore"
+                        ? Icon(
+                            CupertinoIcons.arrow_up_arrow_down_circle_fill,
+                            color: mainColor,
+                            size: 30.0,
+                          )
+                        : Icon(CupertinoIcons.arrow_up_arrow_down_circle,
+                            color: Colors.grey, size: 30.0),
+                    buttonName: "navigation_bar_button_explore",
+                    onPressed: () async {
+                      if (provider.currentPage != "explore") {
+                        provider.setCurrentPage("explore");
 
-                    await Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            ExploreScreen(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  }
+                        await Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                ExploreScreen(),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
               ),
-              NavigationBarButton(
-                icon: provider.currentPage == "tag"
-                    ? Icon(
-                        CupertinoIcons.rectangle_fill_on_rectangle_angled_fill,
-                        color: mainColor,
-                        size: 30.0)
-                    : Icon(CupertinoIcons.rectangle_on_rectangle_angled,
-                        color: Colors.grey, size: 30.0),
-                buttonName: "navigation_bar_button_tag",
-                onPressed: () async {
-                  debugPrint("touch");
-                  if (provider.currentPage != "tag") {
-                    provider.setCurrentPage("tag");
+              Consumer<TagifyProvider>(
+                builder: (context, provider, child) {
+                  return NavigationBarButton(
+                    icon: provider.currentPage == "tag"
+                        ? Icon(
+                            CupertinoIcons
+                                .rectangle_fill_on_rectangle_angled_fill,
+                            color: mainColor,
+                            size: 30.0)
+                        : Icon(CupertinoIcons.rectangle_on_rectangle_angled,
+                            color: Colors.grey, size: 30.0),
+                    buttonName: "navigation_bar_button_tag",
+                    onPressed: () async {
+                      if (provider.currentPage != "tag") {
+                        provider.setCurrentPage("tag");
 
-                    await Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            TagScreen(),
-                        transitionDuration: Duration.zero,
-                        reverseTransitionDuration: Duration.zero,
-                      ),
-                    );
-                  }
+                        await Navigator.push(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder: (context, animation1, animation2) =>
+                                TagScreen(),
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero,
+                          ),
+                        );
+                      }
+                    },
+                  );
                 },
               ),
             ],
@@ -158,8 +172,8 @@ class NavigationBarButton extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: onPressed,
       child: SizedBox(
-        width: 60.0,
-        height: 60.0,
+        width: navigationBarIconButtonHeight,
+        height: navigationBarIconButtonHeight,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

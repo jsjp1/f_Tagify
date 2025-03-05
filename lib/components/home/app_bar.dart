@@ -54,19 +54,21 @@ class TagifyAppBar extends StatelessWidget {
               showProfileMenu(context);
             },
             child: Container(
-              width: 40,
-              height: 40,
+              width: profileImageHeight,
+              height: profileImageHeight,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: provider.loginResponse!["profile_image"] != ""
-                      ? CachedNetworkImageProvider(
-                          provider.loginResponse!["profile_image"])
-                      : AssetImage("assets/img/default_profile.png")
-                          as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
               ),
+              child: provider.loginResponse!["profile_image"] != ""
+                  ? ClipOval(
+                      child: Image(
+                        image: CachedNetworkImageProvider(
+                            provider.loginResponse!["profile_image"]),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Icon(CupertinoIcons.person_crop_circle_fill,
+                      size: profileImageHeight, color: Colors.grey),
             ),
           ),
         ],

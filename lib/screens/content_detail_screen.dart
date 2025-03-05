@@ -79,9 +79,15 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                       )
                     : content?.thumbnail == ""
                         ? Container(color: Colors.grey)
-                        : CachedNetworkImage(
-                            imageUrl: content!.thumbnail,
-                            fit: BoxFit.cover,
+                        : ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              Colors.black.withAlpha(70),
+                              BlendMode.darken,
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: content!.thumbnail,
+                              fit: BoxFit.cover,
+                            ),
                           ), // TODO: 썸네일 없을 경우 기본 이미지 처리
               ),
               // thumbnail 아래 콘텐츠 설명 나열 부분

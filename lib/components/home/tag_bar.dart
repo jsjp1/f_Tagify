@@ -22,8 +22,6 @@ class TagBar extends StatefulWidget {
 }
 
 class TagBarState extends State<TagBar> {
-  String currentSelectedTag = "all";
-
   @override
   Widget build(BuildContext context) {
     final TagifyProvider provider = context.watch<TagifyProvider>();
@@ -38,18 +36,19 @@ class TagBarState extends State<TagBar> {
               SizedBox(width: 10.0),
               GestureDetector(
                 onTap: () async {
-                  await provider.setTag("all");
+                  provider.setTag("all");
                   await provider.fetchContents();
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: provider.currentTag == "all",
+                  currentSelectedTag: (provider.currentTag == "all" ||
+                      provider.currentTag == ""),
                 ),
               ),
               GestureDetector(
                 onTap: () async {
-                  await provider.setTag("bookmark");
+                  provider.setTag("bookmark");
                   await provider.fetchContents();
                 },
                 child: TagContainer(

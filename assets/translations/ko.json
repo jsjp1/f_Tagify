@@ -55,5 +55,14 @@
   "navigation_bar_button_explore": "explore",
   "navigation_bar_button_tag": "tag",
 
-  "article_widget_empty": "표시할 게시물들이 존재하지 않습니다"
+  "article_widget_empty": "표시할 게시물들이 존재하지 않습니다",
+  "article_widget_no_more_article": "마지막 게시물입니다",
+
+  "article_instance_created_at_text": "작성 일자: ",
+
+  "upload_dialog_upload_button_text": "등록",
+  "upload_dialog_no_tag_selected": "등록을 원하는 태그를 선택해야 합니다",
+  "upload_dialog_title_controller_text": "제목",
+  "upload_dialog_body_controller_text": "설명",
+  "upload_dialog_tags_text": "공유할 태그를 선택해주세요"
 }

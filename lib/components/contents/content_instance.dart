@@ -49,10 +49,11 @@ class ContentInstanceState extends State<ContentInstance> {
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
-                  color: contentInstanceBoxShadowColor,
-                  blurRadius: 5.0,
-                  spreadRadius: 0.01,
-                  offset: Offset(0, 5)),
+                color: contentInstanceBoxShadowColor,
+                blurRadius: 5.0,
+                spreadRadius: 0.01,
+                offset: Offset(0, 5),
+              ),
             ],
           ),
           child: Column(

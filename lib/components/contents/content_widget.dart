@@ -6,10 +6,9 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
 class ContentWidget extends StatefulWidget {
-  final int userId;
   final GlobalKey<ContentWidgetState>? key;
 
-  const ContentWidget({this.key, required this.userId}) : super(key: key);
+  const ContentWidget({this.key}) : super(key: key);
 
   @override
   ContentWidgetState createState() => ContentWidgetState();
@@ -57,8 +56,11 @@ class ContentWidgetState extends State<ContentWidget> {
                 }
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, "/content",
-                        arguments: provider.contents[idx]);
+                    Navigator.pushNamed(
+                      context,
+                      "/content",
+                      arguments: provider.contents[idx],
+                    );
                   },
                   child: ContentInstance(
                     instanceWidth: widgetWidth,

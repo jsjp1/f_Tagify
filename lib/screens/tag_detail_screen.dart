@@ -40,9 +40,7 @@ class TagDetailScreenState extends State<TagDetailScreen> {
                     appIconColor: widget.tag.color,
                   ),
                   Expanded(
-                    child: ContentWidget(
-                      userId: provider.loginResponse!["id"],
-                    ),
+                    child: ContentWidget(),
                   )
                 ],
               ),

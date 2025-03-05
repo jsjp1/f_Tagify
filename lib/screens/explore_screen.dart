@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
@@ -48,7 +49,7 @@ class ExploreScreenState extends State<ExploreScreen> {
                     exploreScreenUploadDialog(context);
                   },
                   child: Icon(
-                    Icons.create,
+                    CupertinoIcons.arrow_up_doc,
                     size: 30.0,
                     color: whiteBackgroundColor,
                   ),

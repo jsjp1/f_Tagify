@@ -8,7 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/dio.dart';
 
-Future<ApiResponse<Map<String, dynamic>>> login(String id, String email) async {
+Future<ApiResponse<Map<String, dynamic>>> login(String provider, String idToken,
+    String userName, String oauthId, String email, String profileImage) async {
+  final String providerLower = provider.toLowerCase();
   final String serverHost = "${dotenv.get("SERVER_HOST")}/api/users/login";
   late final Response response;
 
@@ -16,8 +18,12 @@ Future<ApiResponse<Map<String, dynamic>>> login(String id, String email) async {
     response = await ApiClient.dio.post(
       serverHost,
       data: jsonEncode({
-        "oauth_id": id,
+        "id_token": idToken,
+        "username": userName,
+        "oauth_provider": providerLower,
+        "oauth_id": oauthId,
         "email": email,
+        "profile_image": profileImage,
       }),
     );
 

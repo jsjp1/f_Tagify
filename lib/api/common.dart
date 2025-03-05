@@ -1,4 +1,4 @@
-import 'dart:ui';
+import "dart:ui";
 
 class ApiResponse<T> {
   final T? data;
@@ -14,10 +14,10 @@ class ApiResponse<T> {
 
   Map<String, dynamic> toJson() {
     return {
-      'data': data,
-      'message': errorMessage,
-      'success': success,
-      'statusCode': statusCode,
+      "data": data,
+      "message": errorMessage,
+      "success": success,
+      "statusCode": statusCode,
     };
   }
 
@@ -49,6 +49,8 @@ class Tag {
 class Article {
   final int id;
   final int userId;
+  final String userName;
+  final String userProfileImage;
   final String title;
   final String body;
   final String encodedContent;
@@ -60,6 +62,8 @@ class Article {
   const Article({
     required this.id,
     required this.userId,
+    required this.userName,
+    required this.userProfileImage,
     required this.title,
     required this.body,
     required this.encodedContent,
@@ -69,31 +73,51 @@ class Article {
     required this.updatedAt,
   });
 
+  factory Article.empty() {
+    return Article(
+      id: -1,
+      userId: -1,
+      userName: "",
+      userProfileImage: "",
+      title: "",
+      body: "",
+      encodedContent: "",
+      upCount: 0,
+      downCount: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
+
   factory Article.fromJson(Map<String, dynamic> json) {
     return Article(
-      id: json['id'],
-      userId: json['user_id'],
-      title: json['title'],
-      body: json['body'],
-      encodedContent: json['encoded_content'],
-      upCount: json['up_count'],
-      downCount: json['down_count'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json["id"],
+      userId: json["user_id"],
+      userName: json["user_name"],
+      userProfileImage: json["user_profile_image"],
+      title: json["title"],
+      body: json["body"],
+      encodedContent: json["encoded_content"],
+      upCount: json["up_count"],
+      downCount: json["down_count"],
+      createdAt: DateTime.parse(json["created_at"]),
+      updatedAt: DateTime.parse(json["updated_at"]),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'user_id': userId,
-      'title': title,
-      'body': body,
-      'encoded_content': encodedContent,
-      'up_count': upCount,
-      'down_count': downCount,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      "id": id,
+      "user_id": userId,
+      "user_name": userName,
+      "user_profile_image": userProfileImage,
+      "title": title,
+      "body": body,
+      "encoded_content": encodedContent,
+      "up_count": upCount,
+      "down_count": downCount,
+      "created_at": createdAt.toIso8601String(),
+      "updated_at": updatedAt.toIso8601String(),
     };
   }
 }

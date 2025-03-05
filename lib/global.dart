@@ -27,6 +27,11 @@ const double appBarHeight = 60.0;
 const double navigationBarHeight = 83.0;
 const double logoImageHeight = 40.0;
 const double safeAreaHeight = 60.0;
+const double articleInstanceHeight = 150.0;
+const double profileImageHeight = 40.0;
+const double profileImageHeightInArticle = 30.0;
+const double uploadDialogHeight = 328.0;
+const double navigationBarIconButtonHeight = 60.0;
 
 // global variable
 const int articlesLimit = 30;

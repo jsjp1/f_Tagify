@@ -30,9 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
         Provider.of<TagifyProvider>(context, listen: false);
 
     // 초기 세팅
-    _provider.setUserInfo(widget.loginResponse).then((_) {
-      _provider.setCurrentPage("home");
-    });
+    _provider.setInitialSetting(widget.loginResponse);
   }
 
   @override
@@ -43,12 +41,12 @@ class HomeScreenState extends State<HomeScreen> {
     if (args is Map<String, dynamic>) {
       // login으로 넘어오는 경우
       // 초기 세팅
+
+      // 비동기 future로 변경...
       widget.loginResponse = args;
-      provider.setUserInfo(args).then((_) {
-        provider.setCurrentPage("home");
-      });
+      provider.setInitialSetting(args);
     }
-    debugPrint("home_screen.dart: loginResponse: $widget.loginResponse");
+    debugPrint("home_screen.dart: loginResponse: ${widget.loginResponse}");
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
@@ -88,7 +86,6 @@ class HomeScreenState extends State<HomeScreen> {
                       },
                       body: ContentWidget(
                         key: contentWidgetKey,
-                        userId: provider.loginResponse!["id"],
                       ),
                     ),
                   ),
