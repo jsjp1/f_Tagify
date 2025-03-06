@@ -4,7 +4,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import 'package:tagify/components/auth/oauth_button.dart';
 import 'package:tagify/api/common.dart';
-import 'package:tagify/api/auth.dart';
+import 'package:tagify/api/user.dart';
 
 class AppleLoginWidget extends StatelessWidget {
   const AppleLoginWidget({super.key});

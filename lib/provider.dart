@@ -34,9 +34,19 @@ class TagifyProvider extends ChangeNotifier {
 
   void setCurrentPage(String newPage) {
     _currentPage = newPage;
+    notifyListeners();
+  }
+
+  void setCurrentPageNotNotify(String newPage) {
+    _currentPage = newPage;
   }
 
   void setTag(String newTag) {
+    _currentTag = newTag;
+    notifyListeners();
+  }
+
+  void setTagNotNotify(String newTag) {
     _currentTag = newTag;
   }
 
@@ -49,11 +59,15 @@ class TagifyProvider extends ChangeNotifier {
     _articlesOffset += articlesLimit;
   }
 
+  void changeUserInfo(String key, dynamic value) {
+    if (_loginResponse == null) return;
+
+    _loginResponse![key] = value;
+    notifyListeners();
+  }
+
   Future<void> setInitialSetting(Map<String, dynamic> loginResponse) async {
     _loginResponse = loginResponse;
-
-    setTag("all");
-    setCurrentPage("home");
 
     await fetchContents();
     await fetchArticles();
@@ -69,6 +83,7 @@ class TagifyProvider extends ChangeNotifier {
     }
 
     _contents = _tagCachedContents[_currentTag]!;
+    notifyListeners();
   }
 
   Future<void> fetchContents() async {

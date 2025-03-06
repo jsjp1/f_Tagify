@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/common/animated_drawer_layout.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar_ab.dart';
@@ -7,8 +8,8 @@ import 'package:tagify/components/home/search_bar.dart';
 import 'package:tagify/components/home/tag_bar.dart';
 import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/components/home/notice_widget.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   Map<String, dynamic> loginResponse;
@@ -19,9 +20,12 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ContentWidgetState> contentWidgetKey = GlobalKey<
       ContentWidgetState>(); // contentWidget의 refreshContents 다른 곳에서 사용하기 위해
+  final GlobalKey<AnimatedDrawerLayoutState> drawerLayoutKey =
+      GlobalKey<AnimatedDrawerLayoutState>();
 
   @override
   void initState() {
@@ -31,6 +35,8 @@ class HomeScreenState extends State<HomeScreen> {
 
     // 초기 세팅
     _provider.setInitialSetting(widget.loginResponse);
+    _provider.setCurrentPageNotNotify("home");
+    _provider.setTagNotNotify("all");
   }
 
   @override
@@ -39,74 +45,81 @@ class HomeScreenState extends State<HomeScreen> {
 
     final Object? args = ModalRoute.of(context)?.settings.arguments;
     if (args is Map<String, dynamic>) {
-      // login으로 넘어오는 경우
-      // 초기 세팅
-
-      // 비동기 future로 변경...
       widget.loginResponse = args;
       provider.setInitialSetting(args);
+      provider.setCurrentPageNotNotify("home");
+      provider.setTagNotNotify("all");
     }
     debugPrint("home_screen.dart: loginResponse: ${widget.loginResponse}");
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: Container(
-          color: noticeWidgetColor,
-          child: Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TagifyAppBar(),
-                  Expanded(
-                    child: NestedScrollView(
-                      headerSliverBuilder:
-                          (BuildContext context, bool innerBoxIsScrolled) {
-                        return <Widget>[
-                          SliverToBoxAdapter(
-                            child: Column(
-                              children: [
-                                NoticeWidget(),
-                                SearchBarWidget(),
-                              ],
-                            ),
-                          ),
-                          SliverPersistentHeader(
-                            pinned: true,
-                            floating: false,
-                            delegate: _TagBarDelegate(
-                              userId: provider.loginResponse!["id"],
-                              contentWidgetKey: contentWidgetKey,
-                            ),
-                          ),
-                        ];
+      body: AnimatedDrawerLayout(
+        key: drawerLayoutKey,
+        mainContent: SafeArea(
+          top: true,
+          bottom: false,
+          child: Container(
+            color: noticeWidgetColor,
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TagifyAppBar(
+                      onProfileTap: () {
+                        drawerLayoutKey.currentState?.toggleMenu();
                       },
-                      body: ContentWidget(
-                        key: contentWidgetKey,
+                    ),
+                    Expanded(
+                      child: NestedScrollView(
+                        headerSliverBuilder:
+                            (BuildContext context, bool innerBoxIsScrolled) {
+                          return <Widget>[
+                            SliverToBoxAdapter(
+                              child: Column(
+                                children: [
+                                  SearchBarWidget(),
+                                ],
+                              ),
+                            ),
+                            SliverPersistentHeader(
+                              pinned: true,
+                              floating: false,
+                              delegate: _TagBarDelegate(
+                                userId: Provider.of<TagifyProvider>(context,
+                                        listen: false)
+                                    .loginResponse!["id"],
+                                contentWidgetKey: contentWidgetKey,
+                              ),
+                            ),
+                          ];
+                        },
+                        body: ContentWidget(
+                          key: contentWidgetKey,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: TagifyNavigationBarAB(),
-              ),
-            ],
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: TagifyNavigationBar(),
+                ),
+              ],
+            ),
           ),
         ),
+        drawerContent: SettingsScreen(),
       ),
     );
   }
 }
 
 class _TagBarDelegate extends SliverPersistentHeaderDelegate {
-  final double tagBarHeight = 55.0;
+  final double tagBarHeight = 50.0;
   final int userId;
   final GlobalKey<ContentWidgetState> contentWidgetKey;
 

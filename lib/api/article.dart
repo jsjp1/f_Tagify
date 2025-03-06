@@ -11,7 +11,7 @@ Future<ApiResponse<List<Article>>> fetchArticlesLimited(
   try {
     final response = await ApiClient.dio.get(serverHost);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! == 200) {
       List<dynamic> jsonList = response.data["articles"];
       List<Article> articles =
           jsonList.map((item) => Article.fromJson(item)).toList();
@@ -41,7 +41,7 @@ Future<ApiResponse<int>> postArticle(
       "encoded_content": encodedContent,
     });
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! == 200) {
       return ApiResponse(
           data: response.data, statusCode: response.statusCode!, success: true);
     }
@@ -64,7 +64,32 @@ Future<ApiResponse<int>> deleteArticle(int userId, int articleId) async {
       "article_id": articleId,
     });
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! == 200) {
+      return ApiResponse(
+          data: response.data, statusCode: response.statusCode!, success: true);
+    }
+    return ApiResponse(
+        errorMessage: "failure",
+        statusCode: response.statusCode!,
+        success: false);
+  } catch (e) {
+    return ApiResponse(
+        errorMessage: e.toString(), statusCode: 500, success: false);
+  }
+}
+
+Future<ApiResponse<int>> downloadArticle(
+    int userId, String newTagName, int articleId) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/articles/download/$articleId";
+
+  try {
+    final response = await ApiClient.dio.post(serverHost, data: {
+      "user_id": userId,
+      "tag_name": newTagName,
+    });
+
+    if (response.statusCode! == 200) {
       return ApiResponse(
           data: response.data, statusCode: response.statusCode!, success: true);
     }

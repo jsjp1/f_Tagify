@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:tagify/components/auth/oauth_button.dart';
-import 'package:tagify/api/auth.dart';
+import 'package:tagify/api/user.dart';
 import 'package:tagify/api/common.dart';
 
 class GoogleLoginWidget extends StatefulWidget {
@@ -44,7 +44,6 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
 
       // Google OAuth로부터 액세스 토큰 가져오기
       final GoogleSignInAuthentication auth = await user.authentication;
-      final String? accessToken = auth.accessToken;
 
       ApiResponse<Map<String, dynamic>> loginResponse = await login(
           oauthProvider,

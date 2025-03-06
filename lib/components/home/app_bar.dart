@@ -3,15 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tagify/api/auth.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/screens/settings_screen.dart';
 
 class TagifyAppBar extends StatelessWidget {
   String addText;
   Color appIconColor;
-  TagifyAppBar({super.key, this.addText = "", this.appIconColor = mainColor});
+  final VoidCallback? onProfileTap;
+
+  TagifyAppBar(
+      {super.key,
+      this.addText = "",
+      this.appIconColor = mainColor,
+      this.onProfileTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class TagifyAppBar extends StatelessWidget {
       width: double.infinity,
       height: appBarHeight,
       color: whiteBackgroundColor,
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 5.0),
       alignment: Alignment.centerLeft,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,8 +54,11 @@ class TagifyAppBar extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // TODO: 프로필 클릭 이벤트 추가
-              showProfileMenu(context);
+              if (onProfileTap == null) {
+                () {};
+                return;
+              }
+              onProfileTap!();
             },
             child: Container(
               width: profileImageHeight,
@@ -73,59 +80,6 @@ class TagifyAppBar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  void showProfileMenu(BuildContext context) {
-    showMenu(
-      color: whiteBackgroundColor,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: profileButtonContainerColor),
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      context: context,
-      position: RelativeRect.fromLTRB(100, 115, 20, 0),
-      items: [
-        PopupMenuItem(
-          height: 50,
-          child: ListTile(
-            hoverColor: Colors.transparent,
-            leading: const Icon(CupertinoIcons.settings_solid),
-            title: SizedBox(
-              width: 100.0,
-              child: GlobalText(
-                localizeText: "profile_button_settings",
-                textSize: 15.0,
-              ),
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => SettingsScreen()),
-              );
-            },
-          ),
-        ),
-        PopupMenuItem(
-          height: 50,
-          child: ListTile(
-            hoverColor: Colors.transparent,
-            leading: const Icon(CupertinoIcons.arrow_right),
-            title: SizedBox(
-              width: 100.0,
-              child: GlobalText(
-                localizeText: "profile_button_logout",
-                textSize: 15.0,
-              ),
-            ),
-            onTap: () async {
-              Navigator.pop(context);
-              await logout(context);
-            },
-          ),
-        ),
-      ],
     );
   }
 }

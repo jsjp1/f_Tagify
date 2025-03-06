@@ -82,8 +82,6 @@ class App extends StatelessWidget {
           "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
           "/analyze": (context) =>
               AnalyzeScreen(loginResponse: initialLoginResponse),
-          "/content": (context) =>
-              ContentDetailScreen(), // TODO: 지우기, materialPageRoute 쓸거면 없어도됨
           "/tag": (context) => TagScreen(),
           "/auth": (context) => const AuthScreen(),
           "/settings": (context) => const SettingsScreen(),

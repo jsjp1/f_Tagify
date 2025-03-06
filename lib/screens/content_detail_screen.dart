@@ -13,44 +13,38 @@ import 'package:tagify/utils/util.dart';
 import 'package:tagify/components/analyze/content_edit_widget.dart';
 
 class ContentDetailScreen extends StatefulWidget {
-  const ContentDetailScreen({super.key});
+  final Content content;
+
+  const ContentDetailScreen({super.key, required this.content});
 
   @override
   ContentDetailScreenState createState() => ContentDetailScreenState();
 }
 
 class ContentDetailScreenState extends State<ContentDetailScreen> {
-  Content? content;
   late YoutubePlayerController _youtubeController;
   bool isBookmarked = false;
   bool isDeleted = false;
 
   @override
-  void dispose() {
-    _youtubeController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+    String videoId = extractVideoId(widget.content.url);
+    _youtubeController = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+        forceHD: false,
+      ),
+    );
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final args = ModalRoute.of(context)!.settings.arguments;
-    if (args is Content) {
-      content = args;
-
-      isBookmarked = content!.bookmark;
-
-      String videoId = extractVideoId(content?.url ?? "");
-
-      _youtubeController = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: YoutubePlayerFlags(
-          autoPlay: false,
-          mute: false,
-          forceHD: false,
-        ),
-      );
-    }
+  void dispose() {
+    _youtubeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,7 +62,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               SizedBox(height: appBarHeight),
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: content?.runtimeType.toString() == "Video"
+                child: (widget.content.runtimeType.toString() == "Video")
                     ? YoutubePlayer(
                         controller: _youtubeController,
                         showVideoProgressIndicator: false,
@@ -83,7 +77,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                           BlendMode.darken,
                         ),
                         child: CachedNetworkImage(
-                          imageUrl: content!.thumbnail,
+                          imageUrl: widget.content.thumbnail,
                           fit: BoxFit.cover,
                           errorWidget: (context, url, error) {
                             return Container(color: Colors.grey);
@@ -111,7 +105,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                   isBookmarked = !isBookmarked;
                                 });
 
-                                await toggleBookmark(content!.id);
+                                await toggleBookmark(widget.content.id);
                                 Provider.of<TagifyProvider>(context,
                                         listen: false)
                                     .fetchContents();
@@ -127,7 +121,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                   Padding(
                                     padding: EdgeInsets.all(10.0),
                                     child: GlobalText(
-                                      localizeText: content?.title ?? "",
+                                      localizeText: widget.content.title,
                                       textSize: 20.0,
                                       isBold: true,
                                       overflow: TextOverflow.ellipsis,
@@ -156,7 +150,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                               ),
                               const SizedBox(height: 17.0),
                               GlobalText(
-                                localizeText: content!.description,
+                                localizeText: widget.content.description,
                                 textSize: 13.0,
                                 localization: false,
                               ),
@@ -173,10 +167,10 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: List.generate(
-                                    content!.tags.length,
+                                    widget.content.tags.length,
                                     (index) {
                                       return TagContainer(
-                                        tagName: content!.tags[index],
+                                        tagName: widget.content.tags[index],
                                         onPressed: () {},
                                         isLastButton: true,
                                       );
@@ -309,7 +303,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                               }
 
                               ApiResponse<void> _ =
-                                  await deleteContent(content!.id);
+                                  await deleteContent(widget.content.id);
 
                               await provider.fetchContents();
                               await provider.fetchTags();
@@ -333,7 +327,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
           Positioned(
             bottom: 15.0,
             child: GestureDetector(
-              onTap: () => launchContentUrl(content?.url ?? ""),
+              onTap: () => launchContentUrl(widget.content.url),
               child: Container(
                 height: 70.0,
                 width: MediaQuery.of(context).size.width,

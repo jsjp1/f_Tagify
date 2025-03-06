@@ -9,8 +9,9 @@ class TagBar extends StatefulWidget {
   final int userId;
   final double tagBarHeight;
   final GlobalKey<ContentWidgetState> contentWidgetKey;
+  String currentTag = "all";
 
-  const TagBar({
+  TagBar({
     super.key,
     required this.userId,
     required this.contentWidgetKey,
@@ -36,25 +37,30 @@ class TagBarState extends State<TagBar> {
               SizedBox(width: 10.0),
               GestureDetector(
                 onTap: () async {
+                  setState(() {
+                    widget.currentTag = "all";
+                  });
                   provider.setTag("all");
                   await provider.fetchContents();
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: (provider.currentTag == "all" ||
-                      provider.currentTag == ""),
+                  currentSelectedTag: widget.currentTag == "all",
                 ),
               ),
               GestureDetector(
                 onTap: () async {
+                  setState(() {
+                    widget.currentTag = "bookmark";
+                  });
                   provider.setTag("bookmark");
                   await provider.fetchContents();
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: provider.currentTag == "bookmark",
+                  currentSelectedTag: widget.currentTag == "bookmark",
                 ),
               ),
             ],
@@ -86,7 +92,7 @@ class TagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+      padding: EdgeInsets.only(left: 10.0),
       child: IntrinsicWidth(
         child: Container(
           height: tagBarHeight * (0.65),
@@ -98,14 +104,14 @@ class TagContainer extends StatelessWidget {
             color: currentSelectedTag
                 ? blackBackgroundColor
                 : whiteBackgroundColor,
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(16.0),
           ),
           child: Center(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(3.0),
               child: GlobalText(
                 localizeText: tagName,
-                textSize: 13.5,
+                textSize: 12.0,
                 textColor: currentSelectedTag ? Colors.white : Colors.black,
                 isBold: true,
                 overflow: TextOverflow.ellipsis,

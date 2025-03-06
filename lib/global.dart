@@ -21,17 +21,24 @@ const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);
 const Color defaultTagFolderColor = Color.fromARGB(155, 191, 191, 191);
 const Color snackBarColor = Color.fromARGB(255, 111, 111, 111);
 const Color contentInstanceDescriptionColor = Color.fromARGB(255, 99, 99, 99);
+const Color exploreScreenSearchBorderColor = Color.fromARGB(255, 87, 87, 87);
 
 // widget height
-const double appBarHeight = 60.0;
+const double appBarHeight = 45.0;
 const double navigationBarHeight = 83.0;
 const double logoImageHeight = 40.0;
 const double safeAreaHeight = 60.0;
 const double articleInstanceHeight = 150.0;
 const double profileImageHeight = 40.0;
-const double profileImageHeightInArticle = 30.0;
+const double profileImageHeightInArticle = 40.0;
 const double uploadDialogHeight = 328.0;
 const double navigationBarIconButtonHeight = 60.0;
+const double exploreScreenSearchBarBoxHeight = 55.0;
+const double exploreScreenSearchBarHeight = 40.0;
+const double tagScreenGridSelectBarHeight = 40.0;
+const double articleDetailScreenThumbnailsHeight = 200.0;
+const double articleDetailScreenContentHeight = 150.0;
+const double settingsScreenProfileImageHeight = 75.0;
 
 // global variable
 const int articlesLimit = 30;

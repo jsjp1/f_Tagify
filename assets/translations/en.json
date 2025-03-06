@@ -68,5 +68,8 @@
 
   "article_edit_modal_edit": "Edit",
   "article_edit_modal_delete": "Delete",
-  "article_edit_modal_download": "Download"
+  "article_edit_modal_download": "Download",
+  "article_edit_modal_tag_input": "Please specify the tag name",
+
+  "explore_screen_search_hint_text": "Search for the article you want!"
 }

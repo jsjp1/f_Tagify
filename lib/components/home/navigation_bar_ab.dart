@@ -9,10 +9,8 @@ import 'package:tagify/screens/explore_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
 
-class TagifyNavigationBarAB extends StatelessWidget {
-  const TagifyNavigationBarAB({
-    super.key,
-  });
+class TagifyNavigationBar extends StatelessWidget {
+  const TagifyNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,23 +36,20 @@ class TagifyNavigationBarAB extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_home",
                     onPressed: () async {
-                      if (provider.currentPage != "home") {
-                        provider.setTag("all");
+                      provider.setCurrentPage("home");
+                      provider.setTag("all");
+                      await provider.fetchCachedContents();
 
-                        provider.setCurrentPage("home");
-                        await provider.fetchCachedContents();
-
-                        await Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                HomeScreen(
-                                    loginResponse: provider.loginResponse!),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ),
-                        );
-                      }
+                      await Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              HomeScreen(
+                                  loginResponse: provider.loginResponse!),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
                     },
                   );
                 },
@@ -100,19 +95,17 @@ class TagifyNavigationBarAB extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_explore",
                     onPressed: () async {
-                      if (provider.currentPage != "explore") {
-                        provider.setCurrentPage("explore");
+                      provider.setCurrentPage("explore");
 
-                        await Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                ExploreScreen(),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ),
-                        );
-                      }
+                      await Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              ExploreScreen(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
                     },
                   );
                 },
@@ -130,19 +123,17 @@ class TagifyNavigationBarAB extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_tag",
                     onPressed: () async {
-                      if (provider.currentPage != "tag") {
-                        provider.setCurrentPage("tag");
+                      provider.setCurrentPage("tag");
 
-                        await Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder: (context, animation1, animation2) =>
-                                TagScreen(),
-                            transitionDuration: Duration.zero,
-                            reverseTransitionDuration: Duration.zero,
-                          ),
-                        );
-                      }
+                      await Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation1, animation2) =>
+                              TagScreen(),
+                          transitionDuration: Duration.zero,
+                          reverseTransitionDuration: Duration.zero,
+                        ),
+                      );
                     },
                   );
                 },

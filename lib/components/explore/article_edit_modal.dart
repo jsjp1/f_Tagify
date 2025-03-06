@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +16,7 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
     backgroundColor: whiteBackgroundColor,
     context: context,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
     ),
     builder: (BuildContext context) {
       return Wrap(
@@ -32,7 +34,100 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
                 isBold: true,
               ),
               onTap: () async {
-                // TODO: 게시물 저장
+                Navigator.pop(context);
+
+                // 저장할 태그 이름 입력 받기
+                // TODO: 이부분 analyze set tag랑 똑같은데, 추후 분리
+                String? tagName = await showModalBottomSheet<String>(
+                  backgroundColor: whiteBackgroundColor,
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16.0)),
+                  ),
+                  builder: (BuildContext context) {
+                    TextEditingController tagNameController =
+                        TextEditingController(text: article.title);
+
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  30.0, 20.0, 0.0, 0.0),
+                              child: GlobalText(
+                                localizeText: "article_edit_modal_tag_input",
+                                textSize: 22.0,
+                                isBold: true,
+                                localization: true,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 100.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
+                                  child: TextField(
+                                    autocorrect: false,
+                                    autofocus: true,
+                                    cursorColor: mainColor,
+                                    controller: tagNameController,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(
+                                            color: mainColor, width: 2.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        borderSide: BorderSide(
+                                            color: mainColor, width: 2.0),
+                                      ),
+                                      suffixIcon: IconButton(
+                                        icon: const Icon(
+                                            CupertinoIcons.clear_circled_solid),
+                                        onPressed: () {
+                                          tagNameController.clear();
+                                        },
+                                      ),
+                                    ),
+                                    onSubmitted: (String text) {
+                                      Navigator.pop(context, text);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 25.0),
+                        ],
+                      ),
+                    );
+                  },
+                );
+
+                if (tagName == null || tagName.isEmpty) {
+                  return;
+                }
+                final ApiResponse<int> response = await downloadArticle(
+                    provider.loginResponse!["id"], tagName, article.id);
+
+                await provider.fetchTags();
+                await provider.fetchContents();
               },
             ),
           ),

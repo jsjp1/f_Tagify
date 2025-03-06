@@ -27,7 +27,7 @@ Future<ApiResponse<Map<String, dynamic>>> login(String provider, String idToken,
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! == 200) {
       final data = response.data as Map<String, dynamic>;
 
       final prefs = await SharedPreferences.getInstance();
@@ -39,7 +39,7 @@ Future<ApiResponse<Map<String, dynamic>>> login(String provider, String idToken,
         statusCode: response.statusCode!,
         success: true,
       );
-    } else if (response.statusCode == 400) {
+    } else if (response.statusCode! == 400) {
       return ApiResponse(
         errorMessage: "failure",
         statusCode: response.statusCode!,
@@ -72,7 +72,7 @@ Future<ApiResponse<Map<String, dynamic>>> signup(
       data: jsonEncode(userInfo),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode! == 200) {
       final data = response.data as Map<String, dynamic>;
 
       final prefs = await SharedPreferences.getInstance();
@@ -116,4 +116,29 @@ Future<void> logout(BuildContext context) async {
     "/auth",
     (route) => false,
   );
+}
+
+Future<ApiResponse<int>> updateUserName(int userId, String newName) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/users/name/$userId";
+
+  try {
+    final response = await ApiClient.dio.put(serverHost, data: {
+      "username": newName,
+    });
+
+    if (response.statusCode! == 200) {
+      return ApiResponse(
+          data: response.data["id"],
+          statusCode: response.statusCode!,
+          success: true);
+    }
+    return ApiResponse(
+        errorMessage: "failure",
+        statusCode: response.statusCode!,
+        success: false);
+  } catch (e) {
+    return ApiResponse(
+        errorMessage: e.toString(), statusCode: 500, success: false);
+  }
 }

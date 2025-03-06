@@ -288,7 +288,6 @@ class ContentInstanceState extends State<ContentInstance> {
                   ),
                 ),
               ),
-              // SizedBox(height: widget.instanceHeight * (0.4)),
             ],
           ),
         ),

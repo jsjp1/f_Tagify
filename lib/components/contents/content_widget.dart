@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:tagify/components/contents/content_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/screens/content_detail_screen.dart';
 
 class ContentWidget extends StatefulWidget {
   final GlobalKey<ContentWidgetState>? key;
@@ -56,10 +57,13 @@ class ContentWidgetState extends State<ContentWidget> {
                 }
                 return GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      "/content",
-                      arguments: provider.contents[idx],
+                      MaterialPageRoute(
+                        builder: (context) => ContentDetailScreen(
+                          content: provider.contents[idx],
+                        ),
+                      ),
                     );
                   },
                   child: ContentInstance(
