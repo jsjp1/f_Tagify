@@ -24,6 +24,8 @@
   "profile_button_logout": "로그아웃",
 
   "settings_screen_title": "설정",
+  "settings_screen_logout_text": "로그아웃",
+  "settings_screen_leave_text": "회원탈퇴",
 
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
@@ -71,5 +73,7 @@
   "article_edit_modal_download": "다운로드",
   "article_edit_modal_tag_input": "태그 이름을 지정해주세요",
 
-  "explore_screen_search_hint_text": "찾고 싶은 게시물을 검색해보세요!"
+  "explore_screen_search_hint_text": "찾고 싶은 게시물을 검색해보세요!",
+
+  "tag_list_drawer_tag_list": "태그 목록"
 }

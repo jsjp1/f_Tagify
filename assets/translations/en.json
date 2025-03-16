@@ -24,6 +24,8 @@
   "profile_button_logout": "Logout",
 
   "settings_screen_title": "Settings",
+  "settings_screen_logout_text": "logout",
+  "settings_screen_leave_text": "delete account",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
@@ -71,5 +73,7 @@
   "article_edit_modal_download": "Download",
   "article_edit_modal_tag_input": "Please specify the tag name",
 
-  "explore_screen_search_hint_text": "Search for the article you want!"
+  "explore_screen_search_hint_text": "Search for the article you want!",
+
+  "tag_list_drawer_tag_list": "Tag List"
 }
