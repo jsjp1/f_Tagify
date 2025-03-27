@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/contents/common.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -102,11 +103,11 @@ class _UploadDialogState extends State<_UploadDialog> {
                                   selectedTagName = tag.tagName;
                                 });
 
-                                provider.setTag(tag.tagName);
-                                await provider.fetchContents();
+                                List<Content> tagContents =
+                                    provider.getTagContents(tag.tagName);
 
                                 Map<String, dynamic> contentListMap =
-                                    contentListToMap(provider.contents);
+                                    contentListToMap(tagContents);
                                 encodedContentList =
                                     encodeTaggedContentsToBase64(
                                         contentListMap);
@@ -136,16 +137,13 @@ class _UploadDialogState extends State<_UploadDialog> {
                         return;
                       }
 
-                      await postArticle(
-                        provider.loginResponse!["id"],
-                        widget.titleController.text.isEmpty
-                            ? "${provider.loginResponse!['username']}/ $selectedTagName"
-                            : widget.titleController.text,
-                        widget.bodyController.text,
-                        encodedContentList,
-                      );
+                      await provider.pvPostArticle(
+                          widget.titleController.text.isEmpty
+                              ? "${provider.loginResponse!['username']}/ $selectedTagName"
+                              : widget.titleController.text,
+                          widget.bodyController.text,
+                          encodedContentList);
 
-                      await provider.fetchArticles();
                       Navigator.pop(context);
                     },
                     child: Padding(

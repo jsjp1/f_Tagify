@@ -1,19 +1,20 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tagify/api/content.dart';
 import 'package:tagify/components/analyze/new_tag_modal.dart';
+import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/utils/util.dart';
 
 class ContentEditWidget extends StatefulWidget {
   final double widgetWidth;
-  final Map<String, dynamic> content;
+  Content content;
 
-  const ContentEditWidget({
+  ContentEditWidget({
     super.key,
     required this.widgetWidth,
     required this.content,
@@ -27,30 +28,19 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  late String url;
-  late String thumbnail;
-  late String favicon;
-  late int length;
-  late String body;
-  late List<dynamic> tags;
-
   bool isBookmarked = false;
 
   @override
   void initState() {
     super.initState();
 
-    url = widget.content["url"];
-    thumbnail = widget.content["thumbnail"];
-    favicon = widget.content["favicon"];
-    length = widget.content["video_length"];
-    body = widget.content["body"];
-    tags = widget.content["tags"];
-    if (tags.length > 3) {
-      tags = tags.sublist(0, 3);
+    titleController.text = widget.content.title;
+    descriptionController.text = widget.content.description;
+
+    if (widget.content.tags.length >= 3) {
+      // 콘텐츠당 최대 태그 개수 3개로 제한
+      widget.content.tags = widget.content.tags.sublist(0, 3);
     }
-    titleController.text = widget.content["title"];
-    descriptionController.text = widget.content["description"];
   }
 
   @override
@@ -74,7 +64,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         child: AspectRatio(
                             aspectRatio: 16 / 9,
                             child: CachedNetworkImage(
-                              imageUrl: thumbnail,
+                              imageUrl: widget.content.thumbnail,
                               fit: BoxFit.cover,
                               errorWidget: (context, url, error) {
                                 return SizedBox.expand();
@@ -91,6 +81,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                           onPressed: () {
                             setState(() {
                               isBookmarked = !isBookmarked;
+                              widget.content.bookmark = isBookmarked;
                             });
                           },
                         ),
@@ -189,14 +180,14 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: List.generate(
-                            tags.length + 1,
+                            widget.content.tags.length + 1,
                             (index) {
-                              if (index < tags.length && index < 3) {
+                              if (index < widget.content.tags.length) {
                                 return TagContainer(
-                                  tagName: tags[index],
+                                  tagName: widget.content.tags[index],
                                   onPressed: () {
                                     setState(() {
-                                      tags.removeAt(index);
+                                      widget.content.tags.removeAt(index);
                                     });
                                   },
                                   isLastButton: false,
@@ -205,7 +196,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                                 return TagContainer(
                                   tagName: "+",
                                   onPressed: () {
-                                    if (tags.length == 3) {
+                                    if (widget.content.tags.length == 3) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -214,16 +205,17 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                                               localizeText:
                                                   "content_edit_widget_no_more_tags_error",
                                               textSize: 15.0),
-                                          duration: Duration(seconds: 2),
+                                          duration: Duration(seconds: 1),
                                         ),
                                       );
                                       return;
                                     }
 
                                     // 태그 생성 로직
-                                    setTagBottomModal(context, (String newTag) {
+                                    setTagBottomModal(context,
+                                        (String newTagName) {
                                       setState(() {
-                                        tags.add(newTag);
+                                        widget.content.tags.add(newTagName);
                                       });
                                     });
                                   },
@@ -257,7 +249,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                 color: whiteBackgroundColor,
                 icon: const Icon(CupertinoIcons.check_mark),
                 onPressed: () async {
-                  if (tags.isEmpty) {
+                  if (widget.content.tags.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         backgroundColor: snackBarColor,
@@ -271,22 +263,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     return;
                   }
 
-                  await saveContent(
-                    provider.loginResponse!["id"],
-                    url,
-                    titleController.text,
-                    thumbnail,
-                    favicon,
-                    descriptionController.text,
-                    isBookmarked,
-                    length,
-                    body,
-                    tags,
-                    isVideo(url) ? "video" : "post",
-                  );
-
-                  await provider.fetchContents();
-                  await provider.fetchTags();
+                  await provider.pvSaveContent(widget.content);
 
                   Navigator.pop(context);
                 },

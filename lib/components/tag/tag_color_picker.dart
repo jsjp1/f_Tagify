@@ -74,10 +74,8 @@ Future<void> themeColorChange(BuildContext context, TagifyProvider provider,
         onColorSelected: (Color color) async {
           // 선택된 색상으로 tagColor 업데이트
           // TODO: 에러 로그 스낵바
-          final response = await updateTag(
-              provider.loginResponse!["id"], tagId, tagName, color);
-
-          await provider.fetchTags();
+          final response = await updateTag(provider.loginResponse!["id"], tagId,
+              tagName, color, provider.loginResponse!["accessToken"]);
         },
       );
     },

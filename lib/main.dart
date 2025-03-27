@@ -7,32 +7,24 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
-import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/auth_screen.dart';
-import 'package:tagify/screens/content_detail_screen.dart';
-import 'package:tagify/screens/home_screen.dart';
-import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/api/dio.dart';
-import 'package:tagify/screens/tag_screen.dart';
+import 'package:tagify/screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await EasyLocalization.ensureInitialized();
 
+  // TODO: 시작전 refresh token 만료기한 검사 -> login?
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]); // 세로 모드 고정
-  ApiClient();
 
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
   debugPrint("main.dart: Get loginResponse: $loginResponse");
-
-  if (loginResponse != null) {
-    await loadAuthToken(loginResponse["access_token"]);
-  }
 
   runApp(
     EasyLocalization(
@@ -40,7 +32,7 @@ void main() async {
       path: "assets/translations",
       fallbackLocale: Locale("en", ''),
       child: App(
-        initialRoute: loginResponse == null ? '/auth' : '/home',
+        initialRoute: loginResponse == null ? "/auth" : "/splash",
         initialLoginResponse: loginResponse ?? {},
       ),
     ),
@@ -78,36 +70,25 @@ class App extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         initialRoute: initialRoute,
-        routes: {
-          "/home": (context) => HomeScreen(loginResponse: initialLoginResponse),
-          "/analyze": (context) =>
-              AnalyzeScreen(loginResponse: initialLoginResponse),
-          "/tag": (context) => TagScreen(),
-          "/auth": (context) => const AuthScreen(),
-          "/settings": (context) => const SettingsScreen(),
-        },
         onGenerateRoute: (settings) {
+          Widget page;
+
           switch (settings.name) {
-            case "/home":
-              final loginResponse = settings.arguments is Map<String, dynamic>
-                  ? settings.arguments as Map<String, dynamic>
-                  : initialLoginResponse;
-              return PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    HomeScreen(
-                  loginResponse: loginResponse,
-                ),
-                transitionDuration: Duration(seconds: 0),
-              );
+            case "/splash":
+              final loginResponse =
+                  settings.arguments as Map<String, dynamic>? ??
+                      initialLoginResponse;
+              page = SplashScreen(loginResponse: loginResponse);
+              break;
             case "/auth":
-              return PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    AuthScreen(),
-                transitionDuration: Duration(seconds: 0),
-              );
+              page = const AuthScreen();
+              break;
             default:
-              return MaterialPageRoute(builder: (context) => AuthScreen());
+              page = const AuthScreen();
+              break;
           }
+
+          return MaterialPageRoute(builder: (context) => page);
         },
       ),
     );

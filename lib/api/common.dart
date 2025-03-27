@@ -1,5 +1,20 @@
 import "dart:ui";
 
+import "package:http/http.dart";
+import "package:tagify/api/auth.dart";
+
+Future<Response> authenticatedRequest(
+    Future<Response> Function(String) requestFn, String accessToken) async {
+  Response response = await requestFn(accessToken);
+  if (response.statusCode == 401) {
+    String? newAccessToken = await refreshToken();
+    if (newAccessToken != null) {
+      return await requestFn(newAccessToken);
+    }
+  }
+  return response;
+}
+
 class ApiResponse<T> {
   final T? data;
   final String? errorMessage;
@@ -39,8 +54,8 @@ class Tag {
 
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      id: json["tag_id"],
-      tagName: json["tag"],
+      id: json["id"],
+      tagName: json["tagname"],
       color: Color(json["color"]),
     );
   }

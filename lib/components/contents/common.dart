@@ -5,11 +5,11 @@ class Content {
   final String thumbnail;
   final String favicon;
   final String description;
-  final bool bookmark;
-  final List<String> tags;
+  bool bookmark;
+  List<dynamic> tags;
   final String type;
 
-  const Content(
+  Content(
       {required this.id,
       required this.url,
       required this.title,
@@ -19,6 +19,20 @@ class Content {
       required this.bookmark,
       required this.tags,
       required this.type});
+
+  factory Content.empty() {
+    return Content(
+      id: -1,
+      url: "",
+      title: "",
+      thumbnail: "",
+      favicon: "",
+      description: "",
+      bookmark: false,
+      tags: [],
+      type: "",
+    );
+  }
 
   factory Content.fromJson(Map<String, dynamic> json) {
     String contentType = json["type"].toString();
@@ -36,7 +50,7 @@ class Content {
           favicon: json["favicon"],
           description: json["description"],
           bookmark: json["bookmark"],
-          tags: List<String>.from(json["tags"]),
+          tags: json["tags"],
           type: contentType,
         );
     }
@@ -83,7 +97,7 @@ class Video extends Content {
       favicon: json["favicon"],
       description: json["description"],
       bookmark: json["bookmark"],
-      tags: List<String>.from(json["tags"]),
+      tags: json["tags"],
       type: contentType,
     );
   }
@@ -115,9 +129,7 @@ class Post extends Content {
       favicon: json["favicon"],
       description: json["description"],
       bookmark: json["bookmark"],
-      tags: List<String>.from(
-        json["tags"],
-      ),
+      tags: json["tags"],
       type: contentType,
     );
   }

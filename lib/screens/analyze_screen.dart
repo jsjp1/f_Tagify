@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/components/analyze/content_edit_widget.dart';
+import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class AnalyzeScreen extends StatefulWidget {
   final Map<String, dynamic> loginResponse;
@@ -16,15 +19,17 @@ class AnalyzeScreen extends StatefulWidget {
 }
 
 class AnalyzeScreenState extends State<AnalyzeScreen> {
-  ApiResponse<Map<String, dynamic>> futureContent = ApiResponse.empty();
+  ApiResponse<Content> futureContent = ApiResponse.empty();
   final TextEditingController _controller = TextEditingController();
   bool invalidUrl = false;
   bool alreadyExistsError = false;
 
   Future<void> _contentAnalyze(
       String url, String lang, String contentType) async {
-    final result = await analyzeContent(
-        widget.loginResponse["id"], url, lang, contentType);
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
+    final result = await analyzeContent(widget.loginResponse["id"], url, lang,
+        contentType, provider.loginResponse!["access_token"]);
     setState(() {
       futureContent = result;
     });

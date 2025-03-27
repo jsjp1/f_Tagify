@@ -2,12 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/api/common.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/api/content.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
 import 'package:tagify/components/analyze/content_edit_widget.dart';
@@ -23,7 +21,6 @@ class ContentDetailScreen extends StatefulWidget {
 
 class ContentDetailScreenState extends State<ContentDetailScreen> {
   late YoutubePlayerController _youtubeController;
-  bool isBookmarked = false;
   bool isDeleted = false;
 
   @override
@@ -51,7 +48,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
   Widget build(BuildContext context) {
     final double appBarHeight = AppBar().preferredSize.height;
     final double widgetWidget = MediaQuery.of(context).size.width * (0.9);
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
@@ -62,7 +59,8 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               SizedBox(height: appBarHeight),
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: (widget.content.runtimeType.toString() == "Video")
+                child: (widget.content.runtimeType.toString().toLowerCase() ==
+                        "video")
                     ? YoutubePlayer(
                         controller: _youtubeController,
                         showVideoProgressIndicator: false,
@@ -96,19 +94,14 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                             padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
                             child: IconButton(
                               highlightColor: Colors.transparent,
-                              icon: Icon(isBookmarked
+                              icon: Icon(provider.bookmarkedSet
+                                      .contains(widget.content.id)
                                   ? Icons.bookmark_sharp
                                   : Icons.bookmark_outline_sharp),
                               padding: EdgeInsets.zero,
                               onPressed: () async {
-                                setState(() {
-                                  isBookmarked = !isBookmarked;
-                                });
-
-                                await toggleBookmark(widget.content.id);
-                                Provider.of<TagifyProvider>(context,
-                                        listen: false)
-                                    .fetchContents();
+                                await provider
+                                    .pvToggleBookmark(widget.content.id);
                               },
                             ),
                           ),
@@ -194,7 +187,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             left: 0.0,
             top: appBarHeight + 5.0,
             child: IconButton(
-              icon: Icon(CupertinoIcons.back),
+              icon: Icon(CupertinoIcons.back, color: whiteBackgroundColor),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -205,7 +198,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             right: 0.0,
             top: appBarHeight + 5.0,
             child: IconButton(
-              icon: Icon(Icons.more_vert_sharp),
+              icon: Icon(Icons.more_vert_sharp, color: whiteBackgroundColor),
               padding: EdgeInsets.zero,
               onPressed: () async {
                 await showModalBottomSheet(
@@ -302,11 +295,8 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                 return;
                               }
 
-                              ApiResponse<void> _ =
-                                  await deleteContent(widget.content.id);
-
-                              await provider.fetchContents();
-                              await provider.fetchTags();
+                              await provider
+                                  .pvDeleteUserContent(widget.content.id);
 
                               // 삭제 모달 pop
                               Navigator.pop(context);

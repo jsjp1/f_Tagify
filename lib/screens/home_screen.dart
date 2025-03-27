@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/components/common/animated_drawer_layout.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar_ab.dart';
@@ -10,6 +9,8 @@ import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
+import 'package:tagify/components/common/animated_drawer_layout.dart';
+import 'package:tagify/components/common/tag_list_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   Map<String, dynamic> loginResponse;
@@ -30,13 +31,11 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    final TagifyProvider _provider =
+    final TagifyProvider provider =
         Provider.of<TagifyProvider>(context, listen: false);
 
     // 초기 세팅
-    _provider.setInitialSetting(widget.loginResponse);
-    _provider.setCurrentPageNotNotify("home");
-    _provider.setTagNotNotify("all");
+    provider.setInitialSetting(widget.loginResponse);
   }
 
   @override
@@ -46,9 +45,8 @@ class HomeScreenState extends State<HomeScreen>
     final Object? args = ModalRoute.of(context)?.settings.arguments;
     if (args is Map<String, dynamic>) {
       widget.loginResponse = args;
+
       provider.setInitialSetting(args);
-      provider.setCurrentPageNotNotify("home");
-      provider.setTagNotNotify("all");
     }
     debugPrint("home_screen.dart: loginResponse: ${widget.loginResponse}");
 
@@ -67,8 +65,11 @@ class HomeScreenState extends State<HomeScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TagifyAppBar(
+                      onLogoImageTap: () {
+                        drawerLayoutKey.currentState?.toggleLeftMenu();
+                      },
                       onProfileTap: () {
-                        drawerLayoutKey.currentState?.toggleMenu();
+                        drawerLayoutKey.currentState?.toggleRightMenu();
                       },
                     ),
                     Expanded(
@@ -112,7 +113,34 @@ class HomeScreenState extends State<HomeScreen>
             ),
           ),
         ),
-        drawerContent: SettingsScreen(),
+        leftDrawerContent: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(20),
+                offset: Offset(5, 0),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: TagListDrawer(
+            drawerLayoutKey: drawerLayoutKey,
+          ),
+        ),
+        rightDrawerContent: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(20),
+                offset: Offset(-5, 0),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: SettingsScreen(), // 기존 화면
+        ),
       ),
     );
   }

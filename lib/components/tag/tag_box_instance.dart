@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tagify/api/tag.dart';
+import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/components/tag/tag_color_picker.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -116,8 +116,6 @@ class TagBoxInstance extends StatelessWidget {
                                             tag!.id,
                                             tag!.tagName,
                                           );
-
-                                          await provider.fetchTags();
                                         },
                                       ),
                                     ),
@@ -138,13 +136,11 @@ class TagBoxInstance extends StatelessWidget {
                                           isBold: true,
                                         ),
                                         onTap: () async {
-                                          // TODO: 자동으로 클립보드에 저장되도록
-                                          provider.setTag(tag!.tagName);
-                                          await provider.fetchContents();
+                                          List<Content> tagContents = provider
+                                              .getTagContents(tag!.tagName);
 
                                           Map<String, dynamic> contentListMap =
-                                              contentListToMap(
-                                                  provider.contents);
+                                              contentListToMap(tagContents);
                                           String encodedContentList =
                                               encodeTaggedContentsToBase64(
                                                   contentListMap);
@@ -214,11 +210,10 @@ class TagBoxInstance extends StatelessWidget {
                                         ),
                                         onTap: () async {
                                           // TODO: 삭제 전 모달 띄우기
-                                          final response = await deleteTag(
-                                              provider.loginResponse!["id"],
-                                              tag!.tagName);
+                                          final response = await provider
+                                              .pvDeleteTag(tag!.tagName);
 
-                                          if (response.statusCode == 500) {
+                                          if (response == false) {
                                             // TODO: dio error 처리 완벽하게 해야됨...
                                             // 안에 콘텐츠 있어서 못 지울경우.. 실패모달 띄우기
                                             Navigator.pop(context);
@@ -237,7 +232,6 @@ class TagBoxInstance extends StatelessWidget {
                                             return;
                                           }
 
-                                          await provider.fetchTags();
                                           Navigator.pop(context);
                                         },
                                       ),

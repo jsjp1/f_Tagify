@@ -1,14 +1,9 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/global.dart';
-import 'package:tagify/provider.dart';
 
 class TagDetailScreen extends StatefulWidget {
   final Tag tag;
@@ -22,8 +17,6 @@ class TagDetailScreen extends StatefulWidget {
 class TagDetailScreenState extends State<TagDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
-
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
       body: SafeArea(
@@ -40,7 +33,10 @@ class TagDetailScreenState extends State<TagDetailScreen> {
                     appIconColor: widget.tag.color,
                   ),
                   Expanded(
-                    child: ContentWidget(),
+                    child: ContentWidget(
+                      tagSelectedId: widget.tag.id,
+                      tagSelectedName: widget.tag.tagName,
+                    ),
                   )
                 ],
               ),

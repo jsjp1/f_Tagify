@@ -40,8 +40,7 @@ class TagBarState extends State<TagBar> {
                   setState(() {
                     widget.currentTag = "all";
                   });
-                  provider.setTag("all");
-                  await provider.fetchContents();
+                  provider.currentTag = "all";
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
@@ -54,8 +53,7 @@ class TagBarState extends State<TagBar> {
                   setState(() {
                     widget.currentTag = "bookmark";
                   });
-                  provider.setTag("bookmark");
-                  await provider.fetchContents();
+                  provider.currentTag = "bookmark";
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",

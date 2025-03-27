@@ -1,14 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/global.dart';
-import 'package:tagify/api/content.dart';
-import 'package:tagify/provider.dart';
-import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/screens/splash_screen.dart';
 
 class AuthButton extends StatelessWidget {
   final String logoImage;
@@ -30,7 +26,6 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final double buttonWidth = MediaQuery.of(context).size.width * (0.8);
     final double buttonHeight = 70;
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Padding(
       padding: EdgeInsets.only(top: 10.0),
@@ -44,21 +39,18 @@ class AuthButton extends StatelessWidget {
                 await SharedPreferences.getInstance();
             String loginResponseString = jsonEncode(loginResponse);
 
-            await loadAuthToken(
-                loginResponse["access_token"]); // oauth_token 전역 변수 세팅
-
             await prefs.setString("loginResponse", loginResponseString);
             await prefs.setBool("isLoggedIn", true);
             await prefs.setString(
                 "access_token", loginResponse["access_token"]);
             await prefs.setString(
-                "access_token", loginResponse["refresh_token"]);
+                "refresh_token", loginResponse["refresh_token"]);
 
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      HomeScreen(loginResponse: loginResponse)),
+                      SplashScreen(loginResponse: loginResponse)),
               ModalRoute.withName("/"),
             );
           }

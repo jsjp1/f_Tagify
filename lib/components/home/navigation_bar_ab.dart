@@ -36,9 +36,8 @@ class TagifyNavigationBar extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_home",
                     onPressed: () async {
-                      provider.setCurrentPage("home");
-                      provider.setTag("all");
-                      await provider.fetchCachedContents();
+                      provider.currentPage = "home";
+                      provider.currentTag = "all";
 
                       await Navigator.push(
                         context,
@@ -95,7 +94,7 @@ class TagifyNavigationBar extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_explore",
                     onPressed: () async {
-                      provider.setCurrentPage("explore");
+                      provider.currentPage = "explore";
 
                       await Navigator.push(
                         context,
@@ -123,7 +122,7 @@ class TagifyNavigationBar extends StatelessWidget {
                             color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_tag",
                     onPressed: () async {
-                      provider.setCurrentPage("tag");
+                      provider.currentPage = "tag";
 
                       await Navigator.push(
                         context,

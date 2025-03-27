@@ -1,223 +1,211 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart';
 
 import 'package:tagify/api/common.dart';
-import 'package:tagify/api/dio.dart';
 import 'package:tagify/components/contents/common.dart';
 
-String? authToken;
-
-Future<void> loadAuthToken(String token) async {
-  debugPrint("Load Auth Token Success: $token");
-  authToken = token;
-}
-
-Future<ApiResponse<List<Content>>> fetchUserContents(int userId) async {
+Future<ApiResponse<List<Content>>> fetchUserContents(
+    int userId, String accessToken) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/contents/user/$userId/all";
 
-  try {
-    final response = await ApiClient.dio.get(serverHost);
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(serverHost), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonList = response.data;
-      List<Content> contents =
-          jsonList.map((item) => Content.fromJson(item)).toList();
-
-      return ApiResponse(
-          data: contents, statusCode: response.statusCode!, success: true);
-    }
+  if (response.statusCode == 200) {
+    List<dynamic> jsonList = jsonDecode(utf8.decode(response.bodyBytes));
     return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: jsonList.map((item) => Content.fromJson(item)).toList(),
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }
 
-Future<ApiResponse<Map<String, dynamic>>> analyzeContent(
-    int userId, String url, String lang, String contentType) async {
-  final String serverHost =
+Future<ApiResponse<Content>> analyzeContent(int userId, String url, String lang,
+    String contentType, String accessToken) async {
+  final String endpoint =
       "${dotenv.get("SERVER_HOST")}/api/contents/analyze?content_type=$contentType";
 
-  try {
-    final response = await ApiClient.dio.post(
-      serverHost,
-      data: {
+  final response = await authenticatedRequest(
+    (token) => post(
+      Uri.parse(endpoint),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
         "user_id": userId,
         "url": url,
         "lang": lang,
-      },
-    );
+      }),
+    ),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      return ApiResponse(
-          data: response.data, statusCode: response.statusCode!, success: true);
-    } else if (response.statusCode == 400) {
-      return ApiResponse(
-          errorMessage: "Content already exists",
-          statusCode: response.statusCode!,
-          success: false);
-    } else {
-      return ApiResponse(
-          errorMessage: "failure",
-          statusCode: response.statusCode!,
-          success: false);
-    }
-  } catch (e) {
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    Map<String, dynamic> jsonData = jsonDecode(responseBody);
+    jsonData["id"] = -1; // 임시 id 배정후, saveContent시 변경
+    jsonData["bookmark"] = false;
+    jsonData["type"] = contentType;
+    Content content = Content.fromJson(jsonData);
     return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: content,
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }
 
-// TODO : 정리
-Future<ApiResponse<int>> saveContent(
+Future<ApiResponse<Map<String, dynamic>>> saveContent(
+  Content content,
   int userId,
-  String url,
-  String title,
-  String thumbnail,
-  String favicon,
-  String description,
-  bool bookmark,
-  int length,
-  String body,
-  List<dynamic> tags,
-  String contentType,
+  String accessToken,
 ) async {
-  final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/contents/save?content_type=$contentType";
+  final String endpoint =
+      "${dotenv.get("SERVER_HOST")}/api/contents/save?content_type=${content.type}";
 
-  try {
-    final response = await ApiClient.dio.post(
-      serverHost,
-      data: {
+  final response = await authenticatedRequest(
+    (token) => post(
+      Uri.parse(endpoint),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
         "user_id": userId,
-        "url": url,
-        "title": title,
-        "thumbnail": thumbnail,
-        "favicon": favicon,
-        "description": description,
-        "bookmark": bookmark,
-        "video_length": length,
-        "body": body,
+        "url": content.url,
+        "title": content.title,
+        "thumbnail": content.thumbnail,
+        "favicon": content.favicon,
+        "description": content.description,
+        "bookmark": content.bookmark,
+        "video_length": 0,
+        "body": "",
+        "tags": content.tags,
+      }),
+    ),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    final data = jsonDecode(responseBody);
+    List<Tag> tags =
+        List<Tag>.from(data["tags"].map((tag) => Tag.fromJson(tag)));
+
+    return ApiResponse(
+      data: {
+        "id": data["id"],
         "tags": tags,
       },
+      statusCode: response.statusCode,
+      success: true,
     );
-
-    if (response.statusCode == 200) {
-      return ApiResponse(
-          data: response.data["id"],
-          statusCode: response.statusCode!,
-          success: true);
-    }
-    return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
   }
+  return ApiResponse.empty();
 }
 
-Future<ApiResponse<List<Video>>> fetchUserVideos(int userId) async {
-  final String serverHost =
+Future<ApiResponse<List<Video>>> fetchUserVideos(
+    int userId, String accessToken) async {
+  final String url =
       "${dotenv.get("SERVER_HOST")}/api/contents/user/$userId/sub?content_type=video";
 
-  try {
-    final response = await ApiClient.dio.get(serverHost);
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(url), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonList = response.data;
-      List<Video> videos =
-          jsonList.map((item) => Video.fromJson(item)).toList();
-
-      return ApiResponse(
-          data: videos, statusCode: response.statusCode!, success: true);
-    }
+  if (response.statusCode == 200) {
+    List<dynamic> jsonList = jsonDecode(response.body);
     return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: jsonList.map((item) => Video.fromJson(item)).toList(),
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }
 
-// Future<ApiResponse<List<Post>>> fetchUserPosts(int userId) async {
-// TODO
-// }
-
-Future<ApiResponse<int>> toggleBookmark(int contentId) async {
-  final String serverHost =
+Future<ApiResponse<int>> toggleBookmark(
+    int contentId, String accessToken) async {
+  final String url =
       "${dotenv.get("SERVER_HOST")}/api/contents/$contentId/bookmark";
 
-  try {
-    final response = await ApiClient.dio.post(serverHost);
+  final response = await authenticatedRequest(
+    (token) => post(Uri.parse(url), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      return ApiResponse(
-          data: response.data["content_id"],
-          statusCode: response.statusCode!,
-          success: true);
-    }
+  if (response.statusCode == 200) {
     return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: jsonDecode(response.body)["content_id"],
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }
 
-Future<ApiResponse<List<Content>>> fetchBookmarkContents(int userId) async {
-  final String serverHost =
+Future<ApiResponse<List<Content>>> fetchBookmarkContents(
+    int userId, String accessToken) async {
+  final String url =
       "${dotenv.get("SERVER_HOST")}/api/contents/bookmarks/user/$userId";
 
-  try {
-    final response = await ApiClient.dio.get(serverHost);
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(url), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonList = response.data;
-      List<Content> contents =
-          jsonList.map((item) => Content.fromJson(item)).toList();
-
-      return ApiResponse(
-          data: contents, statusCode: response.statusCode!, success: true);
-    }
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonList = jsonDecode(responseBody);
     return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: jsonList.map((item) => Content.fromJson(item)).toList(),
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }
 
-Future<ApiResponse<int>> deleteContent(int contentId) async {
-  final String serverHost =
-      "${dotenv.get("SERVER_HOST")}/api/contents/$contentId";
+Future<ApiResponse<int>> deleteContent(
+    int contentId, String accessToken) async {
+  final String url = "${dotenv.get("SERVER_HOST")}/api/contents/$contentId";
 
-  try {
-    final response = await ApiClient.dio.delete(serverHost);
+  final response = await authenticatedRequest(
+    (token) => delete(Uri.parse(url), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
 
-    if (response.statusCode == 200) {
-      return ApiResponse(
-          data: response.data["content_id"],
-          statusCode: response.statusCode!,
-          success: true);
-    }
+  if (response.statusCode == 200) {
     return ApiResponse(
-        errorMessage: "failure",
-        statusCode: response.statusCode!,
-        success: false);
-  } catch (e) {
-    return ApiResponse(
-        errorMessage: e.toString(), statusCode: 500, success: false);
+      data: jsonDecode(response.body)["content_id"],
+      statusCode: response.statusCode,
+      success: true,
+    );
   }
+  return ApiResponse.empty();
 }

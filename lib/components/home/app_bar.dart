@@ -10,12 +10,14 @@ class TagifyAppBar extends StatelessWidget {
   String addText;
   Color appIconColor;
   final VoidCallback? onProfileTap;
+  final VoidCallback? onLogoImageTap;
 
   TagifyAppBar(
       {super.key,
       this.addText = "",
       this.appIconColor = mainColor,
-      this.onProfileTap});
+      this.onProfileTap,
+      this.onLogoImageTap});
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +35,27 @@ class TagifyAppBar extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset(
-                "assets/img/app_logo_white.png",
-                height: logoImageHeight,
-                color: appIconColor,
-                colorBlendMode: BlendMode.srcIn,
+              GestureDetector(
+                onTap: onLogoImageTap,
+                child: Image.asset(
+                  "assets/img/app_logo_white.png",
+                  height: logoImageHeight,
+                  color: appIconColor,
+                  colorBlendMode: BlendMode.srcIn,
+                ),
               ),
               SizedBox(
                 width: appBarTextWidth,
-                child: GlobalText(
-                  localizeText: "Tagify$addText",
-                  textSize: 25.0,
-                  isBold: true,
-                  textColor: Colors.black,
-                  overflow: TextOverflow.ellipsis,
-                  localization: false,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: GlobalText(
+                    localizeText: "Tagify$addText",
+                    textSize: 25.0,
+                    isBold: true,
+                    textColor: Colors.black,
+                    overflow: TextOverflow.visible,
+                    localization: false,
+                  ),
                 ),
               ),
             ],

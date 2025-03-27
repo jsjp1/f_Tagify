@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tagify/components/common/animated_drawer_layout.dart';
-import 'package:tagify/components/explore/search_bar.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar_ab.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/components/explore/article_widget.dart';
 import 'package:tagify/components/explore/upload_dialog.dart';
+import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
+import 'package:tagify/components/common/animated_drawer_layout.dart';
+import 'package:tagify/components/common/tag_list_drawer.dart';
+import 'package:tagify/components/explore/search_bar.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -37,8 +40,11 @@ class ExploreScreenState extends State<ExploreScreen> {
                 Column(
                   children: [
                     TagifyAppBar(
+                      onLogoImageTap: () {
+                        drawerLayoutKey.currentState?.toggleLeftMenu();
+                      },
                       onProfileTap: () {
-                        drawerLayoutKey.currentState?.toggleMenu();
+                        drawerLayoutKey.currentState?.toggleRightMenu();
                       },
                     ),
                     // TODO: 검색 기능 (작성자, 게시물 이름)
@@ -79,7 +85,34 @@ class ExploreScreenState extends State<ExploreScreen> {
             ),
           ),
         ),
-        drawerContent: SettingsScreen(),
+        leftDrawerContent: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(20),
+                offset: Offset(5, 0),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: TagListDrawer(
+            drawerLayoutKey: drawerLayoutKey,
+          ),
+        ),
+        rightDrawerContent: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withAlpha(20),
+                offset: Offset(-5, 0),
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: SettingsScreen(), // 기존 화면
+        ),
       ),
     );
   }

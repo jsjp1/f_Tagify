@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -123,11 +122,8 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
                 if (tagName == null || tagName.isEmpty) {
                   return;
                 }
-                final ApiResponse<int> response = await downloadArticle(
-                    provider.loginResponse!["id"], tagName, article.id);
 
-                await provider.fetchTags();
-                await provider.fetchContents();
+                await provider.pvDownloadArticle(tagName, article.id);
               },
             ),
           ),
@@ -175,10 +171,7 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
                         return;
                       }
 
-                      final ApiResponse<int> response = await deleteArticle(
-                          provider.loginResponse!["id"], article.id);
-
-                      await provider.fetchArticles();
+                      await provider.pvDeleteArticle(article.id);
                     },
                   ),
                 )
