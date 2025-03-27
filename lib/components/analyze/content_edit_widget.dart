@@ -37,6 +37,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     titleController.text = widget.content.title;
     descriptionController.text = widget.content.description;
 
+    // TODO: 쇼츠 영상 analyze -> tag 안보임
+
     if (widget.content.tags.length >= 3) {
       // 콘텐츠당 최대 태그 개수 3개로 제한
       widget.content.tags = widget.content.tags.sublist(0, 3);

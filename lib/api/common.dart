@@ -52,6 +52,15 @@ class Tag {
     required this.color,
   });
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is Tag && other.id == id && other.tagName == tagName);
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ tagName.hashCode;
+
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       id: json["id"],

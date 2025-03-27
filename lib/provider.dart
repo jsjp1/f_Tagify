@@ -116,6 +116,7 @@ class TagifyProvider extends ChangeNotifier {
   }
 
   Future<void> pvSaveContent(Content content) async {
+    // TODO: 중복된 이름의 태그 -> 하나만 존재해야됨, 동일한거 두개 생김
     if (_loginResponse == null) return;
 
     final prefs = await SharedPreferences.getInstance();
