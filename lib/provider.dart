@@ -8,7 +8,6 @@ import 'package:tagify/api/tag.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 
-// TODO: 일단 화면 전환 후 await / 현재는 await then 전환
 class TagifyProvider extends ChangeNotifier {
   bool hasMoreArticles = true;
   String _currentTag = "all";

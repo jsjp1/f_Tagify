@@ -1,16 +1,12 @@
 # f_tagify
 
-A new Flutter project.
+## UI
 
-## Getting Started
+### 2025-03-06
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f41b7aec-8b96-484e-bd53-99bcf70d2ca1" width="200" />
+  <img src="https://github.com/user-attachments/assets/c551089a-d84f-42b7-b85d-4b74a3714fdc" width="200" />
+  <img src="https://github.com/user-attachments/assets/3db7db39-aba3-4665-8d1e-f5fc272a96ce" width="200" />
+  <img src="https://github.com/user-attachments/assets/4a5bf433-a11e-4fbe-997a-2b90b13aead5" width="200" />
+</p>
