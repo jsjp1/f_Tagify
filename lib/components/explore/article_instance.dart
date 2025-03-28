@@ -141,8 +141,18 @@ class ArticleInstance extends StatelessWidget {
                             fit: BoxFit.cover,
                             fadeInDuration: Duration.zero,
                             fadeOutDuration: Duration.zero,
+                            placeholder: (context, url) {
+                              return Container(
+                                color: contentInstanceNoThumbnailColor,
+                                child: Center(
+                                  child: Text(
+                                    "🙂‍↔️",
+                                    style: TextStyle(fontSize: 30.0),
+                                  ),
+                                ),
+                              );
+                            },
                             errorWidget: (context, url, error) {
-                              // TODO: 이거 에러 처리 -> 늦게 업데이트되는거 고쳐야됨
                               return Container(
                                 color: contentInstanceNoThumbnailColor,
                                 child: Center(

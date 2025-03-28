@@ -28,9 +28,10 @@ const double appBarHeight = 45.0;
 const double navigationBarHeight = 83.0;
 const double logoImageHeight = 40.0;
 const double safeAreaHeight = 60.0;
-const double articleInstanceHeight = 150.0;
+const double articleInstanceHeight = 110.0;
 const double profileImageHeight = 40.0;
 const double profileImageHeightInArticle = 40.0;
+const double profileImageHeightInArticleWidget = 15.0;
 const double uploadDialogHeight = 328.0;
 const double navigationBarIconButtonHeight = 60.0;
 const double exploreScreenSearchBarBoxHeight = 55.0;
@@ -39,6 +40,7 @@ const double tagScreenGridSelectBarHeight = 40.0;
 const double articleDetailScreenThumbnailsHeight = 200.0;
 const double articleDetailScreenContentHeight = 150.0;
 const double settingsScreenProfileImageHeight = 75.0;
+const double articleInstanceDownloadButtonSize = 24.0;
 
 // global variable
 const int articlesLimit = 30;

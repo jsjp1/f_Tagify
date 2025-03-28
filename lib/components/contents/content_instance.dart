@@ -216,11 +216,23 @@ class ContentInstanceState extends State<ContentInstance> {
                             ),
                           ],
                         ),
+                        // 썸네일 이미지
                         child: CachedNetworkImage(
                           imageUrl: widget.content.thumbnail,
                           fit: BoxFit.cover,
                           fadeInDuration: Duration.zero,
                           fadeOutDuration: Duration.zero,
+                          placeholder: (context, url) {
+                            return Container(
+                              color: contentInstanceNoThumbnailColor,
+                              child: Center(
+                                child: Text(
+                                  "🙂‍↔️",
+                                  style: TextStyle(fontSize: 30.0),
+                                ),
+                              ),
+                            );
+                          },
                           errorWidget: (context, url, error) {
                             return Container(
                               color: contentInstanceNoThumbnailColor,

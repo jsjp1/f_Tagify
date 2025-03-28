@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/explore/article_instance.dart';
+import 'package:tagify/components/explore/article_instance_ab.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/article_detail_screen.dart';
@@ -52,7 +53,8 @@ class ArticleList extends StatelessWidget {
               ),
             );
           },
-          child: ArticleInstance(article: provider.articles[index]),
+          child: ArticleInstanceAB(article: provider.articles[index]),
+          // child: ArticleInstance(article: provider.articles[index]),
         );
       },
     );
