@@ -116,7 +116,8 @@ class ExploreScreenState extends State<ExploreScreen> {
                                           builder: (context) =>
                                               TaggedArticleScreen(
                                                   tagId: -1,
-                                                  tagName: tr("모두 보기")),
+                                                  tagName: tr(
+                                                      "explore_screen_see_all")),
                                         ),
                                       );
                                     }, // TODO
