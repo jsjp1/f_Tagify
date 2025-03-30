@@ -82,6 +82,7 @@ class Article {
   final int downCount;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final List<String> tags;
 
   const Article({
     required this.id,
@@ -93,6 +94,7 @@ class Article {
     required this.encodedContent,
     required this.upCount,
     required this.downCount,
+    required this.tags,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -108,6 +110,7 @@ class Article {
       encodedContent: "",
       upCount: 0,
       downCount: 0,
+      tags: [],
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
@@ -124,6 +127,7 @@ class Article {
       encodedContent: json["encoded_content"],
       upCount: json["up_count"],
       downCount: json["down_count"],
+      tags: List<String>.from(json["tags"]),
       createdAt: DateTime.parse(json["created_at"]),
       updatedAt: DateTime.parse(json["updated_at"]),
     );
@@ -140,6 +144,7 @@ class Article {
       "encoded_content": encodedContent,
       "up_count": upCount,
       "down_count": downCount,
+      "tags": tags,
       "created_at": createdAt.toIso8601String(),
       "updated_at": updatedAt.toIso8601String(),
     };

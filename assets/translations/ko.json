@@ -75,5 +75,23 @@
 
   "explore_screen_search_hint_text": "찾고 싶은 게시물을 검색해보세요!",
 
-  "tag_list_drawer_tag_list": "태그 목록"
+  "tag_list_drawer_tag_list": "태그 목록",
+
+  "explore_screen_see_all": "모두 보기 ▶",
+  "explore_screen_total_ranking_tag": "🏆 전체 랭킹 태그",
+  "explore_screen_current_hot_tag": "🔥 지금 가장 핫한",
+  "explore_screen_upvote_tag": "👍 좋아요가 가장 많은",
+  "explore_screen_newest_tag": "🎉 신규 태그",
+  "explore_screen_my_tag": "내 태그",
+  "explore_screen_random_tag": "랜덤 태그",
+
+  "upload_article_screen_upload": "글쓰기",
+  "upload_article_screen_write_title": "제목을 입력해주세요.",
+  "upload_article_screen_write_body": "게시하고자 하는 태그에 대한 간단한 내용을 적어주세요.",
+  "upload_article_screen_tag_select": "공유할 태그를 선택해주세요",
+  "upload_article_screen_tag_make": "게시물의 새로운 태그를 선택해주세요",
+  "upload_article_screen_no_more_tags_error": "태그는 3개까지 허용됩니다",
+  "upload_article_screen_already_exists_tag": "이미 존재하는 태그입니다",
+  "upload_article_screen_no_tag_made": "최소 1개의 태그는 지정해야 합니다",
+  "upload_article_screen_no_tag_selected": "공유할 태그를 지정해주세요"
 }

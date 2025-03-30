@@ -9,9 +9,8 @@ class TagBar extends StatefulWidget {
   final int userId;
   final double tagBarHeight;
   final GlobalKey<ContentWidgetState> contentWidgetKey;
-  String currentTag = "all";
 
-  TagBar({
+  const TagBar({
     super.key,
     required this.userId,
     required this.contentWidgetKey,
@@ -23,9 +22,11 @@ class TagBar extends StatefulWidget {
 }
 
 class TagBarState extends State<TagBar> {
+  String currentTag = "all";
+
   @override
   Widget build(BuildContext context) {
-    final TagifyProvider provider = context.watch<TagifyProvider>();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Column(
       children: [
@@ -38,27 +39,27 @@ class TagBarState extends State<TagBar> {
               GestureDetector(
                 onTap: () async {
                   setState(() {
-                    widget.currentTag = "all";
+                    currentTag = "all";
                   });
                   provider.currentTag = "all";
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_all",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: widget.currentTag == "all",
+                  currentSelectedTag: currentTag == "all",
                 ),
               ),
               GestureDetector(
                 onTap: () async {
                   setState(() {
-                    widget.currentTag = "bookmark";
+                    currentTag = "bookmark";
                   });
                   provider.currentTag = "bookmark";
                 },
                 child: TagContainer(
                   tagName: "tag_bar_tagname_bookmark",
                   tagBarHeight: widget.tagBarHeight,
-                  currentSelectedTag: widget.currentTag == "bookmark",
+                  currentSelectedTag: currentTag == "bookmark",
                 ),
               ),
             ],

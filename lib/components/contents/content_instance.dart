@@ -227,7 +227,7 @@ class ContentInstanceState extends State<ContentInstance> {
                               color: contentInstanceNoThumbnailColor,
                               child: Center(
                                 child: Text(
-                                  "🙂‍↔️",
+                                  "",
                                   style: TextStyle(fontSize: 30.0),
                                 ),
                               ),
@@ -238,7 +238,7 @@ class ContentInstanceState extends State<ContentInstance> {
                               color: contentInstanceNoThumbnailColor,
                               child: Center(
                                 child: Text(
-                                  "🙂‍↔️",
+                                  "",
                                   style: TextStyle(fontSize: 30.0),
                                 ),
                               ),

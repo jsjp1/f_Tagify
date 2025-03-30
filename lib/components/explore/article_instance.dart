@@ -146,7 +146,7 @@ class ArticleInstance extends StatelessWidget {
                                 color: contentInstanceNoThumbnailColor,
                                 child: Center(
                                   child: Text(
-                                    "🙂‍↔️",
+                                    "",
                                     style: TextStyle(fontSize: 30.0),
                                   ),
                                 ),
@@ -157,7 +157,7 @@ class ArticleInstance extends StatelessWidget {
                                 color: contentInstanceNoThumbnailColor,
                                 child: Center(
                                   child: Text(
-                                    "🙂‍↔️",
+                                    "",
                                     style: TextStyle(fontSize: 30.0),
                                   ),
                                 ),

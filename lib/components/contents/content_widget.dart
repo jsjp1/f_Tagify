@@ -38,10 +38,10 @@ class ContentWidgetState extends State<ContentWidget> {
     return (widget.tagSelectedName != null &&
             provider.tagContentsMap[widget.tagSelectedName] == null)
         ? FutureBuilder<List<Content>>(
-            future: fetchUserTagContents(), // 비동기 함수 호출
+            future: fetchUserTagContents(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator()); // 로딩 상태
+                return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(
                   child: GlobalText(
@@ -49,7 +49,7 @@ class ContentWidgetState extends State<ContentWidget> {
                     textSize: 15.0,
                     textColor: Colors.red,
                   ),
-                ); // 에러 상태
+                );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(
                   child: GlobalText(
@@ -57,10 +57,9 @@ class ContentWidgetState extends State<ContentWidget> {
                     textSize: 15.0,
                     textColor: Colors.grey,
                   ),
-                ); // 데이터 없음
+                );
               } else {
-                return _buildContentList(
-                    snapshot.data!, widgetWidth); // 데이터 리스트 출력
+                return _buildContentList(snapshot.data!, widgetWidth);
               }
             },
           )

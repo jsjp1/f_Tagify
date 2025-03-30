@@ -26,10 +26,10 @@ const Color exploreScreenSearchBorderColor = Color.fromARGB(255, 87, 87, 87);
 // widget height
 const double appBarHeight = 45.0;
 const double navigationBarHeight = 83.0;
-const double logoImageHeight = 40.0;
+const double logoImageHeight = 35.0;
 const double safeAreaHeight = 60.0;
 const double articleInstanceHeight = 110.0;
-const double profileImageHeight = 40.0;
+const double profileImageHeight = 35.0;
 const double profileImageHeightInArticle = 40.0;
 const double profileImageHeightInArticleWidget = 15.0;
 const double uploadDialogHeight = 328.0;

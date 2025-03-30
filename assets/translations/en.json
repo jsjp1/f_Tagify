@@ -75,5 +75,22 @@
 
   "explore_screen_search_hint_text": "Search for the article you want!",
 
-  "tag_list_drawer_tag_list": "Tag List"
+  "tag_list_drawer_tag_list": "Tag List",
+
+  "explore_screen_see_all": "See All ▶",
+  "explore_screen_total_ranking_tag": "🏆 Overall Ranking Tags",
+  "explore_screen_current_hot_tag": "🔥 Hottest Right Now",
+  "explore_screen_upvote_tag": "👍 Most Upvoted",
+  "explore_screen_newest_tag": "🎉 Newest Tags",
+  "explore_screen_my_tag": "My Tags",
+  "explore_screen_random_tag": "Random Tags",
+
+  "upload_article_screen_upload": "Upload",
+  "upload_article_screen_write_title": "Please enter the title.",
+  "upload_article_screen_write_body": "Please write a brief description about the tag you want to share.",
+  "upload_article_screen_tag_select": "Please select tags to share.",
+  "upload_article_screen_tag_make": "Please select a new tag for the post.",
+  "upload_article_screen_no_more_tags_error": "Up to 3 tags are allowed",
+  "upload_article_screen_already_exists_tag": "Tag already exists",
+  "upload_article_screen_no_tag_made": "At least one tag must be specified"
 }

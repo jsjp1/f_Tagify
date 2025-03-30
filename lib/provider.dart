@@ -346,15 +346,15 @@ class TagifyProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> pvPostArticle(
-      String title, String body, String encodedContent) async {
+  Future<void> pvPostArticle(String title, String body, List<String> tags,
+      String encodedContent) async {
     if (_loginResponse == null) return;
 
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString("access_token");
 
     ApiResponse<int> a = await postArticle(
-        _loginResponse!["id"], title, body, encodedContent, accessToken!);
+        _loginResponse!["id"], title, body, encodedContent, tags, accessToken!);
 
     if (a.success) {
       pvFetchRefreshedArticles();

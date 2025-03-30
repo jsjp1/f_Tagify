@@ -30,7 +30,7 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
         Container(
           color: whiteBackgroundColor,
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * (0.09),
+          height: MediaQuery.of(context).size.height * (0.07),
           child: Align(
             alignment: Alignment.topCenter,
             child: Center(
