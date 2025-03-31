@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-// const Color mainColor = Color.fromARGB(255, 205, 20, 31);
-const Color mainColor = Color.fromARGB(255, 234, 51, 61);
+const Color mainColor = Color.fromARGB(255, 205, 20, 31);
+// const Color mainColor = Color.fromARGB(255, 234, 51, 61);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black;
-const Color noticeWidgetColor = Color.fromARGB(255, 239, 239, 239);
+const Color noticeWidgetColor = Color.fromARGB(255, 245, 245, 245);
+// const Color noticeWidgetColor = Color.fromARGB(255, 239, 239, 239);
 const Color timeContainerColor = Color.fromARGB(200, 225, 225, 225);
 const Color tagColor = Color.fromARGB(255, 50, 50, 50);
 const Color containerTitleColor = Color.fromARGB(255, 78, 78, 78);
@@ -52,10 +53,11 @@ const double contentInstanceDescriptionFontSize = 10.0;
 class GlobalText extends StatelessWidget {
   final String localizeText;
   final double textSize;
-  bool localization;
-  bool? isBold;
-  Color? textColor;
-  TextOverflow? overflow;
+  final bool localization;
+  final bool? isBold;
+  final Color? textColor;
+  final TextOverflow? overflow;
+  final int? maxLines;
 
   GlobalText({
     super.key,
@@ -65,6 +67,7 @@ class GlobalText extends StatelessWidget {
     this.textColor,
     this.overflow,
     this.localization = true,
+    this.maxLines,
   });
 
   @override
@@ -72,6 +75,7 @@ class GlobalText extends StatelessWidget {
     return localization
         ? Text(
             localizeText,
+            maxLines: maxLines,
             style: TextStyle(
               color: textColor,
               fontSize: textSize,
@@ -83,6 +87,7 @@ class GlobalText extends StatelessWidget {
           ).tr()
         : Text(
             localizeText,
+            maxLines: maxLines,
             style: TextStyle(
               color: textColor,
               fontSize: textSize,

@@ -1,10 +1,13 @@
 {
+  "auth_screen_top_description_text": "Collect, Tag, Explore",
+  "auth_screen_bottom_description_text": "지금 바로 당신의 컨텐츠를 정리하세요!",
+
   "easy_login": "간편 로그인",
   "google_login_button": "Google로 로그인",
   "apple_login_button": "Apple로 로그인",
   "kakao_login_button": "Kakao로 로그인",
 
-  "search_bar_hint_text": "저장된 콘텐츠를 검색해보세요!",
+  "search_bar_hint_text": "저장된 컨텐츠를 검색해보세요!",
 
   "navigation_bar_input_link_hint": "링크를 입력해주세요",
   "navigation_bar_input_link_search_button": "검색",
@@ -16,9 +19,9 @@
   "content_instance_really_delete_cancel": "취소",
   "content_instance_really_delete_ok": "확인",
 
-  "content_widget_empty": "표시할 콘텐츠가 없습니다",
-  "content_widget_failure": "콘텐츠를 불러오는데 실패했습니다",
-  "content_widget_end": "더 이상 불러올 콘텐츠가 없습니다",
+  "content_widget_empty": "표시할 컨텐츠가 없습니다",
+  "content_widget_failure": "컨텐츠를 불러오는데 실패했습니다",
+  "content_widget_end": "더 이상 불러올 컨텐츠가 없습니다",
 
   "profile_button_settings": "설정",
   "profile_button_logout": "로그아웃",
@@ -32,7 +35,7 @@
 
   "analyze_screen_enter_link": "링크를 입력하세요",
   "analyze_screen_invalid_url": "잘못된 링크 형식입니다",
-  "analyze_screen_already_exists": "이미 존재하는 콘텐츠입니다",
+  "analyze_screen_already_exists": "이미 존재하는 컨텐츠입니다",
   "analyze_screen_title": "제목",
   "analyze_screen_description": "설명",
   "analyze_screen_tags": "태그",
@@ -50,7 +53,7 @@
   "tag_box_instance_delete": "삭제",
   "tag_box_instance_encoding": "공유",
   "tag_box_instance_clipboard_save_success": "클립보드에 저장되었습니다!",
-  "tag_box_instance_cant_delete": "콘텐츠가 존재해 삭제할 수 없는 태그입니다",
+  "tag_box_instance_cant_delete": "컨텐츠가 존재해 삭제할 수 없는 태그입니다",
 
   "navigation_bar_button_home": "home",
   "navigation_bar_button_search": "search",
@@ -77,7 +80,7 @@
 
   "tag_list_drawer_tag_list": "태그 목록",
 
-  "explore_screen_see_all": "모두 보기 ▶",
+  "explore_screen_see_all": "🌏  모두 보기",
   "explore_screen_total_ranking_tag": "🏆 전체 랭킹 태그",
   "explore_screen_current_hot_tag": "🔥 지금 가장 핫한",
   "explore_screen_upvote_tag": "👍 좋아요가 가장 많은",
@@ -86,6 +89,7 @@
   "explore_screen_random_tag": "랜덤 태그",
 
   "upload_article_screen_upload": "글쓰기",
+  "upload_article_screen_upload_button_text": "등록",
   "upload_article_screen_write_title": "제목을 입력해주세요.",
   "upload_article_screen_write_body": "게시하고자 하는 태그에 대한 간단한 내용을 적어주세요.",
   "upload_article_screen_tag_select": "공유할 태그를 선택해주세요",

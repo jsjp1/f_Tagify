@@ -7,7 +7,7 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/explore_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
-import 'package:tagify/screens/tag_screen.dart';
+import 'package:tagify/screens/tag_screen_ab.dart';
 
 class TagifyNavigationBar extends StatelessWidget {
   const TagifyNavigationBar({super.key});
@@ -136,7 +136,8 @@ class TagifyNavigationBar extends StatelessWidget {
                             context,
                             PageRouteBuilder(
                               pageBuilder: (context, animation1, animation2) =>
-                                  TagScreen(),
+                                  // TagScreen(),
+                                  TagScreenAB(),
                               transitionDuration: Duration.zero,
                               reverseTransitionDuration: Duration.zero,
                             ),

@@ -215,7 +215,7 @@ class TagBoxInstance extends StatelessWidget {
 
                                           if (response == false) {
                                             // TODO: dio error 처리 완벽하게 해야됨...
-                                            // 안에 콘텐츠 있어서 못 지울경우.. 실패모달 띄우기
+                                            // 안에 컨텐츠 있어서 못 지울경우.. 실패모달 띄우기
                                             Navigator.pop(context);
 
                                             ScaffoldMessenger.of(context)

@@ -1,4 +1,7 @@
 {
+  "auth_screen_top_description_text": "Collect, Tag, Explore",
+  "auth_screen_bottom_description_text": "Start organizing your content today!",
+
   "easy_login": "easy login",
   "google_login_button": "Sign in with Google",
   "apple_login_button": "Sign in with Apple",
@@ -75,9 +78,9 @@
 
   "explore_screen_search_hint_text": "Search for the article you want!",
 
-  "tag_list_drawer_tag_list": "Tag List",
+  "tag_list_drawer_tag_list": "Tags",
 
-  "explore_screen_see_all": "See All ▶",
+  "explore_screen_see_all": "🌏 See All",
   "explore_screen_total_ranking_tag": "🏆 Overall Ranking Tags",
   "explore_screen_current_hot_tag": "🔥 Hottest Right Now",
   "explore_screen_upvote_tag": "👍 Most Upvoted",
@@ -86,6 +89,7 @@
   "explore_screen_random_tag": "Random Tags",
 
   "upload_article_screen_upload": "Upload",
+  "upload_article_screen_upload_button_text": "submit",
   "upload_article_screen_write_title": "Please enter the title.",
   "upload_article_screen_write_body": "Please write a brief description about the tag you want to share.",
   "upload_article_screen_tag_select": "Please select tags to share.",

@@ -10,7 +10,8 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
 
 class UploadArticleScreen extends StatefulWidget {
-  const UploadArticleScreen({super.key});
+  final String? tagGiven;
+  const UploadArticleScreen({super.key, this.tagGiven});
 
   @override
   UploadArticleScreenState createState() => UploadArticleScreenState();
@@ -19,13 +20,22 @@ class UploadArticleScreen extends StatefulWidget {
 class UploadArticleScreenState extends State<UploadArticleScreen> {
   final titleController = TextEditingController();
   final bodyController = TextEditingController();
+
   String selectedTagName = "";
   String encodedContentList = "";
-  List<String> newTagList = [];
+
+  late List<String> newTagList;
+
+  @override
+  void initState() {
+    super.initState();
+    newTagList = widget.tagGiven == null ? [] : [widget.tagGiven!];
+  }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context);
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: whiteBackgroundColor,
       appBar: AppBar(
@@ -75,7 +85,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
               shape: CircleBorder(),
             ),
             child: GlobalText(
-              localizeText: "등록",
+              localizeText: "upload_article_screen_upload_button_text",
               textSize: 17.0,
               isBold: true,
               textColor: mainColor,
@@ -126,6 +136,8 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                     cursorColor: mainColor,
                     controller: bodyController,
                     autocorrect: false,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
                     style: TextStyle(
                       fontSize: 13.0,
                     ),

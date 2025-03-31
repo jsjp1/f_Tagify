@@ -40,7 +40,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     // TODO: 쇼츠 영상 analyze -> tag 안보임
 
     if (widget.content.tags.length >= 3) {
-      // 콘텐츠당 최대 태그 개수 3개로 제한
+      // 컨텐츠당 최대 태그 개수 3개로 제한
       widget.content.tags = widget.content.tags.sublist(0, 3);
     }
   }
@@ -265,6 +265,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     return;
                   }
 
+                  widget.content.title = titleController.text;
+                  widget.content.description = descriptionController.text;
                   await provider.pvSaveContent(widget.content);
 
                   Navigator.pop(context);

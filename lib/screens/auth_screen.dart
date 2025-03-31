@@ -62,7 +62,7 @@ class AuthScreenTopSection extends StatelessWidget {
           localization: false,
         ),
         GlobalText(
-          localizeText: "test text",
+          localizeText: "auth_screen_top_description_text",
           textSize: 20.0,
           isBold: true,
           textColor: Colors.black54,
@@ -87,10 +87,11 @@ class AuthScreenBottomSection extends StatelessWidget {
           padding: EdgeInsets.only(top: 10.0),
           child: GlobalText(
             isBold: false,
-            localizeText: "test text",
+            localizeText: "auth_screen_bottom_description_text",
             textColor: Colors.black54,
             textSize: 15.0,
             overflow: TextOverflow.clip,
+            localization: true,
           ),
         ),
       ],

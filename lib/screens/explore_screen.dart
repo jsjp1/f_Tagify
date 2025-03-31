@@ -31,8 +31,9 @@ class ExploreScreenState extends State<ExploreScreen> {
   late Future<List<Map<String, dynamic>>> _randomTagsFuture;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+
     _popularTagsFuture = getCategoryTagList(5, "popular");
     _hotTagsFuture = getCategoryTagList(3, "hot");
     _upVoteTagsFuture = getCategoryTagList(5, "upvote");
@@ -43,7 +44,7 @@ class ExploreScreenState extends State<ExploreScreen> {
 
   Future<List<Map<String, dynamic>>> getCategoryTagList(
       int count, String category) async {
-    final provider = Provider.of<TagifyProvider>(context);
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     // [{id: 0, tagname: "test", total_down_count: 7777}] 과 같은 형식
     // 혹은 total_down_count 대신 total_up_count (in "좋아요가 가장 많은")
@@ -51,18 +52,22 @@ class ExploreScreenState extends State<ExploreScreen> {
         count, category, provider.loginResponse!["access_token"]);
 
     if (tags.success) {
-      return tags.data!
-          .map((item) => {
-                "id": item["id"],
-                "tagname": item["tagname"],
-              })
-          .toList();
+      return tags.data!.map((item) {
+        String countKey = item.containsKey("total_down_count")
+            ? "total_down_count"
+            : "total_up_count";
+        return {
+          "id": item["id"],
+          "tagname": item["tagname"],
+          countKey: item[countKey],
+        };
+      }).toList();
     }
     return [];
   }
 
   Future<List<Map<String, dynamic>>> getOwnedTagList(int count) async {
-    final provider = Provider.of<TagifyProvider>(context);
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     ApiResponse<List<Map<String, dynamic>>> tags = await fetchOwnewdTags(count,
         provider.loginResponse!["id"], provider.loginResponse!["access_token"]);
@@ -108,6 +113,50 @@ class ExploreScreenState extends State<ExploreScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   // TODO: 나중에 리스트로 한번에 묶기
+
+                                  GlobalText(
+                                    localizeText:
+                                        "explore_screen_total_ranking_tag",
+                                    textSize: 24.0,
+                                    isBold: true,
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  // popular 태그 future로 받아오며, 받아올때까지 skeleton ui 사용
+                                  TagsSkeletonUI(
+                                    tags: _popularTagsFuture,
+                                    // borderColor: mainColor,
+                                    // borderWidth: 2.0,
+                                  ),
+                                  SizedBox(height: 30.0),
+
+                                  GlobalText(
+                                    localizeText:
+                                        "explore_screen_current_hot_tag",
+                                    textSize: 23.0,
+                                    isBold: true,
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  TagsSkeletonUI(tags: _hotTagsFuture),
+                                  SizedBox(height: 30.0),
+
+                                  GlobalText(
+                                    localizeText: "explore_screen_upvote_tag",
+                                    textSize: 23.0,
+                                    isBold: true,
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  TagsSkeletonUI(tags: _upVoteTagsFuture),
+                                  SizedBox(height: 30.0),
+
+                                  GlobalText(
+                                    localizeText: "explore_screen_newest_tag",
+                                    textSize: 23.0,
+                                    isBold: true,
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  TagsSkeletonUI(tags: _newestTagsFuture),
+                                  SizedBox(height: 30.0),
+
                                   GestureDetector(
                                     onTap: () {
                                       Navigator.push(
@@ -120,76 +169,73 @@ class ExploreScreenState extends State<ExploreScreen> {
                                                       "explore_screen_see_all")),
                                         ),
                                       );
-                                    }, // TODO
-                                    child: GlobalText(
-                                      localizeText: "explore_screen_see_all",
-                                      textSize: 25.0,
-                                      isBold: true,
-                                      localization: true,
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            const Color.fromARGB(
+                                                255, 67, 160, 235),
+                                            const Color.fromARGB(
+                                                255, 78, 158, 81)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 7.0, vertical: 3.0),
+                                        child: GlobalText(
+                                          localizeText:
+                                              "explore_screen_see_all",
+                                          textSize: 23.0,
+                                          isBold: true,
+                                          localization: true,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(height: 45.0),
+                                  SizedBox(height: 60.0),
 
+                                  // 이부분 간격 살짝 넓게
                                   GlobalText(
-                                    localizeText:
-                                        "explore_screen_total_ranking_tag", // TODO: localization
-                                    textSize: 24.0,
-                                    isBold: true,
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  // popular 태그 future로 받아오며, 받아올때까지 skeleton ui 사용
-                                  TagsSkeletonUI(tags: _popularTagsFuture),
-                                  SizedBox(height: 35.0),
-
-                                  GlobalText(
-                                    localizeText:
-                                        "explore_screen_current_hot_tag", // TODO: localization
-                                    textSize: 23.0,
-                                    isBold: true,
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  TagsSkeletonUI(tags: _hotTagsFuture),
-                                  SizedBox(height: 35.0),
-
-                                  GlobalText(
-                                    localizeText:
-                                        "explore_screen_upvote_tag", // TODO: localization
-                                    textSize: 23.0,
-                                    isBold: true,
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  TagsSkeletonUI(tags: _upVoteTagsFuture),
-                                  SizedBox(height: 35.0),
-
-                                  GlobalText(
-                                    localizeText:
-                                        "explore_screen_newest_tag", // TODO: localization
-                                    textSize: 23.0,
-                                    isBold: true,
-                                  ),
-                                  SizedBox(height: 10.0),
-                                  TagsSkeletonUI(tags: _newestTagsFuture),
-                                  SizedBox(height: 35.0),
-
-                                  GlobalText(
-                                    localizeText:
-                                        "explore_screen_my_tag", // TODO: localization
+                                    localizeText: "explore_screen_my_tag",
                                     textSize: 20.0,
                                     isBold: true,
                                   ),
                                   SizedBox(height: 10.0),
-                                  TagsSkeletonUI(tags: _myTagsFuture), // TODO
-                                  SizedBox(height: 35.0),
+                                  TagsSkeletonUI(tags: _myTagsFuture),
+                                  SizedBox(height: 25.0),
 
-                                  GlobalText(
-                                    localizeText:
-                                        "explore_screen_random_tag", // TODO: localization
-                                    textSize: 20.0,
-                                    isBold: true,
+                                  Row(
+                                    children: [
+                                      GlobalText(
+                                        localizeText:
+                                            "explore_screen_random_tag",
+                                        textSize: 20.0,
+                                        isBold: true,
+                                      ),
+                                      SizedBox(width: 10.0),
+                                      GestureDetector(
+                                        onTap: () async {
+                                          setState(() {
+                                            _randomTagsFuture =
+                                                getCategoryTagList(3, "random");
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.replay,
+                                          size: 17.0,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   SizedBox(height: 10.0),
-                                  TagsSkeletonUI(
-                                      tags: _randomTagsFuture), // TODO
+                                  TagsSkeletonUI(tags: _randomTagsFuture),
                                   SizedBox(height: 35.0),
                                 ],
                               ),
@@ -254,9 +300,19 @@ class ExploreScreenState extends State<ExploreScreen> {
 class ArticleTagContainer extends StatelessWidget {
   final int tagId;
   final String tagName;
+  final int? totalDownCount;
 
-  const ArticleTagContainer(
-      {super.key, required this.tagId, required this.tagName});
+  final double? borderWidth;
+  final Color? borderColor;
+
+  const ArticleTagContainer({
+    super.key,
+    required this.tagId,
+    required this.tagName,
+    this.borderColor,
+    this.borderWidth,
+    this.totalDownCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -276,22 +332,30 @@ class ArticleTagContainer extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0),
             border: Border.all(
-              width: 0.5,
-              color: Colors.black26,
+              width: borderWidth ?? 0.5,
+              color: borderColor ?? Colors.black26,
             ),
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3.0),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
-              child: GlobalText(
-                localizeText: tagName,
-                textColor: contentInstanceTagTextColor,
-                isBold: true,
-                textSize: 13.0,
-                localization: false,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 3.0),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+                  child: GlobalText(
+                    localizeText: tagName,
+                    // textColor: contentInstanceTagTextColor,
+                    textColor: blackBackgroundColor,
+                    isBold: true,
+                    textSize: 13.0,
+                    localization: false,
+                  ),
+                ),
               ),
-            ),
+              // totalDownCount == null
+              //     ? SizedBox.shrink()
+              //     : Text("$totalDownCount"),
+            ],
           ),
         ),
       ),
@@ -302,7 +366,11 @@ class ArticleTagContainer extends StatelessWidget {
 class TagsSkeletonUI extends StatelessWidget {
   late Future<List<Map<String, dynamic>>> tags;
 
-  TagsSkeletonUI({super.key, required this.tags});
+  final double? borderWidth;
+  final Color? borderColor;
+
+  TagsSkeletonUI(
+      {super.key, required this.tags, this.borderColor, this.borderWidth});
 
   @override
   Widget build(BuildContext context) {
@@ -334,6 +402,7 @@ class TagsSkeletonUI extends StatelessWidget {
         }
 
         final tags = snapshot.data!;
+
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -342,6 +411,9 @@ class TagsSkeletonUI extends StatelessWidget {
                   (tag) => ArticleTagContainer(
                     tagId: tag["id"],
                     tagName: tag["tagname"],
+                    totalDownCount: tag["total_down_count"],
+                    borderColor: borderColor,
+                    borderWidth: borderWidth,
                   ),
                 )
                 .toList(),

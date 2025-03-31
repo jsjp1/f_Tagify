@@ -1,10 +1,10 @@
 class Content {
   final int id;
   final String url;
-  final String title;
+  String title;
   final String thumbnail;
   final String favicon;
-  final String description;
+  String description;
   bool bookmark;
   List<dynamic> tags;
   final String type;

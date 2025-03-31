@@ -113,7 +113,7 @@ class ArticleDetailScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              // 콘텐츠 썸네일 부분
+              // 컨텐츠 썸네일 부분
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: articleDetailScreenThumbnailsHeight,
@@ -121,7 +121,7 @@ class ArticleDetailScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 15.0),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    // 콘텐츠 나열 부분 (좌우 스크롤)
+                    // 컨텐츠 나열 부분 (좌우 스크롤)
                     child: Row(
                       children: contents.map((content) {
                         return SizedBox(
@@ -129,7 +129,7 @@ class ArticleDetailScreen extends StatelessWidget {
                           width: articleDetailScreenContentHeight * (16 / 9),
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 10.0),
-                            // 콘텐츠 썸네일과 제목
+                            // 컨텐츠 썸네일과 제목
                             child: GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -148,7 +148,7 @@ class ArticleDetailScreen extends StatelessWidget {
                                       border: Border.all(
                                           color: Colors.grey, width: 0.5),
                                     ),
-                                    // 콘텐츠 썸네일
+                                    // 컨텐츠 썸네일
                                     child: ClipRRect(
                                       child: AspectRatio(
                                         aspectRatio: 16 / 9,
@@ -164,7 +164,7 @@ class ArticleDetailScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  // 콘텐츠 제목
+                                  // 컨텐츠 제목
                                   Expanded(
                                     child: GlobalText(
                                       localizeText: content.title,

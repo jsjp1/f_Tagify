@@ -41,6 +41,7 @@ Future<ApiResponse<Content>> analyzeContent(int userId, String url, String lang,
       headers: {
         "Authorization": "Bearer $token",
         "Content-Type": "application/json",
+        "Accept": "application/json",
       },
       body: jsonEncode({
         "user_id": userId,

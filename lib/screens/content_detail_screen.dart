@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/api/common.dart';
+import 'package:tagify/screens/tag_detail_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/components/contents/common.dart';
@@ -83,7 +85,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                         ),
                       ),
               ),
-              // thumbnail 아래 콘텐츠 설명 나열 부분
+              // thumbnail 아래 컨텐츠 설명 나열 부분
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -164,7 +166,25 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                     (index) {
                                       return TagContainer(
                                         tagName: widget.content.tags[index],
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                              maintainState: true,
+                                              fullscreenDialog: false,
+                                              builder: (context) {
+                                                Tag tag = provider
+                                                    .tags // TODO: 좀 더 근본적으로 해결할 수는 없나...?
+                                                    .firstWhere((item) =>
+                                                        item.tagName ==
+                                                        widget.content
+                                                            .tags[index]);
+                                                return TagDetailScreen(
+                                                    tag: tag);
+                                              },
+                                            ),
+                                          );
+                                        },
                                         isLastButton: true,
                                       );
                                     },
@@ -193,7 +213,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               },
             ),
           ),
-          // 콘텐츠 수정 / 삭제 / ... 버튼
+          // 컨텐츠 수정 / 삭제 / ... 버튼
           Positioned(
             right: 0.0,
             top: appBarHeight + 5.0,
@@ -313,7 +333,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               },
             ),
           ),
-          // 콘텐츠 원문보기 버튼
+          // 컨텐츠 원문보기 버튼
           Positioned(
             bottom: 15.0,
             child: GestureDetector(

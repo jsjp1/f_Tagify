@@ -53,7 +53,7 @@ class ContentInstanceState extends State<ContentInstance> {
         ),
         child: Column(
           children: [
-            // 콘텐츠 컨테이너 타이틀 바
+            // 컨텐츠 컨테이너 타이틀 바
             SizedBox(
               height: widget.instanceHeight * (0.05),
             ),

@@ -188,7 +188,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
               ),
             ),
 
-            // 콘텐츠 정보 나열, 스크롤 가능 부분
+            // 컨텐츠 정보 나열, 스크롤 가능 부분
             if (futureContent.data != null)
               Positioned(
                 top: MediaQuery.of(context).size.height * (0.08) + 140.0,
