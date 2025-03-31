@@ -25,6 +25,8 @@ class ArticleInstance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -40,11 +42,15 @@ class ArticleInstance extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: whiteBackgroundColor,
+                color: isDarkMode
+                    ? lightBlackBackgroundColor
+                    : whiteBackgroundColor,
                 borderRadius: BorderRadius.circular(20.0),
                 boxShadow: [
                   BoxShadow(
-                    color: contentInstanceBoxShadowColor,
+                    color: isDarkMode
+                        ? darkContentInstanceBoxShadowColor
+                        : contentInstanceBoxShadowColor,
                     blurRadius: 5.0,
                     spreadRadius: 0.01,
                     offset: Offset(0, 5),

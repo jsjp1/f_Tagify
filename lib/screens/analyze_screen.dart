@@ -41,7 +41,6 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: false,

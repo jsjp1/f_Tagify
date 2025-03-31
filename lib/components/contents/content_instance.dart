@@ -33,6 +33,7 @@ class ContentInstanceState extends State<ContentInstance> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TagifyProvider>(context, listen: true);
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
@@ -40,11 +41,13 @@ class ContentInstanceState extends State<ContentInstance> {
         width: widget.instanceWidth,
         height: widget.instanceHeight,
         decoration: BoxDecoration(
-          color: whiteBackgroundColor,
+          color: isDarkMode ? lightBlackBackgroundColor : whiteBackgroundColor,
           borderRadius: BorderRadius.circular(20.0),
           boxShadow: [
             BoxShadow(
-              color: contentInstanceBoxShadowColor,
+              color: isDarkMode
+                  ? darkContentInstanceBoxShadowColor
+                  : contentInstanceBoxShadowColor,
               blurRadius: 5.0,
               spreadRadius: 0.01,
               offset: Offset(0, 5),
@@ -84,7 +87,6 @@ class ContentInstanceState extends State<ContentInstance> {
                           localizeText: widget.content.title,
                           textSize: contentInstanceTitleFontSize,
                           isBold: true,
-                          textColor: containerTitleColor,
                           overflow: TextOverflow.ellipsis,
                           localization: false,
                         ),
@@ -119,7 +121,6 @@ class ContentInstanceState extends State<ContentInstance> {
                           padding: EdgeInsets.zero,
                           onPressed: () async {
                             await showModalBottomSheet(
-                              backgroundColor: whiteBackgroundColor,
                               context: context,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
@@ -210,7 +211,9 @@ class ContentInstanceState extends State<ContentInstance> {
                           color: Colors.black,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey,
+                              color: isDarkMode
+                                  ? darkContentInstanceBoxShadowColor
+                                  : contentInstanceDescriptionColor,
                               blurRadius: 5.0,
                               spreadRadius: 1.0,
                             ),
@@ -259,7 +262,6 @@ class ContentInstanceState extends State<ContentInstance> {
                           localizeText: widget.content.description,
                           textSize: contentInstanceDescriptionFontSize,
                           localization: false,
-                          textColor: contentInstanceDescriptionColor,
                         ),
                       ),
                     ),
@@ -299,14 +301,15 @@ class TagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
       child: Container(
         decoration: BoxDecoration(
-          color: whiteBackgroundColor,
           border: Border.all(
-            color: contentInstanceTagBorderColor,
             width: 0.5,
+            color: contentInstanceTagBorderColor,
           ),
           borderRadius: BorderRadius.circular(20.0),
         ),
@@ -316,7 +319,9 @@ class TagContainer extends StatelessWidget {
             child: GlobalText(
               localizeText: tagName,
               textSize: 10.0,
-              textColor: contentInstanceTagTextColor,
+              textColor: isDarkMode
+                  ? darkContentInstanceTagTextColor
+                  : contentInstanceTagTextColor,
               isBold: true,
               localization: false,
             ),

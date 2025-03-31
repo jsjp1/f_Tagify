@@ -9,12 +9,13 @@ class TagifyExploreAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final appBarTextWidth = MediaQuery.of(context).size.width * (0.7);
 
     return Container(
       width: double.infinity,
       height: appBarHeight,
-      color: whiteBackgroundColor,
+      color: isDarkMode ? lightBlackBackgroundColor : whiteBackgroundColor,
       padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 5.0),
       alignment: Alignment.centerLeft,
       child: Row(
@@ -26,7 +27,8 @@ class TagifyExploreAppBar extends StatelessWidget {
               localizeText: appBarName,
               textSize: 25.0,
               isBold: true,
-              textColor: Colors.black,
+              textColor:
+                  isDarkMode ? whiteBackgroundColor : blackBackgroundColor,
               overflow: TextOverflow.visible,
               localization: false,
             ),

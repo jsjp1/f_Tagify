@@ -16,7 +16,6 @@ class TagListDrawer extends StatelessWidget {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         bottom: false,
         child: Column(

@@ -17,13 +17,14 @@ class TagDetailScreen extends StatefulWidget {
 class TagDetailScreenState extends State<TagDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: false,
         child: Container(
-          color: noticeWidgetColor,
+          color: isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
           child: Stack(
             children: [
               Column(

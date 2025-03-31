@@ -40,6 +40,7 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     final Object? args = ModalRoute.of(context)?.settings.arguments;
@@ -51,18 +52,16 @@ class HomeScreenState extends State<HomeScreen>
     debugPrint("home_screen.dart: loginResponse: ${widget.loginResponse}");
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: AnimatedDrawerLayout(
         key: drawerLayoutKey,
         mainContent: SafeArea(
           top: true,
           bottom: false,
           child: Container(
-            color: noticeWidgetColor,
+            color: isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
             child: Stack(
               children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TagifyAppBar(
                       onLogoImageTap: () {

@@ -22,13 +22,14 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final double widgetWidth = MediaQuery.of(context).size.width * (0.85);
     final double widgetHeight = MediaQuery.of(context).size.height * (0.05);
 
     return Column(
       children: [
         Container(
-          color: whiteBackgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
           width: double.infinity,
           height: MediaQuery.of(context).size.height * (0.07),
           child: Align(
@@ -36,7 +37,6 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
             child: Center(
               child: Container(
                 decoration: BoxDecoration(
-                  color: noticeWidgetColor,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 width: widgetWidth,
@@ -60,6 +60,10 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                           searchTextController.text = "";
                         },
                       ),
+                      filled: true,
+                      fillColor: isDarkMode
+                          ? darkNoticeWidgetColor
+                          : noticeWidgetColor,
                     ),
                     style: TextStyle(
                       color: Colors.black,

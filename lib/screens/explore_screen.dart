@@ -85,27 +85,31 @@ class ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: false,
         child: Stack(
           children: [
-            Container(color: noticeWidgetColor),
+            Container(
+              color: isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
+            ),
             Column(
               children: [
                 TagifyExploreAppBar(appBarName: "Explore"),
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Container(
-                      color: whiteBackgroundColor,
+                    child: SizedBox(
                       child: Column(
                         children: [
                           Container(
                             width: double.infinity,
                             height: 800.0,
-                            color: whiteBackgroundColor,
+                            color: isDarkMode
+                                ? lightBlackBackgroundColor
+                                : whiteBackgroundColor,
                             child: Padding(
                               padding:
                                   EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 0.0),
@@ -316,6 +320,8 @@ class ArticleTagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -333,7 +339,8 @@ class ArticleTagContainer extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             border: Border.all(
               width: borderWidth ?? 0.5,
-              color: borderColor ?? Colors.black26,
+              color: borderColor ??
+                  (isDarkMode ? whiteBackgroundColor : Colors.black26),
             ),
           ),
           child: Column(
@@ -344,8 +351,8 @@ class ArticleTagContainer extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
                   child: GlobalText(
                     localizeText: tagName,
-                    // textColor: contentInstanceTagTextColor,
-                    textColor: blackBackgroundColor,
+                    textColor:
+                        isDarkMode ? Colors.grey[300] : blackBackgroundColor,
                     isBold: true,
                     textSize: 13.0,
                     localization: false,
@@ -374,6 +381,8 @@ class TagsSkeletonUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return FutureBuilder<List<Map<String, dynamic>>>(
       future: tags,
       builder: (context, snapshot) {
@@ -389,7 +398,9 @@ class TagsSkeletonUI extends StatelessWidget {
                   height: 24.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.grey[300],
+                    color: isDarkMode
+                        ? const Color.fromARGB(255, 80, 80, 80)
+                        : Colors.grey[300],
                   ),
                 ),
               ),

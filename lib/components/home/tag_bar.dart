@@ -26,13 +26,14 @@ class TagBarState extends State<TagBar> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Column(
       children: [
         Container(
+          color: isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
           height: widget.tagBarHeight,
-          color: noticeWidgetColor,
           child: Row(
             children: [
               SizedBox(width: 10.0),
@@ -90,6 +91,8 @@ class TagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.only(left: 10.0),
       child: IntrinsicWidth(
@@ -101,8 +104,8 @@ class TagContainer extends StatelessWidget {
           ),
           decoration: BoxDecoration(
             color: currentSelectedTag
-                ? blackBackgroundColor
-                : whiteBackgroundColor,
+                ? (isDarkMode ? noticeWidgetColor : blackBackgroundColor)
+                : (isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor),
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Center(
@@ -111,7 +114,11 @@ class TagContainer extends StatelessWidget {
               child: GlobalText(
                 localizeText: tagName,
                 textSize: 12.0,
-                textColor: currentSelectedTag ? Colors.white : Colors.black,
+                textColor: currentSelectedTag
+                    ? (isDarkMode ? blackBackgroundColor : whiteBackgroundColor)
+                    : (isDarkMode
+                        ? whiteBackgroundColor
+                        : blackBackgroundColor),
                 isBold: true,
                 overflow: TextOverflow.ellipsis,
               ),

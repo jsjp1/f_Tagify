@@ -5,7 +5,6 @@ import 'package:tagify/global.dart';
 Future<dynamic> setTagBottomModal(
     BuildContext context, Function(String) setState) {
   return showModalBottomSheet(
-    backgroundColor: whiteBackgroundColor,
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(

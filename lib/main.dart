@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 import 'package:tagify/screens/auth_screen.dart';
-import 'package:tagify/api/content.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/splash_screen.dart';
 
@@ -31,9 +30,15 @@ void main() async {
       supportedLocales: [Locale("en", ''), Locale("ko", '')],
       path: "assets/translations",
       fallbackLocale: Locale("en", ''),
-      child: App(
-        initialRoute: loginResponse == null ? "/auth" : "/splash",
-        initialLoginResponse: loginResponse ?? {},
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => TagifyProvider()),
+        ],
+        child: App(
+          initialRoute: loginResponse == null ? "/auth" : "/splash",
+          initialLoginResponse: loginResponse ?? {},
+        ),
       ),
     ),
   );
@@ -62,6 +67,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return ChangeNotifierProvider(
       create: (context) => TagifyProvider(),
       child: MaterialApp(
@@ -70,6 +77,9 @@ class App extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         locale: context.locale,
         initialRoute: initialRoute,
+        theme: themeProvider.lightTheme,
+        darkTheme: themeProvider.darkTheme,
+        themeMode: themeProvider.themeMode,
         onGenerateRoute: (settings) {
           Widget page;
 

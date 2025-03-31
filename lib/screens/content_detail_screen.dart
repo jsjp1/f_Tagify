@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/api/common.dart';
-import 'package:tagify/screens/tag_detail_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/api/common.dart';
+import 'package:tagify/screens/tag_detail_screen.dart';
 import 'package:tagify/utils/util.dart';
 import 'package:tagify/components/analyze/content_edit_widget.dart';
 
@@ -53,7 +53,6 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
     final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: Stack(
         children: [
           Column(
@@ -222,7 +221,6 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               padding: EdgeInsets.zero,
               onPressed: () async {
                 await showModalBottomSheet(
-                  backgroundColor: whiteBackgroundColor,
                   context: context,
                   shape: RoundedRectangleBorder(
                     borderRadius:
@@ -338,10 +336,9 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             bottom: 15.0,
             child: GestureDetector(
               onTap: () => launchContentUrl(widget.content.url),
-              child: Container(
+              child: SizedBox(
                 height: 70.0,
                 width: MediaQuery.of(context).size.width,
-                color: whiteBackgroundColor,
                 child: Center(
                   child: Container(
                     height: 60.0,
@@ -355,7 +352,6 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                         localizeText:
                             "content_detail_screen_move_to_content_button_text",
                         textSize: 20.0,
-                        textColor: whiteBackgroundColor,
                         localization: true,
                         isBold: true,
                       ),

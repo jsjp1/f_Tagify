@@ -5,17 +5,22 @@ const Color mainColor = Color.fromARGB(255, 205, 20, 31);
 // const Color mainColor = Color.fromARGB(255, 234, 51, 61);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black;
+const Color lightBlackBackgroundColor = Color.fromARGB(255, 36, 36, 36);
 const Color noticeWidgetColor = Color.fromARGB(255, 245, 245, 245);
-// const Color noticeWidgetColor = Color.fromARGB(255, 239, 239, 239);
+const Color darkNoticeWidgetColor = Color.fromARGB(255, 47, 47, 47);
 const Color timeContainerColor = Color.fromARGB(200, 225, 225, 225);
 const Color tagColor = Color.fromARGB(255, 50, 50, 50);
 const Color containerTitleColor = Color.fromARGB(255, 78, 78, 78);
 const Color profileButtonContainerColor = Color.fromARGB(255, 200, 200, 200);
 const Color navigationSearchBarColor = Colors.white70;
 const Color contentInstanceTagTextColor = Colors.indigo;
+const Color darkContentInstanceTagTextColor =
+    Color.fromARGB(255, 101, 112, 175);
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
 const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
+const Color darkContentInstanceBoxShadowColor =
+    Color.fromARGB(255, 100, 100, 100);
 const Color contentInstanceNoThumbnailColor =
     Color.fromARGB(200, 255, 255, 255);
 const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);

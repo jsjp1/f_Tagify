@@ -23,21 +23,22 @@ class SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     final TextEditingController usernameController =
         TextEditingController(text: provider.loginResponse!["username"]);
 
     return Scaffold(
       appBar: AppBar(
         leading: SizedBox.shrink(),
-        backgroundColor: whiteBackgroundColor,
         title: GlobalText(
           localizeText: "settings_screen_title",
           textSize: 20.0,
           isBold: true,
         ),
       ),
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: true,
@@ -178,11 +179,49 @@ class SettingsScreenState extends State<SettingsScreen> {
                     ],
                   ),
                   // 기타 설정
-                  // Expanded(
-                  //   child: Container(
-                  //     color: Colors.green,
-                  //   ),
-                  // ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 20.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GlobalText(
+                                  localizeText: "다크 모드",
+                                  textSize: 15.0), // TODO: localiztion
+                              IconButton(
+                                icon: isDarkMode
+                                    ? Icon(Icons.sunny)
+                                    : Icon(Icons.dark_mode),
+                                onPressed: () {
+                                  themeProvider.toggleTheme();
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10.0),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     GlobalText(
+                          //         localizeText: "글자 크기",
+                          //         textSize: 15.0), // TODO: localiztion
+                          //     IconButton(
+                          //       icon: isDarkMode
+                          //           ? Icon(Icons.sunny)
+                          //           : Icon(Icons.dark_mode),
+                          //       onPressed: () {
+                          //         // TODO
+                          //       },
+                          //     ),
+                          //   ],
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
 

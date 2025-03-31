@@ -21,7 +21,6 @@ Future<bool> showDeleteAlert(BuildContext context) async {
             child: GlobalText(
               localizeText: 'content_instance_really_delete_cancel',
               textSize: 15.0,
-              textColor: blackBackgroundColor,
               localization: true,
             ),
             onPressed: () {

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/api/article.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/common/delete_alert.dart';
 
@@ -12,7 +11,6 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
   final provider = Provider.of<TagifyProvider>(context, listen: false);
 
   showModalBottomSheet(
-    backgroundColor: whiteBackgroundColor,
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),

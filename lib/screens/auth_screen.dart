@@ -20,7 +20,6 @@ class AuthScreenState extends State<AuthScreen> {
         MediaQuery.of(context).size.height * (0.3);
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: Center(
         child: Column(
           children: [
@@ -57,7 +56,6 @@ class AuthScreenTopSection extends StatelessWidget {
           localizeText: "Tagify",
           textSize: 40.0,
           isBold: true,
-          textColor: Colors.black,
           overflow: TextOverflow.clip,
           localization: false,
         ),
@@ -65,7 +63,6 @@ class AuthScreenTopSection extends StatelessWidget {
           localizeText: "auth_screen_top_description_text",
           textSize: 20.0,
           isBold: true,
-          textColor: Colors.black54,
           overflow: TextOverflow.clip,
           localization: true,
         ),
@@ -88,7 +85,6 @@ class AuthScreenBottomSection extends StatelessWidget {
           child: GlobalText(
             isBold: false,
             localizeText: "auth_screen_bottom_description_text",
-            textColor: Colors.black54,
             textSize: 15.0,
             overflow: TextOverflow.clip,
             localization: true,

@@ -37,9 +37,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       appBar: AppBar(
-        backgroundColor: whiteBackgroundColor,
         leading: IconButton(
           icon: Icon(Icons.close),
           highlightColor: Colors.transparent,
@@ -115,7 +113,6 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                 decoration: InputDecoration(
                   hintText: tr("upload_article_screen_write_title"),
                   hintStyle: TextStyle(
-                    color: Colors.black38,
                     fontWeight: FontWeight.bold,
                   ),
                   focusedBorder: UnderlineInputBorder(
@@ -143,9 +140,6 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                     ),
                     decoration: InputDecoration(
                       hintText: tr("upload_article_screen_write_body"),
-                      hintStyle: TextStyle(
-                        color: Colors.black38,
-                      ),
                       border: InputBorder.none,
                     ),
                   ),
@@ -160,7 +154,6 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                   child: GlobalText(
                     localizeText: "upload_article_screen_tag_select",
                     textSize: 13.0,
-                    textColor: Colors.black26,
                   ),
                 ),
               ),
@@ -205,7 +198,6 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                   child: GlobalText(
                     localizeText: "upload_article_screen_tag_make",
                     textSize: 13.0,
-                    textColor: Colors.black26,
                   ),
                 ),
               ),
@@ -301,7 +293,6 @@ class TagContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: whiteBackgroundColor,
           border: Border.all(
             color: isSelected ? mainColor : contentInstanceTagBorderColor,
             width: isSelected ? 1.7 : 1.5,

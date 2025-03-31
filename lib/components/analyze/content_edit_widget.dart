@@ -293,13 +293,14 @@ class TagContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.only(right: 5.0),
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
-            color: whiteBackgroundColor,
             border: Border.all(
               color: contentInstanceTagBorderColor,
               width: 0.5,
@@ -314,7 +315,9 @@ class TagContainer extends StatelessWidget {
                   GlobalText(
                     localizeText: tagName,
                     textSize: 13.0,
-                    textColor: contentInstanceTagTextColor,
+                    textColor: isDarkMode
+                        ? darkContentInstanceTagTextColor
+                        : contentInstanceTagTextColor,
                     isBold: true,
                     localization: false,
                   ),

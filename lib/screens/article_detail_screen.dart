@@ -27,9 +27,7 @@ class ArticleDetailScreen extends StatelessWidget {
     final double widgetWidth = MediaQuery.of(context).size.width * (0.95);
 
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       appBar: AppBar(
-        backgroundColor: whiteBackgroundColor,
         leading: IconButton(
           icon: Icon(CupertinoIcons.back),
           onPressed: () {

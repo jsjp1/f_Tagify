@@ -397,3 +397,58 @@ class TagifyProvider extends ChangeNotifier {
     _loginResponse = loginResponse;
   }
 }
+
+class ThemeProvider with ChangeNotifier {
+  ThemeMode _themeMode = ThemeMode.system;
+
+  ThemeMode get themeMode => _themeMode;
+
+  ThemeProvider() {
+    _loadTheme();
+  }
+
+  void _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    _themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+  }
+
+  void toggleTheme() async {
+    _themeMode =
+        (_themeMode == ThemeMode.light) ? ThemeMode.dark : ThemeMode.light;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', _themeMode == ThemeMode.dark);
+    notifyListeners();
+  }
+
+  ThemeData get lightTheme {
+    return ThemeData(
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: whiteBackgroundColor,
+      primaryColor: mainColor,
+      appBarTheme: AppBarTheme(
+        backgroundColor: whiteBackgroundColor,
+        foregroundColor: lightBlackBackgroundColor,
+      ),
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(color: blackBackgroundColor),
+      ),
+    );
+  }
+
+  ThemeData get darkTheme {
+    return ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: lightBlackBackgroundColor,
+      primaryColor: mainColor,
+      appBarTheme: AppBarTheme(
+        backgroundColor: lightBlackBackgroundColor,
+        foregroundColor: whiteBackgroundColor,
+      ),
+      textTheme: TextTheme(
+        bodyLarge: TextStyle(color: whiteBackgroundColor),
+      ),
+    );
+  }
+}

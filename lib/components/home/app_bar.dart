@@ -21,13 +21,14 @@ class TagifyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
     final appBarTextWidth = MediaQuery.of(context).size.width * (0.7);
 
     return Container(
       width: double.infinity,
       height: appBarHeight,
-      color: whiteBackgroundColor,
+      color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 5.0),
       alignment: Alignment.centerLeft,
       child: Row(
@@ -52,9 +53,11 @@ class TagifyAppBar extends StatelessWidget {
                     localizeText: "Tagify$addText",
                     textSize: 25.0,
                     isBold: true,
-                    textColor: Colors.black,
+                    textColor: isDarkMode
+                        ? whiteBackgroundColor
+                        : blackBackgroundColor,
                     overflow: TextOverflow.visible,
-                    localization: false,
+                    localization: true,
                   ),
                 ),
               ),
@@ -63,7 +66,7 @@ class TagifyAppBar extends StatelessWidget {
           GestureDetector(
             onTap: () {
               if (onProfileTap == null) {
-                () {};
+                () {}; // TODO
                 return;
               }
               onProfileTap!();

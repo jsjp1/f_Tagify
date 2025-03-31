@@ -65,8 +65,9 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: whiteBackgroundColor,
       body: SafeArea(
         top: true,
         bottom: false,
@@ -77,7 +78,8 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                 TagifyExploreAppBar(appBarName: widget.tagName),
                 Expanded(
                   child: Container(
-                    color: noticeWidgetColor,
+                    color:
+                        isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
                     child: Padding(
                       padding:
                           EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
@@ -94,7 +96,9 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                                   padding: EdgeInsets.symmetric(vertical: 10.0),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[300],
+                                      color: isDarkMode
+                                          ? lightBlackBackgroundColor
+                                          : Colors.grey[300],
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
                                     height: 250.0,
@@ -108,7 +112,9 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                                             child: SizedBox(
                                               height: 170.0,
                                               child: Container(
-                                                color: Colors.grey[400],
+                                                color: isDarkMode
+                                                    ? darkNoticeWidgetColor
+                                                    : noticeWidgetColor,
                                               ),
                                             ),
                                           ),
