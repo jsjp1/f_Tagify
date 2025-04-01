@@ -23,7 +23,7 @@ class TagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 5.0),
+      padding: EdgeInsets.only(left: 2.0, right: 4.0),
       child: GestureDetector(
         onTap: onTap,
         child: Container(

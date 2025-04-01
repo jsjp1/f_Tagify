@@ -173,23 +173,18 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                             ? darkContentInstanceTagTextColor
                                             : contentInstanceTagTextColor,
                                         onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                              maintainState: true,
-                                              fullscreenDialog: false,
-                                              builder: (context) {
-                                                Tag tag = provider
-                                                    .tags // TODO: 좀 더 근본적으로 해결할 수는 없나...?
-                                                    .firstWhere((item) =>
-                                                        item.tagName ==
-                                                        widget.content
-                                                            .tags[index]);
-                                                return TagDetailScreen(
-                                                    tag: tag);
-                                              },
-                                            ),
-                                          );
+                                          Navigator.push(context,
+                                              CustomPageRouteBuilder(
+                                                  pageBuilder: (context,
+                                                      animation,
+                                                      secondaryAnimation) {
+                                            Tag tag = provider.tags.firstWhere(
+                                                (item) =>
+                                                    item.tagName ==
+                                                    widget.content.tags[index]);
+
+                                            return TagDetailScreen(tag: tag);
+                                          }));
                                         },
                                       );
                                     },

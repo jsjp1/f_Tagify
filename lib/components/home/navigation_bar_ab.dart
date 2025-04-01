@@ -48,14 +48,14 @@ class TagifyNavigationBar extends StatelessWidget {
                           provider.currentPage = "home";
                           provider.currentTag = "all";
 
-                          await Navigator.push(
+                          await Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               opaque: false,
                               transitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               reverseTransitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) {
                                 return FadeTransition(
@@ -82,15 +82,15 @@ class TagifyNavigationBar extends StatelessWidget {
                         color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_search",
                     onPressed: () async {
-                      await Navigator.push(
+                      await Navigator.pushReplacement(
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
                               AnalyzeScreen(
                                   loginResponse: provider.loginResponse!),
-                          transitionDuration: Duration(milliseconds: 300),
+                          transitionDuration: Duration(milliseconds: 230),
                           reverseTransitionDuration:
-                              Duration(milliseconds: 300),
+                              Duration(milliseconds: 230),
                           transitionsBuilder:
                               (context, animation1, animation2, child) {
                             var begin = Offset(0.0, 1.0);
@@ -122,14 +122,14 @@ class TagifyNavigationBar extends StatelessWidget {
                         onPressed: () async {
                           provider.currentPage = "explore";
 
-                          await Navigator.push(
+                          await Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               opaque: false,
                               transitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               reverseTransitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) {
                                 return FadeTransition(
@@ -165,14 +165,14 @@ class TagifyNavigationBar extends StatelessWidget {
                         onPressed: () async {
                           provider.currentPage = "tag";
 
-                          await Navigator.push(
+                          await Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
                               opaque: false,
                               transitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               reverseTransitionDuration:
-                                  const Duration(milliseconds: 250),
+                                  const Duration(milliseconds: 230),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) {
                                 return FadeTransition(

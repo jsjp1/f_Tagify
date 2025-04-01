@@ -274,7 +274,7 @@ class ContentInstanceState extends State<ContentInstance> {
             SizedBox(height: widget.instanceHeight * (0.05)),
             Center(
               child: SizedBox(
-                height: widget.instanceHeight * (0.11),
+                height: widget.instanceHeight * (0.125),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: ListView.builder(
@@ -283,7 +283,7 @@ class ContentInstanceState extends State<ContentInstance> {
                     itemBuilder: (context, index) {
                       return TagContainer(
                         tagName: widget.content.tags[index],
-                        textSize: 9.0,
+                        textSize: 11.0,
                         tagColor: isDarkMode
                             ? darkContentInstanceTagTextColor
                             : contentInstanceTagTextColor,

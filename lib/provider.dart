@@ -434,6 +434,9 @@ class ThemeProvider with ChangeNotifier {
       textTheme: TextTheme(
         bodyLarge: TextStyle(color: blackBackgroundColor),
       ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: whiteBackgroundColor,
+      ),
     );
   }
 
@@ -448,6 +451,9 @@ class ThemeProvider with ChangeNotifier {
       ),
       textTheme: TextTheme(
         bodyLarge: TextStyle(color: whiteBackgroundColor),
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: lightBlackBackgroundColor,
       ),
     );
   }
