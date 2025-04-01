@@ -165,12 +165,14 @@ class ExploreScreenState extends State<ExploreScreen> {
                                     onTap: () {
                                       Navigator.push(
                                         context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
+                                        CustomPageRouteBuilder(
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
                                               TaggedArticleScreen(
-                                                  tagId: -1,
-                                                  tagName: tr(
-                                                      "explore_screen_see_all")),
+                                            tagId: -1,
+                                            tagName:
+                                                tr("explore_screen_see_all"),
+                                          ),
                                         ),
                                       );
                                     },
@@ -326,9 +328,12 @@ class ArticleTagContainer extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) =>
-                TaggedArticleScreen(tagId: tagId, tagName: tagName),
+          CustomPageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                TaggedArticleScreen(
+              tagId: tagId,
+              tagName: tagName,
+            ),
           ),
         );
       },
@@ -359,6 +364,7 @@ class ArticleTagContainer extends StatelessWidget {
                   ),
                 ),
               ),
+              // TODO -> 태그 컨테이너 더 꾸미기
               // totalDownCount == null
               //     ? SizedBox.shrink()
               //     : Text("$totalDownCount"),

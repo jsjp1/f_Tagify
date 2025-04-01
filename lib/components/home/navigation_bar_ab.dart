@@ -51,11 +51,26 @@ class TagifyNavigationBar extends StatelessWidget {
                           await Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  HomeScreen(
+                              opaque: false,
+                              transitionDuration:
+                                  const Duration(milliseconds: 250),
+                              reverseTransitionDuration:
+                                  const Duration(milliseconds: 250),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: HomeScreen(
                                       loginResponse: provider.loginResponse!),
-                              transitionDuration: Duration.zero,
-                              reverseTransitionDuration: Duration.zero,
+                                );
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
                             ),
                           );
                         },
@@ -110,10 +125,25 @@ class TagifyNavigationBar extends StatelessWidget {
                           await Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  ExploreScreen(),
-                              transitionDuration: Duration.zero,
-                              reverseTransitionDuration: Duration.zero,
+                              opaque: false,
+                              transitionDuration:
+                                  const Duration(milliseconds: 250),
+                              reverseTransitionDuration:
+                                  const Duration(milliseconds: 250),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: ExploreScreen(),
+                                );
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
                             ),
                           );
                         },
@@ -138,10 +168,25 @@ class TagifyNavigationBar extends StatelessWidget {
                           await Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  TagScreen(),
-                              transitionDuration: Duration.zero,
-                              reverseTransitionDuration: Duration.zero,
+                              opaque: false,
+                              transitionDuration:
+                                  const Duration(milliseconds: 250),
+                              reverseTransitionDuration:
+                                  const Duration(milliseconds: 250),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: TagScreen(),
+                                );
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
                             ),
                           );
                         },

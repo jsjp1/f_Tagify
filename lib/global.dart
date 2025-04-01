@@ -15,7 +15,7 @@ const Color profileButtonContainerColor = Color.fromARGB(255, 200, 200, 200);
 const Color navigationSearchBarColor = Colors.white70;
 const Color contentInstanceTagTextColor = Colors.indigo;
 const Color darkContentInstanceTagTextColor =
-    Color.fromARGB(255, 101, 112, 175);
+    Color.fromARGB(255, 143, 159, 252);
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
 const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
@@ -102,5 +102,38 @@ class GlobalText extends StatelessWidget {
               overflow: overflow,
             ),
           );
+  }
+}
+
+class CustomPageRouteBuilder<T> extends PageRoute<T> {
+  final RoutePageBuilder pageBuilder;
+  final PageTransitionsBuilder matchingBuilder =
+      const CupertinoPageTransitionsBuilder();
+
+  CustomPageRouteBuilder({required this.pageBuilder});
+
+  @override
+  Color? get barrierColor => null;
+
+  @override
+  String? get barrierLabel => null;
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation) {
+    return pageBuilder(context, animation, secondaryAnimation);
+  }
+
+  @override
+  bool get maintainState => true;
+
+  @override
+  Duration get transitionDuration => Duration(milliseconds: 300);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return matchingBuilder.buildTransitions<T>(
+        this, context, animation, secondaryAnimation, child);
   }
 }

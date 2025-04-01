@@ -10,6 +10,8 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
+import '../common/tag_container.dart';
+
 class ContentEditWidget extends StatefulWidget {
   final double widgetWidth;
   Content content;
@@ -47,6 +49,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Stack(
@@ -174,7 +177,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   ),
                   const SizedBox(height: 10.0),
                   SizedBox(
-                    height: 25.0,
+                    height: 20.0,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SingleChildScrollView(
@@ -186,8 +189,12 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                             (index) {
                               if (index < widget.content.tags.length) {
                                 return TagContainer(
+                                  textSize: 13.0,
+                                  tagColor: isDarkMode
+                                      ? darkContentInstanceTagTextColor
+                                      : contentInstanceTagTextColor,
                                   tagName: widget.content.tags[index],
-                                  onPressed: () {
+                                  onTap: () {
                                     setState(() {
                                       widget.content.tags.removeAt(index);
                                     });
@@ -196,8 +203,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                                 );
                               } else {
                                 return TagContainer(
+                                  textSize: 13.0,
                                   tagName: "+",
-                                  onPressed: () {
+                                  tagColor: Colors.indigoAccent,
+                                  onTap: () {
                                     if (widget.content.tags.length == 3) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -276,62 +285,6 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class TagContainer extends StatelessWidget {
-  final String tagName;
-  final Function() onPressed;
-  final bool isLastButton;
-
-  const TagContainer(
-      {super.key,
-      required this.tagName,
-      required this.onPressed,
-      required this.isLastButton});
-
-  @override
-  Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Padding(
-      padding: EdgeInsets.only(right: 5.0),
-      child: GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: contentInstanceTagBorderColor,
-              width: 0.5,
-            ),
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(7.0, 0.0, 7.0, 0.0),
-              child: Row(
-                children: [
-                  GlobalText(
-                    localizeText: tagName,
-                    textSize: 13.0,
-                    textColor: isDarkMode
-                        ? darkContentInstanceTagTextColor
-                        : contentInstanceTagTextColor,
-                    isBold: true,
-                    localization: false,
-                  ),
-                  isLastButton ? SizedBox.shrink() : SizedBox(width: 5.0),
-                  isLastButton
-                      ? SizedBox.shrink()
-                      : Text("✕",
-                          style: TextStyle(fontSize: 10.0, color: Colors.grey))
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

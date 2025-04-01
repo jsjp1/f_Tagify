@@ -44,7 +44,7 @@ class TagBarState extends State<TagBar> {
                   });
                   provider.currentTag = "all";
                 },
-                child: TagContainer(
+                child: TagBarContainer(
                   tagName: "tag_bar_tagname_all",
                   tagBarHeight: widget.tagBarHeight,
                   currentSelectedTag: currentTag == "all",
@@ -57,7 +57,7 @@ class TagBarState extends State<TagBar> {
                   });
                   provider.currentTag = "bookmark";
                 },
-                child: TagContainer(
+                child: TagBarContainer(
                   tagName: "tag_bar_tagname_bookmark",
                   tagBarHeight: widget.tagBarHeight,
                   currentSelectedTag: currentTag == "bookmark",
@@ -78,12 +78,12 @@ class TagBarState extends State<TagBar> {
   }
 }
 
-class TagContainer extends StatelessWidget {
+class TagBarContainer extends StatelessWidget {
   final String tagName;
   final double tagBarHeight;
   bool currentSelectedTag;
 
-  TagContainer(
+  TagBarContainer(
       {super.key,
       required this.tagName,
       required this.tagBarHeight,

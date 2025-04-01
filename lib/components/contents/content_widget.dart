@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -122,8 +123,9 @@ Widget _buildContentList(List<Content> contents, double widgetWidth) {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => ContentDetailScreen(
+            CustomPageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  ContentDetailScreen(
                 content: contents[idx],
               ),
             ),

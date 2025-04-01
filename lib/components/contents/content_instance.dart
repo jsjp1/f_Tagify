@@ -8,6 +8,8 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
+import '../common/tag_container.dart';
+
 class ContentInstance extends StatefulWidget {
   final double instanceWidth;
   final double instanceHeight;
@@ -281,6 +283,10 @@ class ContentInstanceState extends State<ContentInstance> {
                     itemBuilder: (context, index) {
                       return TagContainer(
                         tagName: widget.content.tags[index],
+                        textSize: 9.0,
+                        tagColor: isDarkMode
+                            ? darkContentInstanceTagTextColor
+                            : contentInstanceTagTextColor,
                       );
                     },
                   ),
@@ -288,44 +294,6 @@ class ContentInstanceState extends State<ContentInstance> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class TagContainer extends StatelessWidget {
-  final String tagName;
-
-  const TagContainer({super.key, required this.tagName});
-
-  @override
-  Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 0.5,
-            color: contentInstanceTagBorderColor,
-          ),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(5.5, 0.0, 5.5, 0.0),
-            child: GlobalText(
-              localizeText: tagName,
-              textSize: 10.0,
-              textColor: isDarkMode
-                  ? darkContentInstanceTagTextColor
-                  : contentInstanceTagTextColor,
-              isBold: true,
-              localization: false,
-            ),
-          ),
         ),
       ),
     );

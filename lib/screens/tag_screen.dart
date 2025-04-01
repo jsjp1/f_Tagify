@@ -144,14 +144,12 @@ class TagGridView extends StatelessWidget {
               onLongPress: () {
                 debugPrint("TEST"); // TODO
               },
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                await Navigator.push(
                   context,
-                  CupertinoPageRoute(
-                    maintainState: true,
-                    fullscreenDialog: false,
-                    builder: (context) => TagDetailScreen(tag: tags[index]),
-                  ),
+                  CustomPageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          TagDetailScreen(tag: tags[index])),
                 );
               },
               child: Container(

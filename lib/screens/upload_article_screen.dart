@@ -1,13 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/api/common.dart';
+
 import 'package:tagify/components/analyze/new_tag_modal.dart';
 import 'package:tagify/components/contents/common.dart';
-
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
+
+import '../components/common/tag_container.dart';
 
 class UploadArticleScreen extends StatefulWidget {
   final String? tagGiven;
@@ -34,6 +35,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
@@ -167,6 +169,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: TagContainer(
                             tagName: tag.tagName,
+                            textSize: 13.0,
                             tagColor: tag.color,
                             isSelected: tag.tagName == selectedTagName,
                             onTap: () async {
@@ -207,21 +210,29 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                 children: List.generate(newTagList.length + 1, (index) {
                   if (index < newTagList.length) {
                     return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.0),
-                        child: TagContainer(
-                            tagName: "${newTagList[index]} ✕", // TODO: x 크기 줄이기
-                            isSelected: false,
-                            onTap: () {
-                              setState(() {
-                                newTagList.remove(newTagList[index]);
-                              });
-                            }));
+                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      child: TagContainer(
+                          tagName: "${newTagList[index]}",
+                          tagColor: isDarkMode
+                              ? darkContentInstanceTagTextColor
+                              : contentInstanceTagTextColor,
+                          isSelected: false,
+                          isLastButton: false,
+                          textSize: 13.0,
+                          onTap: () {
+                            setState(() {
+                              newTagList.remove(newTagList[index]);
+                            });
+                          }),
+                    );
                   } else {
                     return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.0),
                         child: TagContainer(
                           tagName: "+",
-                          tagColor: Colors.lightBlue, // TODO
+                          textSize: 13.0,
+                          tagColor: Colors.indigoAccent, // TODO
+                          isLastButton: true,
                           isSelected: false,
                           onTap: () {
                             if (newTagList.length == 3) {
@@ -266,47 +277,6 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                 }),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TagContainer extends StatelessWidget {
-  final String tagName;
-  final Color? tagColor;
-  final bool isSelected;
-  final GestureTapCallback onTap;
-
-  const TagContainer({
-    super.key,
-    required this.tagName,
-    this.tagColor,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected ? mainColor : contentInstanceTagBorderColor,
-            width: isSelected ? 1.7 : 1.5,
-          ),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
-          child: GlobalText(
-            localizeText: tagName,
-            textSize: 15.0,
-            textColor: tagColor ?? Colors.grey,
-            isBold: false,
-            localization: false,
           ),
         ),
       ),

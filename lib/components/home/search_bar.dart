@@ -49,7 +49,10 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                     controller: searchTextController,
                     decoration: InputDecoration(
                       hintText: tr("search_bar_hint_text"),
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(13.0),
+                        borderSide: BorderSide.none,
+                      ),
                       contentPadding: EdgeInsets.fromLTRB(10.0, 8.0, 0.0, 0.0),
                       suffixIcon: IconButton(
                         icon: Icon(

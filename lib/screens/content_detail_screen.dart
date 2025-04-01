@@ -10,7 +10,8 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/screens/tag_detail_screen.dart';
 import 'package:tagify/utils/util.dart';
-import 'package:tagify/components/analyze/content_edit_widget.dart';
+
+import '../components/common/tag_container.dart';
 
 class ContentDetailScreen extends StatefulWidget {
   final Content content;
@@ -48,6 +49,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final double appBarHeight = AppBar().preferredSize.height;
     final double widgetWidget = MediaQuery.of(context).size.width * (0.9);
     final provider = Provider.of<TagifyProvider>(context, listen: true);
@@ -165,7 +167,12 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                     (index) {
                                       return TagContainer(
                                         tagName: widget.content.tags[index],
-                                        onPressed: () {
+                                        textSize: 13.0,
+                                        isLastButton: true,
+                                        tagColor: isDarkMode
+                                            ? darkContentInstanceTagTextColor
+                                            : contentInstanceTagTextColor,
+                                        onTap: () {
                                           Navigator.push(
                                             context,
                                             CupertinoPageRoute(
@@ -184,7 +191,6 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                             ),
                                           );
                                         },
-                                        isLastButton: true,
                                       );
                                     },
                                   ),
