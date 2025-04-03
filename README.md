@@ -38,3 +38,11 @@
   <img src="https://github.com/user-attachments/assets/8326af0a-19ba-4da4-9c14-ad04edebaf54" width="100" />
   <img src="https://github.com/user-attachments/assets/ef1e9feb-e3a5-4b33-abab-0d0809a9d4d6" width="100" />
 </p>
+
+### 2025-04-02
+
+- modify explore screen ui
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/def4d2af-a6fe-4474-8f6f-bc9c4004da99" width="100" />
+</p>
