@@ -51,8 +51,10 @@
 
 - support content edit 🔨
 - support edit tag color
+- support memo mode!
 
 <p align="left">
   <img src="https://github.com/user-attachments/assets/079b1702-71b1-4df5-aeec-658f596cde69" width="100" />
   <img src="https://github.com/user-attachments/assets/28cc29ed-a7f9-4b22-b7d4-27a1b11f146d" width="100" />
+  <img src="https://github.com/user-attachments/assets/52933329-0b60-40e3-b13a-53f63fe4ed19" width="100" />
 </p>
