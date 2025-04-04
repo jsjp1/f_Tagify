@@ -122,7 +122,7 @@ class TagGridView extends StatelessWidget {
         tags.map((item) => provider.tagContentsMap[item.tagName]!).toList();
 
     return GridView.builder(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(bottom: 75.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 10.0,
