@@ -9,9 +9,11 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 
 class TagifyProvider extends ChangeNotifier {
+  String _version = "";
   bool hasMoreArticles = true;
   String _currentTag = "all";
   String _currentPage = "home";
+  int _currentCategory = 0; // 0, 1, 2, 3, 4, 5, 6
   List<Tag> _tags = [];
   Map<int, String> _idTagNameMap = {};
   Set<int> _bookmarkedSet = {};
@@ -25,8 +27,10 @@ class TagifyProvider extends ChangeNotifier {
   final int _articleLimit = 30;
   int _articleOffset = 0;
 
+  String get version => _version;
   String get currentTag => _currentTag;
   String get currentPage => _currentPage;
+  int get currentCategory => _currentCategory;
   Map<String, List<Content>> get tagContentsMap => _tagContentsMap;
   List<Article> get articles => _articles;
   List<Tag> get tags => _tags;
@@ -34,6 +38,11 @@ class TagifyProvider extends ChangeNotifier {
   Map<String, dynamic>? get loginResponse => _loginResponse;
   int get selectedGrid => _tagScreenSelectedGrid;
   int get articlesOffset => _articlesOffset;
+
+  set version(String version) {
+    _version = version;
+    notifyListeners();
+  }
 
   set currentPage(String newPage) {
     _currentPage = newPage;
@@ -46,6 +55,11 @@ class TagifyProvider extends ChangeNotifier {
 
   set currentTag(String newTag) {
     _currentTag = newTag;
+    notifyListeners();
+  }
+
+  set currentCategory(int currentCategory) {
+    _currentCategory = currentCategory;
     notifyListeners();
   }
 
@@ -133,7 +147,7 @@ class TagifyProvider extends ChangeNotifier {
 
       if (content.bookmark) {
         _bookmarkedSet.add(newContentId);
-        _tagContentsMap["bookmark"]!.add(content);
+        _tagContentsMap["bookmark"]!.insert(0, content);
       }
       pvFetchUserAllContents();
 
@@ -147,7 +161,74 @@ class TagifyProvider extends ChangeNotifier {
         if (_tagContentsMap[t.tagName] == null) {
           _tagContentsMap[t.tagName] = [];
         }
-        _tagContentsMap[t.tagName]!.add(content);
+        _tagContentsMap[t.tagName]!.insert(0, content);
+      }
+
+      notifyListeners();
+    }
+  }
+
+  Future<void> pvEditContent(
+      List<String> beforeTags, Content content, int contentId) async {
+    if (_loginResponse == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString("access_token");
+
+    ApiResponse<Map<String, dynamic>> c = await editContent(
+        content, contentId, _loginResponse!["id"], accessToken!);
+
+    if (c.success) {
+      Map<String, dynamic> responseMap = c.data!;
+
+      List<Tag> tags = (responseMap["tags"] as List<dynamic>)
+          .map((tag) => Tag.fromJson(tag))
+          .toList();
+
+      for (var tagName in beforeTags) {
+        bool isDeleted = !tags.any((tag) => tag.tagName == tagName);
+
+        if (isDeleted) {
+          List<Content> contents = _tagContentsMap[tagName] ?? [];
+          contents.remove(content);
+
+          if (contents.isEmpty) {
+            _tagContentsMap.remove(tagName);
+
+            _tags.removeWhere((tag) => tag.tagName == tagName);
+          } else {
+            _tagContentsMap[tagName] = contents;
+
+            Tag tag = _tags.firstWhere((tag) => tag.tagName == tagName);
+            pvFetchUserTagContents(tag.id, tag.tagName);
+          }
+        }
+      }
+
+      pvFetchUserTags();
+      for (var newTag in tags) {
+        pvFetchUserTagContents(newTag.id, newTag.tagName);
+      }
+
+      if (content.bookmark) {
+        _bookmarkedSet.add(contentId);
+        _tagContentsMap["bookmark"]!.insert(0, content);
+      } else if (_bookmarkedSet.contains(contentId)) {
+        _bookmarkedSet.remove(contentId);
+        _tagContentsMap["bookmark"]!.remove(content);
+      }
+
+      for (var t in tags) {
+        if (_tags.contains(t) == false) {
+          _tags.insert(0, t);
+        }
+
+        _idTagNameMap[t.id] = t.tagName;
+
+        if (_tagContentsMap[t.tagName] == null) {
+          _tagContentsMap[t.tagName] = [];
+        }
+        _tagContentsMap[t.tagName]!.insert(0, content);
       }
 
       notifyListeners();
@@ -314,6 +395,30 @@ class TagifyProvider extends ChangeNotifier {
     }
   }
 
+  Future<bool> pvUpdateTag(int tagId, String tagName, Color color) async {
+    if (_loginResponse == null) return false;
+
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString("access_token");
+
+    ApiResponse<int> t = await updateTag(
+        _loginResponse!["id"], tagId, tagName, color, accessToken!);
+
+    if (t.success) {
+      for (var tag in _tags) {
+        if (tag.id == tagId) {
+          tag.tagName = tagName;
+          tag.color = color;
+          break;
+        }
+      }
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<void> pvFetchArticlesLimited() async {
     if (_loginResponse == null) return;
 
@@ -389,6 +494,7 @@ class TagifyProvider extends ChangeNotifier {
     if (a.success) {
       pvFetchUserAllContents();
       pvFetchUserTags();
+      pvFetchUserTagContents(a.data!, newTagName);
       notifyListeners();
     }
   }

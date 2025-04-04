@@ -19,7 +19,6 @@ class Notice extends StatelessWidget {
               SizedBox(
                 width: widgetWidth * (0.3),
                 height: widgetHeight * (0.95),
-                // child: Image.asset("assets/app_main_icons_1024_1024.png"),
                 child: Center(
                     child: GlobalText(
                   localizeText: "📢",

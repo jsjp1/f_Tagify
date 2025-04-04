@@ -18,6 +18,7 @@ void main() async {
 
   // TODO: 시작전 refresh token 만료기한 검사 -> login?
 
+  // TODO: 세로 모드 고정이, youtube 영상 보면 풀림
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]); // 세로 모드 고정

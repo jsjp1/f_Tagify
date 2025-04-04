@@ -10,9 +10,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
 class AnalyzeScreen extends StatefulWidget {
-  final Map<String, dynamic> loginResponse;
-
-  const AnalyzeScreen({super.key, required this.loginResponse});
+  const AnalyzeScreen({super.key});
 
   @override
   AnalyzeScreenState createState() => AnalyzeScreenState();
@@ -28,8 +26,8 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
       String url, String lang, String contentType) async {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
-    final result = await analyzeContent(widget.loginResponse["id"], url, lang,
-        contentType, provider.loginResponse!["access_token"]);
+    final result = await analyzeContent(provider.loginResponse!["id"], url,
+        lang, contentType, provider.loginResponse!["access_token"]);
     setState(() {
       futureContent = result;
     });
@@ -196,6 +194,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                 bottom: 0,
                 child: ContentEditWidget(
                   content: futureContent.data!,
+                  isEdit: false,
                   widgetWidth: pageWidth,
                 ),
               ),

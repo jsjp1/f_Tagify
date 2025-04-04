@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/home_screen.dart';
 
@@ -22,6 +22,9 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeApp() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+
     final provider = Provider.of<TagifyProvider>(context, listen: false);
     try {
       await provider.setInitialSetting(widget.loginResponse);
@@ -34,6 +37,8 @@ class SplashScreenState extends State<SplashScreen> {
       // TODO: tag별 contents는 이후 tag detail screen 들어가면 채워지도록
       await Future.wait(provider.tags
           .map((tag) => provider.pvFetchUserTagContents(tag.id, tag.tagName)));
+
+      provider.version = version;
 
       if (mounted) {
         Navigator.of(context).pushReplacement(

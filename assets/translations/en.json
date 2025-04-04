@@ -29,6 +29,10 @@
   "settings_screen_title": "Settings",
   "settings_screen_logout_text": "logout",
   "settings_screen_leave_text": "delete account",
+  "settings_screen_dark_mode": "Dark Mode",
+  "settings_screen_current_version": "App Version",
+  "settings_screen_usage": "How to Use the App?",
+  "settings_screen_usage_url": "https://www.notion.so/jieeen/How-to-use-Tagify-1c816dae3fdf80bab3e3dfc7fb6f387d?pvs=4",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
@@ -80,13 +84,15 @@
 
   "tag_list_drawer_tag_list": "Tags",
 
-  "explore_screen_see_all": "🌏 See All",
-  "explore_screen_total_ranking_tag": "🏆 Overall Ranking Tags",
-  "explore_screen_current_hot_tag": "🔥 Hottest Right Now",
-  "explore_screen_upvote_tag": "👍 Most Upvoted",
-  "explore_screen_newest_tag": "🎉 Newest Tags",
-  "explore_screen_my_tag": "My Tags",
-  "explore_screen_random_tag": "Random Tags",
+  "tag_color_picker_color_select_error": "Can't change the color",
+
+  "explore_screen_see_all": "🌏 Global",
+  "explore_screen_total_ranking": "🏆 Top",
+  "explore_screen_current_hot": "🔥 Hottest",
+  "explore_screen_upvote": "👍 Up Voted",
+  "explore_screen_newest": "🎉 Newest",
+  "explore_screen_my_tag": "🤩 My Tags",
+  "explore_screen_random": "🐈‍⬛ Random",
 
   "upload_article_screen_upload": "Upload",
   "upload_article_screen_upload_button_text": "submit",

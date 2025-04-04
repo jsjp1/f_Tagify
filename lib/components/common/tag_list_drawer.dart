@@ -13,7 +13,7 @@ class TagListDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return Scaffold(
       body: SafeArea(

@@ -29,6 +29,30 @@ Future<ApiResponse<List<Article>>> fetchArticlesLimited(
   return ApiResponse.empty();
 }
 
+Future<ApiResponse<List<Article>>> fetchUserArticlesLimited(
+    int userId, int limit, int offset, String accessToken) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/articles/user/$userId?limit=$limit&offset=$offset";
+
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(serverHost), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonList = jsonDecode(responseBody)["articles"];
+    List<Article> articles =
+        jsonList.map((item) => Article.fromJson(item)).toList();
+    return ApiResponse(
+        data: articles, statusCode: response.statusCode, success: true);
+  }
+  return ApiResponse.empty();
+}
+
 Future<ApiResponse<int>> postArticle(int userId, String title, String body,
     String encodedContent, List<String> tags, String accessToken) async {
   // TODO: List<tag>도 요청 데이터에 넣어야됨
@@ -111,9 +135,33 @@ Future<ApiResponse<int>> downloadArticle(
 
   if (response.statusCode == 200) {
     return ApiResponse(
-        data: jsonDecode(response.body)["id"],
+        data: jsonDecode(response.body)["tag_id"],
         statusCode: response.statusCode,
         success: true);
+  }
+  return ApiResponse.empty();
+}
+
+Future<ApiResponse<List<Article>>> fetchCategoryArticles(
+    int limit, int offset, String category, String accessToken) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/articles/$category?limit=$limit&offset=$offset";
+
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(serverHost), headers: {
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
+    }),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    List<dynamic> jsonList = jsonDecode(responseBody)["articles"];
+    List<Article> articles =
+        jsonList.map((item) => Article.fromJson(item)).toList();
+    return ApiResponse(
+        data: articles, statusCode: response.statusCode, success: true);
   }
   return ApiResponse.empty();
 }
@@ -154,7 +202,7 @@ Future<ApiResponse<List<Map<String, dynamic>>>> fetchCategoryTags(
   return ApiResponse.empty();
 }
 
-Future<ApiResponse<List<Map<String, dynamic>>>> fetchOwnewdTags(
+Future<ApiResponse<List<Map<String, dynamic>>>> fetchOwnedTags(
     int count, int userId, String accessToken) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/articles/tags/owned/$userId/$count";

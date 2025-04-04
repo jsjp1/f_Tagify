@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/components/home/app_bar.dart';
-import 'package:tagify/components/home/navigation_bar_ab.dart';
+import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
@@ -116,7 +116,7 @@ class TagGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
     final tags = provider.tags;
     final List<List<Content>> tagContents =
         tags.map((item) => provider.tagContentsMap[item.tagName]!).toList();

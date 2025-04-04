@@ -6,6 +6,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
 import 'package:tagify/screens/explore_screen.dart';
+import 'package:tagify/screens/explore_screen_ab.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
 
@@ -28,7 +29,6 @@ class TagifyNavigationBar extends StatelessWidget {
             Container(
               width: double.infinity,
               height: navigationBarHeight,
-              // color: whiteBackgroundColor,
               color: Theme.of(context).brightness == Brightness.dark
                   ? lightBlackBackgroundColor
                   : whiteBackgroundColor,
@@ -82,12 +82,11 @@ class TagifyNavigationBar extends StatelessWidget {
                         color: Colors.grey, size: 30.0),
                     buttonName: "navigation_bar_button_search",
                     onPressed: () async {
-                      await Navigator.pushReplacement(
+                      await Navigator.push(
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation1, animation2) =>
-                              AnalyzeScreen(
-                                  loginResponse: provider.loginResponse!),
+                              AnalyzeScreen(),
                           transitionDuration: Duration(milliseconds: 230),
                           reverseTransitionDuration:
                               Duration(milliseconds: 230),
@@ -134,7 +133,7 @@ class TagifyNavigationBar extends StatelessWidget {
                                   (context, animation, secondaryAnimation) {
                                 return FadeTransition(
                                   opacity: animation,
-                                  child: ExploreScreen(),
+                                  child: ExploreScreenAb(),
                                 );
                               },
                               transitionsBuilder: (context, animation,

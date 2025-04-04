@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/common.dart';
+import 'package:tagify/components/explore/article_edit_modal.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/screens/content_detail_screen.dart';
 import 'package:tagify/utils/util.dart';
@@ -34,6 +35,14 @@ class ArticleDetailScreen extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              articleInstanceEditBottomModal(context, article);
+            },
+            icon: Icon(Icons.more_vert_outlined),
+          ),
+        ],
       ),
       body: SafeArea(
         top: true,
@@ -51,8 +60,8 @@ class ArticleDetailScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.all(10.0),
                           child: SizedBox(
-                            width: profileImageHeightInArticle,
-                            height: profileImageHeightInArticle,
+                            width: profileImageHeightInArticleDetail,
+                            height: profileImageHeightInArticleDetail,
                             child: article.userProfileImage.isNotEmpty
                                 ? ClipOval(
                                     child: Image(
@@ -63,7 +72,7 @@ class ArticleDetailScreen extends StatelessWidget {
                                     ),
                                   )
                                 : Icon(CupertinoIcons.person_crop_circle_fill,
-                                    size: profileImageHeightInArticle,
+                                    size: profileImageHeightInArticleDetail,
                                     color: Colors.grey),
                           ),
                         ),

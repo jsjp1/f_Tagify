@@ -7,10 +7,11 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/common/delete_alert.dart';
 
-void articleInstanceEditBottomModal(BuildContext context, Article article) {
+void articleInstanceEditBottomModal(
+    BuildContext context, Article article) async {
   final provider = Provider.of<TagifyProvider>(context, listen: false);
 
-  showModalBottomSheet(
+  await showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -36,7 +37,6 @@ void articleInstanceEditBottomModal(BuildContext context, Article article) {
                 // 저장할 태그 이름 입력 받기
                 // TODO: 이부분 analyze set tag랑 똑같은데, 추후 분리
                 String? tagName = await showModalBottomSheet<String>(
-                  backgroundColor: whiteBackgroundColor,
                   context: context,
                   isScrollControlled: true,
                   shape: const RoundedRectangleBorder(

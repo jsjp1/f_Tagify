@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-import 'package:tagify/api/tag.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 
@@ -15,6 +16,7 @@ class TagColorPickerModal extends StatefulWidget {
 
 class TagColorPickerModalState extends State<TagColorPickerModal> {
   final List<Color> colors = [
+    // TODO: 회원 등급에 따라 구별
     mainColor,
     Colors.blue,
     Colors.green,
@@ -62,9 +64,7 @@ class TagColorPickerModalState extends State<TagColorPickerModal> {
 
 Future<void> themeColorChange(BuildContext context, TagifyProvider provider,
     int tagId, String tagName) async {
-  Navigator.pop(context);
-  await showModalBottomSheet(
-    backgroundColor: Colors.white,
+  return await showModalBottomSheet<void>(
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -72,10 +72,22 @@ Future<void> themeColorChange(BuildContext context, TagifyProvider provider,
     builder: (BuildContext context) {
       return TagColorPickerModal(
         onColorSelected: (Color color) async {
-          // 선택된 색상으로 tagColor 업데이트
-          // TODO: 에러 로그 스낵바
-          final response = await updateTag(provider.loginResponse!["id"], tagId,
-              tagName, color, provider.loginResponse!["accessToken"]);
+          final success = await provider.pvUpdateTag(tagId, tagName, color);
+
+          if (success) {
+            return;
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: snackBarColor,
+                content: GlobalText(
+                    localizeText: "tag_color_picker_color_select_error",
+                    textSize: 15.0),
+                duration: Duration(seconds: 1),
+              ),
+            );
+            return;
+          }
         },
       );
     },

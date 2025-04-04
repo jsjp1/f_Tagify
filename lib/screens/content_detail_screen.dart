@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/screens/content_edit_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/components/contents/common.dart';
@@ -145,10 +146,13 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                 localization: true,
                               ),
                               const SizedBox(height: 17.0),
-                              GlobalText(
-                                localizeText: widget.content.description,
-                                textSize: 13.0,
-                                localization: false,
+                              SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: GlobalText(
+                                  localizeText: widget.content.description,
+                                  textSize: 13.0,
+                                  localization: false,
+                                ),
                               ),
                               const SizedBox(height: 30.0),
                               GlobalText(
@@ -244,7 +248,16 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                             ),
                             onTap: () {
                               Navigator.pop(context);
-                              // TODO: 수정 로직 추가
+                              Navigator.push(
+                                context,
+                                CustomPageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return ContentEditScreen(
+                                        content: widget.content);
+                                  },
+                                ),
+                              );
                             },
                           ),
                         ),
@@ -353,6 +366,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                         localizeText:
                             "content_detail_screen_move_to_content_button_text",
                         textSize: 20.0,
+                        textColor: whiteBackgroundColor,
                         localization: true,
                         isBold: true,
                       ),

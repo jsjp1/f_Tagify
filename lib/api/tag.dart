@@ -100,7 +100,7 @@ Future<ApiResponse<int>> updateTag(int userId, int tagId, String tagName,
       Uri.parse(serverHost),
       headers: {
         "Authorization": "Bearer $token",
-        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
       body: jsonEncode({
         "tagname": tagName,

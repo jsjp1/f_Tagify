@@ -7,6 +7,7 @@ import 'package:tagify/components/common/delete_alert.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/screens/content_edit_screen.dart';
 
 import '../common/tag_container.dart';
 
@@ -146,7 +147,16 @@ class ContentInstanceState extends State<ContentInstance> {
                                         ),
                                         onTap: () {
                                           Navigator.pop(context);
-                                          // TODO: 수정 로직 추가
+                                          Navigator.push(
+                                            context,
+                                            CustomPageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                  secondaryAnimation) {
+                                                return ContentEditScreen(
+                                                    content: widget.content);
+                                              },
+                                            ),
+                                          );
                                         },
                                       ),
                                     ),
@@ -274,7 +284,7 @@ class ContentInstanceState extends State<ContentInstance> {
             SizedBox(height: widget.instanceHeight * (0.05)),
             Center(
               child: SizedBox(
-                height: widget.instanceHeight * (0.125),
+                height: widget.instanceHeight * (0.135),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: ListView.builder(

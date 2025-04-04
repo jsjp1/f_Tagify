@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/contents/content_widget.dart';
 import 'package:tagify/components/home/app_bar.dart';
+import 'package:tagify/components/tag/tag_color_picker.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class TagDetailScreen extends StatefulWidget {
   final Tag tag;
@@ -18,6 +21,7 @@ class TagDetailScreenState extends State<TagDetailScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return Scaffold(
       body: SafeArea(
@@ -32,6 +36,14 @@ class TagDetailScreenState extends State<TagDetailScreen> {
                   TagifyAppBar(
                     addText: "/ ${widget.tag.tagName}",
                     appIconColor: widget.tag.color,
+                    onLogoImageTap: () async {
+                      await themeColorChange(
+                        context,
+                        provider,
+                        widget.tag.id,
+                        widget.tag.tagName,
+                      );
+                    },
                   ),
                   Expanded(
                     child: ContentWidget(

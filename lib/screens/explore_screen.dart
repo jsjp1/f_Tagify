@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:tagify/api/article.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/explore/app_bar.dart';
-
-import 'package:tagify/components/home/navigation_bar_ab.dart';
+import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/components/common/animated_drawer_layout.dart';
@@ -69,7 +69,7 @@ class ExploreScreenState extends State<ExploreScreen> {
   Future<List<Map<String, dynamic>>> getOwnedTagList(int count) async {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
-    ApiResponse<List<Map<String, dynamic>>> tags = await fetchOwnewdTags(count,
+    ApiResponse<List<Map<String, dynamic>>> tags = await fetchOwnedTags(count,
         provider.loginResponse!["id"], provider.loginResponse!["access_token"]);
 
     if (tags.success) {

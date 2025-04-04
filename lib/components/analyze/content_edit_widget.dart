@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +12,13 @@ import '../common/tag_container.dart';
 
 class ContentEditWidget extends StatefulWidget {
   final double widgetWidth;
+  final bool isEdit;
   Content content;
 
   ContentEditWidget({
     super.key,
     required this.widgetWidth,
+    required this.isEdit,
     required this.content,
   });
 
@@ -29,6 +29,8 @@ class ContentEditWidget extends StatefulWidget {
 class ContentEditWidgetState extends State<ContentEditWidget> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
+
+  late List<String> beforeTags;
 
   bool isBookmarked = false;
 
@@ -45,6 +47,9 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
       // 컨텐츠당 최대 태그 개수 3개로 제한
       widget.content.tags = widget.content.tags.sublist(0, 3);
     }
+
+    beforeTags = List<String>.from(widget.content.tags);
+    isBookmarked = widget.content.bookmark;
   }
 
   @override
@@ -115,7 +120,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         borderSide: BorderSide(color: mainColor),
                       ),
                       suffixIcon: IconButton(
-                        icon: const Icon(CupertinoIcons.delete_left_fill),
+                        icon: const Icon(CupertinoIcons.clear_circled_solid),
                         onPressed: () {
                           titleController.clear();
                         },
@@ -153,7 +158,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(top: 30.0),
                         child: IconButton(
-                          icon: const Icon(CupertinoIcons.delete_left_fill),
+                          icon: const Icon(CupertinoIcons.clear_circled_solid),
                           onPressed: () {
                             descriptionController.clear();
                           },
@@ -177,7 +182,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   ),
                   const SizedBox(height: 10.0),
                   SizedBox(
-                    height: 20.0,
+                    height: 21.5,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: SingleChildScrollView(
@@ -276,7 +281,15 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
 
                   widget.content.title = titleController.text;
                   widget.content.description = descriptionController.text;
-                  await provider.pvSaveContent(widget.content);
+
+                  if (widget.isEdit == true) {
+                    // 저장이 아닌 수정 시
+
+                    await provider.pvEditContent(
+                        beforeTags, widget.content, widget.content.id);
+                  } else {
+                    await provider.pvSaveContent(widget.content);
+                  }
 
                   Navigator.pop(context);
                 },

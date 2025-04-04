@@ -46,3 +46,13 @@
 <p align="left">
   <img src="https://github.com/user-attachments/assets/def4d2af-a6fe-4474-8f6f-bc9c4004da99" width="100" />
 </p>
+
+### 2025-04-04
+
+- support content edit 🔨
+- support edit tag color
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/079b1702-71b1-4df5-aeec-658f596cde69" width="100" />
+  <img src="https://github.com/user-attachments/assets/28cc29ed-a7f9-4b22-b7d4-27a1b11f146d" width="100" />
+</p>

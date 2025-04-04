@@ -29,38 +29,39 @@ class TagContainer extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
-              color: contentInstanceTagBorderColor,
-              width: 0.5,
+              color: isSelected == null
+                  ? contentInstanceTagBorderColor
+                  : (isSelected! == true
+                      ? mainColor
+                      : contentInstanceTagBorderColor),
+              width:
+                  isSelected == null ? 0.7 : (isSelected! == true ? 0.9 : 0.7),
             ),
             borderRadius: BorderRadius.circular(20.0),
           ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-              child: Row(
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  GlobalText(
-                    localizeText: tagName,
-                    textSize: textSize!,
-                    textColor: tagColor ?? Colors.grey,
-                    isBold: true,
-                    localization: false,
-                  ),
-                  isLastButton != null
-                      ? (isLastButton!
-                          ? SizedBox.shrink()
-                          : SizedBox(width: 5.0))
-                      : SizedBox.shrink(),
-                  isLastButton != null
-                      ? (isLastButton!
-                          ? SizedBox.shrink()
-                          : Text("✕",
-                              style: TextStyle(
-                                  fontSize: 10.0, color: Colors.grey)))
-                      : SizedBox.shrink(),
-                ],
-              ),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(textSize / 2, 0.0, textSize / 2, 0.0),
+            child: Row(
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                GlobalText(
+                  localizeText: tagName,
+                  textSize: textSize,
+                  textColor: tagColor ?? Colors.grey,
+                  isBold: true,
+                  localization: false,
+                ),
+                isLastButton != null
+                    ? (isLastButton! ? SizedBox.shrink() : SizedBox(width: 5.0))
+                    : SizedBox.shrink(),
+                isLastButton != null
+                    ? (isLastButton!
+                        ? SizedBox.shrink()
+                        : Text("✕",
+                            style:
+                                TextStyle(fontSize: 10.0, color: Colors.grey)))
+                    : SizedBox.shrink(),
+              ],
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import "dart:ui";
 
+import "package:flutter/material.dart";
 import "package:http/http.dart";
 import "package:tagify/api/auth.dart";
 
@@ -42,11 +43,11 @@ class ApiResponse<T> {
 }
 
 class Tag {
-  final String tagName;
+  String tagName;
   final int id;
-  final Color color;
+  Color color;
 
-  const Tag({
+  Tag({
     required this.tagName,
     required this.id,
     required this.color,
@@ -65,7 +66,15 @@ class Tag {
     return Tag(
       id: json["id"],
       tagName: json["tagname"],
-      color: Color(json["color"]),
+      color: json["color"] == null ? Colors.grey : Color(json["color"]),
+    );
+  }
+
+  factory Tag.empty() {
+    return Tag(
+      color: Colors.grey,
+      tagName: "",
+      id: -1,
     );
   }
 }

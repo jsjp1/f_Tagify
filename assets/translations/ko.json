@@ -29,6 +29,10 @@
   "settings_screen_title": "설정",
   "settings_screen_logout_text": "로그아웃",
   "settings_screen_leave_text": "회원탈퇴",
+  "settings_screen_dark_mode": "다크 모드",
+  "settings_screen_current_version": "앱 버전",
+  "settings_screen_usage": "앱 사용 방법",
+  "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1c816dae3fdf809d8ad4fa66a417f1dd?pvs=73",
 
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
@@ -80,13 +84,15 @@
 
   "tag_list_drawer_tag_list": "태그 목록",
 
-  "explore_screen_see_all": "🌏  모두 보기",
-  "explore_screen_total_ranking_tag": "🏆 전체 랭킹 태그",
-  "explore_screen_current_hot_tag": "🔥 지금 가장 핫한",
-  "explore_screen_upvote_tag": "👍 좋아요가 가장 많은",
-  "explore_screen_newest_tag": "🎉 신규 태그",
-  "explore_screen_my_tag": "내 태그",
-  "explore_screen_random_tag": "랜덤 태그",
+  "tag_color_picker_color_select_error": "태그의 색상을 변경할 수 없습니다",
+
+  "explore_screen_see_all": "🌏 전체",
+  "explore_screen_total_ranking": "🏆 랭킹",
+  "explore_screen_current_hot": "🔥 가장 핫한",
+  "explore_screen_upvote": "👍 좋아요가 많은",
+  "explore_screen_newest": "🎉 신규",
+  "explore_screen_my_tag": "🤩 내 태그",
+  "explore_screen_random": "🐈‍⬛ 랜덤",
 
   "upload_article_screen_upload": "글쓰기",
   "upload_article_screen_upload_button_text": "등록",

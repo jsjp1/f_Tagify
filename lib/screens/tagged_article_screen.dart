@@ -82,7 +82,7 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                         isDarkMode ? darkNoticeWidgetColor : noticeWidgetColor,
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 0.0),
+                          EdgeInsets.symmetric(horizontal: 15.0, vertical: 0.0),
                       child: FutureBuilder(
                         future: _articlesFuture,
                         builder: (context, snapshot) {

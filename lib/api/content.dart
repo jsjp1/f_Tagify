@@ -117,6 +117,51 @@ Future<ApiResponse<Map<String, dynamic>>> saveContent(
   return ApiResponse.empty();
 }
 
+Future<ApiResponse<Map<String, dynamic>>> editContent(
+  Content content,
+  int contentId,
+  int userId,
+  String accessToken,
+) async {
+  final String endpoint =
+      "${dotenv.get("SERVER_HOST")}/api/contents/$contentId/user/$userId";
+
+  final response = await authenticatedRequest(
+    (token) => put(
+      Uri.parse(endpoint),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "user_id": userId,
+        "url": content.url,
+        "title": content.title,
+        "thumbnail": content.thumbnail,
+        "favicon": content.favicon,
+        "description": content.description,
+        "bookmark": content.bookmark,
+        "video_length": 0,
+        "body": "",
+        "tags": content.tags,
+      }),
+    ),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    Map<String, dynamic> jsonData = jsonDecode(responseBody);
+
+    return ApiResponse(
+      data: jsonData,
+      statusCode: response.statusCode,
+      success: true,
+    );
+  }
+  return ApiResponse.empty();
+}
+
 Future<ApiResponse<List<Video>>> fetchUserVideos(
     int userId, String accessToken) async {
   final String url =

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/user.dart';
+import 'package:tagify/utils/util.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -185,39 +187,80 @@ class SettingsScreenState extends State<SettingsScreen> {
                           horizontal: 10.0, vertical: 20.0),
                       child: Column(
                         children: [
+                          const SizedBox(height: 50.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GlobalText(
-                                  localizeText: "다크 모드",
-                                  textSize: 15.0), // TODO: localiztion
-                              IconButton(
-                                icon: isDarkMode
-                                    ? Icon(Icons.sunny)
-                                    : Icon(Icons.dark_mode),
-                                onPressed: () {
+                                  localizeText: "settings_screen_dark_mode",
+                                  textSize: 15.0),
+                              GestureDetector(
+                                onTap: () {
                                   themeProvider.toggleTheme();
                                 },
+                                child: Icon(
+                                  isDarkMode ? Icons.sunny : Icons.dark_mode,
+                                ),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10.0),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     GlobalText(
-                          //         localizeText: "글자 크기",
-                          //         textSize: 15.0), // TODO: localiztion
-                          //     IconButton(
-                          //       icon: isDarkMode
-                          //           ? Icon(Icons.sunny)
-                          //           : Icon(Icons.dark_mode),
-                          //       onPressed: () {
-                          //         // TODO
-                          //       },
-                          //     ),
-                          //   ],
-                          // ),
+                          const SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GlobalText(
+                                  localizeText: "",
+                                  textSize: 15.0), // TODO: 글자 크기
+                            ],
+                          ),
+                          const SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GlobalText(
+                                  localizeText: "", textSize: 15.0), // TODO
+                            ],
+                          ),
+                          const SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GlobalText(
+                                  localizeText: "",
+                                  textSize: 15.0), // TODO: 프리미엄?
+                            ],
+                          ),
+                          const SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GlobalText(
+                                  localizeText:
+                                      "settings_screen_current_version",
+                                  textSize: 15.0),
+                              Text(
+                                provider.version,
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30.0),
+                          GestureDetector(
+                            onTap: () {
+                              launchContentUrl(tr("settings_screen_usage_url"));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GlobalText(
+                                    localizeText: "settings_screen_usage",
+                                    textSize: 15.0),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
