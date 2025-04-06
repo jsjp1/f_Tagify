@@ -68,7 +68,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               )
                             : Icon(
                                 CupertinoIcons.person_crop_circle_fill,
-                                size: profileImageHeight,
+                                size: settingsScreenProfileImageHeight,
                                 color: Colors.grey,
                               ),
                       ),

@@ -346,36 +346,39 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             ),
           ),
           // 컨텐츠 원문보기 버튼
-          Positioned(
-            bottom: 15.0,
-            child: GestureDetector(
-              onTap: () => launchContentUrl(widget.content.url),
-              child: SizedBox(
-                height: 70.0,
-                width: MediaQuery.of(context).size.width,
-                child: Center(
-                  child: Container(
-                    height: 60.0,
-                    width: MediaQuery.of(context).size.width * (0.85),
-                    decoration: BoxDecoration(
-                      color: mainColor,
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    child: Center(
-                      child: GlobalText(
-                        localizeText:
-                            "content_detail_screen_move_to_content_button_text",
-                        textSize: 20.0,
-                        textColor: whiteBackgroundColor,
-                        localization: true,
-                        isBold: true,
+          // 메모로 저장되지 않았다면 버튼 표시
+          widget.content.url != ""
+              ? Positioned(
+                  bottom: 15.0,
+                  child: GestureDetector(
+                    onTap: () => launchContentUrl(widget.content.url),
+                    child: SizedBox(
+                      height: 70.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Container(
+                          height: 60.0,
+                          width: MediaQuery.of(context).size.width * (0.85),
+                          decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.circular(25.0),
+                          ),
+                          child: Center(
+                            child: GlobalText(
+                              localizeText:
+                                  "content_detail_screen_move_to_content_button_text",
+                              textSize: 20.0,
+                              textColor: whiteBackgroundColor,
+                              localization: true,
+                              isBold: true,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );

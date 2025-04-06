@@ -11,12 +11,14 @@ import 'package:tagify/provider.dart';
 import '../common/tag_container.dart';
 
 class ContentEditWidget extends StatefulWidget {
+  final bool isLink; // Link 입력하는 모드인지
   final double widgetWidth;
   final bool isEdit;
   Content content;
 
   ContentEditWidget({
     super.key,
+    required this.isLink,
     required this.widgetWidth,
     required this.isEdit,
     required this.content,
@@ -30,7 +32,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  late List<String> beforeTags;
+  late List<String> beforeTags; // 수정된 태그 확인하기 위한 리스트
 
   bool isBookmarked = false;
 
@@ -40,8 +42,6 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
 
     titleController.text = widget.content.title;
     descriptionController.text = widget.content.description;
-
-    // TODO: 쇼츠 영상 analyze -> tag 안보임
 
     if (widget.content.tags.length >= 3) {
       // 컨텐츠당 최대 태그 개수 3개로 제한
@@ -69,21 +69,25 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   Stack(
                     children: [
                       // 썸네일 부분
-                      SizedBox(
-                        height: 175.0,
-                        child: AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.content.thumbnail,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) {
-                                return SizedBox.expand();
-                              },
-                            )),
-                      ),
+                      widget.isLink == true
+                          ? SizedBox(
+                              height: 175.0,
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.content.thumbnail,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) {
+                                    return SizedBox.expand();
+                                  },
+                                ),
+                              ),
+                            )
+                          : SizedBox(height: 50.0, child: Container()),
                       Positioned(
                         top: 0.0,
-                        right: 0.0,
+                        right: widget.content.url == "" ? null : 0.0,
+                        left: widget.content.url == "" ? -15.0 : null,
                         child: IconButton(
                           icon: isBookmarked
                               ? Icon(Icons.bookmark, color: mainColor)
@@ -99,7 +103,9 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     ],
                   ),
                   // 제목 부분
-                  const SizedBox(height: 50.0),
+                  widget.content.url == ""
+                      ? const SizedBox.shrink()
+                      : const SizedBox(height: 50.0),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: GlobalText(
@@ -244,8 +250,6 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 100.0),
                 ],
               ),
             ),

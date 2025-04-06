@@ -78,3 +78,8 @@ Map<String, dynamic> contentListToMap(List<Content> contents) {
     "contents": contents.map((content) => content.toJson()).toList(),
   };
 }
+
+bool isValidUrl(String url) {
+  final uri = Uri.tryParse(url);
+  return uri != null && uri.hasAbsolutePath;
+}

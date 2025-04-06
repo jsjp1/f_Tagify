@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
-import 'package:tagify/screens/explore_screen.dart';
 import 'package:tagify/screens/explore_screen_ab.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
@@ -15,8 +14,6 @@ class TagifyNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
-
     return Column(
       children: [
         Divider(

@@ -132,7 +132,7 @@ Widget _buildContentList(List<Content> contents, double widgetWidth) {
         },
         child: ContentInstance(
           instanceWidth: widgetWidth,
-          instanceHeight: 135.0,
+          instanceHeight: 140.0,
           content: contents[idx],
         ),
       );

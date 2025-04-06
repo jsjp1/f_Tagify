@@ -209,71 +209,75 @@ class ContentInstanceState extends State<ContentInstance> {
             SizedBox(
               width: widget.instanceWidth,
               height: widget.instanceHeight * (0.45),
-              child: Stack(
+              child: Row(
                 children: [
                   // 컨테이너 상단 좌측 썸네일
-                  Positioned(
-                    left: 20.0,
-                    top: 5.0,
-                    height: widget.instanceHeight * (0.35),
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          boxShadow: [
-                            BoxShadow(
-                              color: isDarkMode
-                                  ? darkContentInstanceBoxShadowColor
-                                  : contentInstanceDescriptionColor,
-                              blurRadius: 5.0,
-                              spreadRadius: 1.0,
+                  widget.content.url != ""
+                      ? Padding(
+                          padding: EdgeInsets.only(left: 15.0),
+                          child: SizedBox(
+                            height: widget.instanceHeight * (0.38),
+                            child: AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: isDarkMode
+                                          ? darkContentInstanceBoxShadowColor
+                                          : contentInstanceDescriptionColor,
+                                      blurRadius: 5.0,
+                                      spreadRadius: 1.0,
+                                    ),
+                                  ],
+                                ),
+                                // 썸네일 이미지
+                                child: CachedNetworkImage(
+                                  imageUrl: widget.content.thumbnail,
+                                  fit: BoxFit.cover,
+                                  fadeInDuration: Duration.zero,
+                                  fadeOutDuration: Duration.zero,
+                                  placeholder: (context, url) {
+                                    return Container(
+                                      color: contentInstanceNoThumbnailColor,
+                                      child: Center(
+                                        child: Text(
+                                          "",
+                                          style: TextStyle(fontSize: 30.0),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                      color: contentInstanceNoThumbnailColor,
+                                      child: Center(
+                                        child: Text(
+                                          "",
+                                          style: TextStyle(fontSize: 30.0),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                        // 썸네일 이미지
-                        child: CachedNetworkImage(
-                          imageUrl: widget.content.thumbnail,
-                          fit: BoxFit.cover,
-                          fadeInDuration: Duration.zero,
-                          fadeOutDuration: Duration.zero,
-                          placeholder: (context, url) {
-                            return Container(
-                              color: contentInstanceNoThumbnailColor,
-                              child: Center(
-                                child: Text(
-                                  "",
-                                  style: TextStyle(fontSize: 30.0),
-                                ),
-                              ),
-                            );
-                          },
-                          errorWidget: (context, url, error) {
-                            return Container(
-                              color: contentInstanceNoThumbnailColor,
-                              child: Center(
-                                child: Text(
-                                  "",
-                                  style: TextStyle(fontSize: 30.0),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: widget.instanceWidth * (0.4),
-                    top: 5.0,
-                    child: SizedBox(
-                      width: widget.instanceWidth * (0.5),
-                      height: widget.instanceHeight * (0.35),
-                      child: SingleChildScrollView(
-                        child: GlobalText(
-                          localizeText: widget.content.description,
-                          textSize: contentInstanceDescriptionFontSize,
-                          localization: false,
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                  SizedBox(
+                    width: widget.instanceWidth * (0.6),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15.0),
+                      child: SizedBox(
+                        height: widget.instanceHeight * (0.35),
+                        child: SingleChildScrollView(
+                          child: GlobalText(
+                            localizeText: widget.content.description,
+                            textSize: contentInstanceDescriptionFontSize,
+                            localization: false,
+                          ),
                         ),
                       ),
                     ),

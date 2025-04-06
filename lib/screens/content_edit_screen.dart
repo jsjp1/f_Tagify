@@ -48,6 +48,7 @@ class ContentEditScreenState extends State<ContentEditScreen> {
                     // 컨텐츠 정보 나열, 스크롤 가능 부분
                     Expanded(
                       child: ContentEditWidget(
+                        isLink: true,
                         content: widget.content,
                         isEdit: true,
                         widgetWidth: pageWidth,

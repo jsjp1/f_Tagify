@@ -30,7 +30,7 @@ class Content {
       description: "",
       bookmark: false,
       tags: [],
-      type: "",
+      type: "post",
     );
   }
 
