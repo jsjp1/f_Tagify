@@ -88,88 +88,8 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            // 로딩되기전까지 동일한 크기의 placeholder 보여주기
-                            return ListView.builder(
-                              itemCount: 4,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: isDarkMode
-                                          ? lightBlackBackgroundColor
-                                          : Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    height: 250.0,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.all(5.0),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                            child: SizedBox(
-                                              height: 170.0,
-                                              child: Container(
-                                                color: isDarkMode
-                                                    ? darkNoticeWidgetColor
-                                                    : noticeWidgetColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 10.0,
-                                                vertical: 3.0),
-                                            child: Row(
-                                              children: [
-                                                Align(
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                  child: SizedBox(
-                                                    height: 20.0,
-                                                    child: Icon(
-                                                      CupertinoIcons
-                                                          .person_crop_circle_fill,
-                                                      color: Colors.grey,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        color: Colors.grey[300],
-                                                        height: 15.0,
-                                                        width: 150.0,
-                                                      ),
-                                                      SizedBox(height: 5.0),
-                                                      Container(
-                                                        color: Colors.grey[300],
-                                                        height: 11.0,
-                                                        width: 100.0,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
+                            // TODO: 로딩되기전까지 동일한 크기의 placeholder 보여주기
+                            return Expanded(child: Container());
                           } else if (snapshot.hasError) {
                             return Center(
                               child: GlobalText(
@@ -193,8 +113,12 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                             return ListView.builder(
                               itemCount: articles.length,
                               itemBuilder: (context, index) {
-                                return ArticleInstance(
-                                    article: articles[index]);
+                                return Column(
+                                  children: [
+                                    ArticleInstance(article: articles[index]),
+                                    const Divider(height: 0.5),
+                                  ],
+                                );
                               },
                             );
                           }

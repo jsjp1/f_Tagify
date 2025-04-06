@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/analyze_screen.dart';
-import 'package:tagify/screens/explore_screen_ab.dart';
+import 'package:tagify/screens/explore_screen.dart';
 import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/tag_screen.dart';
 
@@ -40,6 +40,9 @@ class TagifyNavigationBar extends StatelessWidget {
                                 color: mainColor, size: 30.0)
                             : Icon(CupertinoIcons.house_alt,
                                 color: Colors.grey, size: 30.0),
+                        iconColor: provider.currentPage == "home"
+                            ? mainColor
+                            : Colors.grey,
                         buttonName: "navigation_bar_button_home",
                         onPressed: () async {
                           provider.currentPage = "home";
@@ -75,9 +78,16 @@ class TagifyNavigationBar extends StatelessWidget {
                     },
                   ),
                   NavigationBarButton(
-                    icon: Icon(CupertinoIcons.search,
-                        color: Colors.grey, size: 30.0),
-                    buttonName: "navigation_bar_button_search",
+                    icon: Padding(
+                      padding: EdgeInsets.all(2.0),
+                      child: ImageIcon(
+                        AssetImage('assets/img/app_main_icons_filled.png'),
+                        color: Colors.grey,
+                        size: 26.0,
+                      ),
+                    ),
+                    iconColor: Colors.grey,
+                    buttonName: "navigation_bar_button_save",
                     onPressed: () async {
                       await Navigator.push(
                         context,
@@ -114,6 +124,9 @@ class TagifyNavigationBar extends StatelessWidget {
                               )
                             : Icon(CupertinoIcons.arrow_up_arrow_down_circle,
                                 color: Colors.grey, size: 30.0),
+                        iconColor: provider.currentPage == "explore"
+                            ? mainColor
+                            : Colors.grey,
                         buttonName: "navigation_bar_button_explore",
                         onPressed: () async {
                           provider.currentPage = "explore";
@@ -130,7 +143,7 @@ class TagifyNavigationBar extends StatelessWidget {
                                   (context, animation, secondaryAnimation) {
                                 return FadeTransition(
                                   opacity: animation,
-                                  child: ExploreScreenAb(),
+                                  child: ExploreScreen(),
                                 );
                               },
                               transitionsBuilder: (context, animation,
@@ -157,6 +170,9 @@ class TagifyNavigationBar extends StatelessWidget {
                                 size: 30.0)
                             : Icon(CupertinoIcons.rectangle_on_rectangle_angled,
                                 color: Colors.grey, size: 30.0),
+                        iconColor: provider.currentPage == "tag"
+                            ? mainColor
+                            : Colors.grey,
                         buttonName: "navigation_bar_button_tag",
                         onPressed: () async {
                           provider.currentPage = "tag";
@@ -200,13 +216,15 @@ class TagifyNavigationBar extends StatelessWidget {
 }
 
 class NavigationBarButton extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
+  final Color iconColor;
   final String buttonName;
   final VoidCallback onPressed;
 
   const NavigationBarButton(
       {super.key,
       required this.icon,
+      required this.iconColor,
       required this.buttonName,
       required this.onPressed});
 
@@ -228,7 +246,7 @@ class NavigationBarButton extends StatelessWidget {
               textSize: 13.0,
               localization: true,
               isBold: false,
-              textColor: icon.color,
+              textColor: iconColor,
             ),
           ],
         ),

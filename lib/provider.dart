@@ -210,10 +210,11 @@ class TagifyProvider extends ChangeNotifier {
         pvFetchUserTagContents(newTag.id, newTag.tagName);
       }
 
-      if (content.bookmark) {
+      if (content.bookmark && _bookmarkedSet.contains(contentId) == false) {
         _bookmarkedSet.add(contentId);
         _tagContentsMap["bookmark"]!.insert(0, content);
-      } else if (_bookmarkedSet.contains(contentId)) {
+      } else if (_bookmarkedSet.contains(contentId) &&
+          content.bookmark == false) {
         _bookmarkedSet.remove(contentId);
         _tagContentsMap["bookmark"]!.remove(content);
       }

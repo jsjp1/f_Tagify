@@ -89,6 +89,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         right: widget.content.url == "" ? null : 0.0,
                         left: widget.content.url == "" ? -15.0 : null,
                         child: IconButton(
+                          highlightColor: Colors.transparent,
                           icon: isBookmarked
                               ? Icon(Icons.bookmark, color: mainColor)
                               : Icon(Icons.bookmark_border, color: mainColor),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/global.dart';
+import 'package:tagify/screens/home_screen.dart';
 import 'package:tagify/screens/splash_screen.dart';
 
 class AuthButton extends StatelessWidget {
@@ -48,10 +49,19 @@ class AuthButton extends StatelessWidget {
 
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      SplashScreen(loginResponse: loginResponse)),
-              ModalRoute.withName("/"),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    SplashScreen(loginResponse: loginResponse),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 450),
+              ),
+              (route) => false,
             );
           }
         },

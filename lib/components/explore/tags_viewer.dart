@@ -28,7 +28,7 @@ class TagsViewer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 15.0, vertical: 20.0),
                   child: GlobalText(
-                    localizeText: "Paying Attention", // TODO: localization
+                    localizeText: "explore_screen_tags", // TODO: localization
                     textSize: 13.0,
                     isBold: true,
                   ),
@@ -43,8 +43,7 @@ class TagsViewer extends StatelessWidget {
                               ConnectionState.waiting) {
                             return Center(
                               child: GlobalText(
-                                localizeText:
-                                    "Waiting Please 🥺...", // TODO: localization
+                                localizeText: "explore_screen_waiting",
                                 textSize: 13.0,
                                 isBold: true,
                                 localization: true,
@@ -83,8 +82,8 @@ class TagsViewer extends StatelessWidget {
                                           tagName: tags[tagIndex]["tagname"],
                                           textSize: 13.0,
                                           tagColor: isDarkMode
-                                              ? whiteBackgroundColor
-                                              : darkNoticeWidgetColor,
+                                              ? darkContentInstanceTagTextColor
+                                              : contentInstanceTagTextColor,
                                           onTap: () {
                                             // TODO: TagDetailScreen으로 넘어가지 말고, 해당 받아온 컨텐츠들을,
                                             // TODO: 아래 ContentsViewer에서 표시하도록.

@@ -50,12 +50,11 @@ class ContentsViewerState extends State<ContentsViewer> {
           Align(
             alignment: Alignment.centerLeft,
             child: GlobalText(
-              localizeText: "Contents",
+              localizeText: "explore_screen_contents",
               textSize: 13.0,
               isBold: true,
             ),
-          ), // TODO: localization
-
+          ),
           Flexible(
             fit: FlexFit.loose,
             child: FutureBuilder(
@@ -72,10 +71,19 @@ class ContentsViewerState extends State<ContentsViewer> {
                     itemCount: articles.length + 1,
                     itemBuilder: (context, index) {
                       if (index < articles.length) {
-                        return ArticleInstance(article: articles[index]);
+                        return Column(
+                          children: [
+                            const Divider(height: 0.5),
+                            ArticleInstance(article: articles[index])
+                          ],
+                        );
                       } else {
-                        return const SizedBox(
-                            height: 100.0); // TODO: limit설정 후 더 fetch해오는걸로
+                        return Column(
+                          children: [
+                            const Divider(height: 0.5),
+                            SizedBox(height: 100.0),
+                          ],
+                        ); // TODO: limit설정 후 더 fetch해오는걸로
                       }
                     },
                   );

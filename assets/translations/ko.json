@@ -1,4 +1,6 @@
 {
+  "splash_screen_waiting": "🔥🙈❤️🥲🐈‍⬛🌏👍🌒🥺🫀",
+
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "지금 바로 당신의 컨텐츠를 정리하세요!",
 
@@ -48,7 +50,7 @@
   "content_edit_widget_save_tag_name": "태그를 지정해주세요",
   "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",
 
-  "content_detail_screen_move_to_content_button_text": "원본 보기",
+  "content_detail_screen_move_to_content_button_text": "바로가기",
   "content_detail_screen_tags": "태그",
   "content_detail_screen_description": "설명",
 
@@ -59,10 +61,10 @@
   "tag_box_instance_clipboard_save_success": "클립보드에 저장되었습니다!",
   "tag_box_instance_cant_delete": "컨텐츠가 존재해 삭제할 수 없는 태그입니다",
 
-  "navigation_bar_button_home": "home",
-  "navigation_bar_button_search": "search",
-  "navigation_bar_button_explore": "explore",
-  "navigation_bar_button_tag": "tag",
+  "navigation_bar_button_home": "홈",
+  "navigation_bar_button_save": "등록",
+  "navigation_bar_button_explore": "구경",
+  "navigation_bar_button_tag": "태그",
 
   "article_widget_empty": "표시할 게시물들이 존재하지 않습니다",
   "article_widget_no_more_article": "마지막 게시물입니다",
@@ -80,12 +82,11 @@
   "article_edit_modal_download": "다운로드",
   "article_edit_modal_tag_input": "태그 이름을 지정해주세요",
 
-  "explore_screen_search_hint_text": "찾고 싶은 게시물을 검색해보세요!",
-
   "tag_list_drawer_tag_list": "태그 목록",
 
   "tag_color_picker_color_select_error": "태그의 색상을 변경할 수 없습니다",
 
+  "explore_screen_search_hint_text": "찾고 싶은 게시물을 검색해보세요!",
   "explore_screen_see_all": "🌏 전체",
   "explore_screen_total_ranking": "🏆 랭킹",
   "explore_screen_current_hot": "🔥 가장 핫한",
@@ -93,6 +94,9 @@
   "explore_screen_newest": "🎉 신규",
   "explore_screen_my_tag": "🤩 내 태그",
   "explore_screen_random": "🐈‍⬛ 랜덤",
+  "explore_screen_contents": "컨텐츠",
+  "explore_screen_tags": "태그",
+  "explore_screen_waiting": "기다려 주세요 🥺...",
 
   "upload_article_screen_upload": "글쓰기",
   "upload_article_screen_upload_button_text": "등록",

@@ -38,11 +38,15 @@ class TagifyAppBar extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: onLogoImageTap,
-                child: Image.asset(
-                  "assets/img/app_logo_white.png",
-                  height: logoImageHeight,
-                  color: appIconColor,
-                  colorBlendMode: BlendMode.srcIn,
+                child: Hero(
+                  tag: "tagifyAppIcon",
+                  child: Image.asset(
+                    "assets/img/app_logo_white.png",
+                    // "assets/img/tagify_app_main_icons_3d_transparent.png",
+                    height: logoImageHeight,
+                    color: appIconColor,
+                    colorBlendMode: BlendMode.srcIn,
+                  ),
                 ),
               ),
               SizedBox(

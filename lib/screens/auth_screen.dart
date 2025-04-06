@@ -48,20 +48,23 @@ class AuthScreenTopSection extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: MediaQuery.of(context).size.height * (0.2)),
-        Image.asset(
-          height: MediaQuery.of(context).size.height * (0.2),
-          "assets/app_main_icons_1024_1024.png",
+        Hero(
+          tag: "tagifyAppIcon",
+          child: Image.asset(
+            height: MediaQuery.of(context).size.height * (0.2),
+            "assets/img/tagify_app_main_icon_3d_transparent.png",
+          ),
         ),
         GlobalText(
           localizeText: "Tagify",
-          textSize: 40.0,
+          textSize: 36.0,
           isBold: true,
           overflow: TextOverflow.clip,
           localization: false,
         ),
         GlobalText(
           localizeText: "auth_screen_top_description_text",
-          textSize: 20.0,
+          textSize: 16.0,
           isBold: true,
           overflow: TextOverflow.clip,
           localization: true,
