@@ -58,3 +58,13 @@
   <img src="https://github.com/user-attachments/assets/28cc29ed-a7f9-4b22-b7d4-27a1b11f146d" width="100" />
   <img src="https://github.com/user-attachments/assets/52933329-0b60-40e3-b13a-53f63fe4ed19" width="100" />
 </p>
+
+### 2025-04-07
+
+- modify auth screen, splash screen app icon
+- add hero effect 😎
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/c6a3777a-83ad-4624-b5e9-9a89ca10a211" width="100" />
+  <img src="https://github.com/user-attachments/assets/919414b5-15a3-40a7-960f-5fc530f768bd" width="100" />
+</p>
