@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/analyze/new_tag_modal.dart';
+import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
-
-import '../components/common/tag_container.dart';
 
 class UploadArticleScreen extends StatefulWidget {
   final String? tagGiven;
@@ -109,6 +108,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                 cursorColor: mainColor,
                 controller: titleController,
                 autocorrect: false,
+                textInputAction: TextInputAction.done,
                 style: TextStyle(
                   fontSize: 17.0,
                 ),
@@ -134,6 +134,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                   child: TextField(
                     cursorColor: mainColor,
                     controller: bodyController,
+                    textInputAction: TextInputAction.done,
                     autocorrect: false,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,

@@ -9,6 +9,7 @@ Future<bool> showDeleteAlert(BuildContext context) async {
       return CupertinoAlertDialog(
         title: GlobalText(
           localizeText: 'content_instance_really_delete_alert',
+          textColor: whiteBackgroundColor,
           textSize: 20.0,
           isBold: true,
         ),
@@ -21,6 +22,7 @@ Future<bool> showDeleteAlert(BuildContext context) async {
             child: GlobalText(
               localizeText: 'content_instance_really_delete_cancel',
               textSize: 15.0,
+              textColor: whiteBackgroundColor,
               localization: true,
             ),
             onPressed: () {

@@ -10,7 +10,7 @@ import 'package:tagify/components/explore/tags_viewer.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/screens/upload_article_screen.dart';
+import 'package:tagify/screens/article_upload_screen.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});

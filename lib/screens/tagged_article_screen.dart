@@ -8,7 +8,7 @@ import 'package:tagify/components/explore/app_bar.dart';
 import 'package:tagify/components/explore/article_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
-import 'package:tagify/screens/upload_article_screen.dart';
+import 'package:tagify/screens/article_upload_screen.dart';
 
 class TaggedArticleScreen extends StatefulWidget {
   final int tagId;

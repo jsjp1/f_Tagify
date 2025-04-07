@@ -139,7 +139,7 @@ class ArticleInstance extends StatelessWidget {
                                   isBold: false,
                                 ),
                               ),
-                              Expanded(child: const SizedBox.shrink()),
+                              const Expanded(child: SizedBox.shrink()),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(

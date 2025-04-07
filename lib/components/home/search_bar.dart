@@ -43,10 +43,11 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                 height: widgetHeight,
                 child: Center(
                   child: TextField(
+                    controller: searchTextController,
                     autocorrect: false,
+                    autofocus: false,
                     cursorHeight: 15.0,
                     cursorColor: Colors.grey,
-                    controller: searchTextController,
                     decoration: InputDecoration(
                       hintText: tr("search_bar_hint_text"),
                       border: OutlineInputBorder(
@@ -60,7 +61,8 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                           size: 20.0,
                         ),
                         onPressed: () {
-                          searchTextController.text = "";
+                          searchTextController.clear();
+                          FocusScope.of(context).unfocus();
                         },
                       ),
                       filled: true,

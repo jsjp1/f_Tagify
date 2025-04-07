@@ -26,7 +26,10 @@ String datetimeToYMD(DateTime dt) {
 }
 
 bool isVideo(String url) {
-  return url.contains("youtu");
+  final uri = Uri.tryParse(url);
+  if (uri == null) return false;
+
+  return uri.host.contains('youtube.com') || uri.host.contains('youtu.be');
 }
 
 String extractVideoId(String url) {

@@ -35,6 +35,8 @@
   "settings_screen_current_version": "App Version",
   "settings_screen_usage": "How to Use the App?",
   "settings_screen_usage_url": "https://www.notion.so/jieeen/How-to-use-Tagify-1c816dae3fdf80bab3e3dfc7fb6f387d?pvs=4",
+  "settings_screen_privacy_policy": "Privacy Policy",
+  "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
@@ -46,6 +48,7 @@
   "analyze_screen_description": "Description",
   "analyze_screen_tags": "Tags",
 
+  "content_edit_widget_save_button_text": "Save",
   "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
   "content_edit_widget_save_tag_name": "New Tag",
   "content_edit_widget_no_tags_error": "At least one tag must be specified",
@@ -77,6 +80,12 @@
   "upload_dialog_body_controller_text": "Body",
   "upload_dialog_tags_text": "Please select a tag to share",
 
+  "article_edit_screen_edit": "Edit",
+  "article_edit_screen_write_title": "Please enter the title.",
+  "article_edit_screen_write_body": "Please write a brief description about the tag you want to share.",
+  "article_edit_screen_selected_tag": "Selected tags",
+  "article_edit_screen_tag_make": "Please select a new tag for the post.",
+
   "article_edit_modal_edit": "Edit",
   "article_edit_modal_delete": "Delete",
   "article_edit_modal_download": "Download",
@@ -106,5 +115,9 @@
   "upload_article_screen_tag_make": "Please select a new tag for the post.",
   "upload_article_screen_no_more_tags_error": "Up to 3 tags are allowed",
   "upload_article_screen_already_exists_tag": "Tag already exists",
-  "upload_article_screen_no_tag_made": "At least one tag must be specified"
+  "upload_article_screen_no_tag_made": "At least one tag must be specified",
+
+  "article_detail_screen_comment_hint_text": "Write a comment...",
+  "article_detail_screen_comment_upload_button_text": "Y",
+  "article_detail_screen_comments_length": "Comments"
 }

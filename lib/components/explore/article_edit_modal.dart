@@ -6,6 +6,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/common/delete_alert.dart';
+import 'package:tagify/screens/article_edit_screen.dart';
 
 void articleInstanceEditBottomModal(
     BuildContext context, Article article) async {
@@ -77,10 +78,11 @@ void articleInstanceEditBottomModal(
                                   width:
                                       MediaQuery.of(context).size.width * 0.9,
                                   child: TextField(
+                                    controller: tagNameController,
                                     autocorrect: false,
                                     autofocus: true,
+                                    textInputAction: TextInputAction.done,
                                     cursorColor: mainColor,
-                                    controller: tagNameController,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius:
@@ -99,11 +101,13 @@ void articleInstanceEditBottomModal(
                                             CupertinoIcons.clear_circled_solid),
                                         onPressed: () {
                                           tagNameController.clear();
+                                          FocusScope.of(context).unfocus();
                                         },
                                       ),
                                     ),
                                     onSubmitted: (String text) {
                                       Navigator.pop(context, text);
+                                      FocusScope.of(context).unfocus();
                                     },
                                   ),
                                 ),
@@ -141,6 +145,17 @@ void articleInstanceEditBottomModal(
                     ),
                     onTap: () async {
                       // TODO: 게시물 수정
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        CustomPageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return ArticleEditScreen(
+                                article: article, tagGiven: article.tags);
+                          },
+                        ),
+                      );
                     },
                   ),
                 )

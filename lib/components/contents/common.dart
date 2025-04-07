@@ -1,5 +1,5 @@
 class Content {
-  final int id;
+  int id;
   final String url;
   String title;
   final String thumbnail;

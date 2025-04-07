@@ -20,6 +20,7 @@ class ArticleSearchBar extends StatelessWidget {
           width: MediaQuery.of(context).size.width * (0.95),
           child: TextField(
             controller: articleController,
+            textInputAction: TextInputAction.done,
             cursorColor: exploreScreenSearchBorderColor,
             autocorrect: false,
             autofocus: false,
@@ -27,7 +28,8 @@ class ArticleSearchBar extends StatelessWidget {
               suffixIcon: IconButton(
                 icon: Icon(CupertinoIcons.clear_circled_solid),
                 onPressed: () {
-                  articleController.text = "";
+                  articleController.clear();
+                  FocusScope.of(context).unfocus();
                 },
               ),
               enabledBorder: OutlineInputBorder(

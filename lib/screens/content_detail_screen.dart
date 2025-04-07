@@ -2,17 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/screens/content_edit_screen.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'package:tagify/screens/content_edit_screen.dart';
+import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/screens/tag_detail_screen.dart';
 import 'package:tagify/utils/util.dart';
-
-import '../components/common/tag_container.dart';
 
 class ContentDetailScreen extends StatefulWidget {
   final Content content;
@@ -26,6 +25,7 @@ class ContentDetailScreen extends StatefulWidget {
 class ContentDetailScreenState extends State<ContentDetailScreen> {
   late YoutubePlayerController _youtubeController;
   bool isDeleted = false;
+  bool _isVideo = false;
 
   @override
   void initState() {
@@ -40,6 +40,8 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
         forceHD: false,
       ),
     );
+
+    _isVideo = isVideo(widget.content.url);
   }
 
   @override
@@ -63,8 +65,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               SizedBox(height: appBarHeight),
               AspectRatio(
                 aspectRatio: 16 / 9,
-                child: (widget.content.runtimeType.toString().toLowerCase() ==
-                        "video")
+                child: _isVideo
                     ? YoutubePlayer(
                         controller: _youtubeController,
                         showVideoProgressIndicator: false,

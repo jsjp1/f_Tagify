@@ -137,6 +137,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                             Expanded(
                               child: TextField(
                                 controller: _controller,
+                                autocorrect: false,
                                 autofocus: true,
                                 cursorColor: mainColor,
                                 decoration: InputDecoration(
@@ -153,7 +154,8 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                                     icon: Icon(
                                         CupertinoIcons.clear_circled_solid),
                                     onPressed: () {
-                                      _controller.text = "";
+                                      _controller.clear();
+                                      FocusScope.of(context).unfocus();
                                     },
                                   ),
                                 ),

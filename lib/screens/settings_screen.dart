@@ -218,14 +218,6 @@ class SettingsScreenState extends State<SettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               GlobalText(
-                                  localizeText: "", textSize: 15.0), // TODO
-                            ],
-                          ),
-                          const SizedBox(height: 30.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GlobalText(
                                   localizeText: "",
                                   textSize: 15.0), // TODO: 프리미엄?
                             ],
@@ -234,10 +226,13 @@ class SettingsScreenState extends State<SettingsScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Icon(Icons.verified_rounded),
+                              const SizedBox(width: 5.0),
                               GlobalText(
                                   localizeText:
                                       "settings_screen_current_version",
                                   textSize: 15.0),
+                              const Expanded(child: SizedBox.shrink()),
                               Text(
                                 provider.version,
                                 style: TextStyle(
@@ -255,9 +250,31 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                Icon(Icons.question_mark_outlined),
+                                const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText: "settings_screen_usage",
                                     textSize: 15.0),
+                                const Expanded(child: SizedBox.shrink()),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 30.0),
+                          GestureDetector(
+                            onTap: () {
+                              launchContentUrl(
+                                  tr("settings_screen_privacy_policy_url"));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.privacy_tip),
+                                const SizedBox(width: 5.0),
+                                GlobalText(
+                                    localizeText:
+                                        "settings_screen_privacy_policy",
+                                    textSize: 15.0),
+                                const Expanded(child: SizedBox.shrink()),
                               ],
                             ),
                           ),

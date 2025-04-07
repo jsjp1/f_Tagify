@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tagify/api/article.dart';
+import 'package:tagify/api/comment.dart';
 
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/content.dart';
@@ -145,6 +146,8 @@ class TagifyProvider extends ChangeNotifier {
       int newContentId = responseMap["id"];
       List<Tag> tags = responseMap["tags"];
 
+      content.id = newContentId; // -1이었던걸 변경
+
       if (content.bookmark) {
         _bookmarkedSet.add(newContentId);
         _tagContentsMap["bookmark"]!.insert(0, content);
@@ -162,6 +165,8 @@ class TagifyProvider extends ChangeNotifier {
           _tagContentsMap[t.tagName] = [];
         }
         _tagContentsMap[t.tagName]!.insert(0, content);
+        debugPrint(
+            "HERE: ${_tagContentsMap[t.tagName]![0].title} ${_tagContentsMap[t.tagName]![0].id}");
       }
 
       notifyListeners();
@@ -273,6 +278,7 @@ class TagifyProvider extends ChangeNotifier {
         _tagContentsMap[tagName] = [];
       }
       _tagContentsMap[tagName] = c.data!;
+
       notifyListeners();
     }
   }
@@ -468,6 +474,26 @@ class TagifyProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> pvPutArticle(
+    int articleId,
+    String title,
+    String body,
+    List<String> tags,
+  ) async {
+    if (_loginResponse == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString("access_token");
+
+    ApiResponse<int> a = await putArticle(
+        _loginResponse!["id"], articleId, title, body, tags, accessToken!);
+
+    if (a.success) {
+      pvFetchRefreshedArticles();
+      notifyListeners();
+    }
+  }
+
   Future<void> pvDeleteArticle(int articleId) async {
     if (_loginResponse == null) return;
 
@@ -496,6 +522,20 @@ class TagifyProvider extends ChangeNotifier {
       pvFetchUserAllContents();
       pvFetchUserTags();
       pvFetchUserTagContents(a.data!, newTagName);
+      notifyListeners();
+    }
+  }
+
+  Future<void> pvDeleteComment(int commentId) async {
+    if (_loginResponse == null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString("access_token");
+
+    ApiResponse<int> a = await deleteArticleComment(commentId, accessToken!);
+
+    if (a.success) {
+      pvFetchRefreshedArticles();
       notifyListeners();
     }
   }

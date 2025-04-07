@@ -159,3 +159,69 @@ class Article {
     };
   }
 }
+
+class Comment {
+  final int id;
+  final int userId;
+  final String userName;
+  final String userProfileImage;
+  final String body;
+  final int upCount;
+  final int downCount;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  const Comment({
+    required this.id,
+    required this.userId,
+    required this.userName,
+    required this.userProfileImage,
+    required this.body,
+    required this.upCount,
+    required this.downCount,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Comment.empty() {
+    return Comment(
+      id: -1,
+      userId: -1,
+      userName: "",
+      userProfileImage: "",
+      body: "",
+      upCount: 0,
+      downCount: 0,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      id: json["id"],
+      userId: json["user_id"],
+      userName: json["user_name"],
+      userProfileImage: json["user_profile_image"],
+      body: json["body"],
+      upCount: json["up_count"],
+      downCount: json["down_count"],
+      createdAt: DateTime.parse(json["created_at"]),
+      updatedAt: DateTime.parse(json["updated_at"]),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "user_id": userId,
+      "user_name": userName,
+      "user_profile_image": userProfileImage,
+      "body": body,
+      "up_count": upCount,
+      "down_count": downCount,
+      "created_at": createdAt.toIso8601String(),
+      "updated_at": updatedAt.toIso8601String(),
+    };
+  }
+}

@@ -55,7 +55,6 @@ Future<ApiResponse<List<Article>>> fetchUserArticlesLimited(
 
 Future<ApiResponse<int>> postArticle(int userId, String title, String body,
     String encodedContent, List<String> tags, String accessToken) async {
-  // TODO: List<tag>도 요청 데이터에 넣어야됨
   final String serverHost = "${dotenv.get("SERVER_HOST")}/api/articles/";
 
   final response = await authenticatedRequest(
@@ -71,6 +70,36 @@ Future<ApiResponse<int>> postArticle(int userId, String title, String body,
         "body": body,
         "tags": tags,
         "encoded_content": encodedContent,
+      }),
+    ),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    return ApiResponse(
+        data: jsonDecode(response.body)["id"],
+        statusCode: response.statusCode,
+        success: true);
+  }
+  return ApiResponse.empty();
+}
+
+Future<ApiResponse<int>> putArticle(int userId, int articleId, String title,
+    String body, List<String> tags, String accessToken) async {
+  final String serverHost =
+      "${dotenv.get("SERVER_HOST")}/api/articles/$articleId";
+
+  final response = await authenticatedRequest(
+    (token) => put(
+      Uri.parse(serverHost),
+      headers: {
+        "Authorization": "Bearer $token",
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
+        "title": title,
+        "body": body,
+        "tags": tags,
       }),
     ),
     accessToken,
