@@ -68,3 +68,13 @@
   <img src="https://github.com/user-attachments/assets/c6a3777a-83ad-4624-b5e9-9a89ca10a211" width="100" />
   <img src="https://github.com/user-attachments/assets/919414b5-15a3-40a7-960f-5fc530f768bd" width="100" />
 </p>
+
+### 2025-04-08
+
+- support comment
+- add Share Extension for ios
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/0bb10e45-5b50-4279-a7bf-252fc3e64f20" width="100" />
+  <img src="https://github.com/user-attachments/assets/e85352cc-c46b-4a61-8feb-5ae206c34386" width="100" />
+</p>
