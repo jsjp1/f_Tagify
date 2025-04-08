@@ -69,10 +69,20 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                     ? YoutubePlayer(
                         controller: _youtubeController,
                         showVideoProgressIndicator: false,
-                        progressColors: ProgressBarColors(
-                          handleColor: mainColor,
-                          playedColor: mainColor,
-                        ),
+                        progressIndicatorColor: mainColor,
+                        bottomActions: [
+                          CurrentPosition(),
+                          ProgressBar(
+                            isExpanded: true,
+                            colors: ProgressBarColors(
+                              playedColor: mainColor,
+                              handleColor: mainColor,
+                              bufferedColor: Colors.grey,
+                              backgroundColor: Colors.black26,
+                            ),
+                          ),
+                          RemainingDuration(),
+                        ],
                       )
                     : ColorFiltered(
                         colorFilter: ColorFilter.mode(

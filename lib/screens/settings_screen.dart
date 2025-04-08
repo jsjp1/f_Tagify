@@ -188,45 +188,30 @@ class SettingsScreenState extends State<SettingsScreen> {
                       child: Column(
                         children: [
                           const SizedBox(height: 50.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GlobalText(
-                                  localizeText: "settings_screen_dark_mode",
-                                  textSize: 15.0),
-                              GestureDetector(
-                                onTap: () {
-                                  themeProvider.toggleTheme();
-                                },
-                                child: Icon(
+                          GestureDetector(
+                            onTap: () {
+                              themeProvider.toggleTheme();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(
                                   isDarkMode ? Icons.sunny : Icons.dark_mode,
+                                  size: 20.0,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(width: 5.0),
+                                GlobalText(
+                                    localizeText: "settings_screen_dark_mode",
+                                    textSize: 15.0),
+                                const Expanded(child: SizedBox.shrink()),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 30.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              GlobalText(
-                                  localizeText: "",
-                                  textSize: 15.0), // TODO: 글자 크기
-                            ],
-                          ),
-                          const SizedBox(height: 30.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GlobalText(
-                                  localizeText: "",
-                                  textSize: 15.0), // TODO: 프리미엄?
-                            ],
-                          ),
-                          const SizedBox(height: 30.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.verified_rounded),
+                              Icon(Icons.verified_rounded, size: 20.0),
                               const SizedBox(width: 5.0),
                               GlobalText(
                                   localizeText:
@@ -250,7 +235,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.question_mark_outlined),
+                                Icon(Icons.question_mark_outlined, size: 20.0),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText: "settings_screen_usage",
@@ -268,7 +253,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.privacy_tip),
+                                Icon(Icons.privacy_tip, size: 20.0),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText:
