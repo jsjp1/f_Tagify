@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/common/delete_alert.dart';
+import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/content_edit_screen.dart';
-
-import '../common/tag_container.dart';
 
 class ContentInstance extends StatefulWidget {
   final double instanceWidth;
@@ -28,9 +27,12 @@ class ContentInstance extends StatefulWidget {
 }
 
 class ContentInstanceState extends State<ContentInstance> {
+  bool isMemo = false;
+
   @override
   void initState() {
     super.initState();
+    isMemo = widget.content.url == "";
   }
 
   @override
@@ -42,7 +44,7 @@ class ContentInstanceState extends State<ContentInstance> {
       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
       child: Container(
         width: widget.instanceWidth,
-        height: widget.instanceHeight,
+        height: isMemo ? widget.instanceHeight * (0.8) : widget.instanceHeight,
         decoration: BoxDecoration(
           color: isDarkMode ? lightBlackBackgroundColor : whiteBackgroundColor,
           borderRadius: BorderRadius.circular(20.0),
@@ -64,7 +66,9 @@ class ContentInstanceState extends State<ContentInstance> {
               height: widget.instanceHeight * (0.05),
             ),
             SizedBox(
-              height: widget.instanceHeight * (0.25),
+              height: isMemo
+                  ? widget.instanceHeight * (0.2)
+                  : widget.instanceHeight * (0.25),
               child: Row(
                 children: [
                   SizedBox(width: 10.0),
@@ -208,12 +212,15 @@ class ContentInstanceState extends State<ContentInstance> {
             ),
             SizedBox(
               width: widget.instanceWidth,
-              height: widget.instanceHeight * (0.45),
+              height: isMemo
+                  ? widget.instanceHeight * (0.3)
+                  : widget.instanceHeight * (0.45),
               child: Row(
                 children: [
                   // 컨테이너 상단 좌측 썸네일
-                  widget.content.url != ""
-                      ? Padding(
+                  isMemo
+                      ? const SizedBox.shrink()
+                      : Padding(
                           padding: EdgeInsets.only(left: 15.0),
                           child: SizedBox(
                             height: widget.instanceHeight * (0.38),
@@ -264,14 +271,15 @@ class ContentInstanceState extends State<ContentInstance> {
                               ),
                             ),
                           ),
-                        )
-                      : SizedBox.shrink(),
+                        ),
                   SizedBox(
-                    width: widget.instanceWidth * (0.6),
+                    width: isMemo
+                        ? widget.instanceWidth * (0.95)
+                        : widget.instanceWidth * (0.6),
                     child: Padding(
                       padding: EdgeInsets.only(left: 15.0),
                       child: SizedBox(
-                        height: widget.instanceHeight * (0.35),
+                        height: widget.instanceHeight * (0.4),
                         child: SingleChildScrollView(
                           child: GlobalText(
                             localizeText: widget.content.description,

@@ -25,7 +25,8 @@ class ContentDetailScreen extends StatefulWidget {
 class ContentDetailScreenState extends State<ContentDetailScreen> {
   late YoutubePlayerController _youtubeController;
   bool isDeleted = false;
-  bool _isVideo = false;
+  late bool _isVideo;
+  late bool isMemo;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
     );
 
     _isVideo = isVideo(widget.content.url);
+    isMemo = widget.content.url == "";
   }
 
   @override
@@ -63,41 +65,43 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
           Column(
             children: [
               SizedBox(height: appBarHeight),
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: _isVideo
-                    ? YoutubePlayer(
-                        controller: _youtubeController,
-                        showVideoProgressIndicator: false,
-                        progressIndicatorColor: mainColor,
-                        bottomActions: [
-                          CurrentPosition(),
-                          ProgressBar(
-                            isExpanded: true,
-                            colors: ProgressBarColors(
-                              playedColor: mainColor,
-                              handleColor: mainColor,
-                              bufferedColor: Colors.grey,
-                              backgroundColor: Colors.black26,
+              isMemo
+                  ? const SizedBox(height: 60.0)
+                  : AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: _isVideo
+                          ? YoutubePlayer(
+                              controller: _youtubeController,
+                              showVideoProgressIndicator: false,
+                              progressIndicatorColor: mainColor,
+                              bottomActions: [
+                                CurrentPosition(),
+                                ProgressBar(
+                                  isExpanded: true,
+                                  colors: ProgressBarColors(
+                                    playedColor: mainColor,
+                                    handleColor: mainColor,
+                                    bufferedColor: Colors.grey,
+                                    backgroundColor: Colors.black26,
+                                  ),
+                                ),
+                                RemainingDuration(),
+                              ],
+                            )
+                          : ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                Colors.black.withAlpha(70),
+                                BlendMode.darken,
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.content.thumbnail,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, url, error) {
+                                  return Container(color: Colors.grey);
+                                },
+                              ),
                             ),
-                          ),
-                          RemainingDuration(),
-                        ],
-                      )
-                    : ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                          Colors.black.withAlpha(70),
-                          BlendMode.darken,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.content.thumbnail,
-                          fit: BoxFit.cover,
-                          errorWidget: (context, url, error) {
-                            return Container(color: Colors.grey);
-                          },
-                        ),
-                      ),
-              ),
+                    ),
               // thumbnail 아래 컨텐츠 설명 나열 부분
               Expanded(
                 child: SingleChildScrollView(
