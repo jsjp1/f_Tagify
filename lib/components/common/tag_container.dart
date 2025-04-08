@@ -27,22 +27,22 @@ class TagContainer extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          height: textSize + 7.0,
+          constraints: BoxConstraints(minWidth: textSize + 3.0),
           decoration: BoxDecoration(
             border: Border.all(
-              color: isSelected == null
-                  ? contentInstanceTagBorderColor
-                  : (isSelected! == true
-                      ? mainColor
-                      : contentInstanceTagBorderColor),
-              width:
-                  isSelected == null ? 0.7 : (isSelected! == true ? 0.9 : 0.7),
+              color: isSelected == true
+                  ? mainColor
+                  : contentInstanceTagBorderColor,
+              width: isSelected == true ? 0.9 : 0.7,
             ),
             borderRadius: BorderRadius.circular(20.0),
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(textSize / 2, 0.0, textSize / 2, 0.0),
+            padding: EdgeInsets.symmetric(horizontal: textSize / 1.75),
             child: Row(
-              textBaseline: TextBaseline.alphabetic,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GlobalText(
                   localizeText: tagName,
@@ -51,16 +51,11 @@ class TagContainer extends StatelessWidget {
                   isBold: true,
                   localization: false,
                 ),
-                isLastButton != null
-                    ? (isLastButton! ? SizedBox.shrink() : SizedBox(width: 5.0))
-                    : SizedBox.shrink(),
-                isLastButton != null
-                    ? (isLastButton!
-                        ? SizedBox.shrink()
-                        : Text("✕",
-                            style:
-                                TextStyle(fontSize: 10.0, color: Colors.grey)))
-                    : SizedBox.shrink(),
+                if (isLastButton == false) ...[
+                  SizedBox(width: 5.0),
+                  Text("✕",
+                      style: TextStyle(fontSize: 10.0, color: Colors.grey)),
+                ],
               ],
             ),
           ),

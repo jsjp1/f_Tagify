@@ -288,7 +288,7 @@ class ContentInstanceState extends State<ContentInstance> {
             SizedBox(height: widget.instanceHeight * (0.05)),
             Center(
               child: SizedBox(
-                height: widget.instanceHeight * (0.135),
+                height: widget.instanceHeight * (0.125),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: ListView.builder(
