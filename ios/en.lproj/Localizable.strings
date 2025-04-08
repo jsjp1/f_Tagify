@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Runner
+
+  Created by 박상진 on 4/8/25.
+  
+*/
+
+"share_tags_title" = "Tags";
+"enter_tags_title" = "Enter up to 3 tags";
+"enter_tags_message" = "Separate tags with commas";
+"tag_placeholder" = "food, travel, coffee";
+"ok" = "OK";
+"cancel" = "Cancel";

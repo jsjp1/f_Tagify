@@ -11,7 +11,8 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/utils/util.dart';
 
 class AnalyzeScreen extends StatefulWidget {
-  const AnalyzeScreen({super.key});
+  final String? initialUrl;
+  const AnalyzeScreen({super.key, this.initialUrl});
 
   @override
   AnalyzeScreenState createState() => AnalyzeScreenState();
@@ -19,12 +20,18 @@ class AnalyzeScreen extends StatefulWidget {
 
 class AnalyzeScreenState extends State<AnalyzeScreen> {
   ApiResponse<Content> futureContent = ApiResponse.empty();
-  final TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
   bool invalidUrl = false;
   bool alreadyExistsError = false;
 
   final analyzeMode = ["link", "memo"]; // TODO: localization
   int currentModeIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialUrl ?? "");
+  }
 
   Future<void> _contentAnalyze(
       String url, String lang, String contentType) async {

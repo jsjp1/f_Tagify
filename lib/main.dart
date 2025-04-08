@@ -35,6 +35,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ChangeNotifierProvider(create: (context) => TagifyProvider()),
+          // ChangeNotifierProvider(create: (context) => SharedDataController()),
         ],
         child: App(
           initialRoute: loginResponse == null ? "/auth" : "/splash",
@@ -61,47 +62,44 @@ class App extends StatelessWidget {
   final String initialRoute;
   final Map<String, dynamic> initialLoginResponse;
 
-  const App(
-      {super.key,
-      required this.initialRoute,
-      required this.initialLoginResponse});
+  const App({
+    super.key,
+    required this.initialRoute,
+    required this.initialLoginResponse,
+  });
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return ChangeNotifierProvider(
-      create: (context) => TagifyProvider(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        initialRoute: initialRoute,
-        theme: themeProvider.lightTheme,
-        darkTheme: themeProvider.darkTheme,
-        themeMode: themeProvider.themeMode,
-        onGenerateRoute: (settings) {
-          Widget page;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      initialRoute: initialRoute,
+      theme: themeProvider.lightTheme,
+      darkTheme: themeProvider.darkTheme,
+      themeMode: themeProvider.themeMode,
+      onGenerateRoute: (settings) {
+        Widget page;
 
-          switch (settings.name) {
-            case "/splash":
-              final loginResponse =
-                  settings.arguments as Map<String, dynamic>? ??
-                      initialLoginResponse;
-              page = SplashScreen(loginResponse: loginResponse);
-              break;
-            case "/auth":
-              page = const AuthScreen();
-              break;
-            default:
-              page = const AuthScreen();
-              break;
-          }
+        switch (settings.name) {
+          case "/splash":
+            final loginResponse = settings.arguments as Map<String, dynamic>? ??
+                initialLoginResponse;
+            page = SplashScreen(loginResponse: loginResponse);
+            break;
+          case "/auth":
+            page = const AuthScreen();
+            break;
+          default:
+            page = const AuthScreen();
+            break;
+        }
 
-          return MaterialPageRoute(builder: (context) => page);
-        },
-      ),
+        return MaterialPageRoute(builder: (context) => page);
+      },
     );
   }
 }

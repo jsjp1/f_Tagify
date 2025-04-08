@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:tagify/global.dart';
 
 Future<bool> showDeleteAlert(BuildContext context) async {
+  bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
   bool result = await showCupertinoDialog(
     context: context,
     builder: (BuildContext context) {
       return CupertinoAlertDialog(
         title: GlobalText(
           localizeText: 'content_instance_really_delete_alert',
-          textColor: whiteBackgroundColor,
+          textColor: isDarkMode ? whiteBackgroundColor : blackBackgroundColor,
           textSize: 20.0,
           isBold: true,
         ),
@@ -22,7 +25,7 @@ Future<bool> showDeleteAlert(BuildContext context) async {
             child: GlobalText(
               localizeText: 'content_instance_really_delete_cancel',
               textSize: 15.0,
-              textColor: whiteBackgroundColor,
+              textColor: Colors.grey,
               localization: true,
             ),
             onPressed: () {

@@ -3,6 +3,10 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:tagify/api/content.dart';
+import 'package:tagify/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:tagify/components/contents/common.dart';
@@ -85,4 +89,50 @@ Map<String, dynamic> contentListToMap(List<Content> contents) {
 bool isValidUrl(String url) {
   final uri = Uri.tryParse(url);
   return uri != null && uri.hasAbsolutePath;
+}
+
+Future<void> checkSharedItems(BuildContext context) async {
+  final provider = Provider.of<TagifyProvider>(context, listen: false);
+  const platform = MethodChannel("com.ellipsoid.tagi/share");
+
+  try {
+    final dynamic result = await platform.invokeMethod("getSharedData");
+
+    if (result is! List) {
+      debugPrint("Unexpected shared data format: $result");
+      return;
+    }
+
+    for (final item in result) {
+      if (item is Map) {
+        final String? url = item["url"] as String?;
+        final String? tagString = item["tags"] as String?;
+
+        if (url != null && url.isNotEmpty && tagString != null) {
+          final c = await analyzeContent(
+            provider.loginResponse!["id"],
+            url,
+            "ko",
+            isVideo(url) ? "video" : "post",
+            provider.loginResponse!["access_token"],
+          );
+
+          if (c.success) {
+            Content content = c.data!;
+
+            final List<String> tags = tagString
+                .split(",")
+                .map((tag) => tag.trim())
+                .where((tag) => tag.isNotEmpty)
+                .toList();
+
+            content.tags = tags.isEmpty ? [tr("util_share")] : tags;
+            provider.pvSaveContent(content);
+          }
+        }
+      }
+    }
+  } catch (e) {
+    debugPrint("Shared Items Fetch Failed: $e");
+  }
 }

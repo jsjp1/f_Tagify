@@ -1,0 +1,15 @@
+/* 
+  Localizable.strings
+  Runner
+
+  Created by 박상진 on 4/8/25.
+  
+*/
+
+
+"share_tags_title" = "태그";
+"enter_tags_title" = "최대 3개의 태그";
+"enter_tags_message" = ",(쉼표)로 태그를 구분해주세요";
+"tag_placeholder" = "음식, 여행, 맑음";
+"ok" = "확인";
+"cancel" = "취소";

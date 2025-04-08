@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_handler/share_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tagify/api/article.dart';
 import 'package:tagify/api/comment.dart';
@@ -165,8 +166,6 @@ class TagifyProvider extends ChangeNotifier {
           _tagContentsMap[t.tagName] = [];
         }
         _tagContentsMap[t.tagName]!.insert(0, content);
-        debugPrint(
-            "HERE: ${_tagContentsMap[t.tagName]![0].title} ${_tagContentsMap[t.tagName]![0].id}");
       }
 
       notifyListeners();
@@ -603,5 +602,20 @@ class ThemeProvider with ChangeNotifier {
         backgroundColor: lightBlackBackgroundColor,
       ),
     );
+  }
+}
+
+class SharedDataController extends ChangeNotifier {
+  SharedMedia? _media;
+
+  SharedMedia? get media => _media;
+
+  void setMedia(SharedMedia media) {
+    _media = media;
+    notifyListeners();
+  }
+
+  void clear() {
+    _media = null;
   }
 }

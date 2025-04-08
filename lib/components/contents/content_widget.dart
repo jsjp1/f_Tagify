@@ -6,6 +6,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/content_detail_screen.dart';
 import 'package:tagify/components/contents/common.dart';
+import 'package:tagify/utils/util.dart';
 
 class ContentWidget extends StatefulWidget {
   final int? tagSelectedId;
@@ -72,6 +73,8 @@ class ContentWidgetState extends State<ContentWidget> {
                 provider.pvFetchUserBookmarkedContents();
               }
               // TODO: tag contents별 refresh -> tag id get 구현하면 될듯
+
+              await checkSharedItems(context);
             },
             child: (provider.tagContentsMap[provider.currentTag] == null ||
                     provider.tagContentsMap[provider.currentTag]!.isEmpty)

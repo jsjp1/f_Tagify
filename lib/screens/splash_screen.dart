@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/global.dart';
 
+import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/utils/util.dart';
 
 class SplashScreen extends StatefulWidget {
   final Map<String, dynamic> loginResponse;
@@ -34,6 +35,8 @@ class SplashScreenState extends State<SplashScreen>
     );
 
     _initializeApp();
+
+    checkSharedItems(context);
   }
 
   @override
