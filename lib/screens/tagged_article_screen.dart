@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tagify/api/article.dart';
 import 'package:tagify/api/common.dart';
+import 'package:tagify/components/common/shimmer.dart';
 import 'package:tagify/components/explore/app_bar.dart';
 import 'package:tagify/components/explore/article_instance.dart';
 import 'package:tagify/global.dart';
@@ -89,7 +90,23 @@ class TaggedArticleScreenState extends State<TaggedArticleScreen> {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             // TODO: 로딩되기전까지 동일한 크기의 placeholder 보여주기
-                            return Expanded(child: Container());
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: Column(
+                                  children: List.generate(11, (index) {
+                                    return Column(
+                                      children: [
+                                        ArticleInstanceShimmer(
+                                            isDarkMode: isDarkMode),
+                                        const Divider(height: 0.5),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                              ),
+                            );
                           } else if (snapshot.hasError) {
                             return Center(
                               child: GlobalText(

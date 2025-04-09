@@ -255,3 +255,29 @@ Future<ApiResponse<int>> deleteContent(
   }
   return ApiResponse.empty();
 }
+
+Future<ApiResponse<List<Content>>> searchContents(
+    int userId, String keyword, String accessToken) async {
+  final String url =
+      "${dotenv.get("SERVER_HOST")}/api/contents/user/$userId/search/$keyword";
+
+  final response = await authenticatedRequest(
+    (token) => get(Uri.parse(url), headers: {
+      "Authorization": "Bearer $token",
+      "Accept": "application/json"
+    }),
+    accessToken,
+  );
+
+  if (response.statusCode == 200) {
+    String responseBody = utf8.decode(response.bodyBytes);
+    Map<String, dynamic> responseMap = jsonDecode(responseBody);
+    List<dynamic> jsonList = responseMap["contents"];
+    return ApiResponse(
+      data: jsonList.map((item) => Content.fromJson(item)).toList(),
+      statusCode: response.statusCode,
+      success: true,
+    );
+  }
+  return ApiResponse.empty();
+}

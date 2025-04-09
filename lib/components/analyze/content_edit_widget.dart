@@ -53,211 +53,241 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     isBookmarked = widget.content.bookmark;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
+  void _saveContent() async {
+    if (edittedTags.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: snackBarColor,
+          content: GlobalText(
+              localizeText: "content_edit_widget_no_tags_error",
+              textSize: 15.0),
+          duration: Duration(seconds: 1),
+        ),
+      );
+      return;
+    }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Center(
-        child: SizedBox(
-          width: widget.widgetWidth * 0.9,
-          child: Column(
-            children: [
-              const SizedBox(height: 10.0),
-              Stack(
-                children: [
-                  // 썸네일 부분
-                  widget.isLink == true
-                      ? SizedBox(
-                          height: 175.0,
-                          child: AspectRatio(
-                            aspectRatio: 16 / 9,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.content.thumbnail,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) {
-                                return SizedBox.expand();
-                              },
-                            ),
+    widget.content.title = titleController.text;
+    widget.content.description = descriptionController.text;
+    widget.content.tags = edittedTags;
+
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    if (widget.isEdit == true) {
+      await provider.pvEditContent(
+          beforeTags, widget.content, widget.content.id);
+    } else {
+      debugPrint(
+          "CONTENT: ${widget.content.id} ${widget.content.url} ${widget.content.tags}");
+      await provider.pvSaveContent(widget.content);
+    }
+
+    Navigator.pop(context);
+  }
+
+  Widget _buildEditContent(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Center(
+      child: SizedBox(
+        width: widget.widgetWidth * 0.9,
+        child: Column(
+          children: [
+            const SizedBox(height: 10.0),
+            Stack(
+              children: [
+                // 썸네일 부분
+                widget.isLink == true
+                    ? SizedBox(
+                        height: 175.0,
+                        child: AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.content.thumbnail,
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) {
+                              return SizedBox.expand();
+                            },
                           ),
-                        )
-                      : SizedBox(height: 50.0, child: Container()),
-                  Positioned(
-                    top: 0.0,
-                    right: widget.isLink ? 0.0 : null,
-                    left: widget.isLink ? null : -15.0,
-                    child: IconButton(
-                      highlightColor: Colors.transparent,
-                      icon: isBookmarked
-                          ? Icon(Icons.bookmark, color: mainColor)
-                          : Icon(Icons.bookmark_border, color: mainColor),
-                      onPressed: () {
-                        setState(() {
-                          isBookmarked = !isBookmarked;
-                          widget.content.bookmark = isBookmarked;
-                        });
-                      },
-                    ),
+                        ),
+                      )
+                    : SizedBox(height: 50.0, child: Container()),
+                Positioned(
+                  top: 0.0,
+                  right: widget.isLink ? 0.0 : null,
+                  left: widget.isLink ? null : -15.0,
+                  child: IconButton(
+                    highlightColor: Colors.transparent,
+                    icon: isBookmarked
+                        ? Icon(Icons.bookmark, color: mainColor)
+                        : Icon(Icons.bookmark_border, color: mainColor),
+                    onPressed: () {
+                      setState(() {
+                        isBookmarked = !isBookmarked;
+                        widget.content.bookmark = isBookmarked;
+                      });
+                    },
                   ),
-                ],
+                ),
+              ],
+            ),
+            // 제목 부분
+            widget.isLink
+                ? const SizedBox(height: 50.0)
+                : const SizedBox.shrink(),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GlobalText(
+                localizeText: "analyze_screen_title",
+                textSize: 15.0,
+                textColor: analyzeScreenTextColor,
+                isBold: true,
+                localization: true,
               ),
-              // 제목 부분
-              widget.isLink
-                  ? const SizedBox(height: 50.0)
-                  : const SizedBox.shrink(),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: GlobalText(
-                  localizeText: "analyze_screen_title",
-                  textSize: 15.0,
-                  textColor: analyzeScreenTextColor,
-                  isBold: true,
-                  localization: true,
+            ),
+            // 제목 지우기 버튼
+            TextField(
+              controller: titleController,
+              textInputAction: TextInputAction.done,
+              autocorrect: false,
+              autofocus: false,
+              style: const TextStyle(fontSize: 17.5),
+              cursorColor: mainColor,
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: mainColor),
+                ),
+                suffixIcon: IconButton(
+                  icon: const Icon(CupertinoIcons.clear_circled_solid),
+                  onPressed: () {
+                    titleController.clear();
+                    FocusScope.of(context).unfocus();
+                  },
                 ),
               ),
-              // 제목 지우기 버튼
-              TextField(
-                controller: titleController,
-                textInputAction: TextInputAction.done,
-                autocorrect: false,
-                autofocus: false,
-                style: const TextStyle(fontSize: 17.5),
-                cursorColor: mainColor,
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: mainColor),
-                  ),
-                  suffixIcon: IconButton(
+            ),
+            const SizedBox(height: 30.0),
+            // 설명 부분
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GlobalText(
+                localizeText: "analyze_screen_description",
+                textSize: 15.0,
+                textColor: analyzeScreenTextColor,
+                isBold: true,
+                localization: true,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            TextField(
+              controller: descriptionController,
+              autocorrect: false,
+              autofocus: false,
+              style: const TextStyle(fontSize: 13.0),
+              cursorColor: mainColor,
+              onEditingComplete: () {
+                FocusScope.of(context).unfocus();
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(color: mainColor),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(color: mainColor),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                suffixIcon: Padding(
+                  padding: EdgeInsets.only(top: widget.isLink ? 50.0 : 200.0),
+                  child: IconButton(
                     icon: const Icon(CupertinoIcons.clear_circled_solid),
                     onPressed: () {
-                      titleController.clear();
+                      descriptionController.clear();
                       FocusScope.of(context).unfocus();
                     },
                   ),
                 ),
               ),
-              const SizedBox(height: 30.0),
-              // 설명 부분
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: GlobalText(
-                  localizeText: "analyze_screen_description",
-                  textSize: 15.0,
-                  textColor: analyzeScreenTextColor,
-                  isBold: true,
-                  localization: true,
-                ),
+              maxLines: 10,
+              minLines: 1,
+              textAlignVertical: TextAlignVertical.top,
+            ),
+            const SizedBox(height: 30.0),
+            // TODO: 추천 태그 부분 만들기
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GlobalText(
+                localizeText: "analyze_screen_tags",
+                textSize: 15.0,
+                textColor: analyzeScreenTextColor,
+                isBold: true,
               ),
-              const SizedBox(height: 10.0),
-              TextField(
-                controller: descriptionController,
-                textInputAction: TextInputAction.done,
-                autocorrect: false,
-                autofocus: false,
-                style: const TextStyle(fontSize: 13.0),
-                cursorColor: mainColor,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(color: mainColor),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(color: mainColor),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 12.0),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: IconButton(
-                      icon: const Icon(CupertinoIcons.clear_circled_solid),
-                      onPressed: () {
-                        descriptionController.clear();
-                        FocusScope.of(context).unfocus();
+            ),
+            const SizedBox(height: 10.0),
+            SizedBox(
+              height: 21.5,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: List.generate(
+                      edittedTags.length + 1,
+                      (index) {
+                        if (index < edittedTags.length) {
+                          return TagContainer(
+                            textSize: 13.0,
+                            tagColor: isDarkMode
+                                ? darkContentInstanceTagTextColor
+                                : contentInstanceTagTextColor,
+                            tagName: edittedTags[index],
+                            onTap: () {
+                              setState(() {
+                                edittedTags.removeAt(index);
+                              });
+                            },
+                            isLastButton: false,
+                          );
+                        } else {
+                          return TagContainer(
+                            textSize: 13.0,
+                            tagName: "+",
+                            tagColor: Colors.indigoAccent,
+                            onTap: () {
+                              if (edittedTags.length == 3) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: snackBarColor,
+                                    content: GlobalText(
+                                        localizeText:
+                                            "content_edit_widget_no_more_tags_error",
+                                        textSize: 15.0),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              // 태그 생성 로직
+                              setTagBottomModal(context, (String newTagName) {
+                                setState(() {
+                                  edittedTags.insert(0, newTagName);
+                                });
+                              });
+                            },
+                            isLastButton: true,
+                          );
+                        }
                       },
                     ),
                   ),
                 ),
-                maxLines: 3,
-                minLines: 3,
-                textAlignVertical: TextAlignVertical.top,
               ),
-              const SizedBox(height: 30.0),
-              // TODO: 추천 태그 부분 만들기
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: GlobalText(
-                  localizeText: "analyze_screen_tags",
-                  textSize: 15.0,
-                  textColor: analyzeScreenTextColor,
-                  isBold: true,
-                ),
-              ),
-              const SizedBox(height: 10.0),
-              SizedBox(
-                height: 21.5,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: List.generate(
-                        edittedTags.length + 1,
-                        (index) {
-                          if (index < edittedTags.length) {
-                            return TagContainer(
-                              textSize: 13.0,
-                              tagColor: isDarkMode
-                                  ? darkContentInstanceTagTextColor
-                                  : contentInstanceTagTextColor,
-                              tagName: edittedTags[index],
-                              onTap: () {
-                                setState(() {
-                                  edittedTags.removeAt(index);
-                                });
-                              },
-                              isLastButton: false,
-                            );
-                          } else {
-                            return TagContainer(
-                              textSize: 13.0,
-                              tagName: "+",
-                              tagColor: Colors.indigoAccent,
-                              onTap: () {
-                                if (edittedTags.length == 3) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      backgroundColor: snackBarColor,
-                                      content: GlobalText(
-                                          localizeText:
-                                              "content_edit_widget_no_more_tags_error",
-                                          textSize: 15.0),
-                                      duration: Duration(seconds: 1),
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                // 태그 생성 로직
-                                setTagBottomModal(context, (String newTagName) {
-                                  setState(() {
-                                    edittedTags.insert(0, newTagName);
-                                  });
-                                });
-                              },
-                              isLastButton: true,
-                            );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40.0),
+            ),
+            if (widget.isLink) ...[
+              const SizedBox(height: 20.0),
               Center(
                 child: Container(
                   width: MediaQuery.of(context).size.width * (0.8),
@@ -266,51 +296,63 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: TextButton(
+                    onPressed: _saveContent,
                     child: GlobalText(
                       localizeText: "content_edit_widget_save_button_text",
                       textSize: 20.0,
                       isBold: true,
                       textColor: whiteBackgroundColor,
                     ),
-                    onPressed: () async {
-                      if (edittedTags.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: snackBarColor,
-                            content: GlobalText(
-                                localizeText:
-                                    "content_edit_widget_no_tags_error",
-                                textSize: 15.0),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-
-                        return;
-                      }
-
-                      widget.content.title = titleController.text;
-                      widget.content.description = descriptionController.text;
-                      widget.content.tags = edittedTags;
-
-                      if (widget.isEdit == true) {
-                        // 저장이 아닌 수정 시
-
-                        await provider.pvEditContent(
-                            beforeTags, widget.content, widget.content.id);
-                      } else {
-                        await provider.pvSaveContent(widget.content);
-                      }
-
-                      Navigator.pop(context);
-                    },
                   ),
                 ),
               ),
               const SizedBox(height: 100.0),
             ],
-          ),
+          ],
         ),
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.isLink
+        ? SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: _buildEditContent(context),
+          )
+        : Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: _buildEditContent(context),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0),
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      decoration: BoxDecoration(
+                        color: mainColor,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: TextButton(
+                        onPressed: _saveContent,
+                        child: GlobalText(
+                          localizeText: "content_edit_widget_save_button_text",
+                          textSize: 20.0,
+                          isBold: true,
+                          textColor: whiteBackgroundColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 }

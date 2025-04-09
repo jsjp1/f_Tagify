@@ -71,6 +71,9 @@ class ContentWidgetState extends State<ContentWidget> {
                 provider.pvFetchUserAllContents();
               } else if (provider.currentTag == "bookmark") {
                 provider.pvFetchUserBookmarkedContents();
+              } else {
+                provider.currentTag = "all";
+                provider.pvFetchUserAllContents();
               }
               // TODO: tag contents별 refresh -> tag id get 구현하면 될듯
 

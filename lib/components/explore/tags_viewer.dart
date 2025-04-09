@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/common/shimmer.dart';
 
 import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/global.dart';
@@ -41,12 +42,17 @@ class TagsViewer extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
-                              child: GlobalText(
-                                localizeText: "explore_screen_waiting",
-                                textSize: 13.0,
-                                isBold: true,
-                                localization: true,
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Row(
+                                children: List.generate(3, (index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        right: index < 2 ? 10.0 : 0.0),
+                                    child: TagShimmer(isDarkMode: isDarkMode),
+                                  );
+                                }),
                               ),
                             );
                           } else if (!snapshot.hasData ||

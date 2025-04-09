@@ -226,7 +226,12 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             left: 0.0,
             top: appBarHeight + 5.0,
             child: IconButton(
-              icon: Icon(CupertinoIcons.back, color: whiteBackgroundColor),
+              icon: Icon(CupertinoIcons.back,
+                  color: isMemo
+                      ? (isDarkMode
+                          ? whiteBackgroundColor
+                          : lightBlackBackgroundColor)
+                      : whiteBackgroundColor),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -237,7 +242,12 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             right: 0.0,
             top: appBarHeight + 5.0,
             child: IconButton(
-              icon: Icon(Icons.more_vert_sharp, color: whiteBackgroundColor),
+              icon: Icon(Icons.more_vert_sharp,
+                  color: isMemo
+                      ? (isDarkMode
+                          ? whiteBackgroundColor
+                          : lightBlackBackgroundColor)
+                      : whiteBackgroundColor),
               padding: EdgeInsets.zero,
               onPressed: () async {
                 await showModalBottomSheet(

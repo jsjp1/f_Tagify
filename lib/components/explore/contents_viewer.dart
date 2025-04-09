@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tagify/api/article.dart';
 import 'package:tagify/api/common.dart';
+import 'package:tagify/components/common/shimmer.dart';
 import 'package:tagify/components/explore/article_instance.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -41,6 +42,8 @@ class ContentsViewerState extends State<ContentsViewer> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
       child: Column(
@@ -60,7 +63,37 @@ class ContentsViewerState extends State<ContentsViewer> {
             child: FutureBuilder(
               future: fetchArticles(),
               builder: (context, snapshot) {
-                if (snapshot.hasData == true) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: List.generate(10, (index) {
+                        return Column(
+                          children: [
+                            const Divider(height: 0.5),
+                            ArticleInstanceShimmer(isDarkMode: isDarkMode),
+                          ],
+                        );
+                      }),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: GlobalText(
+                      localizeText: "content_widget_error",
+                      textSize: 15.0,
+                      textColor: Colors.red,
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
+                  return Center(
+                    child: GlobalText(
+                      localizeText: "content_widget_empty",
+                      textSize: 15.0,
+                      textColor: Colors.grey,
+                    ),
+                  );
+                } else if (snapshot.hasData == true) {
                   final articles = snapshot.data!.data;
 
                   if (articles == null) return SizedBox.shrink();

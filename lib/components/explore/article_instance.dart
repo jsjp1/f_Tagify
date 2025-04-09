@@ -173,3 +173,64 @@ class ArticleInstance extends StatelessWidget {
     );
   }
 }
+
+class ArticleInstancePlaceholder extends StatelessWidget {
+  const ArticleInstancePlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      child: SizedBox(
+        height: articleInstanceThumbnailHeight,
+        child: Row(
+          children: [
+            // 썸네일
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: SizedBox(
+                height: articleInstanceThumbnailHeight,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Container(color: darkNoticeWidgetColor),
+                ),
+              ),
+            ),
+            SizedBox(width: 10),
+            // 오른쪽 텍스트 자리
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 14.0,
+                    color: darkNoticeWidgetColor,
+                  ),
+                  SizedBox(height: 8),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: 12.0,
+                    color: darkNoticeWidgetColor,
+                  ),
+                  Spacer(),
+                  Row(
+                    children: List.generate(
+                      3,
+                      (_) => Container(
+                        margin: EdgeInsets.only(right: 6),
+                        width: 30,
+                        height: 14,
+                        color: darkNoticeWidgetColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

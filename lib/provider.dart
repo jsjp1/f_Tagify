@@ -19,6 +19,7 @@ class TagifyProvider extends ChangeNotifier {
   List<Tag> _tags = [];
   Map<int, String> _idTagNameMap = {};
   Set<int> _bookmarkedSet = {};
+  List<Content> _searchResultContents = [];
   final Map<String, List<Content>> _tagContentsMap = {};
   List<Article> _articles = [];
 
@@ -37,6 +38,7 @@ class TagifyProvider extends ChangeNotifier {
   List<Article> get articles => _articles;
   List<Tag> get tags => _tags;
   Set<int> get bookmarkedSet => _bookmarkedSet;
+  List<Content> get searchResultContents => _searchResultContents;
   Map<String, dynamic>? get loginResponse => _loginResponse;
   int get selectedGrid => _tagScreenSelectedGrid;
   int get articlesOffset => _articlesOffset;

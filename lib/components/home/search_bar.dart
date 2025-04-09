@@ -1,8 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:tagify/api/common.dart';
+import 'package:tagify/api/content.dart';
+import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/provider.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({super.key});
@@ -15,6 +20,17 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
   final TextEditingController searchTextController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    searchTextController.addListener(() {
+      if (searchTextController.text.isEmpty) {
+        provider.currentTag = "all";
+      }
+    });
+  }
+
+  @override
   void dispose() {
     searchTextController.dispose();
     super.dispose();
@@ -23,6 +39,7 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
     final double widgetWidth = MediaQuery.of(context).size.width * (0.85);
     final double widgetHeight = MediaQuery.of(context).size.height * (0.05);
 
@@ -48,6 +65,23 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                     autofocus: false,
                     cursorHeight: 15.0,
                     cursorColor: Colors.grey,
+                    onSubmitted: (String value) async {
+                      ApiResponse<List<Content>> c = await searchContents(
+                        provider.loginResponse!["id"],
+                        value,
+                        provider.loginResponse!["access_token"],
+                      );
+
+                      if (c.success) {
+                        provider.currentTag = "search";
+                        provider.tagContentsMap["search"] = c.data!;
+                      }
+                    },
+                    onChanged: (String value) {
+                      if (value == "") {
+                        provider.currentTag = "all";
+                      }
+                    },
                     decoration: InputDecoration(
                       hintText: tr("search_bar_hint_text"),
                       border: OutlineInputBorder(
@@ -61,6 +95,7 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                           size: 20.0,
                         ),
                         onPressed: () {
+                          provider.currentTag = "all";
                           searchTextController.clear();
                           FocusScope.of(context).unfocus();
                         },
@@ -71,7 +106,9 @@ class SearchBarWidgetState extends State<SearchBarWidget> {
                           : noticeWidgetColor,
                     ),
                     style: TextStyle(
-                      color: Colors.black,
+                      color: isDarkMode
+                          ? whiteBackgroundColor
+                          : blackBackgroundColor,
                       fontSize: 15,
                     ),
                   ),

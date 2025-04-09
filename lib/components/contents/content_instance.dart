@@ -39,6 +39,7 @@ class ContentInstanceState extends State<ContentInstance> {
   Widget build(BuildContext context) {
     final provider = Provider.of<TagifyProvider>(context, listen: true);
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    isMemo = widget.content.url == "";
 
     return Padding(
       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
