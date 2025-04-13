@@ -11,6 +11,7 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/user.dart';
+import 'package:tagify/screens/premium_upgrade_screen.dart';
 import 'package:tagify/utils/util.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -26,6 +27,8 @@ class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    Locale currentLocale = context.locale;
+
     final provider = Provider.of<TagifyProvider>(context, listen: false);
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
@@ -198,6 +201,9 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 Icon(
                                   isDarkMode ? Icons.sunny : Icons.dark_mode,
                                   size: 20.0,
+                                  color: isDarkMode
+                                      ? Colors.yellow
+                                      : Colors.lightBlue,
                                 ),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
@@ -211,7 +217,104 @@ class SettingsScreenState extends State<SettingsScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(Icons.verified_rounded, size: 20.0),
+                              GlobalText(
+                                  localizeText:
+                                      "settings_screen_change_language",
+                                  textSize: 15.0),
+                              const Expanded(child: SizedBox.shrink()),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.baseline,
+                                textBaseline: TextBaseline.alphabetic,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .setLocale(const Locale("en")); // 영어
+
+                                      setState(() {
+                                        currentLocale = Locale("en");
+                                      });
+                                    },
+                                    child: GlobalText(
+                                      localizeText: "A",
+                                      localization: false,
+                                      isBold: currentLocale == Locale("en")
+                                          ? true
+                                          : false,
+                                      textSize: 17.0,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 11.0),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .setLocale(const Locale("ko")); // 한국어
+
+                                      setState(() {
+                                        currentLocale = Locale("ko");
+                                      });
+                                    },
+                                    child: GlobalText(
+                                      localizeText: "가",
+                                      localization: false,
+                                      isBold: currentLocale == Locale("ko")
+                                          ? true
+                                          : false,
+                                      textSize: 17.0,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 11.0),
+                                  GestureDetector(
+                                    onTap: () {
+                                      context
+                                          .setLocale(const Locale("ja")); // 일본어
+
+                                      setState(() {
+                                        currentLocale = Locale("ja");
+                                      });
+                                    },
+                                    child: GlobalText(
+                                      localizeText: "あ",
+                                      localization: false,
+                                      isBold: currentLocale == Locale("ja")
+                                          ? true
+                                          : false,
+                                      textSize: 17.0,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 30.0),
+                          GestureDetector(
+                            onTap: () {
+                              launchContentUrl(tr("settings_screen_usage_url"));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.question_mark_outlined,
+                                    size: 20.0, color: mainColor),
+                                const SizedBox(width: 5.0),
+                                GlobalText(
+                                    localizeText: "settings_screen_usage",
+                                    textSize: 15.0),
+                                const Expanded(child: SizedBox.shrink()),
+                              ],
+                            ),
+                          ),
+                          const Expanded(child: SizedBox.shrink()),
+                          const SizedBox(height: 30.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.verified_rounded,
+                                size: 20.0,
+                                color: Colors.blueAccent,
+                              ),
                               const SizedBox(width: 5.0),
                               GlobalText(
                                   localizeText:
@@ -230,30 +333,14 @@ class SettingsScreenState extends State<SettingsScreen> {
                           const SizedBox(height: 30.0),
                           GestureDetector(
                             onTap: () {
-                              launchContentUrl(tr("settings_screen_usage_url"));
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(Icons.question_mark_outlined, size: 20.0),
-                                const SizedBox(width: 5.0),
-                                GlobalText(
-                                    localizeText: "settings_screen_usage",
-                                    textSize: 15.0),
-                                const Expanded(child: SizedBox.shrink()),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 30.0),
-                          GestureDetector(
-                            onTap: () {
                               launchContentUrl(
                                   tr("settings_screen_privacy_policy_url"));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.privacy_tip, size: 20.0),
+                                Icon(Icons.privacy_tip,
+                                    size: 20.0, color: Colors.grey),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText:
@@ -263,10 +350,42 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           ),
+                          const SizedBox(height: 30.0),
+                          GestureDetector(
+                            onTap: () {
+                              // TODO: 결제 창 띄우기
+                              if (provider.loginResponse!["is_premium"]) {
+                                // 이미 프리미엄 회원이라면, 아무 동작도 하지 않음
+                              } else {
+                                Navigator.push(context, CustomPageRouteBuilder(
+                                  pageBuilder:
+                                      (context, animation, secondaryAnimation) {
+                                    return PremiumUpgradeScreen();
+                                  },
+                                ));
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.workspace_premium_outlined,
+                                    size: 20.0, color: Colors.orangeAccent),
+                                const SizedBox(width: 5.0),
+                                GlobalText(
+                                    localizeText: provider
+                                            .loginResponse!["is_premium"]
+                                        ? "settings_screen_premium_upgrade_already"
+                                        : "settings_screen_premium_upgrade",
+                                    textSize: 14.0),
+                                const Expanded(child: SizedBox.shrink()),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
+                  const SizedBox(height: 50.0),
                 ],
               ),
 

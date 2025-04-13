@@ -1,7 +1,12 @@
 {
-  "splash_screen_waiting": "🔥🙈❤️🥲🐈‍⬛🌏👍🌒🥺🫀",
-
   "util_share": "공유",
+
+  "no_premium_tag_count_error": "일반 회원은 최대 6개까지의 태그만 생성 가능합니다",
+
+  "tag_color_picker_select_color": "태그의 색을 지정해주세요",
+  "tag_color_picker_custom_color_select": "나만의 색 지정하기",
+  "tag_color_picker_ok": "확인",
+  "tag_color_picker_cancel": "취소",
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "지금 바로 당신의 컨텐츠를 정리하세요!",
@@ -16,6 +21,8 @@
   "navigation_bar_input_link_hint": "링크를 입력해주세요",
   "navigation_bar_input_link_search_button": "검색",
 
+  "content_instance_copy_url": "url 복사하기",
+  "URLがコピーされました": "url이 복사되었습니다!",
   "content_instance_edit": "수정",
   "content_instance_delete": "삭제",
   "content_instance_really_delete_alert": "알림",
@@ -34,11 +41,14 @@
   "settings_screen_logout_text": "로그아웃",
   "settings_screen_leave_text": "회원탈퇴",
   "settings_screen_dark_mode": "다크 모드",
+  "settings_screen_change_language": "언어 변경하기",
   "settings_screen_current_version": "앱 버전",
   "settings_screen_usage": "앱 사용 방법",
   "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1c816dae3fdf809d8ad4fa66a417f1dd?pvs=73",
   "settings_screen_privacy_policy": "개인정보 처리방침",
   "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_premium_upgrade": "프리미엄으로 업그레이드!",
+  "settings_screen_premium_upgrade_already": "프리미엄 회원",
 
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
@@ -52,7 +62,8 @@
 
   "content_edit_widget_save_button_text": "저장하기",
   "content_edit_widget_no_more_tags_error": "태그는 3개까지 허용됩니다",
-  "content_edit_widget_save_tag_name": "태그를 지정해주세요",
+  "content_edit_widget_selected_tag": "기존의 태그에서 선택",
+  "content_edit_widget_save_tag_name": "태그 지정",
   "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",
 
   "content_detail_screen_move_to_content_button_text": "바로가기",
@@ -67,9 +78,9 @@
   "tag_box_instance_cant_delete": "컨텐츠가 존재해 삭제할 수 없는 태그입니다",
 
   "navigation_bar_button_home": "홈",
-  "navigation_bar_button_save": "등록",
-  "navigation_bar_button_explore": "구경",
-  "navigation_bar_button_tag": "태그",
+  "navigation_bar_button_save": "저장",
+  "navigation_bar_button_explore": "게시판",
+  "navigation_bar_button_tag": "내 태그",
 
   "article_widget_empty": "표시할 게시물들이 존재하지 않습니다",
   "article_widget_no_more_article": "마지막 게시물입니다",

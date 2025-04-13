@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tagify/api/content.dart';
+import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,7 +34,34 @@ bool isVideo(String url) {
   final uri = Uri.tryParse(url);
   if (uri == null) return false;
 
-  return uri.host.contains('youtube.com') || uri.host.contains('youtu.be');
+  final host = uri.host;
+  final path = uri.path;
+
+  // 영상 URL인지 확인
+  if (host.contains('youtu.be')) {
+    return true;
+  }
+
+  if (host.contains('youtube.com')) {
+    // 음악
+    if (host.contains("music")) return true;
+
+    // 영상
+    if (path == "/watch" && uri.queryParameters.containsKey('v')) return true;
+
+    // Shorts
+    if (path.startsWith("/shorts")) return true;
+
+    // Live 영상
+    if (path.startsWith("/live")) return true;
+
+    // 커뮤니티 글
+    if (path.startsWith("/post/") || path.contains("/community")) {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 String extractVideoId(String url) {
@@ -126,8 +154,34 @@ Future<void> checkSharedItems(BuildContext context) async {
                 .where((tag) => tag.isNotEmpty)
                 .toList();
 
-            content.tags = tags.isEmpty ? [tr("util_share")] : tags;
-            provider.pvSaveContent(content);
+            final List<String> finalTags =
+                tags.isEmpty ? [tr("util_share")] : tags;
+            content.tags = finalTags;
+
+            // 중복되지 않은 새 태그만 추출
+            final newTags = finalTags
+                .where((tag) =>
+                    !provider.tags.any((existing) => existing.tagName == tag))
+                .toList();
+
+            final totalTagCount = provider.tags.length + newTags.length;
+
+            if (totalTagCount > nonePremiumTagUpperBound &&
+                provider.loginResponse!["is_premium"] == false) {
+              // 프리미엄 회원 아닌데, 태그 제한 초과시 무시
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: snackBarColor,
+                  content: GlobalText(
+                      localizeText: "no_premium_tag_count_error",
+                      textSize: 15.0),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+              return;
+            }
+
+            await provider.pvSaveContent(content);
           }
         }
       }

@@ -163,7 +163,7 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                   localizeText: widget.article.body,
                                   textSize: 15.0,
                                   localization: false,
-                                  overflow: TextOverflow.ellipsis,
+                                  overflow: TextOverflow.visible,
                                 ),
                               ),
                             ),
@@ -198,7 +198,9 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ContentDetailScreen(
-                                                  content: content),
+                                            content: content,
+                                            isArticleContent: true,
+                                          ),
                                         ),
                                       );
                                     },

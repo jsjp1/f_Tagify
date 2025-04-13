@@ -121,90 +121,100 @@ class TagGridView extends StatelessWidget {
     final List<List<Content>> tagContents =
         tags.map((item) => provider.tagContentsMap[item.tagName]!).toList();
 
-    return GridView.builder(
-      padding: const EdgeInsets.only(bottom: 75.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
-        childAspectRatio: 1,
-      ),
-      itemCount: tags.length,
-      itemBuilder: (context, index) {
-        final Tag _tag = tags[index];
-        final List<Content> _tagContents = tagContents[index];
+    return RefreshIndicator.adaptive(
+      edgeOffset: -0.5,
+      displacement: 3.0,
+      onRefresh: () async {
+        await provider.pvFetchUserTags();
+        // TODO ? await provider.pvFetchUserTagContents()?
+      },
+      child: GridView.builder(
+        padding: const EdgeInsets.only(bottom: 75.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 1,
+        ),
+        itemCount: tags.length,
+        itemBuilder: (context, index) {
+          final Tag _tag = tags[index];
+          final List<Content> _tagContents = tagContents[index];
 
-        return Container(
-          margin: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 0.0),
-          child: PhysicalModel(
-            color: Colors.transparent,
-            elevation: 4,
-            borderRadius: BorderRadius.circular(20.0),
-            child: GestureDetector(
-              onLongPress: () {
-                debugPrint("TEST"); // TODO
-              },
-              onTap: () async {
-                await Navigator.push(
-                  context,
-                  CustomPageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) =>
-                          TagDetailScreen(tag: tags[index])),
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? lightBlackBackgroundColor
-                      : whiteBackgroundColor,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      GlobalText(
-                        localizeText: _tag.tagName,
-                        textSize: 14.0,
-                        overflow: TextOverflow.ellipsis,
-                        isBold: true,
-                        localization: false,
-                      ),
-                      SizedBox(height: 5),
-                      Expanded(
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 4.0,
-                            mainAxisSpacing: 4.0,
-                            childAspectRatio: 1,
-                          ),
-                          itemCount:
-                              _tagContents.length > 6 ? 6 : _tagContents.length,
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: CachedNetworkImage(
-                                imageUrl: _tagContents[index].thumbnail,
-                                fit: BoxFit.cover,
-                                errorWidget: (context, url, error) => Container(
-                                  color: Colors.grey[300],
-                                ),
-                              ),
-                            );
-                          },
+          return Container(
+            margin: const EdgeInsets.fromLTRB(5.0, 12.0, 5.0, 0.0),
+            child: PhysicalModel(
+              color: Colors.transparent,
+              elevation: 4,
+              borderRadius: BorderRadius.circular(20.0),
+              child: GestureDetector(
+                onLongPress: () {
+                  debugPrint("TEST"); // TODO
+                },
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    CustomPageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            TagDetailScreen(tag: tags[index])),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? lightBlackBackgroundColor
+                        : whiteBackgroundColor,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        GlobalText(
+                          localizeText: _tag.tagName,
+                          textSize: 14.0,
+                          overflow: TextOverflow.ellipsis,
+                          isBold: true,
+                          localization: false,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 5),
+                        Expanded(
+                          child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 4.0,
+                              mainAxisSpacing: 4.0,
+                              childAspectRatio: 1,
+                            ),
+                            itemCount: _tagContents.length > 6
+                                ? 6
+                                : _tagContents.length,
+                            itemBuilder: (context, index) {
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: CachedNetworkImage(
+                                  imageUrl: _tagContents[index].thumbnail,
+                                  fit: BoxFit.cover,
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: Colors.grey[300],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

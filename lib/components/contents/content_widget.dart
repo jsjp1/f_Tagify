@@ -24,7 +24,7 @@ class ContentWidgetState extends State<ContentWidget> {
   bool isLoading = false;
 
   Future<List<Content>> fetchUserTagContents() async {
-    final provider = context.read<TagifyProvider>();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
     await provider.pvFetchUserTagContents(
         widget.tagSelectedId!, widget.tagSelectedName!);
 
@@ -65,7 +65,7 @@ class ContentWidgetState extends State<ContentWidget> {
             },
           )
         : RefreshIndicator.adaptive(
-            displacement: 10.0,
+            displacement: 3.0,
             onRefresh: () async {
               if (provider.currentTag == "all") {
                 provider.pvFetchUserAllContents();
@@ -75,7 +75,6 @@ class ContentWidgetState extends State<ContentWidget> {
                 provider.currentTag = "all";
                 provider.pvFetchUserAllContents();
               }
-              // TODO: tag contents별 refresh -> tag id get 구현하면 될듯
 
               await checkSharedItems(context);
             },

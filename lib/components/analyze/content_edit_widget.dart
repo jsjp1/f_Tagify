@@ -54,6 +54,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   }
 
   void _saveContent() async {
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
     if (edittedTags.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -71,13 +73,32 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     widget.content.description = descriptionController.text;
     widget.content.tags = edittedTags;
 
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
+    // 프리미엄 회원 구분
+    final newTags = widget.content.tags
+        .where((tag) => !provider.tags.any((exist) => exist.tagName == tag))
+        .toList();
+
+    final totalTagCount = provider.tags.length + newTags.length;
+
+    if (totalTagCount > nonePremiumTagUpperBound) {
+      if (provider.loginResponse!["is_premium"] == false) {
+        // 프리미엄 회원이 아니라면
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: snackBarColor,
+            content: GlobalText(
+                localizeText: "no_premium_tag_count_error", textSize: 15.0),
+            duration: Duration(seconds: 1),
+          ),
+        );
+        return;
+      }
+    }
+
     if (widget.isEdit == true) {
       await provider.pvEditContent(
           beforeTags, widget.content, widget.content.id);
     } else {
-      debugPrint(
-          "CONTENT: ${widget.content.id} ${widget.content.url} ${widget.content.tags}");
       await provider.pvSaveContent(widget.content);
     }
 
@@ -96,7 +117,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
             Stack(
               children: [
                 // 썸네일 부분
-                widget.isLink == true
+                (widget.isLink && !widget.isEdit)
                     ? SizedBox(
                         height: 175.0,
                         child: AspectRatio(
@@ -113,8 +134,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     : SizedBox(height: 50.0, child: Container()),
                 Positioned(
                   top: 0.0,
-                  right: widget.isLink ? 0.0 : null,
-                  left: widget.isLink ? null : -15.0,
+                  right: (widget.isLink && !widget.isEdit) ? 0.0 : null,
+                  left: (widget.isLink && !widget.isEdit) ? null : -15.0,
                   child: IconButton(
                     highlightColor: Colors.transparent,
                     icon: isBookmarked
@@ -131,7 +152,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
               ],
             ),
             // 제목 부분
-            widget.isLink
+            widget.isLink && widget.isEdit == false
                 ? const SizedBox(height: 50.0)
                 : const SizedBox.shrink(),
             Align(
@@ -286,7 +307,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                 ),
               ),
             ),
-            if (widget.isLink) ...[
+            if (widget.isLink && !widget.isEdit) ...[
               const SizedBox(height: 20.0),
               Center(
                 child: Container(
@@ -316,7 +337,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.isLink
+    return widget.isLink && !widget.isEdit
         ? SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: _buildEditContent(context),

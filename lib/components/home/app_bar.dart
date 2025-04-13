@@ -56,6 +56,7 @@ class TagifyAppBar extends StatelessWidget {
                   child: GlobalText(
                     localizeText: "Tagify$addText",
                     textSize: 25.0,
+                    letterSpacing: -1.0,
                     isBold: true,
                     textColor: isDarkMode
                         ? whiteBackgroundColor

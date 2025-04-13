@@ -25,6 +25,7 @@ class TagifyExploreAppBar extends StatelessWidget {
             width: appBarTextWidth,
             child: GlobalText(
               localizeText: appBarName,
+              letterSpacing: -1.0,
               textSize: 25.0,
               isBold: true,
               textColor:

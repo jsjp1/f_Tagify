@@ -1,7 +1,12 @@
 {
-  "splash_screen_waiting": "🔥🙈❤️🥲🐈‍⬛🌏👍🌒🥺🫀",
-
   "util_share": "share",
+
+  "no_premium_tag_count_error": "Free users can create up to 6 tags only",
+
+  "tag_color_picker_select_color": " Select a color for the Tag",
+  "tag_color_picker_custom_color_select": "Choose your own color",
+  "tag_color_picker_ok": "Ok",
+  "tag_color_picker_cancel": "Cancel",
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "Start organizing your contents today!",
@@ -16,6 +21,8 @@
   "navigation_bar_input_link_hint": "Please enter the link",
   "navigation_bar_input_link_search_button": "search",
 
+  "content_instance_copy_url": "Copy URL",
+  "content_instance_url_copy_success": "URL copied!",
   "content_instance_edit": "Edit",
   "content_instance_delete": "Delete",
   "content_instance_really_delete_alert": "Alert",
@@ -34,11 +41,14 @@
   "settings_screen_logout_text": "logout",
   "settings_screen_leave_text": "delete account",
   "settings_screen_dark_mode": "Dark Mode",
+  "settings_screen_change_language": "Change Language",
   "settings_screen_current_version": "App Version",
   "settings_screen_usage": "How to Use the App?",
   "settings_screen_usage_url": "https://www.notion.so/jieeen/How-to-use-Tagify-1c816dae3fdf80bab3e3dfc7fb6f387d?pvs=4",
   "settings_screen_privacy_policy": "Privacy Policy",
   "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_premium_upgrade": "Upgrade to Premium!",
+  "settings_screen_premium_upgrade_already": "Premium Member",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
@@ -52,7 +62,8 @@
 
   "content_edit_widget_save_button_text": "Save",
   "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
-  "content_edit_widget_save_tag_name": "New Tag",
+  "content_edit_widget_selected_tag": "Select from existing tags",
+  "content_edit_widget_save_tag_name": "Tag name",
   "content_edit_widget_no_tags_error": "At least one tag must be specified",
 
   "content_detail_screen_move_to_content_button_text": "View Original",

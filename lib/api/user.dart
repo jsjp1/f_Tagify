@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/api/common.dart';
+import 'package:tagify/provider.dart';
 import 'package:tagify/screens/auth_screen.dart';
 
 Future<ApiResponse<Map<String, dynamic>>> login(String provider, String idToken,
@@ -55,11 +57,15 @@ Future<ApiResponse<Map<String, dynamic>>> login(String provider, String idToken,
 
 Future<void> logout(BuildContext context) async {
   final prefs = await SharedPreferences.getInstance();
+  final provider = Provider.of<TagifyProvider>(context, listen: false);
 
   await prefs.remove("access_token");
   await prefs.remove("refresh_token");
   await prefs.remove("loginResponse");
   await prefs.clear();
+
+  provider.currentPage = "home";
+  provider.currentTag = "all";
 
   Navigator.pushAndRemoveUntil(
     context,

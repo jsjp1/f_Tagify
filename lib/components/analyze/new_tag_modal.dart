@@ -35,10 +35,10 @@ Future<dynamic> setTagBottomModal(
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 20.0, 0.0, 0.0),
+                    padding: const EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 0.0),
                     child: GlobalText(
-                      localizeText: "content_edit_widget_save_tag_name",
-                      textSize: 22.0,
+                      localizeText: "content_edit_widget_selected_tag",
+                      textSize: 20.0,
                       isBold: true,
                       localization: true,
                     ),
@@ -70,9 +70,26 @@ Future<dynamic> setTagBottomModal(
                     ],
                   ),
                 ),
+                const SizedBox(height: 15.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
+                  child: const Divider(height: 0.5),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(30.0, 10.0, 0.0, 0.0),
+                    child: GlobalText(
+                      localizeText: "content_edit_widget_save_tag_name",
+                      textSize: 20.0,
+                      isBold: true,
+                      localization: true,
+                    ),
+                  ),
+                ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: 100.0,
+                  height: 80.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

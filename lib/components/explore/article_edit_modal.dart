@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/analyze/new_tag_modal.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -18,179 +19,123 @@ void articleInstanceEditBottomModal(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
     ),
     builder: (BuildContext context) {
-      return Wrap(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
-            child: ListTile(
-              leading: Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: Icon(Icons.download),
-              ),
-              title: GlobalText(
-                localizeText: "article_edit_modal_download",
-                textSize: 17.0,
-                isBold: true,
-              ),
-              onTap: () async {
-                Navigator.pop(context);
-
-                // 저장할 태그 이름 입력 받기
-                // TODO: 이부분 analyze set tag랑 똑같은데, 추후 분리
-                String? tagName = await showModalBottomSheet<String>(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16.0)),
+      return StatefulBuilder(
+        builder: (BuildContext context, StateSetter setModalState) {
+          String tagName = "";
+          return Wrap(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                child: ListTile(
+                  leading: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Icon(Icons.download),
                   ),
-                  builder: (BuildContext context) {
-                    TextEditingController tagNameController =
-                        TextEditingController(text: article.title);
-
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  30.0, 20.0, 0.0, 0.0),
-                              child: GlobalText(
-                                localizeText: "article_edit_modal_tag_input",
-                                textSize: 22.0,
-                                isBold: true,
-                                localization: true,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 100.0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
-                                  child: TextField(
-                                    controller: tagNameController,
-                                    autocorrect: false,
-                                    autofocus: true,
-                                    textInputAction: TextInputAction.done,
-                                    cursorColor: mainColor,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: mainColor, width: 2.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: mainColor, width: 2.0),
-                                      ),
-                                      suffixIcon: IconButton(
-                                        icon: const Icon(
-                                            CupertinoIcons.clear_circled_solid),
-                                        onPressed: () {
-                                          tagNameController.clear();
-                                          FocusScope.of(context).unfocus();
-                                        },
-                                      ),
-                                    ),
-                                    onSubmitted: (String text) {
-                                      Navigator.pop(context, text);
-                                      FocusScope.of(context).unfocus();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 25.0),
-                        ],
-                      ),
-                    );
-                  },
-                );
-
-                if (tagName == null || tagName.isEmpty) {
-                  return;
-                }
-
-                await provider.pvDownloadArticle(tagName, article.id);
-              },
-            ),
-          ),
-          // 게시물 수정
-          provider.loginResponse!["id"] == article.userId
-              ? Padding(
-                  padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
-                  child: ListTile(
-                    leading: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Icon(Icons.edit),
-                    ),
-                    title: GlobalText(
-                      localizeText: "article_edit_modal_edit",
-                      textSize: 17.0,
-                      isBold: true,
-                    ),
-                    onTap: () async {
-                      // TODO: 게시물 수정
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        CustomPageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return ArticleEditScreen(
-                                article: article, tagGiven: article.tags);
-                          },
-                        ),
-                      );
-                    },
+                  title: GlobalText(
+                    localizeText: "article_edit_modal_download",
+                    textSize: 17.0,
+                    isBold: true,
                   ),
-                )
-              : SizedBox.shrink(),
-          // 게시물 삭제
-          provider.loginResponse!["id"] == article.userId
-              ? Padding(
-                  padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
-                  child: ListTile(
-                    leading: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Icon(Icons.delete, color: mainColor),
-                    ),
-                    title: GlobalText(
-                      localizeText: "article_edit_modal_delete",
-                      textSize: 17.0,
-                      textColor: mainColor,
-                      isBold: true,
-                    ),
-                    onTap: () async {
-                      bool reallyDelete = false;
-                      Navigator.pop(context);
-                      reallyDelete = await showDeleteAlert(context);
+                  onTap: () async {
+                    // 저장할 태그 이름 입력 받기
+                    // TODO: 이부분 analyze set tag랑 똑같은데, 추후 분리
+                    await setTagBottomModal(context, (String newTagName) {
+                      setModalState(() {
+                        tagName = newTagName;
+                      });
+                    });
+                    Navigator.pop(context);
 
-                      if (reallyDelete == false) {
+                    if (tagName == "") {
+                      return;
+                    }
+                    // premium이 아닌 회원이 태그를 7개 이상만드려고 할 때 제한 + 기존에 존재하던 태그도 아닐 때
+                    if (provider.tags.length == nonePremiumTagUpperBound &&
+                        provider.tags.any((tag) => tag.tagName == tagName) ==
+                            false) {
+                      if (provider.loginResponse!["is_premium"] == false) {
+                        // 프리미엄 회원이 아닌 경우
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: snackBarColor,
+                            content: GlobalText(
+                                localizeText: "no_premium_tag_count_error",
+                                textSize: 15.0),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
                         return;
                       }
+                    }
 
-                      await provider.pvDeleteArticle(article.id);
-                    },
-                  ),
-                )
-              : SizedBox.shrink(),
-          const SizedBox(height: 100.0),
-        ],
+                    await provider.pvDownloadArticle(tagName, article.id);
+                  },
+                ),
+              ),
+              // 게시물 수정
+              provider.loginResponse!["id"] == article.userId
+                  ? Padding(
+                      padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                      child: ListTile(
+                        leading: Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Icon(Icons.edit),
+                        ),
+                        title: GlobalText(
+                          localizeText: "article_edit_modal_edit",
+                          textSize: 17.0,
+                          isBold: true,
+                        ),
+                        onTap: () async {
+                          // TODO: 게시물 수정
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            CustomPageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return ArticleEditScreen(
+                                    article: article, tagGiven: article.tags);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              // 게시물 삭제
+              provider.loginResponse!["id"] == article.userId
+                  ? Padding(
+                      padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                      child: ListTile(
+                        leading: Padding(
+                          padding: EdgeInsets.only(left: 10.0),
+                          child: Icon(Icons.delete, color: mainColor),
+                        ),
+                        title: GlobalText(
+                          localizeText: "article_edit_modal_delete",
+                          textSize: 17.0,
+                          textColor: mainColor,
+                          isBold: true,
+                        ),
+                        onTap: () async {
+                          bool reallyDelete = false;
+                          Navigator.pop(context);
+                          reallyDelete = await showDeleteAlert(context);
+
+                          if (reallyDelete == false) {
+                            return;
+                          }
+
+                          await provider.pvDeleteArticle(article.id);
+                        },
+                      ),
+                    )
+                  : SizedBox.shrink(),
+              const SizedBox(height: 100.0),
+            ],
+          );
+        },
       );
     },
   );

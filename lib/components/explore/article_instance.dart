@@ -76,8 +76,8 @@ class ArticleInstance extends StatelessWidget {
                             controller: _pageController,
                             count: contents.length,
                             effect: ExpandingDotsEffect(
-                              dotHeight: 6.0,
-                              dotWidth: 6.0,
+                              dotHeight: 4.0,
+                              dotWidth: 4.0,
                               activeDotColor: Colors.black,
                               dotColor: Colors.blueGrey,
                             ),

@@ -44,6 +44,7 @@ class ArticleEditScreenState extends State<ArticleEditScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(Icons.close),
           highlightColor: Colors.transparent,

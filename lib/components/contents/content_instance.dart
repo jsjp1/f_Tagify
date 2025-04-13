@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/components/common/delete_alert.dart';
@@ -137,6 +138,48 @@ class ContentInstanceState extends State<ContentInstance> {
                               builder: (BuildContext context) {
                                 return Wrap(
                                   children: [
+                                    widget.content.url != ""
+                                        ? Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                5.0, 10.0, 10.0, 0.0),
+                                            child: ListTile(
+                                              leading: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 10.0),
+                                                child: Icon(Icons.copy),
+                                              ),
+                                              title: GlobalText(
+                                                localizeText:
+                                                    "content_instance_copy_url",
+                                                textSize: 17.0,
+                                                isBold: true,
+                                              ),
+                                              onTap: () async {
+                                                Navigator.pop(context);
+
+                                                await Clipboard.setData(
+                                                  ClipboardData(
+                                                      text: widget.content.url),
+                                                );
+
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    duration:
+                                                        Duration(seconds: 1),
+                                                    backgroundColor:
+                                                        snackBarColor,
+                                                    content: GlobalText(
+                                                      localizeText:
+                                                          "content_instance_url_copy_success",
+                                                      textSize: 15.0,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
                                     Padding(
                                       padding: EdgeInsets.fromLTRB(
                                           5.0, 10.0, 10.0, 0.0),

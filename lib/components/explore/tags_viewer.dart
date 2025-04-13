@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/components/common/shimmer.dart';
 
+import 'package:tagify/components/common/shimmer.dart';
 import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';

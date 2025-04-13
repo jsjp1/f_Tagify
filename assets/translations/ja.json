@@ -1,0 +1,137 @@
+{
+  "util_share": "共有",
+
+  "no_premium_more_than_7_tags_error": "無料ユーザーはタグを最大7個までしか作成できません。",
+
+  "tag_color_picker_select_color": "タグの色を選択してください。",
+  "tag_color_picker_custom_color_select": "自分の色を選ぶ",
+  "tag_color_picker_ok": "決定",
+  "tag_color_picker_cancel": "キャンセル",
+
+  "auth_screen_top_description_text": "Collect, Tag, Explore",
+  "auth_screen_bottom_description_text": "今すぐあなたのコンテンツを整理しましょう！",
+
+  "easy_login": "簡単ログイン",
+  "google_login_button": "Googleでログイン",
+  "apple_login_button": "Appleでログイン",
+  "kakao_login_button": "Kakaoでログイン",
+
+  "search_bar_hint_text": "保存したコンテンツを検索してみましょう！",
+
+  "navigation_bar_input_link_hint": "リンクを入力してください",
+  "navigation_bar_input_link_search_button": "検索",
+
+  "content_instance_copy_url": "URLをコピーする",
+  "content_instance_url_copy_success": "URLがコピーされました",
+  "content_instance_edit": "編集",
+  "content_instance_delete": "削除",
+  "content_instance_really_delete_alert": "お知らせ",
+  "content_instance_really_delete_text": "本当に削除しますか？",
+  "content_instance_really_delete_cancel": "キャンセル",
+  "content_instance_really_delete_ok": "確認",
+
+  "content_widget_empty": "表示するコンテンツがありません",
+  "content_widget_failure": "コンテンツの読み込みに失敗しました",
+  "content_widget_end": "これ以上読み込むコンテンツはありません",
+
+  "profile_button_settings": "設定",
+  "profile_button_logout": "ログアウト",
+
+  "settings_screen_title": "設定",
+  "settings_screen_logout_text": "ログアウト",
+  "settings_screen_leave_text": "退会",
+  "settings_screen_dark_mode": "ダークモード",
+  "settings_screen_change_language": "言語を変更する",
+  "settings_screen_current_version": "アプリバージョン",
+  "settings_screen_usage": "アプリの使い方",
+  "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1c816dae3fdf809d8ad4fa66a417f1dd?pvs=73",
+  "settings_screen_privacy_policy": "プライバシーポリシー",
+  "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_premium_upgrade": "プレミアムにアップグレード！",
+  "settings_screen_premium_upgrade_already": "プレミアム会員",
+
+  "tag_bar_tagname_all": "すべて",
+  "tag_bar_tagname_bookmark": "ブックマーク",
+
+  "analyze_screen_enter_link": "リンクを入力してください",
+  "analyze_screen_invalid_url": "無効なリンク形式です",
+  "analyze_screen_already_exists": "既に存在するコンテンツです",
+  "analyze_screen_title": "タイトル",
+  "analyze_screen_description": "説明",
+  "analyze_screen_tags": "タグ",
+
+  "content_edit_widget_save_button_text": "保存",
+  "content_edit_widget_no_more_tags_error": "タグは3つまで指定できます",
+  "content_edit_widget_selected_tag": "既存のタグから選択",
+  "content_edit_widget_save_tag_name": "タグを指定",
+  "content_edit_widget_no_tags_error": "最低1つのタグを指定してください",
+
+  "content_detail_screen_move_to_content_button_text": "リンク先へ",
+  "content_detail_screen_tags": "タグ",
+  "content_detail_screen_description": "説明",
+
+  "tag_box_instance_change_color": "色を変更",
+  "tag_box_instance_edit": "編集",
+  "tag_box_instance_delete": "削除",
+  "tag_box_instance_encoding": "共有",
+  "tag_box_instance_clipboard_save_success": "クリップボードに保存されました！",
+  "tag_box_instance_cant_delete": "コンテンツが存在するため削除できないタグです",
+
+  "navigation_bar_button_home": "ホーム",
+  "navigation_bar_button_save": "登録",
+  "navigation_bar_button_explore": "探索",
+  "navigation_bar_button_tag": "タグ",
+
+  "article_widget_empty": "表示する投稿がありません",
+  "article_widget_no_more_article": "最後の投稿です",
+
+  "article_instance_created_at_text": "作成日: ",
+
+  "upload_dialog_upload_button_text": "登録",
+  "upload_dialog_no_tag_selected": "登録するタグを選択してください",
+  "upload_dialog_title_controller_text": "タイトル",
+  "upload_dialog_body_controller_text": "説明",
+  "upload_dialog_tags_text": "共有するタグを選択してください",
+
+  "article_edit_screen_edit": "編集",
+  "article_edit_screen_write_title": "タイトルを入力してください。",
+  "article_edit_screen_write_body": "投稿するタグについて簡単な内容を記入してください。",
+  "article_edit_screen_selected_tag": "既に選択されたタグ",
+  "article_edit_screen_tag_make": "新しく追加するタグ",
+
+  "article_edit_modal_edit": "編集",
+  "article_edit_modal_delete": "削除",
+  "article_edit_modal_download": "ダウンロード",
+  "article_edit_modal_tag_input": "タグ名を指定してください",
+
+  "tag_list_drawer_tag_list": "タグ一覧",
+
+  "tag_color_picker_color_select_error": "タグの色を変更できません",
+
+  "explore_screen_search_hint_text": "探したい投稿を検索してみましょう！",
+  "explore_screen_see_all": "🌏 すべて",
+  "explore_screen_total_ranking": "🏆 ランキング",
+  "explore_screen_current_hot": "🔥 トレンド",
+  "explore_screen_upvote": "👍 人気",
+  "explore_screen_newest": "🎉 最新",
+  "explore_screen_my_tag": "🤩 マイタグ",
+  "explore_screen_random": "🐈‍⬛ ランダム",
+  "explore_screen_contents": "コンテンツ",
+  "explore_screen_tags": "タグ",
+  "explore_screen_waiting": "お待ちください 🥺...",
+
+  "upload_article_screen_upload": "投稿",
+  "upload_article_screen_upload_button_text": "登録",
+  "upload_article_screen_write_title": "タイトルを入力してください。",
+  "upload_article_screen_write_body": "投稿するタグについて簡単な内容を記入してください。",
+  "upload_article_screen_tag_select": "共有するタグを選択してください",
+  "upload_article_screen_tag_make": "新しいタグを選択してください",
+  "upload_article_screen_no_more_tags_error": "タグは3つまで指定できます",
+  "upload_article_screen_already_exists_tag": "既に存在するタグです",
+  "upload_article_screen_no_tag_made": "最低1つのタグを指定してください",
+  "upload_article_screen_no_tag_selected": "共有するタグを指定してください",
+
+  "article_detail_screen_comment_hint_text": "コメントを入力してください",
+  "article_detail_screen_comment_upload_button_text": "登録",
+  "article_detail_screen_comments_length": "コメント"
+}

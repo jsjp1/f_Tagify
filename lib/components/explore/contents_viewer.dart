@@ -18,26 +18,87 @@ class ContentsViewer extends StatefulWidget {
 }
 
 class ContentsViewerState extends State<ContentsViewer> {
-  late List<Article> articles = [];
+  List<Article> articles = [];
   bool isLoading = true;
+  bool isFetchingMore = false;
+  bool hasMore = true;
+
+  final ScrollController _scrollController = ScrollController();
+  int offset = 0;
+  final int limit = 20;
 
   @override
   void initState() {
     super.initState();
+    fetchInitialArticles();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 100.0 &&
+          !isFetchingMore &&
+          hasMore) {
+        fetchMoreArticles();
+      }
+    });
   }
 
-  Future<ApiResponse<List<Article>>> fetchArticles() async {
-    // categoryName에 따라 다른 api호출 -> global, popular, hot, upvote, newest, owned, random
+  @override
+  void didUpdateWidget(covariant ContentsViewer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.categoryName != widget.categoryName) {
+      offset = 0;
+      articles.clear();
+      hasMore = true;
+      fetchInitialArticles();
+    }
+  }
+
+  Future<void> fetchInitialArticles() async {
+    setState(() => isLoading = true);
+    final result = await fetchArticles(offset, limit);
+    if (mounted) {
+      setState(() {
+        articles = result.data ?? [];
+        offset += limit;
+        hasMore = (result.data?.length ?? 0) == limit;
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> fetchMoreArticles() async {
+    setState(() => isFetchingMore = true);
+    final result = await fetchArticles(offset, limit);
+    if (mounted) {
+      setState(() {
+        final newData = result.data ?? [];
+        articles.addAll(newData);
+        offset += newData.length;
+        hasMore = newData.length == limit;
+        isFetchingMore = false;
+      });
+    }
+  }
+
+  Future<ApiResponse<List<Article>>> fetchArticles(
+      int offset, int limit) async {
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     if (widget.categoryName == "owned") {
-      return fetchUserArticlesLimited(provider.loginResponse!["id"], 30, 0,
-          provider.loginResponse!["access_token"]);
+      return fetchUserArticlesLimited(
+        provider.loginResponse!["id"],
+        limit,
+        offset,
+        provider.loginResponse!["access_token"],
+      );
     }
 
-    // owned에 해당하는 건 없음
     return fetchCategoryArticles(
-        30, 0, widget.categoryName, provider.loginResponse!["access_token"]);
+      limit,
+      offset,
+      widget.categoryName,
+      provider.loginResponse!["access_token"],
+    );
   }
 
   @override
@@ -48,86 +109,75 @@ class ContentsViewerState extends State<ContentsViewer> {
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: GlobalText(
-              localizeText: "explore_screen_contents",
-              textSize: 13.0,
-              isBold: true,
-            ),
+          GlobalText(
+            localizeText: "explore_screen_contents",
+            textSize: 13.0,
+            isBold: true,
           ),
-          Flexible(
-            fit: FlexFit.loose,
-            child: FutureBuilder(
-              future: fetchArticles(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: List.generate(10, (index) {
-                        return Column(
-                          children: [
-                            const Divider(height: 0.5),
-                            ArticleInstanceShimmer(isDarkMode: isDarkMode),
-                          ],
-                        );
-                      }),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: GlobalText(
-                      localizeText: "content_widget_error",
-                      textSize: 15.0,
-                      textColor: Colors.red,
-                    ),
-                  );
-                } else if (!snapshot.hasData) {
-                  return Center(
-                    child: GlobalText(
-                      localizeText: "content_widget_empty",
-                      textSize: 15.0,
-                      textColor: Colors.grey,
-                    ),
-                  );
-                } else if (snapshot.hasData == true) {
-                  final articles = snapshot.data!.data;
-
-                  if (articles == null) return SizedBox.shrink();
-
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: articles.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index < articles.length) {
-                        return Column(
-                          children: [
-                            const Divider(height: 0.5),
-                            ArticleInstance(article: articles[index])
-                          ],
-                        );
-                      } else {
-                        return Column(
-                          children: [
-                            const Divider(height: 0.5),
-                            SizedBox(height: 100.0),
-                          ],
-                        ); // TODO: limit설정 후 더 fetch해오는걸로
-                      }
-                    },
-                  );
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
+          const SizedBox(height: 10),
+          if (isLoading)
+            Column(
+              children: List.generate(5, (_) {
+                return Column(
+                  children: [
+                    const Divider(height: 0.5),
+                    ArticleInstanceShimmer(isDarkMode: isDarkMode),
+                  ],
+                );
+              }),
+            )
+          else if (articles.isEmpty)
+            Center(
+              child: GlobalText(
+                localizeText: "content_widget_empty",
+                textSize: 15.0,
+                textColor: Colors.grey,
+              ),
+            )
+          else
+            SizedBox(
+              height: MediaQuery.of(context).size.height - 200.0,
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: articles.length + (isFetchingMore ? 1 : 0),
+                physics: const BouncingScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: 100.0),
+                itemBuilder: (context, index) {
+                  if (index < articles.length) {
+                    return Column(
+                      children: [
+                        const Divider(height: 0.5),
+                        ArticleInstance(article: articles[index]),
+                      ],
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 300.0,
+                      child: ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              const Divider(height: 0.5),
+                              ArticleInstanceShimmer(isDarkMode: isDarkMode),
+                            ],
+                          );
+                        },
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

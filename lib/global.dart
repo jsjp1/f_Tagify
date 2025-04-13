@@ -54,10 +54,31 @@ const double articleInstanceThumbnailHeight = 83.0;
 
 // global variable
 const int articlesLimit = 30;
+const int nonePremiumTagUpperBound = 6;
 
 // global font size
 const double contentInstanceTitleFontSize = 15.0;
 const double contentInstanceDescriptionFontSize = 10.0;
+
+// premium? color list
+final List<Color> basicColors = [
+  mainColor,
+  Colors.green,
+  Colors.yellow,
+];
+
+final List<Color> premiumColors = [
+  mainColor,
+  Colors.blue,
+  Colors.green,
+  Colors.yellow,
+  Colors.orange,
+  Colors.purple,
+  Colors.pink,
+  Colors.teal,
+  Colors.cyan,
+  Colors.indigo,
+];
 
 class GlobalText extends StatelessWidget {
   final String localizeText;
@@ -67,8 +88,9 @@ class GlobalText extends StatelessWidget {
   final Color? textColor;
   final TextOverflow? overflow;
   final int? maxLines;
+  final double? letterSpacing;
 
-  GlobalText({
+  const GlobalText({
     super.key,
     required this.localizeText,
     required this.textSize,
@@ -77,6 +99,7 @@ class GlobalText extends StatelessWidget {
     this.overflow,
     this.localization = true,
     this.maxLines,
+    this.letterSpacing,
   });
 
   @override
@@ -86,6 +109,7 @@ class GlobalText extends StatelessWidget {
             localizeText,
             maxLines: maxLines,
             style: TextStyle(
+              letterSpacing: letterSpacing ?? 0.0,
               color: textColor,
               fontSize: textSize,
               fontFamily: "YoutubeFont",
@@ -98,6 +122,7 @@ class GlobalText extends StatelessWidget {
             localizeText,
             maxLines: maxLines,
             style: TextStyle(
+              letterSpacing: letterSpacing ?? 0.0,
               color: textColor,
               fontSize: textSize,
               fontFamily: "YoutubeFont",

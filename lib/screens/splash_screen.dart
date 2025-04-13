@@ -52,13 +52,13 @@ class SplashScreenState extends State<SplashScreen>
     final provider = Provider.of<TagifyProvider>(context, listen: false);
     try {
       await provider.setInitialSetting(widget.loginResponse);
+
       await Future.wait([
         provider.pvFetchUserAllContents(),
         provider.pvFetchUserBookmarkedContents(),
         provider.pvFetchUserTags(),
-        provider.pvFetchArticlesLimited(),
       ]);
-      // TODO: tag별 contents는 이후 tag detail screen 들어가면 채워지도록
+      // TODO: tag별 contents는 이후 tag detail screen 들어가면 채워지도록?
       await Future.wait(provider.tags
           .map((tag) => provider.pvFetchUserTagContents(tag.id, tag.tagName)));
 
@@ -104,6 +104,9 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final colorList =
+        widget.loginResponse["is_premium"] ? premiumColors : basicColors;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -123,14 +126,24 @@ class SplashScreenState extends State<SplashScreen>
                     tag: "tagifyAppIcon",
                     child: Image.asset(
                       "assets/img/tagify_app_main_icon_3d_transparent.png",
-                      scale: 5,
+                      scale: 7,
                     ),
                   ),
-                  GlobalText(
-                    localizeText: "splash_screen_waiting",
-                    textSize: 20.0,
-                    isBold: true,
-                    localization: true,
+                  const SizedBox(height: 35.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: colorList
+                        .map((color) => Container(
+                              width: 15,
+                              height: 15,
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 3.0),
+                              decoration: BoxDecoration(
+                                color: color,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ],
               ),

@@ -160,8 +160,8 @@ class TagBoxInstance extends StatelessWidget {
                                                       localizeText:
                                                           "tag_box_instance_clipboard_save_success",
                                                       textSize: 15.0),
-                                                  duration: Duration(
-                                                      milliseconds: 1000),
+                                                  duration:
+                                                      Duration(seconds: 1),
                                                 ),
                                               );
                                             },

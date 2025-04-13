@@ -51,12 +51,14 @@ class AuthScreenTopSection extends StatelessWidget {
         Hero(
           tag: "tagifyAppIcon",
           child: Image.asset(
-            height: MediaQuery.of(context).size.height * (0.2),
+            height: MediaQuery.of(context).size.height * (0.15),
             "assets/img/tagify_app_main_icon_3d_transparent.png",
           ),
         ),
+        const SizedBox(height: 15.0),
         GlobalText(
           localizeText: "Tagify",
+          letterSpacing: -1.5,
           textSize: 36.0,
           isBold: true,
           overflow: TextOverflow.clip,

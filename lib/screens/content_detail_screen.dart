@@ -15,8 +15,10 @@ import 'package:tagify/utils/util.dart';
 
 class ContentDetailScreen extends StatefulWidget {
   final Content content;
+  final bool? isArticleContent;
 
-  const ContentDetailScreen({super.key, required this.content});
+  const ContentDetailScreen(
+      {super.key, required this.content, this.isArticleContent});
 
   @override
   ContentDetailScreenState createState() => ContentDetailScreenState();
@@ -128,19 +130,18 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                             width: MediaQuery.of(context).size.width * (0.85),
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: GlobalText(
-                                      localizeText: widget.content.title,
-                                      textSize: 20.0,
-                                      isBold: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      localization: false,
-                                    ),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: GlobalText(
+                                    localizeText: widget.content.title,
+                                    textSize: 20.0,
+                                    isBold: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    localization: false,
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
@@ -238,138 +239,142 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
             ),
           ),
           // 컨텐츠 수정 / 삭제 / ... 버튼
-          Positioned(
-            right: 0.0,
-            top: appBarHeight + 5.0,
-            child: IconButton(
-              icon: Icon(Icons.more_vert_sharp,
-                  color: isMemo
-                      ? (isDarkMode
-                          ? whiteBackgroundColor
-                          : lightBlackBackgroundColor)
-                      : whiteBackgroundColor),
-              padding: EdgeInsets.zero,
-              onPressed: () async {
-                await showModalBottomSheet(
-                  context: context,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)),
-                  ),
-                  builder: (BuildContext context) {
-                    return Wrap(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
-                          child: ListTile(
-                            leading: Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: Icon(Icons.edit),
-                            ),
-                            title: GlobalText(
-                              localizeText: "content_instance_edit",
-                              textSize: 17.0,
-                              isBold: true,
-                            ),
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                CustomPageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return ContentEditScreen(
-                                        content: widget.content);
+          (widget.isArticleContent == null || widget.isArticleContent! == false)
+              ? Positioned(
+                  right: 0.0,
+                  top: appBarHeight + 5.0,
+                  child: IconButton(
+                    icon: Icon(Icons.more_vert_sharp,
+                        color: isMemo
+                            ? (isDarkMode
+                                ? whiteBackgroundColor
+                                : lightBlackBackgroundColor)
+                            : whiteBackgroundColor),
+                    padding: EdgeInsets.zero,
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(16)),
+                        ),
+                        builder: (BuildContext context) {
+                          return Wrap(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                                child: ListTile(
+                                  leading: Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: Icon(Icons.edit),
+                                  ),
+                                  title: GlobalText(
+                                    localizeText: "content_instance_edit",
+                                    textSize: 17.0,
+                                    isBold: true,
+                                  ),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      CustomPageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return ContentEditScreen(
+                                              content: widget.content);
+                                        },
+                                      ),
+                                    );
                                   },
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
-                          child: ListTile(
-                            leading: Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child:
-                                  Icon(CupertinoIcons.delete, color: mainColor),
-                            ),
-                            title: GlobalText(
-                              localizeText: "content_instance_delete",
-                              textSize: 17.0,
-                              textColor: mainColor,
-                              isBold: true,
-                            ),
-                            onTap: () async {
-                              await showCupertinoDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return CupertinoAlertDialog(
-                                    title: GlobalText(
-                                      localizeText:
-                                          'content_instance_really_delete_alert',
-                                      textSize: 20.0,
-                                      isBold: true,
-                                    ),
-                                    content: GlobalText(
-                                      localizeText:
-                                          'content_instance_really_delete_text',
-                                      textSize: 15.0,
-                                    ),
-                                    actions: <Widget>[
-                                      CupertinoDialogAction(
-                                        child: GlobalText(
-                                          localizeText:
-                                              'content_instance_really_delete_cancel',
-                                          textSize: 15.0,
-                                          textColor: blackBackgroundColor,
-                                          localization: true,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          isDeleted = false;
-                                        },
-                                      ),
-                                      CupertinoDialogAction(
-                                        child: GlobalText(
-                                          localizeText:
-                                              'content_instance_really_delete_ok',
-                                          textSize: 15.0,
-                                          textColor: mainColor,
-                                          localization: true,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          isDeleted = true;
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),
+                                child: ListTile(
+                                  leading: Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: Icon(CupertinoIcons.delete,
+                                        color: mainColor),
+                                  ),
+                                  title: GlobalText(
+                                    localizeText: "content_instance_delete",
+                                    textSize: 17.0,
+                                    textColor: mainColor,
+                                    isBold: true,
+                                  ),
+                                  onTap: () async {
+                                    await showCupertinoDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return CupertinoAlertDialog(
+                                          title: GlobalText(
+                                            localizeText:
+                                                'content_instance_really_delete_alert',
+                                            textSize: 20.0,
+                                            isBold: true,
+                                          ),
+                                          content: GlobalText(
+                                            localizeText:
+                                                'content_instance_really_delete_text',
+                                            textSize: 15.0,
+                                          ),
+                                          actions: <Widget>[
+                                            CupertinoDialogAction(
+                                              child: GlobalText(
+                                                localizeText:
+                                                    'content_instance_really_delete_cancel',
+                                                textSize: 15.0,
+                                                textColor: blackBackgroundColor,
+                                                localization: true,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                isDeleted = false;
+                                              },
+                                            ),
+                                            CupertinoDialogAction(
+                                              child: GlobalText(
+                                                localizeText:
+                                                    'content_instance_really_delete_ok',
+                                                textSize: 15.0,
+                                                textColor: mainColor,
+                                                localization: true,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                                isDeleted = true;
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
 
-                              if (isDeleted == false) {
-                                return;
-                              }
+                                    if (isDeleted == false) {
+                                      return;
+                                    }
 
-                              await provider
-                                  .pvDeleteUserContent(widget.content.id);
+                                    await provider
+                                        .pvDeleteUserContent(widget.content.id);
 
-                              // 삭제 모달 pop
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 100.0),
-                      ],
-                    );
-                  },
-                );
-                // 삭제 후 content widget 페이지로 이동
-                if (isDeleted == true) Navigator.pop(context);
-              },
-            ),
-          ),
+                                    // 삭제 모달 pop
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                              SizedBox(height: 100.0),
+                            ],
+                          );
+                        },
+                      );
+                      // 삭제 후 content widget 페이지로 이동
+                      if (isDeleted == true) Navigator.pop(context);
+                    },
+                  ),
+                )
+              : const SizedBox.shrink(),
           // 컨텐츠 원문보기 버튼
           // 메모로 저장되지 않았다면 버튼 표시
           widget.content.url != ""

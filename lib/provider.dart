@@ -216,9 +216,12 @@ class TagifyProvider extends ChangeNotifier {
         pvFetchUserTagContents(newTag.id, newTag.tagName);
       }
 
-      if (content.bookmark && _bookmarkedSet.contains(contentId) == false) {
+      if (content.bookmark && !_bookmarkedSet.contains(contentId)) {
         _bookmarkedSet.add(contentId);
-        _tagContentsMap["bookmark"]!.insert(0, content);
+
+        final list = _tagContentsMap["bookmark"]!;
+        int insertIndex = binarySearchInsertIndex(list, content);
+        list.insert(insertIndex, content);
       } else if (_bookmarkedSet.contains(contentId) &&
           content.bookmark == false) {
         _bookmarkedSet.remove(contentId);
@@ -620,4 +623,21 @@ class SharedDataController extends ChangeNotifier {
   void clear() {
     _media = null;
   }
+}
+
+int binarySearchInsertIndex(List<Content> list, Content target) {
+  int low = 0;
+  int high = list.length;
+
+  while (low < high) {
+    int mid = (low + high) >> 1;
+
+    if (target.id < list[mid].id) {
+      high = mid;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return low;
 }
