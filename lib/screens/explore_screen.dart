@@ -133,6 +133,29 @@ class ExploreScreenState extends State<ExploreScreen> {
               right: 0,
               child: TagifyNavigationBar(),
             ),
+            Consumer<TagifyProvider>(
+              builder: (context, provider, child) {
+                return Positioned(
+                  right: 20.0,
+                  bottom: navigationBarHeight + 60.0 + 20.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.refresh, color: whiteBackgroundColor),
+                      iconSize: 35.0,
+                      onPressed: () async {
+                        await provider.pvFetchArticlesLimited(
+                            indexCategoryList[provider.currentCategory],
+                            isInitial: true);
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
             Positioned(
               right: 20.0,
               bottom: navigationBarHeight + 20.0,
@@ -145,7 +168,7 @@ class ExploreScreenState extends State<ExploreScreen> {
                   icon: Icon(Icons.upload, color: whiteBackgroundColor),
                   iconSize: 35.0,
                   onPressed: () async {
-                    Navigator.push(
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         fullscreenDialog: true,

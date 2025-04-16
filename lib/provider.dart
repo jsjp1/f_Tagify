@@ -12,30 +12,41 @@ import 'package:tagify/global.dart';
 
 class TagifyProvider extends ChangeNotifier {
   String _version = "";
-  bool hasMoreArticles = true;
   String _currentTag = "all";
   String _currentPage = "home";
+  final List<String> _currentCategoryList = [
+    "all",
+    "popular",
+    "hot",
+    "upvote",
+    "newest",
+    "owned",
+    "random",
+  ];
   int _currentCategory = 0; // 0, 1, 2, 3, 4, 5, 6
   List<Tag> _tags = [];
   Map<int, String> _idTagNameMap = {};
   Set<int> _bookmarkedSet = {};
   List<Content> _searchResultContents = [];
   final Map<String, List<Content>> _tagContentsMap = {};
-  List<Article> _articles = [];
+  final Map<String, List<Article>> _categoryArticlesMap = {};
+  final Map<String, int> _categoryOffsetMap = {};
+  final Map<String, bool> _hasMoreByCategory = {};
 
   Map<String, dynamic>? _loginResponse;
   int _tagScreenSelectedGrid = 2;
   int _articlesOffset = 0;
 
-  final int _articleLimit = 30;
-  int _articleOffset = 0;
+  final int _articleLimit = 20;
 
   String get version => _version;
   String get currentTag => _currentTag;
   String get currentPage => _currentPage;
   int get currentCategory => _currentCategory;
   Map<String, List<Content>> get tagContentsMap => _tagContentsMap;
-  List<Article> get articles => _articles;
+  Map<String, List<Article>> get categoryArticlesMap => _categoryArticlesMap;
+  Map<String, int> get categoryOffsetMap => _categoryOffsetMap;
+  Map<String, bool> get hasMoreByCategory => _hasMoreByCategory;
   List<Tag> get tags => _tags;
   Set<int> get bookmarkedSet => _bookmarkedSet;
   List<Content> get searchResultContents => _searchResultContents;
@@ -69,21 +80,6 @@ class TagifyProvider extends ChangeNotifier {
 
   set tags(List<Tag> newTags) {
     _tags = newTags;
-    notifyListeners();
-  }
-
-  set articles(List<Article> newArticles) {
-    _articles = newArticles;
-    notifyListeners();
-  }
-
-  void setArticles(List<Article> newArticles) {
-    _articles = newArticles;
-    notifyListeners();
-  }
-
-  void addArticles(List<Article> moreArticles) {
-    _articles.addAll(moreArticles);
     notifyListeners();
   }
 
@@ -430,36 +426,32 @@ class TagifyProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> pvFetchArticlesLimited() async {
+  Future<void> pvFetchArticlesLimited(String categoryName,
+      {bool isInitial = false}) async {
     if (_loginResponse == null) return;
 
-    final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString("access_token");
+    int offset = isInitial ? 0 : _categoryOffsetMap[categoryName] ?? 0;
 
-    ApiResponse<List<Article>> a =
-        await fetchArticlesLimited(_articleLimit, _articleOffset, accessToken!);
-
-    if (a.success) {
-      _articles = a.data!;
-      _articleOffset += _articleLimit;
-      notifyListeners();
+    ApiResponse<List<Article>> result;
+    if (categoryName == "owned") {
+      result = await fetchUserArticlesLimited(_loginResponse!["id"],
+          _articleLimit, offset, _loginResponse!["access_token"]);
+    } else {
+      result = await fetchCategoryArticles(
+          _articleLimit, offset, categoryName, _loginResponse!["access_token"]);
     }
-  }
 
-  Future<void> pvFetchRefreshedArticles() async {
-    if (_loginResponse == null) return;
+    if (result.success) {
+      if (isInitial) {
+        _categoryArticlesMap[categoryName] = result.data!;
+      } else {
+        _categoryArticlesMap[categoryName]?.addAll(result.data!);
+      }
 
-    final prefs = await SharedPreferences.getInstance();
-    final accessToken = prefs.getString("access_token");
-
-    ApiResponse<List<Article>> a =
-        await fetchArticlesLimited(_articleLimit, 0, accessToken!);
-
-    if (a.success) {
-      _articles = a.data!;
-      _articleOffset += _articleLimit;
-      notifyListeners();
+      _categoryOffsetMap[categoryName] = offset + result.data!.length;
+      _hasMoreByCategory[categoryName] = result.data!.length == _articleLimit;
     }
+    notifyListeners();
   }
 
   Future<void> pvPostArticle(String title, String body, List<String> tags,
@@ -473,8 +465,10 @@ class TagifyProvider extends ChangeNotifier {
         _loginResponse!["id"], title, body, encodedContent, tags, accessToken!);
 
     if (a.success) {
-      pvFetchRefreshedArticles();
-      notifyListeners();
+      // TODO pvFetchRefreshedArticles();
+      await pvFetchArticlesLimited("all", isInitial: true);
+      await pvFetchArticlesLimited(_currentCategoryList[_currentCategory],
+          isInitial: true);
     }
   }
 
@@ -493,8 +487,9 @@ class TagifyProvider extends ChangeNotifier {
         _loginResponse!["id"], articleId, title, body, tags, accessToken!);
 
     if (a.success) {
-      pvFetchRefreshedArticles();
-      notifyListeners();
+      await pvFetchArticlesLimited("all", isInitial: true);
+      await pvFetchArticlesLimited(_currentCategoryList[_currentCategory],
+          isInitial: true);
     }
   }
 
@@ -508,8 +503,10 @@ class TagifyProvider extends ChangeNotifier {
         await deleteArticle(_loginResponse!["id"], articleId, accessToken!);
 
     if (a.success) {
-      pvFetchRefreshedArticles();
-      notifyListeners();
+      // TODO pvFetchRefreshedArticles();
+      await pvFetchArticlesLimited("all", isInitial: true);
+      await pvFetchArticlesLimited(_currentCategoryList[_currentCategory],
+          isInitial: true);
     }
   }
 
@@ -539,7 +536,7 @@ class TagifyProvider extends ChangeNotifier {
     ApiResponse<int> a = await deleteArticleComment(commentId, accessToken!);
 
     if (a.success) {
-      pvFetchRefreshedArticles();
+      // TODO pvFetchRefreshedArticles();
       notifyListeners();
     }
   }

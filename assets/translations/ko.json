@@ -22,7 +22,7 @@
   "navigation_bar_input_link_search_button": "검색",
 
   "content_instance_copy_url": "url 복사하기",
-  "URLがコピーされました": "url이 복사되었습니다!",
+  "content_instance_url_copy_success": "url이 복사되었습니다!",
   "content_instance_edit": "수정",
   "content_instance_delete": "삭제",
   "content_instance_really_delete_alert": "알림",

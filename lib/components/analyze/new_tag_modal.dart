@@ -47,6 +47,7 @@ Future<dynamic> setTagBottomModal(
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const SizedBox(width: 20.0),
                       ...provider.tags.map(

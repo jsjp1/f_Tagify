@@ -160,36 +160,42 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 3.0),
+              SizedBox(height: 5.0),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: provider.tags
-                      .map(
-                        (tag) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: TagContainer(
-                            tagName: tag.tagName,
-                            textSize: 13.0,
-                            tagColor: tag.color,
-                            isSelected: tag.tagName == selectedTagName,
-                            onTap: () async {
-                              setState(() {
-                                selectedTagName = tag.tagName;
-                              });
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: provider.tags
+                        .map(
+                          (tag) => Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: TagContainer(
+                              tagName: tag.tagName,
+                              textSize: 13.0,
+                              tagColor: tag.color,
+                              isSelected: tag.tagName == selectedTagName,
+                              onTap: () async {
+                                setState(() {
+                                  selectedTagName = tag.tagName;
+                                });
 
-                              List<Content> tagContents =
-                                  provider.getTagContents(tag.tagName);
+                                List<Content> tagContents =
+                                    provider.getTagContents(tag.tagName);
 
-                              Map<String, dynamic> contentListMap =
-                                  contentListToMap(tagContents);
-                              encodedContentList =
-                                  encodeTaggedContentsToBase64(contentListMap);
-                            },
+                                Map<String, dynamic> contentListMap =
+                                    contentListToMap(tagContents);
+                                encodedContentList =
+                                    encodeTaggedContentsToBase64(
+                                        contentListMap);
+                              },
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
               SizedBox(height: 20.0),
@@ -205,7 +211,7 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 3.0),
+              SizedBox(height: 5.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: List.generate(newTagList.length + 1, (index) {

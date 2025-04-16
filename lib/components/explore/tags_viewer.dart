@@ -7,18 +7,42 @@ import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/tagged_article_screen.dart';
 
-class TagsViewer extends StatelessWidget {
+class TagsViewer extends StatefulWidget {
   final String categoryName;
   final Future<List<Map<String, dynamic>>> Function(int, String) futureFunction;
 
-  const TagsViewer(
-      {super.key, required this.categoryName, required this.futureFunction});
+  const TagsViewer({
+    required this.categoryName,
+    required this.futureFunction,
+    super.key,
+  });
+
+  @override
+  State<TagsViewer> createState() => _TagsViewerState();
+}
+
+class _TagsViewerState extends State<TagsViewer> {
+  late Future<List<Map<String, dynamic>>> future;
+
+  @override
+  void initState() {
+    super.initState();
+    future = widget.futureFunction(24, widget.categoryName);
+  }
+
+  @override
+  void didUpdateWidget(covariant TagsViewer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.categoryName != widget.categoryName) {
+      future = widget.futureFunction(24, widget.categoryName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return categoryName == "all" // all이면 태그 표시 x
+    return widget.categoryName == "all" // all이면 태그 표시 x
         ? SizedBox.shrink()
         : SizedBox(
             height: MediaQuery.of(context).size.height * 0.175,
@@ -38,7 +62,7 @@ class TagsViewer extends StatelessWidget {
                   child: Consumer<TagifyProvider>(
                     builder: (context, provider, child) {
                       return FutureBuilder(
-                        future: futureFunction(24, categoryName),
+                        future: future,
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:tagify/api/article.dart';
 import 'package:tagify/api/common.dart';
 import 'package:tagify/components/common/shimmer.dart';
 import 'package:tagify/components/explore/article_instance.dart';
@@ -18,7 +17,6 @@ class ContentsViewer extends StatefulWidget {
 }
 
 class ContentsViewerState extends State<ContentsViewer> {
-  List<Article> articles = [];
   bool isLoading = true;
   bool isFetchingMore = false;
   bool hasMore = true;
@@ -30,13 +28,14 @@ class ContentsViewerState extends State<ContentsViewer> {
   @override
   void initState() {
     super.initState();
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
     fetchInitialArticles();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
               _scrollController.position.maxScrollExtent - 100.0 &&
           !isFetchingMore &&
-          hasMore) {
+          provider.hasMoreByCategory[widget.categoryName]!) {
         fetchMoreArticles();
       }
     });
@@ -47,63 +46,49 @@ class ContentsViewerState extends State<ContentsViewer> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.categoryName != widget.categoryName) {
       offset = 0;
-      articles.clear();
       hasMore = true;
       fetchInitialArticles();
     }
   }
 
   Future<void> fetchInitialArticles() async {
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
+    final existingArticles = provider.categoryArticlesMap[widget.categoryName];
+
+    if (existingArticles != null && existingArticles.isNotEmpty) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
     setState(() => isLoading = true);
-    final result = await fetchArticles(offset, limit);
+    await provider.pvFetchArticlesLimited(widget.categoryName, isInitial: true);
     if (mounted) {
       setState(() {
-        articles = result.data ?? [];
-        offset += limit;
-        hasMore = (result.data?.length ?? 0) == limit;
         isLoading = false;
       });
     }
   }
 
   Future<void> fetchMoreArticles() async {
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
+
     setState(() => isFetchingMore = true);
-    final result = await fetchArticles(offset, limit);
+    await provider.pvFetchArticlesLimited(widget.categoryName,
+        isInitial: false);
     if (mounted) {
       setState(() {
-        final newData = result.data ?? [];
-        articles.addAll(newData);
-        offset += newData.length;
-        hasMore = newData.length == limit;
         isFetchingMore = false;
       });
     }
   }
 
-  Future<ApiResponse<List<Article>>> fetchArticles(
-      int offset, int limit) async {
-    final provider = Provider.of<TagifyProvider>(context, listen: false);
-
-    if (widget.categoryName == "owned") {
-      return fetchUserArticlesLimited(
-        provider.loginResponse!["id"],
-        limit,
-        offset,
-        provider.loginResponse!["access_token"],
-      );
-    }
-
-    return fetchCategoryArticles(
-      limit,
-      offset,
-      widget.categoryName,
-      provider.loginResponse!["access_token"],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final provider = Provider.of<TagifyProvider>(context, listen: true);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
@@ -127,7 +112,8 @@ class ContentsViewerState extends State<ContentsViewer> {
                 );
               }),
             )
-          else if (articles.isEmpty)
+          else if (provider.categoryArticlesMap[widget.categoryName] != null &&
+              provider.categoryArticlesMap[widget.categoryName]!.isEmpty)
             Center(
               child: GlobalText(
                 localizeText: "content_widget_empty",
@@ -140,15 +126,21 @@ class ContentsViewerState extends State<ContentsViewer> {
               height: MediaQuery.of(context).size.height - 200.0,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: articles.length + (isFetchingMore ? 1 : 0),
+                itemCount:
+                    provider.categoryArticlesMap[widget.categoryName]!.length +
+                        (isFetchingMore ? 1 : 0),
                 physics: const BouncingScrollPhysics(),
                 padding: const EdgeInsets.only(bottom: 100.0),
                 itemBuilder: (context, index) {
-                  if (index < articles.length) {
+                  if (index <
+                      provider
+                          .categoryArticlesMap[widget.categoryName]!.length) {
                     return Column(
                       children: [
                         const Divider(height: 0.5),
-                        ArticleInstance(article: articles[index]),
+                        ArticleInstance(
+                            article: provider.categoryArticlesMap[
+                                widget.categoryName]![index]),
                       ],
                     );
                   } else {
