@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/common/delete_alert.dart';
 
 import 'package:tagify/components/contents/content_instance.dart';
 import 'package:tagify/global.dart';
@@ -60,7 +61,7 @@ class ContentWidgetState extends State<ContentWidget> {
                   ),
                 );
               } else {
-                return _buildContentList(snapshot.data!, widgetWidth);
+                return _buildContentList(context, snapshot.data!, widgetWidth);
               }
             },
           )
@@ -94,16 +95,21 @@ class ContentWidgetState extends State<ContentWidget> {
                   )
                 : widget.tagSelectedName != null
                     ? _buildContentList(
+                        context,
                         provider.tagContentsMap[widget.tagSelectedName]!,
                         widgetWidth)
                     : _buildContentList(
+                        context,
                         provider.tagContentsMap[provider.currentTag]!,
                         widgetWidth),
           );
   }
 }
 
-Widget _buildContentList(List<Content> contents, double widgetWidth) {
+Widget _buildContentList(
+    BuildContext context, List<Content> contents, double widgetWidth) {
+  final provider = Provider.of<TagifyProvider>(context, listen: false);
+
   return ListView.builder(
     itemCount: contents.length + 1,
     itemBuilder: (BuildContext context, int idx) {
@@ -124,6 +130,17 @@ Widget _buildContentList(List<Content> contents, double widgetWidth) {
       }
 
       return GestureDetector(
+        onLongPress: () async {
+          // 길게 눌렀을 때 삭제창 뜨도록
+          bool reallyDelete = false;
+          reallyDelete = await showDeleteAlert(context);
+
+          if (reallyDelete == false) {
+            return;
+          }
+
+          await provider.pvDeleteUserContent(contents[idx].id);
+        },
         onTap: () {
           Navigator.push(
             context,
