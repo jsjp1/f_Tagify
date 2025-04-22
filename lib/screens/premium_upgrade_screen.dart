@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'package:tagify/global.dart';
 
@@ -15,6 +14,7 @@ class PremiumUpgradeScreen extends StatefulWidget {
 class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
   @override
   Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final double widgetWidth = MediaQuery.of(context).size.width * (0.85);
 
     return Scaffold(
@@ -32,6 +32,7 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
       body: SafeArea(
         child: Center(
           child: SizedBox(
+            height: MediaQuery.of(context).size.height,
             width: widgetWidth,
             child: Column(
               children: [
@@ -39,13 +40,14 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
                 Container(
                   height: 130.0,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isDarkMode ? darkNoticeWidgetColor : Colors.white,
                     borderRadius: BorderRadius.circular(5.0),
                     boxShadow: [
                       BoxShadow(
                         offset: Offset(0, 3),
                         blurRadius: 4.0,
-                        color: Colors.grey[300]!,
+                        color:
+                            isDarkMode ? Colors.grey[700]! : Colors.grey[300]!,
                       ),
                     ],
                   ),
@@ -74,43 +76,23 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
                             ],
                           ),
                         ),
-                        // Expanded(
-                        //   child: Padding(
-                        //     padding: EdgeInsets.all(10.0),
-                        //     child: Container(
-                        //       padding: EdgeInsets.all(0.0),
-                        //       decoration: BoxDecoration(
-                        //         color: whiteBackgroundColor,
-                        //         borderRadius: BorderRadius.circular(20.0),
-                        //         boxShadow: [
-                        //           BoxShadow(
-                        //             offset: Offset(0, 3),
-                        //             blurRadius: 4.0,
-                        //             color: Colors.grey[300]!,
-                        //           ),
-                        //         ],
-                        //       ),
-                        //       child: Image.asset(
-                        //         "assets/app_main_icons_1024_1024.png",
-                        //         color: const Color.fromARGB(255, 255, 213, 29),
-                        //         colorBlendMode: BlendMode.srcIn,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.all(10.0),
                             child: Container(
                               padding: EdgeInsets.zero,
                               decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 255, 255, 255),
+                                color: isDarkMode
+                                    ? const Color.fromARGB(255, 37, 37, 37)
+                                    : const Color.fromARGB(255, 255, 255, 255),
                                 borderRadius: BorderRadius.circular(20.0),
                                 boxShadow: [
                                   BoxShadow(
                                     offset: Offset(0, 3),
                                     blurRadius: 4.0,
-                                    color: Colors.grey[300]!,
+                                    color: isDarkMode
+                                        ? Colors.grey[700]!
+                                        : Colors.grey[300]!,
                                   ),
                                 ],
                               ),
@@ -196,7 +178,6 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
                           ),
                           Expanded(
                             child: Padding(
-                              // padding: EdgeInsets.all(10.0),
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
                               child: GlobalText(
                                 localizeText: "4,900원",
@@ -209,38 +190,40 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 40.0),
-
-                    // 인앱 결제 구매 버튼
-                    GestureDetector(
-                      onTap: () {
-                        // TODO: 결제화면으로 넘어가기 (in-app-purchase)
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: widgetWidth,
-                        height: 50.0,
-                        decoration: BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.circular(15.0),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 3),
-                              blurRadius: 4.0,
-                              color: Colors.grey[300]!,
-                            ),
-                          ],
-                        ),
-                        child: GlobalText(
-                          localizeText: "프리미엄 회원으로 업그레이드하기",
-                          textSize: 15.0,
-                          isBold: true,
-                          textColor: whiteBackgroundColor,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
+                const Expanded(child: SizedBox.shrink()),
+                // 인앱 결제 구매 버튼
+                GestureDetector(
+                  onTap: () {
+                    // TODO: 결제화면으로 넘어가기 (in-app-purchase)
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: widgetWidth,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      color: Colors.blueAccent,
+                      borderRadius: BorderRadius.circular(15.0),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 3),
+                          blurRadius: 4.0,
+                          color: isDarkMode
+                              ? Colors.grey[700]!
+                              : Colors.grey[300]!,
+                        ),
+                      ],
+                    ),
+                    child: GlobalText(
+                      localizeText: "프리미엄 회원으로 업그레이드하기",
+                      textSize: 15.0,
+                      isBold: true,
+                      textColor: whiteBackgroundColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
               ],
             ),
           ),

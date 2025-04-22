@@ -316,7 +316,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 const Expanded(child: SizedBox.shrink()),
                                 Icon(Icons.question_mark_outlined,
                                     size: 20.0, color: Colors.grey[500]),
-                                const SizedBox(width: 5.0),
+                                const SizedBox.shrink(),
                               ],
                             ),
                           ),
@@ -327,14 +327,14 @@ class SettingsScreenState extends State<SettingsScreen> {
                             children: [
                               Icon(
                                 Icons.verified_rounded,
-                                size: 20.0,
+                                size: 17.0,
                                 color: Colors.blueAccent,
                               ),
                               const SizedBox(width: 5.0),
                               GlobalText(
                                   localizeText:
                                       "settings_screen_current_version",
-                                  textSize: 15.0),
+                                  textSize: 14.0),
                               const Expanded(child: SizedBox.shrink()),
                               Text(
                                 provider.version,
@@ -345,7 +345,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30.0),
+                          const SizedBox(height: 25.0),
                           GestureDetector(
                             onTap: () {
                               launchContentUrl(
@@ -355,47 +355,53 @@ class SettingsScreenState extends State<SettingsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Icon(Icons.privacy_tip,
-                                    size: 20.0, color: Colors.grey),
+                                    size: 17.0, color: Colors.grey),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText:
                                         "settings_screen_privacy_policy",
-                                    textSize: 15.0),
-                                const Expanded(child: SizedBox.shrink()),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 30.0),
-                          GestureDetector(
-                            onTap: () {
-                              // TODO: 결제 창 띄우기
-                              if (provider.loginResponse!["is_premium"]) {
-                                // 이미 프리미엄 회원이라면, 아무 동작도 하지 않음
-                              } else {
-                                Navigator.push(context, CustomPageRouteBuilder(
-                                  pageBuilder:
-                                      (context, animation, secondaryAnimation) {
-                                    return PremiumUpgradeScreen();
-                                  },
-                                ));
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(Icons.workspace_premium_outlined,
-                                    size: 20.0, color: Colors.orangeAccent),
-                                const SizedBox(width: 5.0),
-                                GlobalText(
-                                    localizeText: provider
-                                            .loginResponse!["is_premium"]
-                                        ? "settings_screen_premium_upgrade_already"
-                                        : "settings_screen_premium_upgrade",
                                     textSize: 14.0),
                                 const Expanded(child: SizedBox.shrink()),
                               ],
                             ),
                           ),
+                          SizedBox(
+                              height: provider.loginResponse!["is_premium"]
+                                  ? 0.0
+                                  : 25.0),
+                          provider.loginResponse!["is_premium"]
+                              ? const SizedBox.shrink()
+                              : GestureDetector(
+                                  onTap: () {
+                                    // TODO: 결제 창 띄우기
+                                    Navigator.push(context,
+                                        CustomPageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                          secondaryAnimation) {
+                                        return PremiumUpgradeScreen();
+                                      },
+                                    ));
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Icon(Icons.workspace_premium_outlined,
+                                          size: 17.0,
+                                          color: Colors.orangeAccent),
+                                      const SizedBox(width: 5.0),
+                                      GlobalText(
+                                          isBold: true,
+                                          localizeText: provider
+                                                  .loginResponse!["is_premium"]
+                                              // ? "settings_screen_premium_upgrade_already"
+                                              ? ""
+                                              : "settings_screen_premium_upgrade",
+                                          textSize: 14.0),
+                                      const Expanded(child: SizedBox.shrink()),
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
                     ),

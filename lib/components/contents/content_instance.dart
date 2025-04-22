@@ -284,6 +284,7 @@ class ContentInstanceState extends State<ContentInstance> {
                                 ),
                                 // 썸네일 이미지
                                 child: SmartNetworkImage(
+                                  fit: BoxFit.cover,
                                   url: widget.content.thumbnail,
                                   placeholder: Container(
                                     color: isDarkMode

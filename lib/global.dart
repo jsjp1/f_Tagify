@@ -20,8 +20,7 @@ const Color darkContentInstanceTagTextColor =
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
 const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
 const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
-const Color darkContentInstanceBoxShadowColor =
-    Color.fromARGB(255, 100, 100, 100);
+const Color darkContentInstanceBoxShadowColor = Color.fromARGB(255, 33, 22, 22);
 const Color contentInstanceNoThumbnailColor =
     Color.fromARGB(200, 255, 255, 255);
 const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);

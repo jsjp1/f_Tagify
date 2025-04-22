@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:share_handler/share_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:tagify/api/article.dart';
 import 'package:tagify/api/comment.dart';
-
 import 'package:tagify/api/common.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/api/tag.dart';

@@ -63,9 +63,9 @@ class TagBarState extends State<TagBar> {
                   currentSelectedTag: currentTag == "bookmark",
                 ),
               ),
+              // TODO: Future Builder로 태그 추가?
+              // 태그에 저장된 이름을 함수에 건네기
             ],
-            // TODO: Future Builder로 태그 추가?
-            // 태그에 저장된 이름을 함수에 건네기
           ),
         ),
         Divider(
@@ -81,9 +81,9 @@ class TagBarState extends State<TagBar> {
 class TagBarContainer extends StatelessWidget {
   final String tagName;
   final double tagBarHeight;
-  bool currentSelectedTag;
+  final bool currentSelectedTag;
 
-  TagBarContainer(
+  const TagBarContainer(
       {super.key,
       required this.tagName,
       required this.tagBarHeight,

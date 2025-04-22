@@ -113,6 +113,7 @@ class TagifyNavigationBar extends StatelessWidget {
                       );
                     },
                   ),
+                  // TODO: 사용자 많이 생기면 그때 ...
                   /*
                   Consumer<TagifyProvider>(
                     builder: (context, provider, child) {

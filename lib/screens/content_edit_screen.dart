@@ -20,7 +20,7 @@ class ContentEditScreenState extends State<ContentEditScreen> {
     final double pageWidth = MediaQuery.of(context).size.width * (0.9);
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         top: true,
         bottom: false,

@@ -130,24 +130,26 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                           ),
                         ),
                       )
-                    : SizedBox(height: 50.0, child: Container()),
-                Positioned(
-                  top: 0.0,
-                  right: (widget.isLink && !widget.isEdit) ? 0.0 : null,
-                  left: (widget.isLink && !widget.isEdit) ? null : -15.0,
-                  child: IconButton(
-                    highlightColor: Colors.transparent,
-                    icon: isBookmarked
-                        ? Icon(Icons.bookmark, color: mainColor)
-                        : Icon(Icons.bookmark_border, color: mainColor),
-                    onPressed: () {
-                      setState(() {
-                        isBookmarked = !isBookmarked;
-                        widget.content.bookmark = isBookmarked;
-                      });
-                    },
-                  ),
-                ),
+                    : const SizedBox.shrink(),
+                widget.isEdit
+                    ? const SizedBox.shrink()
+                    : Positioned(
+                        top: 0.0,
+                        right: (widget.isLink && !widget.isEdit) ? 0.0 : null,
+                        left: (widget.isLink && !widget.isEdit) ? null : -15.0,
+                        child: IconButton(
+                          highlightColor: Colors.transparent,
+                          icon: isBookmarked
+                              ? Icon(Icons.bookmark, color: mainColor)
+                              : Icon(Icons.bookmark_border, color: mainColor),
+                          onPressed: () {
+                            setState(() {
+                              isBookmarked = !isBookmarked;
+                              widget.content.bookmark = isBookmarked;
+                            });
+                          },
+                        ),
+                      ),
               ],
             ),
             // 제목 부분
@@ -219,7 +221,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                 suffixIcon: Padding(
-                  padding: EdgeInsets.only(top: widget.isLink ? 50.0 : 200.0),
+                  // padding: EdgeInsets.only(top: widget.isLink ? 50.0 : 200.0),
+                  padding: EdgeInsets.only(top: 300.0),
                   child: IconButton(
                     icon: const Icon(CupertinoIcons.clear_circled_solid),
                     onPressed: () {
@@ -229,7 +232,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                   ),
                 ),
               ),
-              maxLines: 10,
+              maxLines: 17,
               minLines: 1,
               textAlignVertical: TextAlignVertical.top,
             ),
