@@ -1,6 +1,8 @@
 {
   "util_share": "공유",
 
+  "content_default_title": "제목을 지정해주세요",
+
   "no_premium_tag_count_error": "일반 회원은 최대 6개까지의 태그만 생성 가능합니다",
 
   "tag_color_picker_select_color": "태그의 색을 지정해주세요",
@@ -59,12 +61,15 @@
   "analyze_screen_title": "제목",
   "analyze_screen_description": "설명",
   "analyze_screen_tags": "태그",
+  "analyze_screen_link": "링크",
+  "analyze_screen_memo": "메모",
 
   "content_edit_widget_save_button_text": "저장하기",
   "content_edit_widget_no_more_tags_error": "태그는 3개까지 허용됩니다",
   "content_edit_widget_selected_tag": "기존의 태그에서 선택",
   "content_edit_widget_save_tag_name": "태그 지정",
   "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",
+  "content_edit_widget_empty_tag_error": "빈 태그는 허용되지 않습니다",
 
   "content_detail_screen_move_to_content_button_text": "바로가기",
   "content_detail_screen_tags": "태그",

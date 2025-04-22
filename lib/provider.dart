@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:share_handler/share_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,6 +136,10 @@ class TagifyProvider extends ChangeNotifier {
 
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString("access_token");
+
+    if (content.title == "") {
+      content.title = tr("content_default_title");
+    }
 
     ApiResponse<Map<String, dynamic>> c =
         await saveContent(content, _loginResponse!["id"], accessToken!);

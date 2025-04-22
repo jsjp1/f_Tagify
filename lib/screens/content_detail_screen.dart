@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'package:tagify/screens/content_edit_screen.dart';
@@ -99,7 +101,10 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                 imageUrl: widget.content.thumbnail,
                                 fit: BoxFit.cover,
                                 errorWidget: (context, url, error) {
-                                  return Container(color: Colors.grey);
+                                  return Container(
+                                      color: isDarkMode
+                                          ? Colors.grey[700]
+                                          : Colors.grey[100]);
                                 },
                               ),
                             ),
@@ -111,21 +116,25 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                     children: [
                       Row(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 10.0, 0.0, 10.0),
-                            child: IconButton(
-                              highlightColor: Colors.transparent,
-                              icon: Icon(provider.bookmarkedSet
-                                      .contains(widget.content.id)
-                                  ? Icons.bookmark_sharp
-                                  : Icons.bookmark_outline_sharp),
-                              padding: EdgeInsets.zero,
-                              onPressed: () async {
-                                await provider
-                                    .pvToggleBookmark(widget.content.id);
-                              },
-                            ),
-                          ),
+                          widget.isArticleContent != null &&
+                                  widget.isArticleContent! == true
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: EdgeInsets.fromLTRB(
+                                      10.0, 10.0, 0.0, 10.0),
+                                  child: IconButton(
+                                    highlightColor: Colors.transparent,
+                                    icon: Icon(provider.bookmarkedSet
+                                            .contains(widget.content.id)
+                                        ? Icons.bookmark_sharp
+                                        : Icons.bookmark_outline_sharp),
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () async {
+                                      await provider
+                                          .pvToggleBookmark(widget.content.id);
+                                    },
+                                  ),
+                                ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * (0.85),
                             child: Align(
@@ -192,20 +201,26 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                         tagColor: isDarkMode
                                             ? darkContentInstanceTagTextColor
                                             : contentInstanceTagTextColor,
-                                        onTap: () {
-                                          Navigator.push(context,
-                                              CustomPageRouteBuilder(
-                                                  pageBuilder: (context,
-                                                      animation,
-                                                      secondaryAnimation) {
-                                            Tag tag = provider.tags.firstWhere(
-                                                (item) =>
-                                                    item.tagName ==
-                                                    widget.content.tags[index]);
+                                        onTap: widget.isArticleContent !=
+                                                    null &&
+                                                widget.isArticleContent! == true
+                                            ? () {}
+                                            : () {
+                                                Navigator.push(context,
+                                                    CustomPageRouteBuilder(
+                                                        pageBuilder: (context,
+                                                            animation,
+                                                            secondaryAnimation) {
+                                                  Tag tag = provider.tags
+                                                      .firstWhere((item) =>
+                                                          item.tagName ==
+                                                          widget.content
+                                                              .tags[index]);
 
-                                            return TagDetailScreen(tag: tag);
-                                          }));
-                                        },
+                                                  return TagDetailScreen(
+                                                      tag: tag);
+                                                }));
+                                              },
                                       );
                                     },
                                   ),
@@ -261,6 +276,45 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                         builder: (BuildContext context) {
                           return Wrap(
                             children: [
+                              widget.content.url != ""
+                                  ? Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          5.0, 10.0, 10.0, 0.0),
+                                      child: ListTile(
+                                        leading: Padding(
+                                          padding: EdgeInsets.only(left: 10.0),
+                                          child: Icon(Icons.copy),
+                                        ),
+                                        title: GlobalText(
+                                          localizeText:
+                                              "content_instance_copy_url",
+                                          textSize: 17.0,
+                                          isBold: true,
+                                        ),
+                                        onTap: () async {
+                                          Navigator.pop(context);
+
+                                          await Clipboard.setData(
+                                            ClipboardData(
+                                                text: widget.content.url),
+                                          );
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              duration: Duration(seconds: 1),
+                                              backgroundColor: snackBarColor,
+                                              content: GlobalText(
+                                                localizeText:
+                                                    "content_instance_url_copy_success",
+                                                textSize: 15.0,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 0.0),

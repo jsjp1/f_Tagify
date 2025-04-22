@@ -1,6 +1,8 @@
 {
   "util_share": "共有",
 
+  "content_default_title": "タイトルを入力してください",
+
   "no_premium_more_than_7_tags_error": "無料ユーザーはタグを最大7個までしか作成できません。",
 
   "tag_color_picker_select_color": "タグの色を選択してください。",
@@ -59,12 +61,15 @@
   "analyze_screen_title": "タイトル",
   "analyze_screen_description": "説明",
   "analyze_screen_tags": "タグ",
+  "analyze_screen_link": "リンク",
+  "analyze_screen_memo": "メモ",
 
   "content_edit_widget_save_button_text": "保存",
   "content_edit_widget_no_more_tags_error": "タグは3つまで指定できます",
   "content_edit_widget_selected_tag": "既存のタグから選択",
   "content_edit_widget_save_tag_name": "タグを指定",
   "content_edit_widget_no_tags_error": "最低1つのタグを指定してください",
+  "content_edit_widget_empty_tag_error": "空のタグは許可されていません",
 
   "content_detail_screen_move_to_content_button_text": "リンク先へ",
   "content_detail_screen_tags": "タグ",

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +9,7 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/content_edit_screen.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 
 class ContentInstance extends StatefulWidget {
   final double instanceWidth;
@@ -78,14 +78,11 @@ class ContentInstanceState extends State<ContentInstance> {
                   Row(
                     children: [
                       SizedBox(width: 5.0),
-                      CachedNetworkImage(
-                        imageUrl: widget.content.favicon,
+                      SmartNetworkImage(
+                        url: widget.content.favicon,
                         height: 17.0,
-                        fadeInDuration: Duration.zero,
-                        fadeOutDuration: Duration.zero,
-                        errorWidget: (context, url, error) {
-                          return SizedBox.shrink();
-                        },
+                        errorWidget: (context, url, error) =>
+                            const SizedBox.shrink(),
                       ),
                       widget.content.favicon != ""
                           ? SizedBox(width: 7.0)
@@ -272,7 +269,9 @@ class ContentInstanceState extends State<ContentInstance> {
                               aspectRatio: 16 / 9,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.black,
+                                  color: isDarkMode
+                                      ? Colors.grey[700]
+                                      : contentInstanceNoThumbnailColor,
                                   boxShadow: [
                                     BoxShadow(
                                       color: isDarkMode
@@ -284,31 +283,18 @@ class ContentInstanceState extends State<ContentInstance> {
                                   ],
                                 ),
                                 // 썸네일 이미지
-                                child: CachedNetworkImage(
-                                  imageUrl: widget.content.thumbnail,
-                                  fit: BoxFit.cover,
-                                  fadeInDuration: Duration.zero,
-                                  fadeOutDuration: Duration.zero,
-                                  placeholder: (context, url) {
-                                    return Container(
-                                      color: contentInstanceNoThumbnailColor,
-                                      child: Center(
-                                        child: Text(
-                                          "",
-                                          style: TextStyle(fontSize: 30.0),
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                child: SmartNetworkImage(
+                                  url: widget.content.thumbnail,
+                                  placeholder: Container(
+                                    color: isDarkMode
+                                        ? Colors.grey[700]
+                                        : contentInstanceNoThumbnailColor,
+                                  ),
                                   errorWidget: (context, url, error) {
                                     return Container(
-                                      color: contentInstanceNoThumbnailColor,
-                                      child: Center(
-                                        child: Text(
-                                          "",
-                                          style: TextStyle(fontSize: 30.0),
-                                        ),
-                                      ),
+                                      color: isDarkMode
+                                          ? Colors.grey[700]
+                                          : contentInstanceNoThumbnailColor,
                                     );
                                   },
                                 ),

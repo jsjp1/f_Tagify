@@ -113,6 +113,7 @@ class TagifyNavigationBar extends StatelessWidget {
                       );
                     },
                   ),
+                  /*
                   Consumer<TagifyProvider>(
                     builder: (context, provider, child) {
                       return NavigationBarButton(
@@ -159,6 +160,7 @@ class TagifyNavigationBar extends StatelessWidget {
                       );
                     },
                   ),
+                  */
                   Consumer<TagifyProvider>(
                     builder: (context, provider, child) {
                       return NavigationBarButton(

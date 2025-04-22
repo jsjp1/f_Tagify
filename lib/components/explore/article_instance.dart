@@ -9,6 +9,7 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/components/explore/article_edit_modal.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/screens/article_detail_screen.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 import 'package:tagify/utils/util.dart';
 
 class ArticleInstance extends StatelessWidget {
@@ -59,13 +60,12 @@ class ArticleInstance extends StatelessWidget {
                           controller: _pageController,
                           itemCount: contents.length,
                           itemBuilder: (context, index) {
-                            return CachedNetworkImage(
-                              imageUrl: contents[index].thumbnail,
+                            return SmartNetworkImage(
+                              url: contents[index].thumbnail,
                               width: double.infinity,
                               fit: BoxFit.cover,
-                              errorWidget: (context, url, error) {
-                                return Container(color: Colors.grey);
-                              },
+                              errorWidget: (context, url, error) =>
+                                  Container(color: Colors.grey),
                             );
                           },
                         ),

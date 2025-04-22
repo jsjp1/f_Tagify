@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +7,7 @@ import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 
 class ContentEditWidget extends StatefulWidget {
   final bool isLink; // Link 입력하는 모드인지
@@ -122,12 +122,11 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         height: 175.0,
                         child: AspectRatio(
                           aspectRatio: 16 / 9,
-                          child: CachedNetworkImage(
-                            imageUrl: widget.content.thumbnail,
+                          child: SmartNetworkImage(
+                            url: widget.content.thumbnail,
                             fit: BoxFit.cover,
-                            errorWidget: (context, url, error) {
-                              return SizedBox.expand();
-                            },
+                            errorWidget: (context, url, error) =>
+                                const SizedBox.expand(),
                           ),
                         ),
                       )

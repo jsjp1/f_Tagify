@@ -44,32 +44,44 @@ Future<dynamic> setTagBottomModal(
                     ),
                   ),
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(width: 20.0),
-                      ...provider.tags.map(
-                        (tag) => Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(4.0, 15.0, 0.0, 0.0),
-                          child: TagContainer(
-                            tagName: tag.tagName,
-                            textSize: 13.0,
-                            tagColor: tag.color,
-                            isSelected: tag.tagName == selectedTagName,
-                            onTap: () async {
-                              setModalState(() {
-                                selectedTagName = tag.tagName;
-                              });
-                              tagNameController.text = selectedTagName;
-                            }, // TODO
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: constraints.maxWidth,
+                        ),
+                        child: IntrinsicWidth(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(width: 20.0),
+                              ...provider.tags.map(
+                                (tag) => Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      4.0, 15.0, 0.0, 0.0),
+                                  child: TagContainer(
+                                    tagName: tag.tagName,
+                                    textSize: 13.0,
+                                    tagColor: tag.color,
+                                    isSelected: tag.tagName == selectedTagName,
+                                    onTap: () async {
+                                      setModalState(() {
+                                        selectedTagName = tag.tagName;
+                                      });
+                                      tagNameController.text = selectedTagName;
+                                    },
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 20.0),
+                            ],
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 15.0),
                 Padding(
@@ -122,6 +134,19 @@ Future<dynamic> setTagBottomModal(
                             ),
                           ),
                           onSubmitted: (String newTag) {
+                            if (newTag.replaceAll(" ", "") == "") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: snackBarColor,
+                                  content: GlobalText(
+                                      localizeText:
+                                          "content_edit_widget_empty_tag_error",
+                                      textSize: 15.0),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                              return;
+                            }
                             setState(newTag);
                             tagNameController.clear();
                             Navigator.of(context).pop();

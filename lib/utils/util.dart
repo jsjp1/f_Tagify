@@ -133,6 +133,7 @@ Future<void> checkSharedItems(BuildContext context) async {
 
     for (final item in result) {
       if (item is Map) {
+        final String? title = item["title"] as String?;
         final String? url = item["url"] as String?;
         final String? tagString = item["tags"] as String?;
 
@@ -157,6 +158,8 @@ Future<void> checkSharedItems(BuildContext context) async {
             final List<String> finalTags =
                 tags.isEmpty ? [tr("util_share")] : tags;
             content.tags = finalTags;
+            content.title =
+                title != null && title != "" ? title : c.data!.title;
 
             // 중복되지 않은 새 태그만 추출
             final newTags = finalTags

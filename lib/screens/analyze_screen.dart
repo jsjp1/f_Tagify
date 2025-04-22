@@ -24,7 +24,10 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
   bool invalidUrl = false;
   bool alreadyExistsError = false;
 
-  final analyzeMode = ["link", "memo"]; // TODO: localization
+  final analyzeMode = [
+    "analyze_screen_link",
+    "analyze_screen_memo"
+  ]; // TODO: localization
   int currentModeIndex = 0;
 
   @override

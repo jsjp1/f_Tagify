@@ -1,6 +1,8 @@
 {
   "util_share": "share",
 
+  "content_default_title": "No Title",
+
   "no_premium_tag_count_error": "Free users can create up to 6 tags only",
 
   "tag_color_picker_select_color": " Select a color for the Tag",
@@ -59,12 +61,15 @@
   "analyze_screen_title": "Title",
   "analyze_screen_description": "Description",
   "analyze_screen_tags": "Tags",
+  "analyze_screen_link": "link",
+  "analyze_screen_memo": "memo",
 
   "content_edit_widget_save_button_text": "Save",
   "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
   "content_edit_widget_selected_tag": "Select from existing tags",
   "content_edit_widget_save_tag_name": "Tag name",
   "content_edit_widget_no_tags_error": "At least one tag must be specified",
+  "content_edit_widget_empty_tag_error": "Empty tags are not allowed",
 
   "content_detail_screen_move_to_content_button_text": "View Original",
   "content_detail_screen_tags": "Tags",

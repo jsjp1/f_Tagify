@@ -198,18 +198,18 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
+                                GlobalText(
+                                    localizeText: "settings_screen_dark_mode",
+                                    textSize: 15.0),
+                                const Expanded(child: SizedBox.shrink()),
                                 Icon(
                                   isDarkMode ? Icons.sunny : Icons.dark_mode,
                                   size: 20.0,
                                   color: isDarkMode
                                       ? Colors.yellow
-                                      : Colors.lightBlue,
+                                      : Colors.grey[400],
                                 ),
-                                const SizedBox(width: 5.0),
-                                GlobalText(
-                                    localizeText: "settings_screen_dark_mode",
-                                    textSize: 15.0),
-                                const Expanded(child: SizedBox.shrink()),
+                                const SizedBox(child: SizedBox.shrink()),
                               ],
                             ),
                           ),
@@ -239,6 +239,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     child: GlobalText(
                                       localizeText: "A",
                                       localization: false,
+                                      textColor: currentLocale == Locale("en")
+                                          ? isDarkMode
+                                              ? whiteBackgroundColor
+                                              : Colors.black
+                                          : Colors.grey,
                                       isBold: currentLocale == Locale("en")
                                           ? true
                                           : false,
@@ -258,6 +263,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     child: GlobalText(
                                       localizeText: "가",
                                       localization: false,
+                                      textColor: currentLocale == Locale("ko")
+                                          ? isDarkMode
+                                              ? whiteBackgroundColor
+                                              : Colors.black
+                                          : Colors.grey,
                                       isBold: currentLocale == Locale("ko")
                                           ? true
                                           : false,
@@ -277,6 +287,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     child: GlobalText(
                                       localizeText: "あ",
                                       localization: false,
+                                      textColor: currentLocale == Locale("ja")
+                                          ? isDarkMode
+                                              ? whiteBackgroundColor
+                                              : Colors.black
+                                          : Colors.grey,
                                       isBold: currentLocale == Locale("ja")
                                           ? true
                                           : false,
@@ -295,13 +310,13 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.question_mark_outlined,
-                                    size: 20.0, color: mainColor),
-                                const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText: "settings_screen_usage",
                                     textSize: 15.0),
                                 const Expanded(child: SizedBox.shrink()),
+                                Icon(Icons.question_mark_outlined,
+                                    size: 20.0, color: Colors.grey[500]),
+                                const SizedBox(width: 5.0),
                               ],
                             ),
                           ),

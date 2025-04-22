@@ -12,6 +12,7 @@ import 'package:tagify/components/explore/comment_container.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/content_detail_screen.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 import 'package:tagify/utils/util.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
@@ -217,15 +218,14 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen> {
                                           child: ClipRRect(
                                             child: AspectRatio(
                                               aspectRatio: 16 / 9,
-                                              child: CachedNetworkImage(
-                                                imageUrl: content.thumbnail,
+                                              child: SmartNetworkImage(
+                                                url: content.thumbnail,
                                                 fit: BoxFit.cover,
                                                 errorWidget:
-                                                    (context, url, error) {
-                                                  return Container(
-                                                    color: Colors.grey,
-                                                  );
-                                                },
+                                                    (context, url, error) =>
+                                                        Container(
+                                                  color: Colors.grey,
+                                                ),
                                               ),
                                             ),
                                           ),

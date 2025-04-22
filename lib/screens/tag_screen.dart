@@ -13,6 +13,7 @@ import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/components/common/animated_drawer_layout.dart';
 import 'package:tagify/components/common/tag_list_drawer.dart';
 import 'package:tagify/screens/tag_detail_screen.dart';
+import 'package:tagify/utils/smart_network_image.dart';
 
 class TagScreen extends StatefulWidget {
   const TagScreen({super.key});
@@ -197,10 +198,12 @@ class TagGridView extends StatelessWidget {
                                 child: CachedNetworkImage(
                                   imageUrl: _tagContents[index].thumbnail,
                                   fit: BoxFit.cover,
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    color: Colors.grey[300],
-                                  ),
+                                  errorWidget: (context, url, error) {
+                                    return Container(
+                                        color: isDarkMode
+                                            ? Colors.grey[700]
+                                            : Colors.grey[200]);
+                                  },
                                 ),
                               );
                             },
