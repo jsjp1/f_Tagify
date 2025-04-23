@@ -3,38 +3,40 @@ import SwiftUI
 struct ShareExtensionView: View {
     let sharedText: String
     var onSave: (String, String, String) -> Void
+    var onCancel: () -> Void  
 
     @State private var title: String = ""
     @State private var description: String
     @State private var tags: String = ""
 
-    init(sharedText: String, onSave: @escaping (String, String, String) -> Void) {
+    init(sharedText: String, onSave: @escaping (String, String, String) -> Void, onCancel: @escaping () -> Void) {
         self.sharedText = sharedText
         self._description = State(initialValue: sharedText)
         self.onSave = onSave
+        self.onCancel = onCancel
     }
 
     var body: some View {
-        NavigationView { // iOS 15 이하용 - 16 이상은 NavigationStack
+        NavigationView {
             VStack(alignment: .leading, spacing: 16) {
-                TextField("Title", text: $title)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.top, 8)
-
-                Text("URL")
+                Text(NSLocalizedString("url", comment: "URL label"))
                     .font(.caption)
                     .foregroundColor(.gray)
                 Text(description)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(10)
-                    .frame(height: 120)
+                    .frame(height: 45)
                     .background(Color(UIColor.systemGray6))
                     .cornerRadius(8)
 
-                TextField("Tags (comma-separated)", text: $tags)
+                TextField(NSLocalizedString("title", comment: "Title field"), text: $title)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.top, 8)
+
+                TextField(NSLocalizedString("tags", comment: "Tags field"), text: $tags)
                     .textFieldStyle(.roundedBorder)
 
-                Button("Save") {
+                Button(NSLocalizedString("save", comment: "Save button")) {
                     onSave(title, description, tags)
                 }
                 .buttonStyle(.borderedProminent)
@@ -43,13 +45,12 @@ struct ShareExtensionView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Share to Tagify")
+            .navigationTitle(NSLocalizedString("share_to_tagify", comment: "Navigation title"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        // 직접 NotificationCenter 대신 클로저로 처리
-                        NotificationCenter.default.post(name: NSNotification.Name("close"), object: nil)
+                    Button(NSLocalizedString("cancel", comment: "Cancel button")) {
+                        onCancel() 
                     }
                 }
             }

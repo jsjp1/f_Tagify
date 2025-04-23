@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Runner
+
+  Created by 박상진 on 4/23/25.
+  
+*/
+
+"share_to_tagify" = "Share to Tagify";
+"title" = "Title";
+"url" = "URL";
+"tags" = "Tags (comma-separated)";
+"save" = "Save";
+"cancel" = "Cancel";

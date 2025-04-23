@@ -49,12 +49,26 @@ class ShareViewController: UIViewController {
             showShareUI(with: sharedText)
         }
     }
+
+    func close() {
+        DispatchQueue.main.async {
+            self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        }
+    }
     
     func showShareUI(with text: String) {
-        let shareView = ShareExtensionView(sharedText: text) { title, description, tags in
-            self.saveSharedItem(title: title, description: description, tags: tags)
-            self.openMainApp()
-        }
+        // onSave와 onCancel 콜백을 모두 제공
+        let shareView = ShareExtensionView(
+            sharedText: text,
+            onSave: { title, description, tags in
+                self.saveSharedItem(title: title, description: description, tags: tags)
+                self.openMainApp()
+            },
+            onCancel: {
+                // 취소 버튼 클릭 시 익스텐션 종료
+                self.close()
+            }
+        )
         
         let hostingController = UIHostingController(rootView: shareView)
         
@@ -89,7 +103,7 @@ class ShareViewController: UIViewController {
 
     private func openMainApp() {
         guard let url = URL(string: "tagify://shared") else {
-            extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+            close()
             return
         }
 
@@ -102,10 +116,6 @@ class ShareViewController: UIViewController {
             responder = responder?.next
         }
 
-        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
-    }
-    
-    func close() {
-        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        close()
     }
 }

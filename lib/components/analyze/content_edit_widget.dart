@@ -43,10 +43,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     titleController.text = widget.content.title;
     descriptionController.text = widget.content.description;
 
-    if (widget.content.tags.length >= 3) {
-      // 컨텐츠당 최대 태그 개수 3개로 제한
-      widget.content.tags = widget.content.tags.sublist(0, 3);
-    }
+    // if (widget.content.tags.length >= 3) {
+    //   // 컨텐츠당 최대 태그 개수 3개로 제한
+    //   widget.content.tags = widget.content.tags.sublist(0, 3);
+    // }
 
     beforeTags = List<String>.from(widget.content.tags);
     edittedTags = List<String>.from(widget.content.tags);
@@ -107,6 +107,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
 
   Widget _buildEditContent(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Center(
       child: SizedBox(
@@ -279,23 +280,31 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                             tagName: "+",
                             tagColor: Colors.indigoAccent,
                             onTap: () {
-                              if (edittedTags.length == 3) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: snackBarColor,
-                                    content: GlobalText(
-                                        localizeText:
-                                            "content_edit_widget_no_more_tags_error",
-                                        textSize: 15.0),
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                                return;
+                              if (provider.loginResponse!["is_premium"] ==
+                                  false) {
+                                // 프리미엄 회원이 아닌 경우, 컨텐츠당 태그 수 3개로 제한
+                                if (edittedTags.length == 3) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: snackBarColor,
+                                      content: GlobalText(
+                                          localizeText:
+                                              "content_edit_widget_no_more_tags_error",
+                                          textSize: 15.0),
+                                      duration: Duration(seconds: 1),
+                                    ),
+                                  );
+                                  return;
+                                }
                               }
 
                               // 태그 생성 로직
                               setTagBottomModal(context, (String newTagName) {
                                 setState(() {
+                                  if (edittedTags.contains(newTagName)) {
+                                    return;
+                                  }
+
                                   edittedTags.insert(0, newTagName);
                                 });
                               });

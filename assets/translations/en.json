@@ -65,7 +65,7 @@
   "analyze_screen_memo": "memo",
 
   "content_edit_widget_save_button_text": "Save",
-  "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed",
+  "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed for common user",
   "content_edit_widget_selected_tag": "Select from existing tags",
   "content_edit_widget_save_tag_name": "Tag name",
   "content_edit_widget_no_tags_error": "At least one tag must be specified",

@@ -237,19 +237,22 @@ class UploadArticleScreenState extends State<UploadArticleScreen> {
                           isLastButton: true,
                           isSelected: false,
                           onTap: () {
-                            if (newTagList.length == 3) {
-                              // 만든 태그가 3개를 초과하려한다면
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: snackBarColor,
-                                  content: GlobalText(
-                                      localizeText:
-                                          "content_edit_widget_no_more_tags_error",
-                                      textSize: 15.0),
-                                  duration: Duration(seconds: 1),
-                                ),
-                              );
-                              return;
+                            if (provider.loginResponse!["is_premium"] ==
+                                false) {
+                              if (newTagList.length == 3) {
+                                // 일반 회원이 만든 태그가 3개를 초과하려한다면
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: snackBarColor,
+                                    content: GlobalText(
+                                        localizeText:
+                                            "content_edit_widget_no_more_tags_error",
+                                        textSize: 15.0),
+                                    duration: Duration(seconds: 1),
+                                  ),
+                                );
+                                return;
+                              }
                             }
 
                             setTagBottomModal(context, (String newTagName) {

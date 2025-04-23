@@ -155,11 +155,17 @@ Future<void> checkSharedItems(BuildContext context) async {
                 .where((tag) => tag.isNotEmpty)
                 .toList();
 
-            final List<String> finalTags =
-                tags.isEmpty ? [tr("util_share")] : tags;
+            List<String> finalTags = tags.isEmpty ? [tr("util_share")] : tags;
             content.tags = finalTags;
             content.title =
                 title != null && title != "" ? title : c.data!.title;
+
+            if (provider.loginResponse!["is_premium"] == false) {
+              // 일반 회원이 컨텐츠당 태그를 4개 이상 만드려고 하면
+              if (finalTags.length >= 4) {
+                finalTags = finalTags.sublist(0, 4);
+              }
+            }
 
             // 중복되지 않은 새 태그만 추출
             final newTags = finalTags

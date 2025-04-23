@@ -65,7 +65,7 @@
   "analyze_screen_memo": "메모",
 
   "content_edit_widget_save_button_text": "저장하기",
-  "content_edit_widget_no_more_tags_error": "태그는 3개까지 허용됩니다",
+  "content_edit_widget_no_more_tags_error": "일반 회원의 컨텐츠당 태그는 3개까지 허용됩니다",
   "content_edit_widget_selected_tag": "기존의 태그에서 선택",
   "content_edit_widget_save_tag_name": "태그 지정",
   "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",

@@ -65,7 +65,7 @@
   "analyze_screen_memo": "メモ",
 
   "content_edit_widget_save_button_text": "保存",
-  "content_edit_widget_no_more_tags_error": "タグは3つまで指定できます",
+  "content_edit_widget_no_more_tags_error": "タグは 3つまで指定できます",
   "content_edit_widget_selected_tag": "既存のタグから選択",
   "content_edit_widget_save_tag_name": "タグを指定",
   "content_edit_widget_no_tags_error": "最低1つのタグを指定してください",
