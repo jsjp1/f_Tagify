@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tagify/components/common/delete_alert.dart';
+import 'package:tagify/components/common/delete_reason_modal.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -428,11 +430,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                         textColor: Colors.grey,
                       ),
                     ),
-                    const SizedBox(width: 20.0),
+                    const SizedBox(width: 75.0),
                     GestureDetector(
                       onTap: () async {
-                        // TODO: 회원탈퇴
-                        // await delete_account();
+                        String alertMessage =
+                            "settings_screen_delete_account_alert_text";
+                        final confirm = await showDeleteAlert(
+                          context,
+                          alertMessage,
+                        );
+                        if (!confirm) return;
+
+                        final reason = await showReasonModal(context);
+                        if (reason == null) return;
+
+                        await deleteAccount(context, reason,
+                            provider.loginResponse!["access_token"]);
                       },
                       child: GlobalText(
                         localizeText: "settings_screen_leave_text",

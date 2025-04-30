@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tagify</string>
-    <string name="default_web_client_id">644370527221-ca0vbg7d9bfdtjdfoclvmb83di3hfefk.apps.googleusercontent.com</string>
+    <!-- <string name="default_web_client_id">644370527221-ca0vbg7d9bfdtjdfoclvmb83di3hfefk.apps.googleusercontent.com</string> -->
+    <string name="default_web_client_id">396241430874-0hu73khc70i6mrjjki2ii38mht1jdtos.apps.googleusercontent.com</string>
 </resources>

@@ -64,7 +64,14 @@ Future<ApiResponse<Content>> analyzeContent(int userId, String url, String lang,
       statusCode: response.statusCode,
       success: true,
     );
+  } else if (response.statusCode == 400) {
+    return ApiResponse(
+      statusCode: response.statusCode,
+      errorMessage: jsonDecode(response.body)["detail"],
+      success: false,
+    );
   }
+
   return ApiResponse.empty();
 }
 

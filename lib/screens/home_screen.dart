@@ -11,6 +11,7 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/components/common/animated_drawer_layout.dart';
 import 'package:tagify/components/common/tag_list_drawer.dart';
+import 'package:tagify/utils/util.dart';
 
 class HomeScreen extends StatefulWidget {
   Map<String, dynamic> loginResponse;
@@ -22,11 +23,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final GlobalKey<ContentWidgetState> contentWidgetKey = GlobalKey<
       ContentWidgetState>(); // contentWidget의 refreshContents 다른 곳에서 사용하기 위해
   final GlobalKey<AnimatedDrawerLayoutState> drawerLayoutKey =
       GlobalKey<AnimatedDrawerLayoutState>();
+
+  AppLifecycleState? _lastState;
 
   @override
   void initState() {
@@ -36,6 +39,20 @@ class HomeScreenState extends State<HomeScreen>
 
     // 초기 세팅
     provider.setInitialSetting(widget.loginResponse);
+
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkSharedItems(context);
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (_lastState == AppLifecycleState.inactive &&
+        state == AppLifecycleState.resumed) {
+      checkSharedItems(context);
+    }
+    _lastState = state;
   }
 
   @override

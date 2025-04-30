@@ -42,7 +42,6 @@ class TagifyAppBar extends StatelessWidget {
                   tag: "tagifyAppIcon",
                   child: Image.asset(
                     "assets/img/app_logo_white.png",
-                    // "assets/img/tagify_app_main_icons_3d_transparent.png",
                     height: logoImageHeight,
                     color: appIconColor,
                     colorBlendMode: BlendMode.srcIn,

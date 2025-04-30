@@ -6,9 +6,9 @@ import 'package:tagify/components/contents/common.dart';
 import 'package:tagify/global.dart';
 
 class ContentEditScreen extends StatefulWidget {
-  final Content content;
+  Content content;
 
-  const ContentEditScreen({super.key, required this.content});
+  ContentEditScreen({super.key, required this.content});
 
   @override
   ContentEditScreenState createState() => ContentEditScreenState();

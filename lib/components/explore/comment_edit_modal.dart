@@ -34,7 +34,10 @@ Future<bool> commentEditBottomModal(
                       isBold: true,
                     ),
                     onTap: () async {
-                      final reallyDelete = await showDeleteAlert(context);
+                      String alertMessage =
+                          "content_instance_really_delete_text";
+                      final reallyDelete =
+                          await showDeleteAlert(context, alertMessage);
 
                       if (reallyDelete) {
                         await provider.pvDeleteComment(comment.id);

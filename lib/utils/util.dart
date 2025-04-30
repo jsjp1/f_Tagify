@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tagify/api/content.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
@@ -121,6 +122,7 @@ bool isValidUrl(String url) {
 
 Future<void> checkSharedItems(BuildContext context) async {
   final provider = Provider.of<TagifyProvider>(context, listen: false);
+  final prefs = await SharedPreferences.getInstance();
   const platform = MethodChannel("com.ellipsoid.tagi/share");
 
   try {
@@ -156,16 +158,16 @@ Future<void> checkSharedItems(BuildContext context) async {
                 .toList();
 
             List<String> finalTags = tags.isEmpty ? [tr("util_share")] : tags;
-            content.tags = finalTags;
-            content.title =
-                title != null && title != "" ? title : c.data!.title;
 
             if (provider.loginResponse!["is_premium"] == false) {
               // 일반 회원이 컨텐츠당 태그를 4개 이상 만드려고 하면
               if (finalTags.length >= 4) {
-                finalTags = finalTags.sublist(0, 4);
+                finalTags = finalTags.sublist(0, 3);
               }
             }
+            content.tags = finalTags;
+            content.title =
+                title != null && title != "" ? title : c.data!.title;
 
             // 중복되지 않은 새 태그만 추출
             final newTags = finalTags
@@ -191,6 +193,16 @@ Future<void> checkSharedItems(BuildContext context) async {
             }
 
             await provider.pvSaveContent(content);
+          } else {
+            // 실패시 prefs 의 message_list에 내용 채우기
+            List<String> currentMessageList =
+                prefs.getStringList("message_list") ?? [];
+
+            // 공백으로 구분 후 추후 split
+            final failedMessage = "content_save_fail ${c.errorMessage} $url";
+            currentMessageList.insert(0, failedMessage);
+
+            prefs.setStringList("message_list", currentMessageList);
           }
         }
       }

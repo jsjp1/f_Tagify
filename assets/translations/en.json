@@ -3,12 +3,19 @@
 
   "content_default_title": "No Title",
 
+  "content_save_fail": "Content save failed",
+
   "no_premium_tag_count_error": "Free users can create up to 6 tags only",
 
   "tag_color_picker_select_color": " Select a color for the Tag",
   "tag_color_picker_custom_color_select": "Choose your own color",
   "tag_color_picker_ok": "Ok",
   "tag_color_picker_cancel": "Cancel",
+
+  "delete_reason_modal_title_text": "Please tell us why you're leaving 🥺",
+  "delete_reason_modal_hint_text": "e.g., I don't use it often",
+  "delete_reason_modal_cancel": "Cancel",
+  "delete_reason_modal_ok": "Confirm",
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "Start organizing your contents today!",
@@ -51,9 +58,12 @@
   "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
   "settings_screen_premium_upgrade": "Upgrade to Premium!",
   "settings_screen_premium_upgrade_already": "Premium Member",
+  "settings_screen_delete_account_alert_text": "Are you sure you want to delete your account?",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
+  "tag_bar_message_list_title_text": "Message",
+  "tag_bar_no_message_text": "No messages available",
 
   "analyze_screen_enter_link": "Please Enter the link",
   "analyze_screen_invalid_url": "Invalid link format",
@@ -137,5 +147,17 @@
 
   "article_detail_screen_comment_hint_text": "Write a comment...",
   "article_detail_screen_comment_upload_button_text": "Y",
-  "article_detail_screen_comments_length": "Comments"
+  "article_detail_screen_comments_length": "Comments",
+
+  "premium_upgrade_screen_with_premium_text": "Premium Benefits",
+  "premium_upgrade_screen_1": "Unlimited tag creation",
+  "premium_upgrade_screen_1_detail": "The limit of 6 tags will be removed!",
+  "premium_upgrade_screen_2": "No tag limit per content",
+  "premium_upgrade_screen_2_detail": "The limit of 2 tags per content will be removed!",
+  "premium_upgrade_screen_3": "Unlock all tag color options",
+  "premium_upgrade_screen_3_detail": "You will have access to a wider variety of tag colors!",
+  "premium_upgrade_screen_upgrade_text_1": "All-in-One",
+  "premium_upgrade_screen_upgrade_text_2": "One-time purchase, lifetime access",
+  "premium_upgrade_screen_upgrade_button_text": "Upgrade to Premium",
+  "premium_upgrade_screen_upgrade_cost": "₩4,400"
 }

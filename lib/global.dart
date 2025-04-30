@@ -18,9 +18,10 @@ const Color contentInstanceTagTextColor = Colors.indigo;
 const Color darkContentInstanceTagTextColor =
     Color.fromARGB(255, 143, 159, 252);
 const Color contentInstanceTagBorderColor = Color.fromARGB(255, 209, 209, 209);
+const Color darkContentInstanceTagBorderColor = Color.fromARGB(255, 88, 88, 88);
 const Color analyzeScreenTextColor = Color.fromARGB(255, 133, 133, 133);
 const Color contentInstanceBoxShadowColor = Color.fromARGB(255, 225, 225, 225);
-const Color darkContentInstanceBoxShadowColor = Color.fromARGB(255, 33, 22, 22);
+const Color darkContentInstanceBoxShadowColor = Color.fromARGB(255, 33, 19, 19);
 const Color contentInstanceNoThumbnailColor =
     Color.fromARGB(200, 255, 255, 255);
 const Color tagBoxInstanceColor = Color.fromARGB(149, 255, 255, 255);

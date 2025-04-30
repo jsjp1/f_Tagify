@@ -9,18 +9,24 @@
 		<string>https</string>
 		<string>http</string>
 	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-			<dict>
-					<key>CFBundleURLSchemes</key>
-					<array>
-							<string>com.googleusercontent.apps.765904510555-84osbh0n5th1p7ts947b17h3jmj8sdb6</string>
-					</array>
-			</dict>
-	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 
+	<!--for in app purchase-->
+	<key>SKAdNetworkItems</key>
+	<array>
+			<dict>
+					<key>SKAdNetworkIdentifier</key>
+					<string>...</string>
+			</dict>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+	</dict>
+	<!--for in app purchase-->
+	
 	<!--for share handler-->
 	<key>NSUserActivityTypes</key>
 	<array>
@@ -28,17 +34,6 @@
 	</array>
 	<key>AppGroupId</key>
 	<string>$(CUSTOM_GROUP_ID)</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-			<dict>
-					<key>CFBundleTypeRole</key>
-					<string>Editor</string>
-					<key>CFBundleURLSchemes</key>
-					<array>
-							<string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-					</array>
-			</dict>
-	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photos can be shared to and used in this app</string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
@@ -60,16 +55,6 @@
 							<string>public.data</string>
 					</array>
 			</dict>
-	</array>
-	<!--?-->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>tagify</string>
-			</array>
-		</dict>
 	</array>
 	<!--for share handler-->
 
@@ -113,6 +98,41 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+
+	<!--CFBundleURLTypes-->
+	<key>CFBundleURLTypes</key>
+	<array>
+			<!-- 구글 로그인 -->
+			<dict>
+					<key>CFBundleTypeRole</key>
+					<string>Editor</string>
+					<key>CFBundleURLSchemes</key>
+					<array>
+							<string>com.googleusercontent.apps.765904510555-84osbh0n5th1p7ts947b17h3jmj8sdb6</string>
+					</array>
+			</dict>
+
+			<!-- ShareHandler용 (ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)) -->
+			<dict>
+					<key>CFBundleTypeRole</key>
+					<string>Editor</string>
+					<key>CFBundleURLSchemes</key>
+					<array>
+							<string>ShareMedia-$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+					</array>
+			</dict>
+
+			<!-- ShareHandler용 (tagify) -->
+			<dict>
+					<key>CFBundleTypeRole</key>
+					<string>Editor</string>
+					<key>CFBundleURLSchemes</key>
+					<array>
+							<string>tagify</string>
+					</array>
+			</dict>
 	</array>
 </dict>
 </plist>

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -27,15 +29,14 @@ class SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat(reverse: true);
+      duration: const Duration(seconds: 4),
+    )..repeat();
 
-    _animation = Tween<double>(begin: 0.0, end: 15.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    _animation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.linear),
     );
 
     _initializeApp();
-
     checkSharedItems(context);
   }
 
@@ -104,8 +105,13 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final colorList =
-        widget.loginResponse["is_premium"] ? premiumColors : basicColors;
+    List colorList;
+    if (widget.loginResponse["is_premium"] == null) {
+      colorList = basicColors;
+    } else {
+      colorList =
+          widget.loginResponse["is_premium"] ? premiumColors : basicColors;
+    }
 
     return Scaffold(
       body: Center(
@@ -113,41 +119,53 @@ class SplashScreenState extends State<SplashScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                return Transform.translate(
-                  offset: Offset(0, -_animation.value),
-                  child: child,
-                );
-              },
-              child: Column(
-                children: [
-                  Hero(
-                    tag: "tagifyAppIcon",
-                    child: Image.asset(
-                      "assets/img/tagify_app_main_icon_3d_transparent.png",
-                      scale: 7,
+                animation: _animation,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, -_animation.value),
+                    child: child,
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Hero(
+                      tag: "tagifyAppIcon",
+                      child: Image.asset(
+                        "assets/img/tagify_app_main_icon_3d_transparent.png",
+                        scale: 7,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 35.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: colorList
-                        .map((color) => Container(
+                    const SizedBox(height: 35.0),
+                    AnimatedBuilder(
+                      animation: _controller,
+                      builder: (context, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: colorList.asMap().entries.map((entry) {
+                            final index = entry.key;
+                            final color = entry.value;
+
+                            final t = _controller.value * 4 * math.pi;
+                            final fadeValue = (0.5 + 0.5 * math.sin(t + index))
+                                .clamp(0.5, 1.0);
+
+                            return Container(
                               width: 15,
                               height: 15,
                               margin:
                                   const EdgeInsets.symmetric(horizontal: 3.0),
                               decoration: BoxDecoration(
-                                color: color,
+                                color: color.withOpacity(fadeValue),
                                 borderRadius: BorderRadius.circular(4),
                               ),
-                            ))
-                        .toList(),
-                  ),
-                ],
-              ),
-            ),
+                            );
+                          }).toList(),
+                        );
+                      },
+                    ),
+                  ],
+                )),
           ],
         ),
       ),

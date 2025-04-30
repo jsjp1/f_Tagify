@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -51,7 +52,8 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
           user.displayName ?? "Unknown",
           user.id,
           user.email,
-          user.photoUrl ?? "");
+          user.photoUrl ?? "",
+          context.locale.toString());
 
       // TODO: 에러 처리
       if (loginResponse.errorMessage != null) {

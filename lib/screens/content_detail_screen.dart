@@ -135,8 +135,9 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                     },
                                   ),
                                 ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * (0.85),
+                          Expanded(
+                            // SizedBox(
+                            // width: MediaQuery.of(context).size.width * (0.85),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: SingleChildScrollView(

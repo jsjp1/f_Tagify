@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import in_app_purchase_storekit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {

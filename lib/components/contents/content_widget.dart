@@ -133,7 +133,8 @@ Widget _buildContentList(
         onLongPress: () async {
           // 길게 눌렀을 때 삭제창 뜨도록
           bool reallyDelete = false;
-          reallyDelete = await showDeleteAlert(context);
+          String alertMessage = "content_instance_really_delete_text";
+          reallyDelete = await showDeleteAlert(context, alertMessage);
 
           if (reallyDelete == false) {
             return;

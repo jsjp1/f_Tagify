@@ -3,12 +3,19 @@
 
   "content_default_title": "タイトルを入力してください",
 
+  "content_save_fail": "コンテンツの保存に失敗しました",
+
   "no_premium_more_than_7_tags_error": "無料ユーザーはタグを最大7個までしか作成できません。",
 
   "tag_color_picker_select_color": "タグの色を選択してください。",
   "tag_color_picker_custom_color_select": "自分の色を選ぶ",
   "tag_color_picker_ok": "決定",
   "tag_color_picker_cancel": "キャンセル",
+
+  "delete_reason_modal_title_text": "退会の理由を教えてください 🥺",
+  "delete_reason_modal_hint_text": "例：あまり使っていません",
+  "delete_reason_modal_cancel": "キャンセル",
+  "delete_reason_modal_ok": "確認",
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "今すぐあなたのコンテンツを整理しましょう！",
@@ -51,9 +58,12 @@
   "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
   "settings_screen_premium_upgrade": "プレミアムにアップグレード！",
   "settings_screen_premium_upgrade_already": "プレミアム会員",
+  "settings_screen_delete_account_alert_text": "本当に退会しますか？",
 
   "tag_bar_tagname_all": "すべて",
   "tag_bar_tagname_bookmark": "ブックマーク",
+  "tag_bar_message_list_title_text": "メッセージ",
+  "tag_bar_no_message_text": "メッセージはありません",
 
   "analyze_screen_enter_link": "リンクを入力してください",
   "analyze_screen_invalid_url": "無効なリンク形式です",
@@ -138,5 +148,17 @@
 
   "article_detail_screen_comment_hint_text": "コメントを入力してください",
   "article_detail_screen_comment_upload_button_text": "登録",
-  "article_detail_screen_comments_length": "コメント"
+  "article_detail_screen_comments_length": "コメント",
+
+  "premium_upgrade_screen_with_premium_text": "プレミアム特典",
+  "premium_upgrade_screen_1": "タグを無制限に作成",
+  "premium_upgrade_screen_1_detail": "6個のタグ制限が解除されます！",
+  "premium_upgrade_screen_2": "コンテンツごとのタグ制限を解除",
+  "premium_upgrade_screen_2_detail": "コンテンツごとの2個のタグ制限が解除されます！",
+  "premium_upgrade_screen_3": "タグの色カスタマイズ制限を解除",
+  "premium_upgrade_screen_3_detail": "タグに使える色のバリエーションが増えます！",
+  "premium_upgrade_screen_upgrade_text_1": "すべて含む",
+  "premium_upgrade_screen_upgrade_text_2": "一度の購入で永久利用可能",
+  "premium_upgrade_screen_upgrade_button_text": "プレミアムにアップグレード",
+  "premium_upgrade_screen_upgrade_cost": "₩4,400"
 }

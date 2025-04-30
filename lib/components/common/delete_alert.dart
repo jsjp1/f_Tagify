@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tagify/global.dart';
 
-Future<bool> showDeleteAlert(BuildContext context) async {
+Future<bool> showDeleteAlert(BuildContext context, String alertMessage) async {
   bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
   bool result = await showCupertinoDialog(
@@ -17,7 +17,7 @@ Future<bool> showDeleteAlert(BuildContext context) async {
           isBold: true,
         ),
         content: GlobalText(
-          localizeText: 'content_instance_really_delete_text',
+          localizeText: alertMessage,
           textSize: 15.0,
         ),
         actions: <Widget>[

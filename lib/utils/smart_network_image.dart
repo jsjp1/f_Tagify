@@ -46,7 +46,6 @@ class SmartNetworkImage extends StatelessWidget {
         fadeOutDuration: Duration.zero,
         placeholder: (context, url) => placeholder ?? const SizedBox.shrink(),
         errorWidget: (context, url, error) {
-          debugPrint("🔥 SmartNetworkImage: errorWidget triggered");
           if (errorWidget != null) {
             return errorWidget!(context, url, error);
           }

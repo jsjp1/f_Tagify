@@ -121,7 +121,11 @@ void articleInstanceEditBottomModal(
                         onTap: () async {
                           bool reallyDelete = false;
                           Navigator.pop(context);
-                          reallyDelete = await showDeleteAlert(context);
+
+                          String alertMessage =
+                              "content_instance_really_delete_text";
+                          reallyDelete =
+                              await showDeleteAlert(context, alertMessage);
 
                           if (reallyDelete == false) {
                             return;

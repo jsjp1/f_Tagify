@@ -192,6 +192,7 @@ class ContentInstanceState extends State<ContentInstance> {
                                         ),
                                         onTap: () {
                                           Navigator.pop(context);
+
                                           Navigator.push(
                                             context,
                                             CustomPageRouteBuilder(
@@ -225,8 +226,10 @@ class ContentInstanceState extends State<ContentInstance> {
                                           bool reallyDelete = false;
                                           Navigator.pop(context);
 
-                                          reallyDelete =
-                                              await showDeleteAlert(context);
+                                          String alertMessage =
+                                              "content_instance_really_delete_text";
+                                          reallyDelete = await showDeleteAlert(
+                                              context, alertMessage);
 
                                           if (reallyDelete == false) {
                                             return;

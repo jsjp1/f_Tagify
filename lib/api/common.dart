@@ -38,7 +38,7 @@ class ApiResponse<T> {
   }
 
   factory ApiResponse.empty() {
-    return ApiResponse(success: false, statusCode: 200);
+    return ApiResponse(success: false, statusCode: 400);
   }
 }
 

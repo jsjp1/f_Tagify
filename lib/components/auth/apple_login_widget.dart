@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -49,8 +50,14 @@ class AppleLoginWidget extends StatelessWidget {
         await prefs.setString("apple_full_name", fullName);
       }
 
-      ApiResponse<Map<String, dynamic>> loginResponse =
-          await login(oauthProvider, idToken, fullName, oauthId, email, "");
+      ApiResponse<Map<String, dynamic>> loginResponse = await login(
+          oauthProvider,
+          idToken,
+          fullName,
+          oauthId,
+          email,
+          "",
+          context.locale.toString());
 
       // TODO: 에러 처리
       if (loginResponse.errorMessage != null) {

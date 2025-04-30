@@ -33,6 +33,9 @@ PODS:
   - GTMSessionFetcher/Core (3.5.0)
   - GTMSessionFetcher/Full (3.5.0):
     - GTMSessionFetcher/Core
+  - in_app_purchase_storekit (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -63,6 +66,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
+  - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/darwin`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - share_handler_ios (from `.symlinks/plugins/share_handler_ios/ios`)
@@ -89,6 +93,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
+  in_app_purchase_storekit:
+    :path: ".symlinks/plugins/in_app_purchase_storekit/darwin"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
@@ -108,23 +114,24 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
-  emoji_picker_flutter: 8e50ec5caac456a23a78637e02c6293ea0ac8771
+  emoji_picker_flutter: ece213fc274bdddefb77d502d33080dc54e616cc
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
-  google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
+  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
+  google_sign_in_ios: 0ab078e60da6dfe23cbc55c83502b52bba1aad63
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+  in_app_purchase_storekit: d1a48cb0f8b29dbf5f85f782f5dd79b21b90a5e6
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  share_handler_ios: 6dd3a4ac5ca0d955274aec712ba0ecdcaf583e7c
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  share_handler_ios: e2244e990f826b2c8eaa291ac3831569438ba0fb
   share_handler_ios_models: fc638c9b4330dc7f082586c92aee9dfa0b87b871
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
-  sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
-  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  sign_in_with_apple: c5dcc141574c8c54d5ac99dd2163c0c72ad22418
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
-PODFILE CHECKSUM: b2dc30d8e5eaafc27aa1829a879287fbe2489a0f
+PODFILE CHECKSUM: db4ecfd764a50cb5b8b2ab832024a1b426486f45
 
 COCOAPODS: 1.16.2

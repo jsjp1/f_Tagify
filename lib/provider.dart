@@ -33,6 +33,7 @@ class TagifyProvider extends ChangeNotifier {
   final Map<String, List<Article>> _categoryArticlesMap = {};
   final Map<String, int> _categoryOffsetMap = {};
   final Map<String, bool> _hasMoreByCategory = {};
+  List<String> _messageList = [];
 
   Map<String, dynamic>? _loginResponse;
   int _tagScreenSelectedGrid = 2;
@@ -54,6 +55,7 @@ class TagifyProvider extends ChangeNotifier {
   Map<String, dynamic>? get loginResponse => _loginResponse;
   int get selectedGrid => _tagScreenSelectedGrid;
   int get articlesOffset => _articlesOffset;
+  List<String> get messageList => _messageList;
 
   set version(String version) {
     _version = version;
@@ -98,23 +100,15 @@ class TagifyProvider extends ChangeNotifier {
     return tagContentsMap[tag]!;
   }
 
-  void setTagNotNotify(String newTag) {
-    _currentTag = newTag;
-  }
-
-  void setSelectedGrid(int newGrid) {
-    _tagScreenSelectedGrid = newGrid;
-    notifyListeners();
-  }
-
-  void updateArticlesOffset() {
-    _articlesOffset += articlesLimit;
-  }
-
   void changeUserInfo(String key, dynamic value) {
     if (_loginResponse == null) return;
 
     _loginResponse![key] = value;
+    notifyListeners();
+  }
+
+  void setMessageList(String message) {
+    _messageList.add(message);
     notifyListeners();
   }
 
@@ -217,17 +211,11 @@ class TagifyProvider extends ChangeNotifier {
         pvFetchUserTagContents(newTag.id, newTag.tagName);
       }
 
-      if (content.bookmark && !_bookmarkedSet.contains(contentId)) {
-        _bookmarkedSet.add(contentId);
-
-        final list = _tagContentsMap["bookmark"]!;
-        int insertIndex = binarySearchInsertIndex(list, content);
-        list.insert(insertIndex, content);
-      } else if (_bookmarkedSet.contains(contentId) &&
-          content.bookmark == false) {
-        _bookmarkedSet.remove(contentId);
-        _tagContentsMap["bookmark"]!.remove(content);
+      if (bookmarkedSet.contains(contentId) == true) {
+        // 기존에 북마크에 있던 컨텐츠면, 북마크 부분 refresh
+        pvFetchUserBookmarkedContents();
       }
+      pvFetchUserAllContents();
 
       for (var t in tags) {
         if (_tags.contains(t) == false) {

@@ -43,14 +43,30 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     titleController.text = widget.content.title;
     descriptionController.text = widget.content.description;
 
-    // if (widget.content.tags.length >= 3) {
-    //   // 컨텐츠당 최대 태그 개수 3개로 제한
-    //   widget.content.tags = widget.content.tags.sublist(0, 3);
-    // }
+    if (widget.content.tags.length >= 3) {
+      // 컨텐츠당 최대 태그 개수 3개로 제한
+      widget.content.tags = widget.content.tags.sublist(0, 3);
+    }
 
     beforeTags = List<String>.from(widget.content.tags);
     edittedTags = List<String>.from(widget.content.tags);
     isBookmarked = widget.content.bookmark;
+  }
+
+  @override
+  void didUpdateWidget(covariant ContentEditWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.content != widget.content) {
+      titleController.text = widget.content.title;
+      descriptionController.text = widget.content.description;
+
+      beforeTags = List<String>.from(widget.content.tags);
+      edittedTags = List<String>.from(widget.content.tags);
+      isBookmarked = widget.content.bookmark;
+
+      setState(() {});
+    }
   }
 
   void _saveContent() async {
@@ -72,6 +88,8 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     widget.content.title = titleController.text;
     widget.content.description = descriptionController.text;
     widget.content.tags = edittedTags;
+    widget.content.bookmark =
+        provider.bookmarkedSet.contains(widget.content.id);
 
     // 프리미엄 회원 구분
     final newTags = widget.content.tags
@@ -201,29 +219,36 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
               ),
             ),
             const SizedBox(height: 10.0),
-            TextField(
-              controller: descriptionController,
-              autocorrect: false,
-              autofocus: false,
-              style: const TextStyle(fontSize: 13.0),
-              cursorColor: mainColor,
-              onEditingComplete: () {
-                FocusScope.of(context).unfocus();
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(color: mainColor),
+            Stack(
+              children: [
+                TextField(
+                  controller: descriptionController,
+                  autocorrect: false,
+                  autofocus: false,
+                  style: const TextStyle(fontSize: 13.0),
+                  cursorColor: mainColor,
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: mainColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(color: mainColor),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 12.0),
+                  ),
+                  maxLines: 17,
+                  minLines: 5,
+                  textAlignVertical: TextAlignVertical.top,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(color: mainColor),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                suffixIcon: Padding(
-                  // padding: EdgeInsets.only(top: widget.isLink ? 50.0 : 200.0),
-                  padding: EdgeInsets.only(top: 300.0),
+                Positioned(
+                  bottom: 0.0,
+                  right: 0.0,
                   child: IconButton(
                     icon: const Icon(CupertinoIcons.clear_circled_solid),
                     onPressed: () {
@@ -232,10 +257,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                     },
                   ),
                 ),
-              ),
-              maxLines: 17,
-              minLines: 1,
-              textAlignVertical: TextAlignVertical.top,
+              ],
             ),
             const SizedBox(height: 30.0),
             // TODO: 추천 태그 부분 만들기

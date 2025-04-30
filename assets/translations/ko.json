@@ -3,12 +3,19 @@
 
   "content_default_title": "제목을 지정해주세요",
 
+  "content_save_fail": "컨텐츠 저장 실패",
+
   "no_premium_tag_count_error": "일반 회원은 최대 6개까지의 태그만 생성 가능합니다",
 
   "tag_color_picker_select_color": "태그의 색을 지정해주세요",
   "tag_color_picker_custom_color_select": "나만의 색 지정하기",
   "tag_color_picker_ok": "확인",
   "tag_color_picker_cancel": "취소",
+
+  "delete_reason_modal_title_text": "탈퇴 사유를 작성해주세요 🥺",
+  "delete_reason_modal_hint_text": "예: 자주 사용하지 않아요",
+  "delete_reason_modal_cancel": "취소",
+  "delete_reason_modal_ok": "확인",
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "지금 바로 당신의 컨텐츠를 정리하세요!",
@@ -51,9 +58,12 @@
   "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
   "settings_screen_premium_upgrade": "프리미엄으로 업그레이드!",
   "settings_screen_premium_upgrade_already": "프리미엄 회원",
+  "settings_screen_delete_account_alert_text": "정말 탈퇴하시겠습니까?",
 
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
+  "tag_bar_message_list_title_text": "메시지",
+  "tag_bar_no_message_text": "메시지가 없습니다",
 
   "analyze_screen_enter_link": "링크를 입력하세요",
   "analyze_screen_invalid_url": "잘못된 링크 형식입니다",
@@ -138,5 +148,17 @@
 
   "article_detail_screen_comment_hint_text": "댓글을 입력해보세요",
   "article_detail_screen_comment_upload_button_text": "등록",
-  "article_detail_screen_comments_length": "댓글"
+  "article_detail_screen_comments_length": "댓글",
+
+  "premium_upgrade_screen_with_premium_text": "프리미엄 혜택",
+  "premium_upgrade_screen_1": "무제한 태그 생성",
+  "premium_upgrade_screen_1_detail": "6개의 태그 수 제한이 해제됩니다!",
+  "premium_upgrade_screen_2": "컨텐츠당 태그 제한 해제",
+  "premium_upgrade_screen_2_detail": "2개의 컨텐츠당 태그 수 제한이 해제됩니다!",
+  "premium_upgrade_screen_3": "태그 꾸미기 색상 제한 해제",
+  "premium_upgrade_screen_3_detail": "태그를 꾸밀 수 있는 색상의 수가 다양해집니다!",
+  "premium_upgrade_screen_upgrade_text_1": "종합",
+  "premium_upgrade_screen_upgrade_text_2": "1회 구매시 평생 이용 가능",
+  "premium_upgrade_screen_upgrade_button_text": "프리미엄 회원으로 업그레이드하기",
+  "premium_upgrade_screen_upgrade_cost": "4,400 원"
 }
