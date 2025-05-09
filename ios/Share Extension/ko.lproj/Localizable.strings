@@ -6,9 +6,13 @@
   
 */
 
-"share_to_tagify" = "Tagify로 공유하기";
-"title" = "제목";
-"url" = "URL";
-"tags" = "태그 (쉼표로 구분)";
-"save" = "저장";
-"cancel" = "취소";
+"share_to_tagify" = "Tagify에 공유하기";
+"shared_url" = "공유된 URL";
+"title_label" = "제목";
+"title_placeholder" = "예: 나중에 다시 볼 컨텐츠";
+"tags_label" = "태그 (쉼표로 구분)";
+"tags_placeholder" = "예: 맛집, 여행, 음식";
+"my_tags" = "내 태그 목록 (터치해서 선택)";
+"save_button" = "저장";
+"cancel_button" = "취소";
+"share_to_tagify" = "Tagify에 저장";

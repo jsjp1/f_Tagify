@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tagify/components/common/delete_alert.dart';
 import 'package:tagify/utils/smart_network_image.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -113,6 +114,7 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -120,8 +122,8 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                   widget.isArticleContent! == true
                               ? const SizedBox.shrink()
                               : Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                      10.0, 10.0, 0.0, 10.0),
+                                  padding:
+                                      EdgeInsets.fromLTRB(5.0, 10.0, 0.0, 10.0),
                                   child: IconButton(
                                     highlightColor: Colors.transparent,
                                     icon: Icon(provider.bookmarkedSet
@@ -136,14 +138,14 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                   ),
                                 ),
                           Expanded(
-                            // SizedBox(
-                            // width: MediaQuery.of(context).size.width * (0.85),
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Padding(
-                                  padding: EdgeInsets.all(10.0),
+                                  // padding: EdgeInsets.all(10.0),
+                                  padding: EdgeInsets.fromLTRB(
+                                      0.0, 10.0, 10.0, 10.0),
                                   child: GlobalText(
                                     localizeText: widget.content.title,
                                     textSize: 20.0,
@@ -225,6 +227,15 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                       );
                                     },
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(top: 30.0),
+                                child: GlobalText(
+                                  localizeText: widget.content.createdAt,
+                                  textSize: 12.0,
+                                  textColor: Colors.grey,
+                                  localization: false,
                                 ),
                               ),
                             ],
@@ -360,62 +371,27 @@ class ContentDetailScreenState extends State<ContentDetailScreen> {
                                     isBold: true,
                                   ),
                                   onTap: () async {
-                                    await showCupertinoDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return CupertinoAlertDialog(
-                                          title: GlobalText(
-                                            localizeText:
-                                                'content_instance_really_delete_alert',
-                                            textSize: 20.0,
-                                            isBold: true,
-                                          ),
-                                          content: GlobalText(
-                                            localizeText:
-                                                'content_instance_really_delete_text',
-                                            textSize: 15.0,
-                                          ),
-                                          actions: <Widget>[
-                                            CupertinoDialogAction(
-                                              child: GlobalText(
-                                                localizeText:
-                                                    'content_instance_really_delete_cancel',
-                                                textSize: 15.0,
-                                                textColor: blackBackgroundColor,
-                                                localization: true,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                isDeleted = false;
-                                              },
-                                            ),
-                                            CupertinoDialogAction(
-                                              child: GlobalText(
-                                                localizeText:
-                                                    'content_instance_really_delete_ok',
-                                                textSize: 15.0,
-                                                textColor: mainColor,
-                                                localization: true,
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                                isDeleted = true;
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
+                                    bool reallyDelete = false;
 
-                                    if (isDeleted == false) {
+                                    String alertMessage =
+                                        "content_instance_really_delete_text";
+                                    reallyDelete = await showDeleteAlert(
+                                        context, alertMessage);
+
+                                    if (reallyDelete == false) {
+                                      if (context.mounted) {
+                                        Navigator.of(context).pop();
+                                      }
                                       return;
                                     }
 
                                     await provider
                                         .pvDeleteUserContent(widget.content.id);
 
-                                    // 삭제 모달 pop
-                                    Navigator.pop(context);
+                                    if (context.mounted) {
+                                      Navigator.of(context).pop();
+                                    }
+                                    isDeleted = true;
                                   },
                                 ),
                               ),

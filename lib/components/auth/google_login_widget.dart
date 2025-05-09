@@ -21,7 +21,6 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
     clientId: Platform.isIOS ? dotenv.get("GID_CLIENT_ID") : null,
     scopes: [
       'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
@@ -53,7 +52,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
           user.id,
           user.email,
           user.photoUrl ?? "",
-          context.locale.toString());
+          context.deviceLocale.languageCode.toString());
 
       // TODO: 에러 처리
       if (loginResponse.errorMessage != null) {

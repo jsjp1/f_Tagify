@@ -6,9 +6,13 @@
   
 */
 
-"share_to_tagify" = "Tagifyへシェア";
-"title" = "タイトル";
-"url" = "URL";
-"tags" = "タグ（カンマ区切り）";
-"save" = "保存";
-"cancel" = "キャンセル";
+"share_to_tagify" = "Tagifyに共有";
+"shared_url" = "共有されたURL";
+"title_label" = "タイトル";
+"title_placeholder" = "例: 後で見返したいコンテンツ";
+"tags_label" = "タグ（カンマ区切り）";
+"tags_placeholder" = "例: グルメ、旅行、食べ物";
+"my_tags" = "自分のタグ一覧 （タップして選択）";
+"save_button" = "保存";
+"cancel_button" = "キャンセル";
+"share_to_tagify" = "Tagifyに共有";

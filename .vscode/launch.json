@@ -5,7 +5,8 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "f_tagify",
+      // "name": "f_tagify",
+      "name": "Tagify",
       "request": "launch",
       "type": "dart"
     },
@@ -16,7 +17,8 @@
       "flutterMode": "profile"
     },
     {
-      "name": "f_tagify (release mode)",
+      // "name": "f_tagify (release mode)",
+      "name": "Tagify (release mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"

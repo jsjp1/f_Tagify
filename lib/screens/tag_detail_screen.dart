@@ -7,6 +7,7 @@ import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/tag/tag_color_picker.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/utils/banner_ad_widget.dart';
 
 class TagDetailScreen extends StatefulWidget {
   final Tag tag;
@@ -50,9 +51,19 @@ class TagDetailScreenState extends State<TagDetailScreen> {
                       tagSelectedId: widget.tag.id,
                       tagSelectedName: widget.tag.tagName,
                     ),
-                  )
+                  ),
                 ],
               ),
+              provider.loginResponse!["is_premium"] == false
+                  ? Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Center(
+                        child: const BannerAdWidget(),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

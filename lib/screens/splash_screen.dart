@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/home_screen.dart';
+import 'package:tagify/utils/animated_icon_widget.dart';
 import 'package:tagify/utils/util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,13 +39,22 @@ class SplashScreenState extends State<SplashScreen>
     );
 
     _initializeApp();
-    checkSharedItems(context);
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<void> _saveTagsToAppGroup(List<String> tagNames) async {
+    const platform = MethodChannel("com.ellipsoid.tagi/share");
+
+    try {
+      await platform.invokeMethod("saveTags", {"tags": tagNames});
+    } on PlatformException catch (e) {
+      debugPrint("Error occur: $e");
+    }
   }
 
   Future<void> _initializeApp() async {
@@ -62,6 +73,11 @@ class SplashScreenState extends State<SplashScreen>
       // TODO: tag별 contents는 이후 tag detail screen 들어가면 채워지도록?
       await Future.wait(provider.tags
           .map((tag) => provider.pvFetchUserTagContents(tag.id, tag.tagName)));
+
+      await _saveTagsToAppGroup(
+          provider.tags.map((tag) => tag.tagName).toList());
+
+      await checkSharedItems(context);
 
       provider.version = version;
 
@@ -119,53 +135,40 @@ class SplashScreenState extends State<SplashScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedBuilder(
-                animation: _animation,
+              animation: _animation,
+              builder: (context, child) {
+                return Transform.translate(
+                  offset: Offset(0, -_animation.value),
+                  child: child,
+                );
+              },
+              child: AnimatedBuilder(
+                animation: _controller,
                 builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(0, -_animation.value),
-                    child: child,
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: colorList.asMap().entries.map((entry) {
+                      final index = entry.key;
+                      final color = entry.value;
+
+                      final t = _controller.value * 4 * math.pi;
+                      final fadeValue =
+                          (0.5 + 0.5 * math.sin(t + index)).clamp(0.5, 1.0);
+
+                      return Container(
+                        width: 15,
+                        height: 15,
+                        margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                        decoration: BoxDecoration(
+                          color: color.withOpacity(fadeValue),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      );
+                    }).toList(),
                   );
                 },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Hero(
-                      tag: "tagifyAppIcon",
-                      child: Image.asset(
-                        "assets/img/tagify_app_main_icon_3d_transparent.png",
-                        scale: 7,
-                      ),
-                    ),
-                    const SizedBox(height: 35.0),
-                    AnimatedBuilder(
-                      animation: _controller,
-                      builder: (context, child) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: colorList.asMap().entries.map((entry) {
-                            final index = entry.key;
-                            final color = entry.value;
-
-                            final t = _controller.value * 4 * math.pi;
-                            final fadeValue = (0.5 + 0.5 * math.sin(t + index))
-                                .clamp(0.5, 1.0);
-
-                            return Container(
-                              width: 15,
-                              height: 15,
-                              margin:
-                                  const EdgeInsets.symmetric(horizontal: 3.0),
-                              decoration: BoxDecoration(
-                                color: color.withOpacity(fadeValue),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    ),
-                  ],
-                )),
+              ),
+            ),
           ],
         ),
       ),

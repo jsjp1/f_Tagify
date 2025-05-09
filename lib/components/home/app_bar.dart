@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
+import 'package:tagify/utils/animated_icon_widget.dart';
 
 class TagifyAppBar extends StatelessWidget {
   String addText;
@@ -34,46 +35,48 @@ class TagifyAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              GestureDetector(
-                onTap: onLogoImageTap,
-                child: Hero(
-                  tag: "tagifyAppIcon",
-                  child: Image.asset(
-                    "assets/img/app_logo_white.png",
-                    height: logoImageHeight,
-                    color: appIconColor,
-                    colorBlendMode: BlendMode.srcIn,
+          GestureDetector(
+            onTap: onLogoImageTap,
+            child: Row(
+              children: [
+                provider.loginResponse!["is_premium"]
+                    ? LuxInfiniteFlowIcon(
+                        iconColor: appIconColor, iconWidth: logoImageHeight)
+                    : Image.asset(
+                        "assets/img/app_logo_white.png",
+                        height: logoImageHeight,
+                        color: appIconColor,
+                        colorBlendMode: BlendMode.srcIn,
+                      ),
+                SizedBox(
+                  width: appBarTextWidth,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        GlobalText(
+                          localizeText: "Tagify$addText",
+                          textSize: 25.0,
+                          letterSpacing: -1.5,
+                          isBold: true,
+                          textColor: isDarkMode
+                              ? whiteBackgroundColor
+                              : blackBackgroundColor,
+                          overflow: TextOverflow.visible,
+                          localization: false,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: appBarTextWidth,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: GlobalText(
-                    localizeText: "Tagify$addText",
-                    textSize: 25.0,
-                    letterSpacing: -1.0,
-                    isBold: true,
-                    textColor: isDarkMode
-                        ? whiteBackgroundColor
-                        : blackBackgroundColor,
-                    overflow: TextOverflow.visible,
-                    localization: true,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
           GestureDetector(
             onTap: () {
-              if (onProfileTap == null) {
-                () {}; // TODO
-                return;
+              if (onProfileTap != null) {
+                onProfileTap!();
               }
-              onProfileTap!();
             },
             child: Container(
               width: profileImageHeight,

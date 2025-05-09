@@ -1,4 +1,7 @@
 {
+  "terms_of_service": "Terms of Service",
+  "privacy_policy": "Privacy Policy",
+
   "util_share": "share",
 
   "content_default_title": "No Title",
@@ -6,6 +9,11 @@
   "content_save_fail": "Content save failed",
 
   "no_premium_tag_count_error": "Free users can create up to 6 tags only",
+
+  "tag_bar_add_dialog_title_text": "Select Tags to Pin",
+  "tag_bar_add_dialog_empty": "No tags available",
+  "tag_bar_add_dialog_cancel": "Cancel",
+  "tag_bar_add_dialog_ok": "Apply",
 
   "tag_color_picker_select_color": " Select a color for the Tag",
   "tag_color_picker_custom_color_select": "Choose your own color",
@@ -19,6 +27,7 @@
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "Start organizing your contents today!",
+  "auth_screen_bottom_warning_text": "By continuing, you agree to the {terms} and {privacy}",
 
   "easy_login": "easy login",
   "google_login_button": "Sign in with Google",
@@ -55,14 +64,17 @@
   "settings_screen_usage": "How to Use the App?",
   "settings_screen_usage_url": "https://www.notion.so/jieeen/How-to-use-Tagify-1c816dae3fdf80bab3e3dfc7fb6f387d?pvs=4",
   "settings_screen_privacy_policy": "Privacy Policy",
-  "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_privacy_policy_url": "https://tagi.jieeen.kr/privacy-policy",
+  "settings_screen_terms_of_service": "Terms of Service",
+  "settings_screen_terms_of_service_url": "https://tagi.jieeen.kr/terms-of-service",
   "settings_screen_premium_upgrade": "Upgrade to Premium!",
   "settings_screen_premium_upgrade_already": "Premium Member",
   "settings_screen_delete_account_alert_text": "Are you sure you want to delete your account?",
+  "settings_screen_name_length_over_20": "Names cannot exceed 20 characters",
 
   "tag_bar_tagname_all": "all",
   "tag_bar_tagname_bookmark": "bookmark",
-  "tag_bar_message_list_title_text": "Message",
+  "tag_bar_message_list_title_text": "Notification",
   "tag_bar_no_message_text": "No messages available",
 
   "analyze_screen_enter_link": "Please Enter the link",
@@ -78,6 +90,7 @@
   "content_edit_widget_no_more_tags_error": "Up to 3 tags are allowed for common user",
   "content_edit_widget_selected_tag": "Select from existing tags",
   "content_edit_widget_save_tag_name": "Tag name",
+  "content_edit_widget_more_than_15_error": "Please enter a tag with 15 characters or fewer",
   "content_edit_widget_no_tags_error": "At least one tag must be specified",
   "content_edit_widget_empty_tag_error": "Empty tags are not allowed",
 
@@ -154,10 +167,22 @@
   "premium_upgrade_screen_1_detail": "The limit of 6 tags will be removed!",
   "premium_upgrade_screen_2": "No tag limit per content",
   "premium_upgrade_screen_2_detail": "The limit of 2 tags per content will be removed!",
-  "premium_upgrade_screen_3": "Unlock all tag color options",
-  "premium_upgrade_screen_3_detail": "You will have access to a wider variety of tag colors!",
-  "premium_upgrade_screen_upgrade_text_1": "All-in-One",
-  "premium_upgrade_screen_upgrade_text_2": "One-time purchase, lifetime access",
+  "premium_upgrade_screen_3": "Remove Ads",
+  "premium_upgrade_screen_3_detail": "Ads will no longer appear!",
+  "premium_upgrade_screen_4": "Unlock all tag color options",
+  "premium_upgrade_screen_4_detail": "You will have access to a wider variety of tag colors!",
+  "premium_upgrade_screen_lifetime_text": "One-time purchase for lifetime access",
   "premium_upgrade_screen_upgrade_button_text": "Upgrade to Premium",
-  "premium_upgrade_screen_upgrade_cost": "₩4,400"
+  "premium_upgrade_screen_rebuy_text": "Restore Purchase",
+  "premium_upgrade_screen_no_restore_text": "No purchases available to restore",
+  "premium_upgrade_screen_store_connect_fail_text": "Unable to connect to the store",
+  "premium_upgrade_screen_store_try_rebuy_text": "Attempted to restore your purchase",
+  "premium_upgrade_screen_success_title": "Premium Upgrade Complete",
+  "premium_upgrade_screen_success_message": "You have successfully subscribed to Tagify Premium!",
+  "premium_upgrade_screen_failed_title": "Update Failed",
+  "premium_upgrade_screen_failed_message": "Failed to apply premium status.\nPlease try again later.",
+  "premium_upgrade_screen_confirm_button_text": "OK",
+  "premium_upgrade_screen_pay_error_text": "An error occurred during the payment",
+  "premium_upgrade_screen_pay_cancel_text": "Payment was cancelled",
+  "premium_upgrade_screen_restore_cancel_text": "Restoration was cancelled"
 }

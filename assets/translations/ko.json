@@ -1,4 +1,7 @@
 {
+  "terms_of_service": "서비스 이용약관",
+  "privacy_policy": "개인정보 처리방침",
+
   "util_share": "공유",
 
   "content_default_title": "제목을 지정해주세요",
@@ -6,6 +9,11 @@
   "content_save_fail": "컨텐츠 저장 실패",
 
   "no_premium_tag_count_error": "일반 회원은 최대 6개까지의 태그만 생성 가능합니다",
+
+  "tag_bar_add_dialog_title_text": "고정할 태그 선택",
+  "tag_bar_add_dialog_empty": "고정할 수 있는 태그가 없습니다",
+  "tag_bar_add_dialog_cancel": "취소",
+  "tag_bar_add_dialog_ok": "적용",
 
   "tag_color_picker_select_color": "태그의 색을 지정해주세요",
   "tag_color_picker_custom_color_select": "나만의 색 지정하기",
@@ -19,6 +27,7 @@
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "지금 바로 당신의 컨텐츠를 정리하세요!",
+  "auth_screen_bottom_warning_text": "계속 진행하면 {terms} 및 {privacy}에 동의한 것으로 간주됩니다",
 
   "easy_login": "간편 로그인",
   "google_login_button": "Google로 로그인",
@@ -55,14 +64,17 @@
   "settings_screen_usage": "앱 사용 방법",
   "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1c816dae3fdf809d8ad4fa66a417f1dd?pvs=73",
   "settings_screen_privacy_policy": "개인정보 처리방침",
-  "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_privacy_policy_url": "https://tagi.jieeen.kr/privacy-policy",
+  "settings_screen_terms_of_service": "서비스 이용약관",
+  "settings_screen_terms_of_service_url": "https://tagi.jieeen.kr/terms-of-service",
   "settings_screen_premium_upgrade": "프리미엄으로 업그레이드!",
   "settings_screen_premium_upgrade_already": "프리미엄 회원",
   "settings_screen_delete_account_alert_text": "정말 탈퇴하시겠습니까?",
+  "settings_screen_name_length_over_20": "이름은 20자를 초과할 수 없습니다",
 
   "tag_bar_tagname_all": "전체",
   "tag_bar_tagname_bookmark": "북마크",
-  "tag_bar_message_list_title_text": "메시지",
+  "tag_bar_message_list_title_text": "알림",
   "tag_bar_no_message_text": "메시지가 없습니다",
 
   "analyze_screen_enter_link": "링크를 입력하세요",
@@ -79,6 +91,7 @@
   "content_edit_widget_selected_tag": "기존의 태그에서 선택",
   "content_edit_widget_save_tag_name": "태그 지정",
   "content_edit_widget_no_tags_error": "최소 1개의 태그는 지정해야 합니다",
+  "content_edit_widget_more_than_15_error": "태그는 15자 이내로 입력해주세요",
   "content_edit_widget_empty_tag_error": "빈 태그는 허용되지 않습니다",
 
   "content_detail_screen_move_to_content_button_text": "바로가기",
@@ -155,10 +168,22 @@
   "premium_upgrade_screen_1_detail": "6개의 태그 수 제한이 해제됩니다!",
   "premium_upgrade_screen_2": "컨텐츠당 태그 제한 해제",
   "premium_upgrade_screen_2_detail": "2개의 컨텐츠당 태그 수 제한이 해제됩니다!",
-  "premium_upgrade_screen_3": "태그 꾸미기 색상 제한 해제",
-  "premium_upgrade_screen_3_detail": "태그를 꾸밀 수 있는 색상의 수가 다양해집니다!",
-  "premium_upgrade_screen_upgrade_text_1": "종합",
-  "premium_upgrade_screen_upgrade_text_2": "1회 구매시 평생 이용 가능",
+  "premium_upgrade_screen_3": "광고 제거",
+  "premium_upgrade_screen_3_detail": "더 이상 광고가 뜨지 않습니다!",
+  "premium_upgrade_screen_4": "태그 꾸미기 색상 제한 해제",
+  "premium_upgrade_screen_4_detail": "태그를 꾸밀 수 있는 색상의 수가 다양해집니다!",
+  "premium_upgrade_screen_lifetime_text": "1회 구매시 평생 이용 가능",
   "premium_upgrade_screen_upgrade_button_text": "프리미엄 회원으로 업그레이드하기",
-  "premium_upgrade_screen_upgrade_cost": "4,400 원"
+  "premium_upgrade_screen_rebuy_text": "구매 복원",
+  "premium_upgrade_screen_store_connect_fail_text": "스토어에 연결할 수 없습니다",
+  "premium_upgrade_screen_store_try_rebuy_text": "구매 복원을 시도했습니다",
+  "premium_upgrade_screen_no_restore_text": "복원할 구매 내역이 없습니다",
+  "premium_upgrade_screen_success_title": "프리미엄 가입 완료",
+  "premium_upgrade_screen_success_message": "Tagify 프리미엄에 가입되었습니다!",
+  "premium_upgrade_screen_failed_title": "업데이트 실패",
+  "premium_upgrade_screen_failed_message": "프리미엄 상태 반영에 실패했습니다.\n잠시 후 다시 시도해주세요.",
+  "premium_upgrade_screen_confirm_button_text": "확인",
+  "premium_upgrade_screen_pay_error_text": "결제 중 오류가 발생했습니다",
+  "premium_upgrade_screen_pay_cancel_text": "결제를 취소했습니다",
+  "premium_upgrade_screen_restore_cancel_text": "구매 복원을 취소했습니다."
 }

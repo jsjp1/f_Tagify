@@ -2,14 +2,17 @@ import "dart:ui";
 
 import "package:flutter/material.dart";
 import "package:http/http.dart";
+
 import "package:tagify/api/auth.dart";
 
 Future<Response> authenticatedRequest(
     Future<Response> Function(String) requestFn, String accessToken) async {
   Response response = await requestFn(accessToken);
   if (response.statusCode == 401) {
-    String? newAccessToken = await refreshToken();
-    if (newAccessToken != null) {
+    List<String>? tokens = await refreshToken();
+    if (tokens != null) {
+      String newAccessToken = tokens[0];
+
       return await requestFn(newAccessToken);
     }
   }

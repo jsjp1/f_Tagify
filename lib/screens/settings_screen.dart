@@ -88,7 +88,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           return IntrinsicWidth(
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxWidth: 100.0,
+                                maxWidth: 175.0,
                               ),
                               child: Center(
                                 child: isEditing
@@ -128,6 +128,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                                           setState(() {
                                             isEditing = false;
                                           });
+
+                                          if (text.length > 20) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                duration: Duration(seconds: 1),
+                                                backgroundColor: snackBarColor,
+                                                content: GlobalText(
+                                                  localizeText:
+                                                      "settings_screen_name_length_over_20",
+                                                  textSize: 15.0,
+                                                ),
+                                              ),
+                                            );
+                                            return;
+                                          }
 
                                           final ApiResponse<int> response =
                                               await updateUserName(
@@ -347,7 +363,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 25.0),
+                          const SizedBox(height: 20.0),
                           GestureDetector(
                             onTap: () {
                               launchContentUrl(
@@ -357,7 +373,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Icon(Icons.privacy_tip,
-                                    size: 17.0, color: Colors.grey),
+                                    size: 17.0, color: Colors.blueGrey),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
                                     localizeText:
@@ -367,10 +383,30 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ],
                             ),
                           ),
+                          const SizedBox(height: 20.0),
+                          GestureDetector(
+                            onTap: () {
+                              launchContentUrl(
+                                  tr("settings_screen_terms_of_service_url"));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.description_outlined,
+                                    size: 17.0, color: Colors.grey),
+                                const SizedBox(width: 5.0),
+                                GlobalText(
+                                    localizeText:
+                                        "settings_screen_terms_of_service",
+                                    textSize: 14.0),
+                                const Expanded(child: SizedBox.shrink()),
+                              ],
+                            ),
+                          ),
                           SizedBox(
                               height: provider.loginResponse!["is_premium"]
                                   ? 0.0
-                                  : 25.0),
+                                  : 20.0),
                           provider.loginResponse!["is_premium"]
                               ? const SizedBox.shrink()
                               : GestureDetector(
@@ -388,9 +424,12 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Icon(Icons.workspace_premium_outlined,
-                                          size: 17.0,
-                                          color: Colors.orangeAccent),
+                                      ImageIcon(
+                                        AssetImage(
+                                            'assets/img/app_main_icons_filled.png'),
+                                        color: Colors.amberAccent,
+                                        size: 16.0,
+                                      ),
                                       const SizedBox(width: 5.0),
                                       GlobalText(
                                           isBold: true,
@@ -422,7 +461,9 @@ class SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        await logout(context);
+                        if (context.mounted) {
+                          await logout(context);
+                        }
                       },
                       child: GlobalText(
                         localizeText: "settings_screen_logout_text",
@@ -433,19 +474,23 @@ class SettingsScreenState extends State<SettingsScreen> {
                     const SizedBox(width: 75.0),
                     GestureDetector(
                       onTap: () async {
-                        String alertMessage =
-                            "settings_screen_delete_account_alert_text";
-                        final confirm = await showDeleteAlert(
-                          context,
-                          alertMessage,
-                        );
-                        if (!confirm) return;
+                        if (context.mounted) {
+                          String alertMessage =
+                              "settings_screen_delete_account_alert_text";
+                          final confirm = await showDeleteAlert(
+                            context,
+                            alertMessage,
+                          );
+                          if (!confirm) return;
+                        }
 
-                        final reason = await showReasonModal(context);
-                        if (reason == null) return;
+                        if (context.mounted) {
+                          final reason = await showReasonModal(context);
+                          if (reason == null) return;
 
-                        await deleteAccount(context, reason,
-                            provider.loginResponse!["access_token"]);
+                          await deleteAccount(context, reason,
+                              provider.loginResponse!["access_token"]);
+                        }
                       },
                       child: GlobalText(
                         localizeText: "settings_screen_leave_text",

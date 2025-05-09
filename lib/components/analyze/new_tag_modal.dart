@@ -32,6 +32,7 @@ Future<dynamic> setTagBottomModal(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // 기존의 태그에서 선택
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -88,6 +89,7 @@ Future<dynamic> setTagBottomModal(
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   child: const Divider(height: 0.5),
                 ),
+                // 새로운 태그 지정
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -135,6 +137,7 @@ Future<dynamic> setTagBottomModal(
                           ),
                           onSubmitted: (String newTag) {
                             if (newTag.replaceAll(" ", "") == "") {
+                              Navigator.of(context).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: snackBarColor,
@@ -146,7 +149,21 @@ Future<dynamic> setTagBottomModal(
                                 ),
                               );
                               return;
+                            } else if (newTag.length > 15) {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: snackBarColor,
+                                  content: GlobalText(
+                                      localizeText:
+                                          "content_edit_widget_more_than_15_error",
+                                      textSize: 15.0),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                              return;
                             }
+
                             setState(newTag);
                             tagNameController.clear();
                             Navigator.of(context).pop();

@@ -1,4 +1,7 @@
 {
+  "terms_of_service": "利用規約",
+  "privacy_policy": "プライバシーポリシー",
+
   "util_share": "共有",
 
   "content_default_title": "タイトルを入力してください",
@@ -6,6 +9,11 @@
   "content_save_fail": "コンテンツの保存に失敗しました",
 
   "no_premium_more_than_7_tags_error": "無料ユーザーはタグを最大7個までしか作成できません。",
+
+  "tag_bar_add_dialog_title_text": "固定するタグを選択",
+  "tag_bar_add_dialog_empty": "固定できるタグがありません",
+  "tag_bar_add_dialog_cancel": "キャンセル",
+  "tag_bar_add_dialog_ok": "適用",
 
   "tag_color_picker_select_color": "タグの色を選択してください。",
   "tag_color_picker_custom_color_select": "自分の色を選ぶ",
@@ -19,6 +27,7 @@
 
   "auth_screen_top_description_text": "Collect, Tag, Explore",
   "auth_screen_bottom_description_text": "今すぐあなたのコンテンツを整理しましょう！",
+  "auth_screen_bottom_warning_text": "続行すると、 {terms}および{privacy}に同意したものとみなされます",
 
   "easy_login": "簡単ログイン",
   "google_login_button": "Googleでログイン",
@@ -53,16 +62,19 @@
   "settings_screen_change_language": "言語を変更する",
   "settings_screen_current_version": "アプリバージョン",
   "settings_screen_usage": "アプリの使い方",
-  "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1c816dae3fdf809d8ad4fa66a417f1dd?pvs=73",
+  "settings_screen_usage_url": "https://jieeen.notion.site/Tagify-1e416dae3fdf80d28f90f7b7a54a8f71?pvs=4",
   "settings_screen_privacy_policy": "プライバシーポリシー",
-  "settings_screen_privacy_policy_url": "https://www.termsfeed.com/live/5b3c41c7-58e1-4f55-8317-68b08e7f88f0",
+  "settings_screen_privacy_policy_url": "https://tagi.jieeen.kr/privacy-policy",
+  "settings_screen_terms_of_service": "利用規約",
+  "settings_screen_terms_of_service_url": "https://tagi.jieeen.kr/terms-of-service",
   "settings_screen_premium_upgrade": "プレミアムにアップグレード！",
   "settings_screen_premium_upgrade_already": "プレミアム会員",
   "settings_screen_delete_account_alert_text": "本当に退会しますか？",
+  "settings_screen_name_length_over_20": "名前は20文字を超えることはできません",
 
   "tag_bar_tagname_all": "すべて",
   "tag_bar_tagname_bookmark": "ブックマーク",
-  "tag_bar_message_list_title_text": "メッセージ",
+  "tag_bar_message_list_title_text": "通知",
   "tag_bar_no_message_text": "メッセージはありません",
 
   "analyze_screen_enter_link": "リンクを入力してください",
@@ -78,6 +90,7 @@
   "content_edit_widget_no_more_tags_error": "タグは 3つまで指定できます",
   "content_edit_widget_selected_tag": "既存のタグから選択",
   "content_edit_widget_save_tag_name": "タグを指定",
+  "content_edit_widget_more_than_15_error": "タグは15文字以内で入力してください",
   "content_edit_widget_no_tags_error": "最低1つのタグを指定してください",
   "content_edit_widget_empty_tag_error": "空のタグは許可されていません",
 
@@ -155,10 +168,22 @@
   "premium_upgrade_screen_1_detail": "6個のタグ制限が解除されます！",
   "premium_upgrade_screen_2": "コンテンツごとのタグ制限を解除",
   "premium_upgrade_screen_2_detail": "コンテンツごとの2個のタグ制限が解除されます！",
-  "premium_upgrade_screen_3": "タグの色カスタマイズ制限を解除",
-  "premium_upgrade_screen_3_detail": "タグに使える色のバリエーションが増えます！",
-  "premium_upgrade_screen_upgrade_text_1": "すべて含む",
-  "premium_upgrade_screen_upgrade_text_2": "一度の購入で永久利用可能",
+  "premium_upgrade_screen_3": "広告の削除",
+  "premium_upgrade_screen_3_detail": "これ以上広告は表示されません！",
+  "premium_upgrade_screen_4": "タグの色カスタマイズ制限を解除",
+  "premium_upgrade_screen_4_detail": "タグに使える色のバリエーションが増えます！",
+  "premium_upgrade_screen_lifetime_text": "一度の購入で永久にご利用いただけます",
   "premium_upgrade_screen_upgrade_button_text": "プレミアムにアップグレード",
-  "premium_upgrade_screen_upgrade_cost": "₩4,400"
+  "premium_upgrade_screen_rebuy_text": "購入の復元",
+  "premium_upgrade_screen_store_connect_fail_text": "ストアに接続できません",
+  "premium_upgrade_screen_store_try_rebuy_text": "購入の復元を試みました",
+  "premium_upgrade_screen_no_restore_text": "復元できる購入履歴がありません",
+  "premium_upgrade_screen_success_title": "プレミアム登録完了",
+  "premium_upgrade_screen_success_message": "Tagifyプレミアムに登録されました！",
+  "premium_upgrade_screen_failed_title": "アップデートに失敗しました",
+  "premium_upgrade_screen_failed_message": "プレミアムステータスの反映に失敗しました。\nしばらくしてから再度お試しください。",
+  "premium_upgrade_screen_confirm_button_text": "確認",
+  "premium_upgrade_screen_pay_error_text": "決済中にエラーが発生しました",
+  "premium_upgrade_screen_pay_cancel_text": "決済がキャンセルされました",
+  "premium_upgrade_screen_restore_cancel_text": "復元がキャンセルされました"
 }

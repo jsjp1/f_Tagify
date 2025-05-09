@@ -1,8 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:tagify/components/auth/google_login_widget.dart';
 import 'package:tagify/components/auth/apple_login_widget.dart';
 import 'package:tagify/global.dart';
+import 'package:tagify/utils/animated_icon_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -24,7 +28,7 @@ class AuthScreenState extends State<AuthScreen> {
         child: Column(
           children: [
             SizedBox(
-              width: screenWidth,
+              width: screenWidth * (0.8),
               height: topSectionHeight,
               child: AuthScreenTopSection(),
             ),
@@ -45,33 +49,42 @@ class AuthScreenTopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: MediaQuery.of(context).size.height * (0.2)),
-        Hero(
-          tag: "tagifyAppIcon",
-          child: Image.asset(
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Expanded(child: SizedBox.shrink()),
+          Image.asset(
+            width: MediaQuery.of(context).size.width * (0.275),
             height: MediaQuery.of(context).size.height * (0.15),
-            "assets/img/tagify_app_main_icon_3d_transparent.png",
+            "assets/app_main_icons_1024_1024.png",
           ),
-        ),
-        const SizedBox(height: 15.0),
-        GlobalText(
-          localizeText: "Tagify",
-          letterSpacing: -1.5,
-          textSize: 36.0,
-          isBold: true,
-          overflow: TextOverflow.clip,
-          localization: false,
-        ),
-        GlobalText(
-          localizeText: "auth_screen_top_description_text",
-          textSize: 16.0,
-          isBold: true,
-          overflow: TextOverflow.clip,
-          localization: true,
-        ),
-      ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GlobalText(
+                localizeText: "Tagify",
+                letterSpacing: -2.0,
+                textSize: 45.0,
+                isBold: true,
+                overflow: TextOverflow.clip,
+                localization: false,
+              ),
+              GlobalText(
+                localizeText: "auth_screen_top_description_text",
+                textSize: 17.0,
+                isBold: true,
+                overflow: TextOverflow.clip,
+                localization: true,
+              ),
+            ],
+          ),
+          const Expanded(child: SizedBox.shrink()),
+        ],
+      ),
     );
   }
 }
@@ -90,12 +103,74 @@ class AuthScreenBottomSection extends StatelessWidget {
           child: GlobalText(
             isBold: false,
             localizeText: "auth_screen_bottom_description_text",
-            textSize: 15.0,
+            textSize: 17.0,
             overflow: TextOverflow.clip,
             localization: true,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 1.0),
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: const TextStyle(color: Colors.grey, fontSize: 10.0),
+              children: _buildLocalizedTermsText(context),
+            ),
           ),
         ),
       ],
     );
   }
+}
+
+List<InlineSpan> _buildLocalizedTermsText(BuildContext context) {
+  final template = tr("auth_screen_bottom_warning_text");
+
+  final termsLink = TextSpan(
+    text: tr("terms_of_service"),
+    style: TextStyle(
+      color: Colors.grey[500],
+      decoration: TextDecoration.underline,
+    ),
+    recognizer: TapGestureRecognizer()
+      ..onTap = () {
+        launchUrl(Uri.parse("https://tagi.jieeen.kr/terms-of-service"));
+      },
+  );
+
+  final privacyLink = TextSpan(
+    text: tr("privacy_policy"),
+    style: TextStyle(
+      color: Colors.grey[500],
+      decoration: TextDecoration.underline,
+    ),
+    recognizer: TapGestureRecognizer()
+      ..onTap = () {
+        launchUrl(Uri.parse("https://tagi.jieeen.kr/privacy-policy"));
+      },
+  );
+
+  final spans = <InlineSpan>[];
+
+  final regex = RegExp(r'\{terms\}|\{privacy\}');
+  int lastMatchEnd = 0;
+
+  for (final match in regex.allMatches(template)) {
+    final textBefore = template.substring(lastMatchEnd, match.start);
+    if (textBefore.isNotEmpty) spans.add(TextSpan(text: textBefore));
+
+    if (match.group(0) == '{terms}') {
+      spans.add(termsLink);
+    } else if (match.group(0) == '{privacy}') {
+      spans.add(privacyLink);
+    }
+
+    lastMatchEnd = match.end;
+  }
+
+  if (lastMatchEnd < template.length) {
+    spans.add(TextSpan(text: template.substring(lastMatchEnd)));
+  }
+
+  return spans;
 }

@@ -13,6 +13,7 @@ import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/components/common/animated_drawer_layout.dart';
 import 'package:tagify/components/common/tag_list_drawer.dart';
 import 'package:tagify/screens/tag_detail_screen.dart';
+import 'package:tagify/utils/banner_ad_widget.dart';
 import 'package:tagify/utils/smart_network_image.dart';
 
 class TagScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     return Scaffold(
       body: AnimatedDrawerLayout(
@@ -73,6 +75,16 @@ class TagScreenState extends State<TagScreen> {
                   right: 0,
                   child: TagifyNavigationBar(),
                 ),
+                provider.loginResponse!["is_premium"] == false
+                    ? Positioned(
+                        bottom: navigationBarHeight,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Center(
+                          child: const BannerAdWidget(),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

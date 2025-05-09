@@ -7,8 +7,12 @@
 */
 
 "share_to_tagify" = "Share to Tagify";
-"title" = "Title";
-"url" = "URL";
-"tags" = "Tags (comma-separated)";
-"save" = "Save";
-"cancel" = "Cancel";
+"shared_url" = "Shared URL";
+"title_label" = "Title";
+"title_placeholder" = "e.g. Content to revisit later";
+"tags_label" = "Tags (comma-separated)";
+"tags_placeholder" = "e.g. Restaurants, Travel, Food";
+"my_tags" = "My Tags (Tap to select)";
+"save_button" = "Save";
+"cancel_button" = "Cancel";
+"share_to_tagify" = "Share to Tagify";

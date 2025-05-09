@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:tagify/utils/util.dart';
+
 class Content {
   int id;
   final String url;
@@ -7,6 +10,7 @@ class Content {
   String description;
   bool bookmark;
   List<dynamic> tags;
+  final String createdAt;
   final String type;
 
   Content(
@@ -18,6 +22,7 @@ class Content {
       required this.description,
       required this.bookmark,
       required this.tags,
+      required this.createdAt,
       required this.type});
 
   factory Content.empty() {
@@ -30,6 +35,7 @@ class Content {
       description: "",
       bookmark: false,
       tags: [],
+      createdAt: "",
       type: "post",
     );
   }
@@ -51,6 +57,7 @@ class Content {
           description: json["description"],
           bookmark: json["bookmark"],
           tags: json["tags"],
+          createdAt: formatToLocal(json["created_at"]),
           type: contentType,
         );
     }
@@ -66,6 +73,7 @@ class Content {
       "description": description,
       "bookmark": bookmark,
       "tags": tags,
+      "created_at": createdAt,
       "type": type,
     };
   }
@@ -84,6 +92,7 @@ class Video extends Content {
       required super.description,
       required super.bookmark,
       required super.tags,
+      required super.createdAt,
       required super.type});
 
   factory Video.fromJson(Map<String, dynamic> json) {
@@ -98,6 +107,8 @@ class Video extends Content {
       description: json["description"],
       bookmark: json["bookmark"],
       tags: json["tags"],
+      createdAt:
+          json["created_at"] == null ? "" : formatToLocal(json["created_at"]),
       type: contentType,
     );
   }
@@ -116,6 +127,7 @@ class Post extends Content {
       required super.description,
       required super.bookmark,
       required super.tags,
+      required super.createdAt,
       required super.type});
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -130,6 +142,8 @@ class Post extends Content {
       description: json["description"],
       bookmark: json["bookmark"],
       tags: json["tags"],
+      createdAt:
+          json["created_at"] == null ? "" : formatToLocal(json["created_at"]),
       type: contentType,
     );
   }

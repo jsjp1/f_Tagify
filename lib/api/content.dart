@@ -70,6 +70,13 @@ Future<ApiResponse<Content>> analyzeContent(int userId, String url, String lang,
       errorMessage: jsonDecode(response.body)["detail"],
       success: false,
     );
+  } else if (response.statusCode == 404 || response.statusCode == 422) {
+    // analyze가 불가능한, 잘못된 url
+    return ApiResponse(
+      statusCode: response.statusCode,
+      errorMessage: jsonDecode(response.body)["detail"],
+      success: false,
+    );
   }
 
   return ApiResponse.empty();

@@ -39,6 +39,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
 
     final result = await analyzeContent(provider.loginResponse!["id"], url,
         lang, contentType, provider.loginResponse!["access_token"]);
+
     setState(() {
       futureContent = result;
     });
@@ -132,7 +133,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                             alignment: Alignment.centerLeft,
                             child: GlobalText(
                               localizeText: "analyze_screen_enter_link",
-                              textSize: 30.0,
+                              textSize: 27.0,
                               localization: true,
                               isBold: true,
                             ),
@@ -153,13 +154,13 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                                   cursorColor: mainColor,
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(width: 2.0),
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: BorderSide(width: 1.0),
                                     ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: mainColor, width: 2.0),
-                                      borderRadius: BorderRadius.circular(20.0),
+                                          color: mainColor, width: 1.3),
+                                      borderRadius: BorderRadius.circular(15.0),
                                     ),
                                     suffixIcon: IconButton(
                                       icon: Icon(
@@ -197,7 +198,7 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                                           ? "video"
                                           : "post"); // TODO: lang ko x
 
-                                  if (futureContent.statusCode == 500) {
+                                  if (futureContent.statusCode == 400) {
                                     setState(() {
                                       alreadyExistsError = true;
                                     });

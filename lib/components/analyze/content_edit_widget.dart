@@ -32,6 +32,9 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   final TextEditingController descriptionController = TextEditingController();
 
   late List<String> beforeTags; // 수정된 태그 확인하기 위한 리스트
+  late FocusNode titleFocusNode;
+  late FocusNode descriptionFocusNode;
+
   List<String> edittedTags = [];
 
   bool isBookmarked = false;
@@ -40,10 +43,13 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   void initState() {
     super.initState();
 
+    titleFocusNode = FocusNode();
+    descriptionFocusNode = FocusNode();
+
     titleController.text = widget.content.title;
     descriptionController.text = widget.content.description;
 
-    if (widget.content.tags.length >= 3) {
+    if (!widget.isEdit && widget.content.tags.length >= 3) {
       // 컨텐츠당 최대 태그 개수 3개로 제한
       widget.content.tags = widget.content.tags.sublist(0, 3);
     }
@@ -57,7 +63,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   void didUpdateWidget(covariant ContentEditWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.content != widget.content) {
+    if (widget.isLink == true && oldWidget.content != widget.content) {
       titleController.text = widget.content.title;
       descriptionController.text = widget.content.description;
 
@@ -120,7 +126,9 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
       await provider.pvSaveContent(widget.content);
     }
 
-    Navigator.pop(context);
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   Widget _buildEditContent(BuildContext context) {
@@ -186,23 +194,32 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
               ),
             ),
             // 제목 지우기 버튼
-            TextField(
-              controller: titleController,
-              textInputAction: TextInputAction.done,
-              autocorrect: false,
-              autofocus: false,
-              style: const TextStyle(fontSize: 17.5),
-              cursorColor: mainColor,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: mainColor),
-                ),
-                suffixIcon: IconButton(
-                  icon: const Icon(CupertinoIcons.clear_circled_solid),
-                  onPressed: () {
-                    titleController.clear();
-                    FocusScope.of(context).unfocus();
-                  },
+            SizedBox(
+              height: 45.0,
+              child: TextField(
+                controller: titleController,
+                focusNode: titleFocusNode,
+                textInputAction: TextInputAction.done,
+                autocorrect: false,
+                autofocus: false,
+                style: const TextStyle(fontSize: 17.5),
+                cursorColor: mainColor,
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: mainColor),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(
+                      CupertinoIcons.clear_circled_solid,
+                      size: 20.0,
+                    ),
+                    onPressed: () {
+                      titleController.clear();
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
                 ),
               ),
             ),
@@ -223,6 +240,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
               children: [
                 TextField(
                   controller: descriptionController,
+                  focusNode: descriptionFocusNode,
                   autocorrect: false,
                   autofocus: false,
                   style: const TextStyle(fontSize: 13.0),
@@ -243,14 +261,17 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                         vertical: 8.0, horizontal: 12.0),
                   ),
                   maxLines: 17,
-                  minLines: 5,
+                  minLines: 13,
                   textAlignVertical: TextAlignVertical.top,
                 ),
                 Positioned(
                   bottom: 0.0,
                   right: 0.0,
                   child: IconButton(
-                    icon: const Icon(CupertinoIcons.clear_circled_solid),
+                    icon: const Icon(
+                      CupertinoIcons.clear_circled_solid,
+                      size: 20.0,
+                    ),
                     onPressed: () {
                       descriptionController.clear();
                       FocusScope.of(context).unfocus();
@@ -293,6 +314,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                               setState(() {
                                 edittedTags.removeAt(index);
                               });
+
+                              titleFocusNode.unfocus();
+                              descriptionFocusNode.unfocus();
+                              FocusScope.of(context).unfocus();
                             },
                             isLastButton: false,
                           );
@@ -330,6 +355,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
                                   edittedTags.insert(0, newTagName);
                                 });
                               });
+
+                              titleFocusNode.unfocus();
+                              descriptionFocusNode.unfocus();
+                              FocusScope.of(context).unfocus();
                             },
                             isLastButton: true,
                           );
@@ -408,5 +437,12 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
               ],
             ),
           );
+  }
+
+  @override
+  void dispose() {
+    titleFocusNode.dispose();
+    descriptionFocusNode.dispose();
+    super.dispose();
   }
 }

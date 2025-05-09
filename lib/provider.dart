@@ -150,7 +150,7 @@ class TagifyProvider extends ChangeNotifier {
         _bookmarkedSet.add(newContentId);
         _tagContentsMap["bookmark"]!.insert(0, content);
       }
-      pvFetchUserAllContents();
+      await pvFetchUserAllContents();
 
       for (var t in tags) {
         if (_tags.contains(t) == false) {
@@ -163,6 +163,7 @@ class TagifyProvider extends ChangeNotifier {
           _tagContentsMap[t.tagName] = [];
         }
         _tagContentsMap[t.tagName]!.insert(0, content);
+        await pvFetchUserTagContents(t.id, t.tagName);
       }
 
       notifyListeners();
@@ -182,6 +183,7 @@ class TagifyProvider extends ChangeNotifier {
     if (c.success) {
       Map<String, dynamic> responseMap = c.data!;
 
+      // 아래 tags는 content의 모든 tags
       List<Tag> tags = (responseMap["tags"] as List<dynamic>)
           .map((tag) => Tag.fromJson(tag))
           .toList();
@@ -191,7 +193,14 @@ class TagifyProvider extends ChangeNotifier {
 
         if (isDeleted) {
           List<Content> contents = _tagContentsMap[tagName] ?? [];
-          contents.remove(content);
+          contents.removeWhere((c) => c.id == content.id);
+
+          // home screen tag bar에서도 없애줘야됨
+          List<String>? fixedTags = prefs.getStringList("fixed_tags");
+          if (fixedTags != null) {
+            fixedTags.remove(tagName);
+            await prefs.setStringList("fixed_tags", fixedTags);
+          }
 
           if (contents.isEmpty) {
             _tagContentsMap.remove(tagName);
@@ -199,36 +208,20 @@ class TagifyProvider extends ChangeNotifier {
             _tags.removeWhere((tag) => tag.tagName == tagName);
           } else {
             _tagContentsMap[tagName] = contents;
-
-            Tag tag = _tags.firstWhere((tag) => tag.tagName == tagName);
-            pvFetchUserTagContents(tag.id, tag.tagName);
           }
         }
       }
 
-      pvFetchUserTags();
-      for (var newTag in tags) {
-        pvFetchUserTagContents(newTag.id, newTag.tagName);
+      await pvFetchUserTags();
+      for (var tag in tags) {
+        await pvFetchUserTagContents(tag.id, tag.tagName);
       }
 
       if (bookmarkedSet.contains(contentId) == true) {
         // 기존에 북마크에 있던 컨텐츠면, 북마크 부분 refresh
-        pvFetchUserBookmarkedContents();
+        await pvFetchUserBookmarkedContents();
       }
-      pvFetchUserAllContents();
-
-      for (var t in tags) {
-        if (_tags.contains(t) == false) {
-          _tags.insert(0, t);
-        }
-
-        _idTagNameMap[t.id] = t.tagName;
-
-        if (_tagContentsMap[t.tagName] == null) {
-          _tagContentsMap[t.tagName] = [];
-        }
-        _tagContentsMap[t.tagName]!.insert(0, content);
-      }
+      await pvFetchUserAllContents();
 
       notifyListeners();
     }
@@ -290,7 +283,7 @@ class TagifyProvider extends ChangeNotifier {
             contents.where((content) => content.id != contentId).toList();
       });
 
-      pvFetchUserTags();
+      await pvFetchUserTags();
       notifyListeners();
     }
   }
@@ -334,7 +327,7 @@ class TagifyProvider extends ChangeNotifier {
         }
       }
 
-      pvFetchUserBookmarkedContents();
+      await pvFetchUserBookmarkedContents();
       notifyListeners();
     }
   }
@@ -387,7 +380,7 @@ class TagifyProvider extends ChangeNotifier {
 
     if (t.success) {
       _idTagNameMap.remove(t.data!);
-      pvFetchUserTags();
+      await pvFetchUserTags();
       notifyListeners();
       return true;
     } else {
@@ -513,9 +506,9 @@ class TagifyProvider extends ChangeNotifier {
         _loginResponse!["id"], newTagName, articleId, accessToken!);
 
     if (a.success) {
-      pvFetchUserAllContents();
-      pvFetchUserTags();
-      pvFetchUserTagContents(a.data!, newTagName);
+      await pvFetchUserAllContents();
+      await pvFetchUserTags();
+      await pvFetchUserTagContents(a.data!, newTagName);
       notifyListeners();
     }
   }
@@ -578,6 +571,10 @@ class ThemeProvider with ChangeNotifier {
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: whiteBackgroundColor,
       ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: snackBarColor,
+        contentTextStyle: TextStyle(color: whiteBackgroundColor),
+      ),
     );
   }
 
@@ -595,6 +592,10 @@ class ThemeProvider with ChangeNotifier {
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: lightBlackBackgroundColor,
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: snackBarColor,
+        contentTextStyle: TextStyle(color: whiteBackgroundColor),
       ),
     );
   }

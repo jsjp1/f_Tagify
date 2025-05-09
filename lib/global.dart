@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 const Color mainColor = Color.fromARGB(255, 205, 20, 31);
-// const Color mainColor = Color.fromARGB(255, 234, 51, 61);
 const Color whiteBackgroundColor = Colors.white;
 const Color blackBackgroundColor = Colors.black;
 const Color lightBlackBackgroundColor = Color.fromARGB(255, 36, 36, 36);

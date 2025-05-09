@@ -18,6 +18,11 @@ dependencies {
 
   implementation 'com.google.firebase:firebase-auth'
   implementation 'com.google.android.gms:play-services-auth:20.7.0'
+
+  // In App Purchase
+//   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation 'com.android.billingclient:billing:5.1.0'
+  implementation "com.android.billingclient:billing-ktx:5.1.0"
 }
 
 android {
@@ -33,15 +38,10 @@ android {
         applicationId = "com.ellipsoid.tagi"
         minSdkVersion 23
         targetSdkVersion 34
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = "2"
+        versionName = "1.0.1"
     }
 
-    buildTypes {
-        release {
-            signingConfig = signingConfigs.debug
-        }
-    }
 
     signingConfigs {
         release {
@@ -49,6 +49,15 @@ android {
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
+        }
+    }
+    
+    buildTypes {
+        release {
+            // signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }

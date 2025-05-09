@@ -2,7 +2,7 @@ name: tagify
 description: "Tagify project flutter."
 publish_to: "none"
 
-version: 1.0.0+1
+version: 1.1.1+2
 
 environment:
   sdk: ^3.6.0
@@ -32,6 +32,8 @@ dependencies:
   shimmer: ^3.0.0
   flutter_svg: ^2.1.0
   in_app_purchase: ^3.2.1
+  google_mobile_ads: ^6.0.0
+  get: ^4.7.2
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:tagify/components/home/app_bar.dart';
 import 'package:tagify/components/home/navigation_bar.dart';
@@ -11,6 +12,7 @@ import 'package:tagify/provider.dart';
 import 'package:tagify/screens/settings_screen.dart';
 import 'package:tagify/components/common/animated_drawer_layout.dart';
 import 'package:tagify/components/common/tag_list_drawer.dart';
+import 'package:tagify/utils/banner_ad_widget.dart';
 import 'package:tagify/utils/util.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,8 +31,6 @@ class HomeScreenState extends State<HomeScreen>
   final GlobalKey<AnimatedDrawerLayoutState> drawerLayoutKey =
       GlobalKey<AnimatedDrawerLayoutState>();
 
-  AppLifecycleState? _lastState;
-
   @override
   void initState() {
     super.initState();
@@ -48,11 +48,17 @@ class HomeScreenState extends State<HomeScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (_lastState == AppLifecycleState.inactive &&
-        state == AppLifecycleState.resumed) {
-      checkSharedItems(context);
-    }
-    _lastState = state;
+    checkSharedItems(context);
+
+    SharedPreferences.getInstance().then((prefs) {
+      if (!mounted) return;
+
+      final provider = Provider.of<TagifyProvider>(context, listen: false);
+
+      provider.changeUserInfo("access_token", prefs.getString("access_token"));
+      provider.changeUserInfo(
+          "refresh_token", prefs.getString("refresh_token"));
+    });
   }
 
   @override
@@ -120,11 +126,21 @@ class HomeScreenState extends State<HomeScreen>
                   ],
                 ),
                 Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
+                  bottom: 0.0,
+                  left: 0.0,
+                  right: 0.0,
                   child: TagifyNavigationBar(),
                 ),
+                provider.loginResponse!["is_premium"] == false
+                    ? Positioned(
+                        bottom: navigationBarHeight,
+                        left: 0.0,
+                        right: 0.0,
+                        child: Center(
+                          child: const BannerAdWidget(),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),
@@ -159,6 +175,12 @@ class HomeScreenState extends State<HomeScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }
 

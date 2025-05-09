@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart';
@@ -84,10 +85,10 @@ Future<void> logout(BuildContext context) async {
 Future<ApiResponse<int>> deleteAccount(
     BuildContext context, String reason, String accessToken) async {
   final provider = Provider.of<TagifyProvider>(context, listen: false);
-  final String serverHost = "${dotenv.get("SERVER_HOST")}/api/users/me";
+  final String serverHost = "${dotenv.get("SERVER_HOST")}/api/users/me/delete";
 
   final response = await authenticatedRequest(
-    (token) => delete(
+    (token) => post(
       Uri.parse(serverHost),
       headers: {
         "Authorization": "Bearer $token",
@@ -110,11 +111,13 @@ Future<ApiResponse<int>> deleteAccount(
       provider.currentPage = "home";
       provider.currentTag = "all";
 
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
-        (route) => false,
-      );
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthScreen()),
+          (route) => false,
+        );
+      }
 
       return ApiResponse(
         data: jsonDecode(response.body)["id"],

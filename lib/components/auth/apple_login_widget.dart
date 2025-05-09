@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,45 +22,59 @@ class AppleLoginWidget extends StatelessWidget {
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
+        webAuthenticationOptions: Platform.isAndroid
+            ? WebAuthenticationOptions(
+                clientId: "com.ellipsoid.tagi.socialLogin",
+                redirectUri: Uri.parse(
+                    "https://violet-cumbersome-morning.glitch.me/callbacks/sign_in_with_apple"))
+            : null,
       );
 
-      // TODO: email이 ""으로 돼, login이 불가한 문제
-      String? oauthId = user.userIdentifier;
       String? idToken = user.identityToken;
 
-      if (oauthId == null) {
-        debugPrint("Error: Apple userIdentifier is null");
-        return {};
-      }
       if (idToken == null) {
         debugPrint("Error: Apple Id Token is null");
         return {};
       }
 
+      final parts = idToken.split('.');
+      final payload =
+          utf8.decode(base64Url.decode(base64Url.normalize(parts[1])));
+      final Map<String, dynamic> decoded = jsonDecode(payload);
+
+      String? email = decoded["email"];
+      String? oauthId = decoded["sub"];
+
       final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-      String? email = user.email;
       String fullName =
           "${user.givenName ?? ""} ${user.familyName ?? ""}".trim();
 
       if (email == null) {
         email = prefs.getString("apple_email") ?? "noemail@apple.com";
-        fullName = prefs.getString("apple_full_name") ??
-            "${oauthProvider}_${idToken.substring(0, 5)}";
       } else {
-        await prefs.setString("apple_user_id", oauthId);
+        await prefs.setString("apple_user_id", oauthId ?? "");
         await prefs.setString("apple_email", email);
         await prefs.setString("apple_full_name", fullName);
+      }
+
+      if (fullName.trim() == "") {
+        final String? _name = prefs.getString("apple_full_name");
+        if (_name == null || _name == "") {
+          fullName = "${oauthProvider}_${idToken.substring(0, 5)}";
+        } else {
+          fullName = _name;
+        }
       }
 
       ApiResponse<Map<String, dynamic>> loginResponse = await login(
           oauthProvider,
           idToken,
           fullName,
-          oauthId,
+          oauthId ?? "",
           email,
           "",
-          context.locale.toString());
+          context.deviceLocale.languageCode.toString());
 
       // TODO: 에러 처리
       if (loginResponse.errorMessage != null) {

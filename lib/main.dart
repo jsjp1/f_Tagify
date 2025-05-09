@@ -3,22 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:tagify/api/auth.dart';
 
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/splash_screen.dart';
 
 void main() async {
+  bool haveToReLogin = false; // refresh token 만료된 경우 재로그인 필요
+
   WidgetsFlutterBinding.ensureInitialized();
+
+  await MobileAds.instance.initialize();
+
   await dotenv.load(fileName: "assets/.env");
   await EasyLocalization.ensureInitialized();
 
   // TODO: 시작전 refresh token 만료기한 검사 -> login?
 
-  // TODO: 세로 모드 고정이, youtube 영상 보면 풀림
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]); // 세로 모드 고정
@@ -26,19 +32,34 @@ void main() async {
   Map<String, dynamic>? loginResponse = await checkLoginStatus();
   debugPrint("main.dart: Get loginResponse: $loginResponse");
 
+  if (loginResponse != null) {
+    // refresh token 만료시 재로그인 필요
+    haveToReLogin =
+        await checkRefreshToken(loginResponse["refresh_token"]) ? false : true;
+  }
+
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale("en", ''), Locale("ko", ''), Locale("ja", '')],
+      supportedLocales: const [
+        Locale("en", ''),
+        Locale("ko", ''),
+        Locale("ja", '')
+      ],
       path: "assets/translations",
-      fallbackLocale: Locale("en", ''),
+      fallbackLocale: const Locale("en", ''),
+      startLocale: null,
+      useOnlyLangCode: true,
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ChangeNotifierProvider(create: (context) => TagifyProvider()),
-          // ChangeNotifierProvider(create: (context) => SharedDataController()),
         ],
         child: App(
-          initialRoute: loginResponse == null ? "/auth" : "/splash",
+          initialRoute: loginResponse == null
+              ? "/auth"
+              : haveToReLogin
+                  ? "/auth"
+                  : "/splash",
           initialLoginResponse: loginResponse ?? {},
         ),
       ),

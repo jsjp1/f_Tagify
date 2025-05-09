@@ -224,7 +224,6 @@ class ContentInstanceState extends State<ContentInstance> {
                                         ),
                                         onTap: () async {
                                           bool reallyDelete = false;
-                                          Navigator.pop(context);
 
                                           String alertMessage =
                                               "content_instance_really_delete_text";
@@ -232,11 +231,15 @@ class ContentInstanceState extends State<ContentInstance> {
                                               context, alertMessage);
 
                                           if (reallyDelete == false) {
+                                            if (context.mounted) {
+                                              Navigator.pop(context);
+                                            }
                                             return;
                                           }
 
                                           await provider.pvDeleteUserContent(
                                               widget.content.id);
+                                          Navigator.pop(context);
                                         },
                                       ),
                                     ),
@@ -333,18 +336,33 @@ class ContentInstanceState extends State<ContentInstance> {
                 height: widget.instanceHeight * (0.125),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.content.tags.length,
-                    itemBuilder: (context, index) {
-                      return TagContainer(
-                        tagName: widget.content.tags[index],
-                        textSize: 11.0,
-                        tagColor: isDarkMode
-                            ? darkContentInstanceTagTextColor
-                            : contentInstanceTagTextColor,
-                      );
-                    },
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.content.tags.length,
+                          itemBuilder: (context, index) {
+                            return TagContainer(
+                              tagName: widget.content.tags[index],
+                              textSize: 11.0,
+                              tagColor: isDarkMode
+                                  ? darkContentInstanceTagTextColor
+                                  : contentInstanceTagTextColor,
+                            );
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5.0, 0.0, 15.0, 0.0),
+                        child: GlobalText(
+                          localizeText: widget.content.createdAt,
+                          textSize: 10.0,
+                          isBold: true,
+                          localization: false,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

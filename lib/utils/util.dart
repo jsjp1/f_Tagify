@@ -198,8 +198,11 @@ Future<void> checkSharedItems(BuildContext context) async {
             List<String> currentMessageList =
                 prefs.getStringList("message_list") ?? [];
 
+            final now = DateFormat('yyyy/MM/dd HH:mm').format(DateTime.now());
+
             // 공백으로 구분 후 추후 split
-            final failedMessage = "content_save_fail ${c.errorMessage} $url";
+            final failedMessage =
+                "content_save_fail ${c.errorMessage} $now $url";
             currentMessageList.insert(0, failedMessage);
 
             prefs.setStringList("message_list", currentMessageList);
@@ -210,4 +213,15 @@ Future<void> checkSharedItems(BuildContext context) async {
   } catch (e) {
     debugPrint("Shared Items Fetch Failed: $e");
   }
+}
+
+String formatToLocal(String isoString) {
+  DateTime _utcTime = DateTime.parse(isoString);
+  String isoWithZ = '${_utcTime.toIso8601String()}Z';
+  DateTime utcTime = DateTime.parse(isoWithZ);
+
+  DateTime localTime = utcTime.toLocal();
+
+  final formatter = DateFormat('yyyy/MM/dd HH:mm');
+  return formatter.format(localTime);
 }
