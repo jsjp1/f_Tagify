@@ -2,7 +2,7 @@ name: tagify
 description: "Tagify project flutter."
 publish_to: "none"
 
-version: 1.1.1+2
+version: 1.1.3+1
 
 environment:
   sdk: ^3.6.0

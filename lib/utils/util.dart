@@ -216,12 +216,19 @@ Future<void> checkSharedItems(BuildContext context) async {
 }
 
 String formatToLocal(String isoString) {
-  DateTime _utcTime = DateTime.parse(isoString);
-  String isoWithZ = '${_utcTime.toIso8601String()}Z';
-  DateTime utcTime = DateTime.parse(isoWithZ);
+  if (isoString.endsWith('ZZ')) {
+    isoString = isoString.substring(0, isoString.length - 1);
+  }
+
+  late DateTime utcTime;
+
+  try {
+    utcTime = DateTime.parse(isoString);
+  } catch (e) {
+    return 'Invalid date';
+  }
 
   DateTime localTime = utcTime.toLocal();
-
   final formatter = DateFormat('yyyy/MM/dd HH:mm');
   return formatter.format(localTime);
 }

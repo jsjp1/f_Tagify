@@ -133,6 +133,7 @@ class HomeScreenState extends State<HomeScreen>
                 ),
                 provider.loginResponse!["is_premium"] == false
                     ? Positioned(
+                        key: UniqueKey(),
                         bottom: navigationBarHeight,
                         left: 0.0,
                         right: 0.0,

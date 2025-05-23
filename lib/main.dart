@@ -7,8 +7,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:tagify/api/auth.dart';
 
+import 'package:tagify/api/auth.dart';
 import 'package:tagify/screens/auth_screen.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/splash_screen.dart';

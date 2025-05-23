@@ -344,7 +344,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Icon(
-                                Icons.verified_rounded,
+                                // Icons.verified_rounded,
+                                Icons.explore,
                                 size: 17.0,
                                 color: Colors.blueAccent,
                               ),
@@ -392,7 +393,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Icon(Icons.description_outlined,
+                                Icon(Icons.article,
                                     size: 17.0, color: Colors.grey),
                                 const SizedBox(width: 5.0),
                                 GlobalText(
@@ -424,11 +425,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      ImageIcon(
-                                        AssetImage(
-                                            'assets/img/app_main_icons_filled.png'),
-                                        color: Colors.amberAccent,
-                                        size: 16.0,
+                                      const Icon(
+                                        Icons.verified,
+                                        size: 17.0,
+                                        color: mainColor,
                                       ),
                                       const SizedBox(width: 5.0),
                                       GlobalText(

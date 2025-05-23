@@ -120,7 +120,7 @@ Future<ApiResponse<int>> updateTag(int userId, int tagId, String tagName,
 }
 
 Future<ApiResponse<int>> deleteTag(
-    int userId, String tagName, String accessToken) async {
+    int userId, int tagId, String accessToken) async {
   final String serverHost =
       "${dotenv.get("SERVER_HOST")}/api/tags/user/$userId/delete";
 
@@ -132,7 +132,7 @@ Future<ApiResponse<int>> deleteTag(
         "Content-Type": "application/json",
         "Accept": "application/json",
       },
-      body: jsonEncode({"tagname": tagName}),
+      body: jsonEncode({"id": tagId}),
     ),
     accessToken,
   );

@@ -35,6 +35,7 @@ class _GoogleLoginWidgetState extends State<GoogleLoginWidget> {
   Future<Map<String, dynamic>> _handleSignIn() async {
     try {
       const String oauthProvider = "Google";
+      await _googleSignIn.signOut();
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
 
       if (user == null) {

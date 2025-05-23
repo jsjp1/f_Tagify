@@ -72,9 +72,6 @@ class ContentWidgetState extends State<ContentWidget> {
                 provider.pvFetchUserAllContents();
               } else if (provider.currentTag == "bookmark") {
                 provider.pvFetchUserBookmarkedContents();
-              } else {
-                provider.currentTag = "all";
-                provider.pvFetchUserAllContents();
               }
 
               await checkSharedItems(context);

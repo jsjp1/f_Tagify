@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:tagify/api/common.dart';
@@ -21,8 +22,8 @@ class AnalyzeScreen extends StatefulWidget {
 class AnalyzeScreenState extends State<AnalyzeScreen> {
   ApiResponse<Content> futureContent = ApiResponse.empty();
   late TextEditingController _controller;
-  bool invalidUrl = false;
-  bool alreadyExistsError = false;
+  late bool invalidUrl;
+  late bool alreadyExistsError;
 
   final analyzeMode = ["analyze_screen_link", "analyze_screen_memo"];
   int currentModeIndex = 0;
@@ -31,6 +32,11 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialUrl ?? "");
+
+    setState(() {
+      invalidUrl = false;
+      alreadyExistsError = false;
+    });
   }
 
   Future<void> _contentAnalyze(
@@ -90,6 +96,10 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                             onTap: () {
                               setState(() {
                                 currentModeIndex = index;
+
+                                // 기존에 남아있는 에러 문구 제거
+                                invalidUrl = false;
+                                alreadyExistsError = false;
                               });
                             },
                             child: Container(
@@ -162,13 +172,46 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                                           color: mainColor, width: 1.3),
                                       borderRadius: BorderRadius.circular(15.0),
                                     ),
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                          CupertinoIcons.clear_circled_solid),
-                                      onPressed: () {
-                                        _controller.clear();
-                                        FocusScope.of(context).unfocus();
-                                      },
+                                    suffixIcon: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        SizedBox(
+                                          width: 35.0,
+                                          height: 35.0,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icon(
+                                                Icons.content_paste_sharp,
+                                                size: 22.0),
+                                            onPressed: () async {
+                                              final clipboardData =
+                                                  await Clipboard.getData(
+                                                      'text/plain');
+                                              if (clipboardData != null) {
+                                                _controller.text =
+                                                    clipboardData.text!;
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 35.0,
+                                          height: 35.0,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icon(
+                                                CupertinoIcons
+                                                    .clear_circled_solid,
+                                                size: 22.0),
+                                            onPressed: () {
+                                              _controller.clear();
+                                              FocusScope.of(context).unfocus();
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -199,13 +242,23 @@ class AnalyzeScreenState extends State<AnalyzeScreen> {
                                           : "post"); // TODO: lang ko x
 
                                   if (futureContent.statusCode == 400) {
+                                    // 이미 링크가 존재하는 경우
                                     setState(() {
                                       alreadyExistsError = true;
                                     });
                                     return;
+                                  } else if (futureContent.statusCode == 422) {
+                                    // 잘못된 url 형식
+                                    // e.g. htp://~~~
+                                    // 문자열1 https://www.example.com 문자열2 와 같은 경우는 정상 동작
+
+                                    // 이미 위에서도 isValidUrl로 검증했지만, 한번더
+                                    invalidUrl = true;
                                   }
+
                                   setState(() {
                                     alreadyExistsError = false;
+                                    invalidUrl = false;
                                   });
                                 },
                               ),

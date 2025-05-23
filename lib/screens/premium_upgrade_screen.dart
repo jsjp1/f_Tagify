@@ -232,7 +232,7 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final double widgetWidth = MediaQuery.of(context).size.width * (0.85);
+    final double widgetWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -244,202 +244,338 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: widgetWidth,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: widgetWidth,
-                    height: MediaQuery.of(context).size.height * (0.12),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Container(
-                            padding: EdgeInsets.zero,
-                            decoration: BoxDecoration(
+            child: Column(
+              children: [
+                SizedBox(
+                  width: widgetWidth,
+                  height: MediaQuery.of(context).size.height * (0.15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(child: SizedBox.shrink()),
+                      Container(
+                        width: 75.0,
+                        padding: EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                          color: isDarkMode
+                              ? const Color.fromARGB(255, 37, 37, 37)
+                              : const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(20.0),
+                          boxShadow: [
+                            BoxShadow(
                               color: isDarkMode
-                                  ? const Color.fromARGB(255, 37, 37, 37)
-                                  : const Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: isDarkMode
-                                      ? darkContentInstanceBoxShadowColor
-                                      : contentInstanceBoxShadowColor,
-                                  blurRadius: 5.0,
-                                  spreadRadius: 0.01,
-                                  offset: Offset(0, 5),
-                                ),
-                              ],
+                                  ? darkContentInstanceBoxShadowColor
+                                  : contentInstanceBoxShadowColor,
+                              blurRadius: 5.0,
+                              spreadRadius: 0.01,
+                              offset: Offset(0, 5),
                             ),
-                            child: Stack(
-                              children: [
-                                Image.asset(
-                                  "assets/app_main_icons_1024_1024.png",
-                                  color: mainColor,
-                                  colorBlendMode: BlendMode.srcIn,
-                                  fit: BoxFit.cover,
-                                ),
-                              ],
-                            ),
-                          ),
+                          ],
                         ),
-                        const SizedBox(width: 25.0),
-                        Expanded(
-                          child: Column(
+                        child: Stack(
+                          children: [
+                            Image.asset(
+                              "assets/app_main_icons_1024_1024.png",
+                              color: mainColor,
+                              colorBlendMode: BlendMode.srcIn,
+                              fit: BoxFit.cover,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 20.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GlobalText(
+                            localizeText: "Tagify Premium",
+                            textSize: 22.0,
+                            isBold: true,
+                            letterSpacing: -0.5,
+                            localization: false,
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               GlobalText(
-                                localizeText: "Tagify Premium",
-                                textSize: 22.0,
-                                isBold: true,
-                                letterSpacing: -0.5,
+                                localizeText: "Collect, Tag, Explore  ",
+                                textSize: 13.0,
                                 localization: false,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GlobalText(
-                                    localizeText: "Collect, Tag, Explore  ",
-                                    textSize: 13.0,
-                                    localization: false,
-                                  ),
-                                  GlobalText(
-                                    localizeText: "Unlimited",
-                                    textSize: 14.0,
-                                    isBold: true,
-                                    localization: false,
-                                  ),
-                                ],
+                              GlobalText(
+                                localizeText: "Unlimited",
+                                textSize: 14.0,
+                                isBold: true,
+                                localization: false,
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 50.0),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            GlobalText(
-                              localizeText: "🚀",
-                              textSize: 20.0,
-                              localization: false,
-                            ),
-                            const SizedBox(width: 10.0),
-                            GlobalText(
-                              localizeText: "premium_upgrade_screen_1",
-                              textSize: 17.0,
-                              isBold: true,
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GlobalText(
-                            localizeText: "premium_upgrade_screen_1_detail",
-                            textSize: 15.0),
-                      ),
-                      const SizedBox(height: 15.0),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            GlobalText(
-                              localizeText: "🚀",
-                              textSize: 20.0,
-                              localization: false,
-                            ),
-                            const SizedBox(width: 10.0),
-                            GlobalText(
-                              localizeText: "premium_upgrade_screen_2",
-                              textSize: 17.0,
-                              isBold: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GlobalText(
-                            localizeText: "premium_upgrade_screen_2_detail",
-                            textSize: 15.0),
-                      ),
-                      const SizedBox(height: 15.0),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            GlobalText(
-                              localizeText: "🚀",
-                              textSize: 20.0,
-                              localization: false,
-                            ),
-                            const SizedBox(width: 10.0),
-                            GlobalText(
-                              localizeText: "premium_upgrade_screen_3",
-                              textSize: 17.0,
-                              isBold: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GlobalText(
-                            localizeText: "premium_upgrade_screen_3_detail",
-                            textSize: 15.0),
-                      ),
-                      const SizedBox(height: 15.0),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            GlobalText(
-                              localizeText: "🚀",
-                              textSize: 20.0,
-                              localization: false,
-                            ),
-                            const SizedBox(width: 10.0),
-                            GlobalText(
-                              localizeText: "premium_upgrade_screen_4",
-                              textSize: 17.0,
-                              isBold: true,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GlobalText(
-                            localizeText: "premium_upgrade_screen_4_detail",
-                            textSize: 15.0),
-                      ),
-                      const SizedBox(height: 30.0),
-                      const Divider(
-                        thickness: 1.0,
-                        height: 5.0,
-                      ),
-                      const SizedBox(height: 15.0),
+                      Expanded(child: SizedBox.shrink()),
                     ],
                   ),
-                  Center(
-                    child: GlobalText(
-                      localizeText: "premium_upgrade_screen_lifetime_text",
-                      textSize: 18.0,
-                      isBold: true,
+                ),
+                const SizedBox(height: 30.0),
+                Divider(
+                  height: 0.1,
+                  color: Colors.grey[200],
+                ),
+
+                // 상품 설명 부분
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal:
+                              MediaQuery.of(context).size.width * (0.05)),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30.0),
+                          Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.verified,
+                                        size: 20.0, color: mainColor),
+                                    const SizedBox(width: 10.0),
+                                    GlobalText(
+                                      localizeText: "premium_upgrade_screen_1",
+                                      textSize: 18.5,
+                                      isBold: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: GlobalText(
+                                    localizeText:
+                                        "premium_upgrade_screen_1_detail",
+                                    textSize: 15.0),
+                              ),
+                              const SizedBox(height: 20.0),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.verified,
+                                        size: 20.0, color: mainColor),
+                                    const SizedBox(width: 10.0),
+                                    GlobalText(
+                                      localizeText: "premium_upgrade_screen_2",
+                                      textSize: 18.5,
+                                      isBold: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: GlobalText(
+                                    localizeText:
+                                        "premium_upgrade_screen_2_detail",
+                                    textSize: 15.0),
+                              ),
+                              const SizedBox(height: 20.0),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.verified,
+                                        size: 20.0, color: mainColor),
+                                    const SizedBox(width: 10.0),
+                                    GlobalText(
+                                      localizeText: "premium_upgrade_screen_3",
+                                      textSize: 18.5,
+                                      isBold: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: GlobalText(
+                                    localizeText:
+                                        "premium_upgrade_screen_3_detail",
+                                    textSize: 15.0),
+                              ),
+                              const SizedBox(height: 20.0),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.verified,
+                                        size: 20.0, color: mainColor),
+                                    const SizedBox(width: 10.0),
+                                    GlobalText(
+                                      localizeText: "premium_upgrade_screen_4",
+                                      textSize: 18.5,
+                                      isBold: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: GlobalText(
+                                    localizeText:
+                                        "premium_upgrade_screen_4_detail",
+                                    textSize: 15.0),
+                              ),
+                              const SizedBox(height: 20.0),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.verified,
+                                        size: 20.0, color: mainColor),
+                                    const SizedBox(width: 10.0),
+                                    GlobalText(
+                                      localizeText: "premium_upgrade_screen_5",
+                                      textSize: 18.0,
+                                      isBold: true,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 30.0),
+                              const Divider(
+                                thickness: 1.0,
+                                height: 5.0,
+                              ),
+                              const SizedBox(height: 15.0),
+                            ],
+                          ),
+                          Center(
+                            child: GlobalText(
+                              localizeText:
+                                  "premium_upgrade_screen_lifetime_text",
+                              textSize: 18.0,
+                              isBold: true,
+                            ),
+                          ),
+                          const SizedBox(height: 50.0),
+                          // 인앱 결제 구매 버튼
+                          // GestureDetector(
+                          //   onTap: _buyPremium,
+                          //   child: Container(
+                          //     alignment: Alignment.center,
+                          //     width: widgetWidth,
+                          //     height: 50.0,
+                          //     decoration: BoxDecoration(
+                          //       color: mainColor,
+                          //       borderRadius: BorderRadius.circular(15.0),
+                          //       boxShadow: [
+                          //         BoxShadow(
+                          //           color: isDarkMode
+                          //               ? darkContentInstanceBoxShadowColor
+                          //               : contentInstanceBoxShadowColor,
+                          //           blurRadius: 5.0,
+                          //           spreadRadius: 0.01,
+                          //           offset: Offset(0, 5),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     child: Row(
+                          //       mainAxisAlignment: MainAxisAlignment.center,
+                          //       crossAxisAlignment: CrossAxisAlignment.center,
+                          //       children: [
+                          //         GlobalText(
+                          //           localizeText:
+                          //               "premium_upgrade_screen_upgrade_button_text",
+                          //           textSize: 18.0,
+                          //           isBold: true,
+                          //           textColor: whiteBackgroundColor,
+                          //         ),
+                          //         const SizedBox(width: 10.0),
+                          //         _isLoading
+                          //             ? const CupertinoActivityIndicator(
+                          //                 color: whiteBackgroundColor,
+                          //               )
+                          //             : GlobalText(
+                          //                 localizeText: priceString,
+                          //                 textSize: 19.0,
+                          //                 textColor: whiteBackgroundColor,
+                          //                 isBold: true,
+                          //                 localization: false,
+                          //               ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 25.0),
+                          // GestureDetector(
+                          //   onTap: () async {
+                          //     if (await _iap.isAvailable() == false) {
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         SnackBar(
+                          //           backgroundColor: snackBarColor,
+                          //           content: GlobalText(
+                          //               localizeText:
+                          //                   "premium_upgrade_screen_store_connect_fail_text",
+                          //               textSize: 15.0),
+                          //           duration: Duration(seconds: 1),
+                          //         ),
+                          //       );
+                          //       return;
+                          //     }
+
+                          //     showDialog(
+                          //       context: context,
+                          //       barrierDismissible: true,
+                          //       builder: (BuildContext context) {
+                          //         return const Center(
+                          //           child: CupertinoActivityIndicator(
+                          //               color: whiteBackgroundColor),
+                          //         );
+                          //       },
+                          //     );
+
+                          //     try {
+                          //       await _iap.restorePurchases();
+                          //     } catch (e) {
+                          //       if (context.mounted) {
+                          //         Navigator.of(context).pop();
+                          //         ScaffoldMessenger.of(context).showSnackBar(
+                          //           SnackBar(
+                          //             backgroundColor: snackBarColor,
+                          //             content: GlobalText(
+                          //                 localizeText:
+                          //                     "premium_upgrade_screen_restore_cancel_text",
+                          //                 textSize: 15.0),
+                          //             duration: Duration(seconds: 1),
+                          //           ),
+                          //         );
+                          //         return;
+                          //       }
+                          //     }
+
+                          //     if (context.mounted) {
+                          //       Navigator.of(context).pop();
+                          //     }
+                          //   },
+                          //   child: GlobalText(
+                          //     localizeText: "premium_upgrade_screen_rebuy_text",
+                          //     textSize: 15.0,
+                          //     textColor: Colors.grey[500],
+                          //   ),
+                          // ),
+
+                          // const SizedBox(height: 200.0),
+                        ],
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 50.0),
-                  // 인앱 결제 구매 버튼
-                  GestureDetector(
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * (0.05)),
+                  child: GestureDetector(
                     onTap: _buyPremium,
                     child: Container(
                       alignment: Alignment.center,
@@ -486,66 +622,67 @@ class PremiumUpgradeScreenState extends State<PremiumUpgradeScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25.0),
-                  GestureDetector(
-                    onTap: () async {
-                      if (await _iap.isAvailable() == false) {
+                ),
+                const SizedBox(height: 30.0),
+                GestureDetector(
+                  onTap: () async {
+                    if (await _iap.isAvailable() == false) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: snackBarColor,
+                          content: GlobalText(
+                              localizeText:
+                                  "premium_upgrade_screen_store_connect_fail_text",
+                              textSize: 15.0),
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                      return;
+                    }
+
+                    showDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return const Center(
+                          child: CupertinoActivityIndicator(
+                              color: whiteBackgroundColor),
+                        );
+                      },
+                    );
+
+                    try {
+                      await _iap.restorePurchases();
+                    } catch (e) {
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: snackBarColor,
                             content: GlobalText(
                                 localizeText:
-                                    "premium_upgrade_screen_store_connect_fail_text",
+                                    "premium_upgrade_screen_restore_cancel_text",
                                 textSize: 15.0),
                             duration: Duration(seconds: 1),
                           ),
                         );
                         return;
                       }
+                    }
 
-                      showDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        builder: (BuildContext context) {
-                          return const Center(
-                            child: CupertinoActivityIndicator(
-                                color: whiteBackgroundColor),
-                          );
-                        },
-                      );
-
-                      try {
-                        await _iap.restorePurchases();
-                      } catch (e) {
-                        if (context.mounted) {
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: snackBarColor,
-                              content: GlobalText(
-                                  localizeText:
-                                      "premium_upgrade_screen_restore_cancel_text",
-                                  textSize: 15.0),
-                              duration: Duration(seconds: 1),
-                            ),
-                          );
-                          return;
-                        }
-                      }
-
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: GlobalText(
-                      localizeText: "premium_upgrade_screen_rebuy_text",
-                      textSize: 15.0,
-                      textColor: Colors.grey[500],
-                    ),
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: GlobalText(
+                    localizeText: "premium_upgrade_screen_rebuy_text",
+                    textSize: 15.0,
+                    textColor: Colors.grey[500],
                   ),
-                  const SizedBox(height: 200.0),
-                ],
-              ),
+                ),
+
+                const SizedBox(height: 50.0),
+              ],
             ),
           ),
         ),
@@ -654,4 +791,79 @@ Future<void> showPremiumFailureDialog(BuildContext context) async {
       );
     },
   );
+}
+
+class LightEffectBackground extends StatefulWidget {
+  const LightEffectBackground({super.key});
+
+  @override
+  State<LightEffectBackground> createState() => _LightEffectBackgroundState();
+}
+
+class _LightEffectBackgroundState extends State<LightEffectBackground>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  final List<Color> _colors = [
+    Colors.purple,
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.red,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..repeat();
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, _) {
+        final t = _animation.value * (_colors.length - 1);
+        final index = t.floor();
+        final frac = t - index;
+        final color1 = _colors[index % _colors.length];
+        final color2 = _colors[(index + 1) % _colors.length];
+        final blended = Color.lerp(color1, color2, frac)!;
+
+        return Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: const Alignment(0, 1), // 아래에서 비추는 조명 효과
+              radius: 1.5,
+              colors: [
+                blended,
+                blended.withOpacity(0.0),
+              ],
+              stops: const [0.0, 1.0],
+            ),
+          ),
+          child: const Center(
+            child: Text(
+              "Tagify",
+              style: TextStyle(fontSize: 32, color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

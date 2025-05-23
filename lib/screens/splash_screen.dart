@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:tagify/global.dart';
 import 'package:tagify/provider.dart';
 import 'package:tagify/screens/home_screen.dart';
-import 'package:tagify/utils/animated_icon_widget.dart';
 import 'package:tagify/utils/util.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -60,7 +59,6 @@ class SplashScreenState extends State<SplashScreen>
   Future<void> _initializeApp() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
-
     final provider = Provider.of<TagifyProvider>(context, listen: false);
     try {
       await provider.setInitialSetting(widget.loginResponse);
@@ -70,6 +68,7 @@ class SplashScreenState extends State<SplashScreen>
         provider.pvFetchUserBookmarkedContents(),
         provider.pvFetchUserTags(),
       ]);
+
       // TODO: tag별 contents는 이후 tag detail screen 들어가면 채워지도록?
       await Future.wait(provider.tags
           .map((tag) => provider.pvFetchUserTagContents(tag.id, tag.tagName)));

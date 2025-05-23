@@ -38,6 +38,7 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   List<String> edittedTags = [];
 
   bool isBookmarked = false;
+  bool isSaving = false;
 
   @override
   void initState() {
@@ -76,6 +77,11 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
   }
 
   void _saveContent() async {
+    if (isSaving == true) return;
+    setState(() {
+      isSaving = true;
+    });
+
     final provider = Provider.of<TagifyProvider>(context, listen: false);
 
     if (edittedTags.isEmpty) {
@@ -115,6 +121,10 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
             duration: Duration(seconds: 1),
           ),
         );
+
+        setState(() {
+          isSaving = false;
+        });
         return;
       }
     }
@@ -122,8 +132,16 @@ class ContentEditWidgetState extends State<ContentEditWidget> {
     if (widget.isEdit == true) {
       await provider.pvEditContent(
           beforeTags, widget.content, widget.content.id);
+
+      setState(() {
+        isSaving = false;
+      });
     } else {
       await provider.pvSaveContent(widget.content);
+
+      setState(() {
+        isSaving = false;
+      });
     }
 
     if (context.mounted) {

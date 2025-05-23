@@ -103,9 +103,11 @@ class GlobalText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String text = localization ? localizeText.tr() : localizeText;
     return localization
         ? Text(
-            localizeText,
+            text,
+            textScaler: TextScaler.linear(0.85),
             maxLines: maxLines,
             style: TextStyle(
               letterSpacing: letterSpacing ?? 0.0,
@@ -116,9 +118,10 @@ class GlobalText extends StatelessWidget {
                   (isBold ?? false) ? FontWeight.bold : FontWeight.normal,
               overflow: overflow,
             ),
-          ).tr()
+          )
         : Text(
-            localizeText,
+            text,
+            textScaler: TextScaler.linear(0.85),
             maxLines: maxLines,
             style: TextStyle(
               letterSpacing: letterSpacing ?? 0.0,

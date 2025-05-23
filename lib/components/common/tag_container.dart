@@ -59,8 +59,11 @@ class TagContainer extends StatelessWidget {
                 ),
                 if (isLastButton == false) ...[
                   SizedBox(width: 5.0),
-                  Text("✕",
-                      style: TextStyle(fontSize: 10.0, color: Colors.grey)),
+                  GlobalText(
+                    localizeText: "✕",
+                    textColor: Colors.grey,
+                    textSize: 10.0,
+                  ),
                 ],
               ],
             ),

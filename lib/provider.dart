@@ -291,43 +291,74 @@ class TagifyProvider extends ChangeNotifier {
   Future<void> pvToggleBookmark(int contentId) async {
     if (_loginResponse == null) return;
 
+    // 낙관적 UX 적용 -> 북마크 선반영
+    final isCurrentlyBookmarked =
+        _bookmarkedSet.contains(contentId) ? true : false;
+
+    if (isCurrentlyBookmarked) {
+      // 북마크 해제
+      _tagContentsMap["bookmark"] = _tagContentsMap["bookmark"]!
+          .where((content) => content.id != contentId)
+          .toList();
+      _bookmarkedSet.remove(contentId);
+    } else {
+      // 북마크 추가
+      Content? targetContent;
+      for (var contents in _tagContentsMap.values) {
+        targetContent = contents.firstWhere(
+          (content) => content.id == contentId,
+          orElse: () => Content.empty(),
+        );
+        if (targetContent.id != -1) break;
+      }
+
+      if (targetContent != null && targetContent.id != -1) {
+        _tagContentsMap["bookmark"] = [
+          ...?_tagContentsMap["bookmark"],
+          targetContent,
+        ];
+      }
+
+      _bookmarkedSet.add(contentId);
+    }
+
+    notifyListeners();
+
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString("access_token");
 
     ApiResponse<int> c = await toggleBookmark(contentId, accessToken!);
 
     if (c.success) {
-      var bookmarkList = _tagContentsMap["bookmark"];
+      // 정합성 보장용으로 동기화
+      await pvFetchUserBookmarkedContents();
+    } else {
+      // 실패시 북마크 상태 원복
+      if (isCurrentlyBookmarked) {
+        // 롤백: 다시 추가
+        Content? targetContent;
+        for (var contents in _tagContentsMap.values) {
+          targetContent = contents.firstWhere(
+            (content) => content.id == contentId,
+            orElse: () => Content.empty(),
+          );
+          if (targetContent.id != -1) break;
+        }
 
-      if (bookmarkList != null) {
-        if (bookmarkList.any((content) => content.id == contentId)) {
-          _tagContentsMap["bookmark"] =
-              bookmarkList.where((content) => content.id != contentId).toList();
-
-          _bookmarkedSet.remove(contentId);
-        } else {
-          Content? targetContent;
-
-          for (var contents in _tagContentsMap.values) {
-            targetContent = contents.firstWhere(
-              (content) => content.id == contentId,
-              orElse: () => Content.empty(),
-            );
-            if (targetContent.id != -1) break;
-          }
-
-          if (targetContent != null && targetContent.id != -1) {
-            _tagContentsMap["bookmark"] = [
-              ...?_tagContentsMap["bookmark"],
-              targetContent,
-            ];
-          }
-
+        if (targetContent != null && targetContent.id != -1) {
+          _tagContentsMap["bookmark"] = [
+            ...?_tagContentsMap["bookmark"],
+            targetContent,
+          ];
           _bookmarkedSet.add(contentId);
         }
+      } else {
+        // 롤백: 다시 제거
+        _tagContentsMap["bookmark"] = _tagContentsMap["bookmark"]!
+            .where((content) => content.id != contentId)
+            .toList();
+        _bookmarkedSet.remove(contentId);
       }
-
-      await pvFetchUserBookmarkedContents();
       notifyListeners();
     }
   }
@@ -369,14 +400,14 @@ class TagifyProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> pvDeleteTag(String tagName) async {
+  Future<bool> pvDeleteTag(int tagId) async {
     if (_loginResponse == null) return false;
 
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString("access_token");
 
     ApiResponse<int> t =
-        await deleteTag(_loginResponse!["id"], tagName, accessToken!);
+        await deleteTag(_loginResponse!["id"], tagId, accessToken!);
 
     if (t.success) {
       _idTagNameMap.remove(t.data!);

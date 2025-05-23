@@ -56,6 +56,7 @@ class TagDetailScreenState extends State<TagDetailScreen> {
               ),
               provider.loginResponse!["is_premium"] == false
                   ? Positioned(
+                      key: UniqueKey(),
                       bottom: 0.0,
                       left: 0.0,
                       right: 0.0,

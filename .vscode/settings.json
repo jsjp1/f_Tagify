@@ -1,4 +1,5 @@
 {
   "cmake.sourceDirectory": "/Users/jin/Desktop/prj/tagi/f_tagify/linux",
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.compile.nullAnalysis.mode": "automatic"
 }

@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -110,6 +111,12 @@ Future<ApiResponse<int>> deleteAccount(
 
       provider.currentPage = "home";
       provider.currentTag = "all";
+
+      final googleSignIn = GoogleSignIn(
+        clientId: Platform.isIOS ? dotenv.get("GID_CLIENT_ID") : null,
+        scopes: ['email'],
+      );
+      await googleSignIn.disconnect();
 
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(

@@ -24,7 +24,6 @@ class TagifyAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final provider = Provider.of<TagifyProvider>(context, listen: false);
-    final appBarTextWidth = MediaQuery.of(context).size.width * (0.7);
 
     return Container(
       width: double.infinity,
@@ -49,7 +48,6 @@ class TagifyAppBar extends StatelessWidget {
                         colorBlendMode: BlendMode.srcIn,
                       ),
                 SizedBox(
-                  width: appBarTextWidth,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -72,6 +70,7 @@ class TagifyAppBar extends StatelessWidget {
               ],
             ),
           ),
+          // Expanded(child: Container(color: Colors.transparent)),
           GestureDetector(
             onTap: () {
               if (onProfileTap != null) {

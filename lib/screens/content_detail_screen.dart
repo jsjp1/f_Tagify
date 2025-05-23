@@ -3,10 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:tagify/components/common/delete_alert.dart';
-import 'package:tagify/utils/smart_network_image.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import 'package:tagify/components/common/delete_alert.dart';
 import 'package:tagify/screens/content_edit_screen.dart';
 import 'package:tagify/components/common/tag_container.dart';
 import 'package:tagify/components/contents/common.dart';
